@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/post")
 public class PostController {
 
+    // Esto es una prueba
     @GetMapping(value = "/saludo")
     public String saludo() {
         return "Hola Mundo!";
