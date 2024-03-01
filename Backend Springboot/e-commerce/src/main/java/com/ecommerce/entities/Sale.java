@@ -1,7 +1,9 @@
 package com.ecommerce.entities;
 
-import com.ecommerce.enums.UsersRoles;
-import com.ecommerce.enums.UsersStates;
+import java.util.Date;
+import java.util.Set;
+
+import com.ecommerce.enums.DiscountsTypes;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -9,30 +11,34 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "users")
+@Table(name = "sales")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class Sale {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private String name;
 
-    private String password;
+    private Date startAt;
 
-    private String email;
-
-    @Enumerated(EnumType.STRING)
-    private UsersStates state;
+    private Date endAt;
 
     @Enumerated(EnumType.STRING)
-    private UsersRoles role;
+    private DiscountsTypes discountType;
+
+    private int discountValue;
+
+    @ManyToMany(mappedBy = "productSales")
+    Set<Product> products;
 }
