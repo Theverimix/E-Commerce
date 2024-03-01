@@ -1,5 +1,8 @@
 package com.ecommerce.enums;
 
+import lombok.Getter;
+
+@Getter
 public enum OrderStatus {
 
     CLOSED("Closed"),

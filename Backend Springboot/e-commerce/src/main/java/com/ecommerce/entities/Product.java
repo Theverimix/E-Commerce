@@ -43,7 +43,7 @@ public class Product {
 
     private boolean visible;
 
-    private List<String> image;
+    private List<String> images;
 
     @ManyToMany
     @JoinTable(name = "product_categories", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
