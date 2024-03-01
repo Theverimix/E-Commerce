@@ -1,7 +1,7 @@
 package com.ecommerce.entities;
 
-import java.sql.Date;
-import java.util.List;
+import com.ecommerce.enums.UsersRoles;
+import com.ecommerce.enums.UsersStates;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -13,29 +13,22 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "products")
+@Table(name = "users")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Product {
-
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
     private String name;
 
-    private String description;
+    private String password;
 
-    private double price;
+    private String email;
 
-    private int stock;
+    private UsersStates state;
 
-    private Date created_Date;
-
-    // states
-
-    private boolean visible;
-
-    private List<String> image;
+    private UsersRoles role;
 }
