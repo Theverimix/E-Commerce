@@ -1,10 +1,14 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import AppDemo from './App.jsx'
-import './index.css'
+import './styles/appWeb.css'
 
-ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <AppDemo />
-  </React.StrictMode>,
-)
+function AppWeb() {
+
+    return (
+        <div class="AppWeb">
+
+            <p>Hola mundo!</p>
+
+        </div>
+    );
+}
+
+export default AppWeb;
