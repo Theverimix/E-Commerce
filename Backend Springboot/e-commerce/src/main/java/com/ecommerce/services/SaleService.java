@@ -2,6 +2,8 @@ package com.ecommerce.services;
 
 import com.ecommerce.dto.SaleDTO;
 import com.ecommerce.entities.Sale;
+import com.ecommerce.repositories.SaleRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;

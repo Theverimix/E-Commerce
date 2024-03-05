@@ -1,4 +1,4 @@
-package com.ecommerce.services;
+package com.ecommerce.repositories;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.data.jpa.repository.JpaRepository;
