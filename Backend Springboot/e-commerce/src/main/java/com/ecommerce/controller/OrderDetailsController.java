@@ -19,7 +19,7 @@ import com.ecommerce.entities.OrderDetails;
 import com.ecommerce.services.OrderDetailsService;
 
 @RestController
-@RequestMapping("/order")
+@RequestMapping("/orderdetails")
 public class OrderDetailsController {
 
     private final OrderDetailsService orderDetailsService;
@@ -35,7 +35,7 @@ public class OrderDetailsController {
         return ResponseEntity.ok(orderDetailss);
     }
 
-    @GetMapping("/details")
+    @GetMapping("/details/id")
     public ResponseEntity<Optional<OrderDetails>> getOrderDetailsById(@RequestBody OrderDetailsKeyDTO dto) {
         Optional<OrderDetails> orderDetails = orderDetailsService
                 .getOrderDetailsById(orderDetailsService.mapDTOtoOrderDetailsKey(dto));

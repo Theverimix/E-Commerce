@@ -35,7 +35,7 @@ public class CartController {
         return ResponseEntity.ok(carts);
     }
 
-    @GetMapping
+    @GetMapping("/id")
     public ResponseEntity<Optional<Cart>> getCartById(@RequestBody CartKeyDTO dto) {
         Optional<Cart> cart = cartService.getCartById(cartService.mapDTOtoCartKey(dto));
         return ResponseEntity.ok(cart);
