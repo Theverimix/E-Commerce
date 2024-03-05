@@ -1,11 +1,16 @@
+import Header from './components/commons/Header';
 import './styles/appWeb.css'
 
 function AppWeb() {
 
     return (
-        <div class="AppWeb">
+        <div class="appWeb">
+            <Header></Header>
+            
 
-            <p>Hola mundo!</p>
+            <h1>Hola mundo!</h1>
+            
+            
 
         </div>
     );

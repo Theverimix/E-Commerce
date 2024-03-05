@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import AppWeb from './appWeb.jsx'
+import AppWeb from './AppWeb.jsx'
 import './styles/index.css'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
