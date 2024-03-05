@@ -15,11 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ecommerce.dto.SaleDTO;
-import com.ecommerce.dto.UserDTO;
 import com.ecommerce.entities.Sale;
-import com.ecommerce.entities.User;
 import com.ecommerce.services.SaleService;
-import com.ecommerce.services.UserService;
 
 @RestController
 @RequestMapping("/sale")

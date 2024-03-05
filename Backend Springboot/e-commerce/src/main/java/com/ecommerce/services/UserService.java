@@ -67,8 +67,4 @@ public class UserService {
         return user;
     }
 
-    public User updateUser(Long id, User newUser) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updateUser'");
-    }
 }
