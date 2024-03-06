@@ -1,11 +1,11 @@
 import './styles/appWeb.css'
+import Menubar from 'primereact/menubar'
 
 function AppWeb() {
     
-    return (<>
-        <div className="appWeb" style={{ display: 'flex', margin: '20px'}}>
-            
-            </div>
+    return (
+    <>
+        <Menubar model={items} start={start} end={end} />
         </>
     );
 }
