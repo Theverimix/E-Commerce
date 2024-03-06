@@ -1,7 +1,6 @@
 package com.ecommerce.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,11 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ecommerce.dto.CustomerDTO;
-import com.ecommerce.dto.UserDTO;
-import com.ecommerce.entities.Customer;
-import com.ecommerce.entities.User;
 import com.ecommerce.services.CustomerService;
-import com.ecommerce.services.UserService;
 
 @RestController
 @RequestMapping("/customer")
@@ -32,27 +27,27 @@ public class CustomerController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Customer>> getAllCustomers() {
-        List<Customer> customers = customerService.getAllCustomers();
+    public ResponseEntity<List<CustomerDTO>> getAllCustomers() {
+        List<CustomerDTO> customers = customerService.getAllCustomers();
         return ResponseEntity.ok(customers);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<Customer>> getCustomerById(@PathVariable Long id) {
-        Optional<Customer> customer = customerService.getCustomerById(id);
+    public ResponseEntity<CustomerDTO> getCustomerById(@PathVariable Long id) {
+        CustomerDTO customer = customerService.getCustomerById(id);
         return ResponseEntity.ok(customer);
     }
 
     @PostMapping
-    public ResponseEntity<Customer> saveCustomer(@RequestBody CustomerDTO customer) {
-        Customer newCustomer = customerService.saveCustomer(customer);
-        return ResponseEntity.ok(newCustomer);
+    public ResponseEntity<Object> saveCustomer(@RequestBody CustomerDTO customer) {
+        customerService.saveCustomer(customer);
+        return ResponseEntity.ok().build();
     }
 
     @PutMapping
-    public ResponseEntity<Customer> updateCustomer(@RequestBody CustomerDTO newCustomer) {
-        Customer customer = customerService.updateCustomer(newCustomer);
-        return ResponseEntity.ok(customer);
+    public ResponseEntity<Object> updateCustomer(@RequestBody CustomerDTO newCustomer) {
+        customerService.updateCustomer(newCustomer);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{id}")

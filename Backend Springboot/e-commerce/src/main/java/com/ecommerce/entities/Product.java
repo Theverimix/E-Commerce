@@ -4,15 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -36,7 +28,8 @@ public class Product {
 
     private int stock;
 
-    private Date created_Date;
+    @Column(name = "created_date")
+    private Date createdAt;
 
     @ManyToOne
     private ProductState state;
@@ -46,10 +39,16 @@ public class Product {
     private List<String> images;
 
     @ManyToMany
-    @JoinTable(name = "product_categories", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
-    Set<Category> productCategories;
+    @JoinTable(
+            name = "product_categories",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id"))
+    private Set<Category> productCategories;
 
     @ManyToMany
-    @JoinTable(name = "product_sales", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "sale_id"))
-    Set<Sale> productSales;
+    @JoinTable(
+            name = "product_sales",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "sale_id"))
+    private Set<Sale> productSales;
 }

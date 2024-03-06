@@ -1,81 +1,72 @@
 package com.ecommerce.services;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.ecommerce.dto.CustomerDTOMapper;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
 import com.ecommerce.dto.CustomerDTO;
-import com.ecommerce.dto.UserDTO;
 import com.ecommerce.entities.Customer;
-import com.ecommerce.entities.User;
 import com.ecommerce.repositories.CustomerRepository;
-import com.ecommerce.repositories.UserRepository;
 
 @Service
 public class CustomerService {
 
     private final CustomerRepository customerRepository;
+    private final CustomerDTOMapper customerDtoMapper;
 
-    @Autowired
-    public CustomerService(CustomerRepository customerRepository) {
+    public CustomerService(CustomerRepository customerRepository, CustomerDTOMapper customerDTOMapper) {
         this.customerRepository = customerRepository;
+        this.customerDtoMapper = customerDTOMapper;
     }
 
-    public List<Customer> getAllCustomers() {
-        return customerRepository.findAll();
+    public CustomerDTO getCustomerById(@NonNull Long id) {
+        return customerRepository.findById(id)
+                .map(customerDtoMapper)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        "Product with id [%s] not found.".formatted(id)
+                ));
     }
 
-    public Optional<Customer> getCustomerById(@NonNull Long id) {
-        return customerRepository.findById(id);
+    public List<CustomerDTO> getAllCustomers() {
+        return customerRepository.findAll()
+                .stream()
+                .map(customerDtoMapper)
+                .collect(Collectors.toList());
     }
 
-    public Customer saveCustomer(CustomerDTO dto) {
-        return customerRepository.save(mapDTOToCustomer(dto));
+    public void saveCustomer(CustomerDTO dto) {
+        customerRepository.save(mapDTOToCustomer(dto));
     }
 
-    public Customer updateCustomer(CustomerDTO dto) {
-        return customerRepository.save(mapDTOToCustomer(dto));
+    public void updateCustomer(CustomerDTO dto) {
+        customerRepository.save(mapDTOToCustomer(dto));
     }
 
     public void deleteCustomer(@NonNull Long id) {
-        customerRepository.deleteById(id);
-    }
+        Customer customer = customerRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        "Product with id [%s] not found.".formatted(id)));
 
-    public CustomerDTO mapCustomerToDTO(Customer customer) {
-        CustomerDTO dto = new CustomerDTO();
-
-        dto.setId(customer.getId());
-        dto.setName(customer.getName());
-        dto.setPassword(customer.getPassword());
-        dto.setEmail(customer.getEmail());
-        dto.setState(customer.getState());
-        dto.setRole(customer.getRole());
-        dto.setAddress(customer.getAddress());
-        dto.setRegisterDate(customer.getRegisterDate());
-        dto.setCountry(customer.getCountry());
-        dto.setPhone(customer.getPhone());
-        dto.setOrders(customer.getOrders());
-
-        return dto;
+        customerRepository.delete(customer);
     }
 
     public Customer mapDTOToCustomer(CustomerDTO dto) {
         Customer customer = new Customer();
 
-        customer.setId(dto.getId());
-        customer.setName(dto.getName());
-        customer.setPassword(dto.getPassword());
-        customer.setEmail(dto.getEmail());
-        customer.setState(dto.getState());
-        customer.setRole(dto.getRole());
-        customer.setAddress(dto.getAddress());
-        customer.setRegisterDate(dto.getRegisterDate());
-        customer.setCountry(dto.getCountry());
-        customer.setPhone(dto.getPhone());
-        customer.setOrders(dto.getOrders());
+        customer.setId(dto.id());
+        customer.setName(dto.name());
+        customer.setEmail(dto.email());
+        customer.setState(dto.state());
+        customer.setRole(dto.role());
+        customer.setAddress(dto.address());
+        customer.setRegisterDate(dto.registerDate());
+        customer.setCountry(dto.country());
+        customer.setPhone(dto.phone());
+        customer.setOrders(dto.orders());
 
         return customer;
     }

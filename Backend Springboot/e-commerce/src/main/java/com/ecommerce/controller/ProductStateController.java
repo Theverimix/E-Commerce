@@ -2,7 +2,6 @@ package com.ecommerce.controller;
 
 import com.ecommerce.entities.ProductState;
 import com.ecommerce.services.ProductStateService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,7 +14,6 @@ public class ProductStateController {
 
     private final ProductStateService service;
 
-    @Autowired
     public ProductStateController(ProductStateService service) {
         this.service = service;
     }
