@@ -6,7 +6,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/product/state")
@@ -25,8 +24,8 @@ public class ProductStateController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Optional<ProductState>> getProductStateById(@PathVariable Long id){
-        Optional<ProductState> product = service.getStateById(id);
+    public ResponseEntity<ProductState> getProductStateById(@PathVariable Long id){
+        ProductState product = service.getStateById(id);
         return ResponseEntity.ok(product);
     }
 

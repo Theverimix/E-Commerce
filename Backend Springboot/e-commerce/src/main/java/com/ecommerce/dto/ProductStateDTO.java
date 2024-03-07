@@ -1,14 +1,7 @@
 package com.ecommerce.dto;
 
-import lombok.*;
-
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class ProductStateDTO {
-    private Long id;
-
-    private String name;
-
-    private boolean visible;
-}
+public record ProductStateDTO(
+        Long id,
+        String name,
+        boolean visible
+) {}

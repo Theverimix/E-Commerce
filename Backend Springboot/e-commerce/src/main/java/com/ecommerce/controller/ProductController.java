@@ -1,8 +1,8 @@
 package com.ecommerce.controller;
 
 import com.ecommerce.dto.ProductDTO;
+import com.ecommerce.dto.ProductRegistrationDTO;
 import com.ecommerce.services.ProductService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,7 +14,6 @@ public class ProductController {
 
     private final ProductService productService;
 
-    @Autowired
     public ProductController(ProductService productService) {
         this.productService = productService;
     }
@@ -28,6 +27,12 @@ public class ProductController {
     @GetMapping("/{id}")
     ResponseEntity<ProductDTO> getProductById(@PathVariable Long id) {
         ProductDTO product = productService.getProductById(id);
+        return ResponseEntity.ok(product);
+    }
+
+    @PostMapping("/add")
+    ResponseEntity<ProductRegistrationDTO> addProduct(@RequestBody ProductRegistrationDTO product){
+        productService.addProduct(product);
         return ResponseEntity.ok(product);
     }
 

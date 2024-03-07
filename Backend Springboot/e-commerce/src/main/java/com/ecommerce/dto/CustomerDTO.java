@@ -1,8 +1,8 @@
 package com.ecommerce.dto;
 
 import com.ecommerce.entities.Order;
-import com.ecommerce.enums.UsersRoles;
-import com.ecommerce.enums.UsersStates;
+import com.ecommerce.enums.UserRole;
+import com.ecommerce.enums.UserState;
 
 import java.util.Date;
 import java.util.List;
@@ -12,8 +12,8 @@ public record CustomerDTO(
         String name,
         String password,
         String email,
-        UsersStates state,
-        UsersRoles role,
+        UserState state,
+        UserRole role,
         String address,
         Date registerDate,
         String country,

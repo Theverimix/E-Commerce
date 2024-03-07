@@ -2,9 +2,9 @@ package com.ecommerce.controller;
 
 import java.util.List;
 
+import com.ecommerce.dto.CustomerRegistrationDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,6 +38,12 @@ public class CustomerController {
         return ResponseEntity.ok(customer);
     }
 
+    @PostMapping("/register")
+    public ResponseEntity<Object> registerCustomer(@RequestBody CustomerRegistrationDTO dto){
+        customerService.registerCustomer(dto);
+        return ResponseEntity.ok(dto);
+    }
+
     @PostMapping
     public ResponseEntity<Object> saveCustomer(@RequestBody CustomerDTO customer) {
         customerService.saveCustomer(customer);
@@ -47,12 +53,6 @@ public class CustomerController {
     @PutMapping
     public ResponseEntity<Object> updateCustomer(@RequestBody CustomerDTO newCustomer) {
         customerService.updateCustomer(newCustomer);
-        return ResponseEntity.ok().build();
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deleteCustomer(@PathVariable Long id) {
-        customerService.deleteCustomer(id);
         return ResponseEntity.ok().build();
     }
 }

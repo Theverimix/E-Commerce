@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ProductStateService {
@@ -19,8 +18,9 @@ public class ProductStateService {
         this.repository = repository;
     }
 
-    public Optional<ProductState> getStateById(Long id){
-        return repository.findById(id);
+    public ProductState getStateById(Long id){
+        return repository.findById(id).orElseThrow(() ->
+                    new EntityNotFoundException("Product with id [%s] not found.".formatted(id)));
     }
 
     public List<ProductState> getAllStates(){

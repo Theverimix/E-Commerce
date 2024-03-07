@@ -1,23 +1,13 @@
 package com.ecommerce.dto;
 
-import com.ecommerce.enums.UsersRoles;
-import com.ecommerce.enums.UsersStates;
+import com.ecommerce.enums.UserRole;
+import com.ecommerce.enums.UserState;
 
-import lombok.*;
-
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class UserDTO {
-    private Long id;
-
-    private String name;
-
-    private String password;
-
-    private String email;
-
-    private UsersStates state;
-
-    private UsersRoles role;
-}
+public record UserDTO(
+        Long id,
+        String name,
+        String password,
+        String email,
+        UserState state,
+        UserRole role
+) {}

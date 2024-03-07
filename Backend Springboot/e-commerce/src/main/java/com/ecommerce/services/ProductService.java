@@ -2,12 +2,14 @@ package com.ecommerce.services;
 
 import com.ecommerce.dto.ProductDTO;
 import com.ecommerce.dto.ProductDTOMapper;
+import com.ecommerce.dto.ProductRegistrationDTO;
 import com.ecommerce.entities.Product;
 import com.ecommerce.repositories.ProductRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -18,10 +20,12 @@ public class ProductService {
 
     private final ProductRepository productRepository;
     private final ProductDTOMapper productDtoMapper;
+    private final ProductStateService productStateService;
 
-    public ProductService(ProductRepository productRepository, ProductDTOMapper productDtoMapper) {
+    public ProductService(ProductRepository productRepository, ProductDTOMapper productDtoMapper, ProductStateService productStateService) {
         this.productRepository = productRepository;
         this.productDtoMapper = productDtoMapper;
+        this.productStateService = productStateService;
     }
 
     public ProductDTO getProductById(Long id) {
@@ -36,6 +40,21 @@ public class ProductService {
         return productRepository.findAll().stream()
                 .map(productDtoMapper)
                 .collect(Collectors.toList());
+    }
+
+    public void addProduct(ProductRegistrationDTO dto){
+        Product product = new Product();
+        product.setName(dto.name());
+        product.setDescription(dto.description());
+        product.setPrice(dto.price());
+        product.setStock(dto.stock());
+        product.setVisible(dto.visible());
+        product.setCreatedAt(new Date());
+        product.setImages(dto.images());
+        product.setProductCategories(dto.productCategories());
+        product.setState(productStateService.getStateById(dto.idState()));
+        log.warn("product:" + product);
+        productRepository.save(product);
     }
 
     public void saveProduct(ProductDTO dto) {

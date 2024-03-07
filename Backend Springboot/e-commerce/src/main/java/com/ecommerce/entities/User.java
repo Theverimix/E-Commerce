@@ -1,7 +1,7 @@
 package com.ecommerce.entities;
 
-import com.ecommerce.enums.UsersRoles;
-import com.ecommerce.enums.UsersStates;
+import com.ecommerce.enums.UserRole;
+import com.ecommerce.enums.UserState;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -34,8 +34,8 @@ public class User {
     private String email;
 
     @Enumerated(EnumType.STRING)
-    private UsersStates state;
+    private UserState state;
 
     @Enumerated(EnumType.STRING)
-    private UsersRoles role;
+    private UserRole role;
 }

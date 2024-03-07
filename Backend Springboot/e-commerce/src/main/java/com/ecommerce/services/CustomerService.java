@@ -1,9 +1,13 @@
 package com.ecommerce.services;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import com.ecommerce.dto.CustomerDTOMapper;
+import com.ecommerce.dto.CustomerRegistrationDTO;
+import com.ecommerce.enums.UserRole;
+import com.ecommerce.enums.UserState;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
@@ -38,6 +42,20 @@ public class CustomerService {
                 .collect(Collectors.toList());
     }
 
+    public void registerCustomer(CustomerRegistrationDTO dto) {
+        Customer customer = new Customer();
+        customer.setName(dto.name());
+        customer.setPassword(dto.password());
+        customer.setEmail(dto.email());
+        customer.setPhone(dto.phone());
+        customer.setAddress(dto.adress());
+        customer.setCountry(dto.country());
+        customer.setRegisterDate(new Date());
+        customer.setState(UserState.ACTIVE);
+        customer.setRole(UserRole.CUSTOMER);
+        customerRepository.save(customer);
+    }
+
     public void saveCustomer(CustomerDTO dto) {
         customerRepository.save(mapDTOToCustomer(dto));
     }
@@ -70,4 +88,6 @@ public class CustomerService {
 
         return customer;
     }
+
+
 }
