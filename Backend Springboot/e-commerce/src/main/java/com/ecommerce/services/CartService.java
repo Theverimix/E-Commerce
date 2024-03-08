@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.ecommerce.dto.CartDTO;
 import com.ecommerce.entities.Cart;
 import com.ecommerce.entities.CartKey;
+import com.ecommerce.entities.Customer;
 import com.ecommerce.repositories.CartRepository;
 import com.ecommerce.repositories.CustomerRepository;
 import com.ecommerce.repositories.ProductRepository;
@@ -36,6 +37,11 @@ public class CartService {
         return cartRepository.findById(id);
     }
 
+    public List<Cart> getCartsByCustomer(@NonNull Long customerId) {
+        Customer customer = customerRepository.findById(customerId).orElse(null);
+        return cartRepository.findByCustomer(customer);
+    }
+
     public Cart saveCart(CartDTO dto) {
         return cartRepository.save(mapDTOToCart(dto));
     }
@@ -44,8 +50,11 @@ public class CartService {
         return cartRepository.save(mapDTOToCart(dto));
     }
 
-    public void deleteCart(@NonNull CartKey id) {
-        cartRepository.deleteById(id);
+    public void deleteCart(@NonNull Long customerId, @NonNull Long productId) {
+        CartKey cartKey = new CartKey();
+        cartKey.setCustomerId(customerId);
+        cartKey.setProductId(productId);
+        cartRepository.deleteById(cartKey);
     }
 
     // public CartDTO mapCartToDTO(Cart cart) {

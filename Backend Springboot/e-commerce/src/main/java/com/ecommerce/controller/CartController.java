@@ -13,9 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ecommerce.dto.CartDTO;
-import com.ecommerce.dto.CartKeyDTO;
 import com.ecommerce.entities.Cart;
 import com.ecommerce.services.CartService;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @RestController
 @RequestMapping("/cart")
@@ -33,10 +34,17 @@ public class CartController {
         return ResponseEntity.ok(carts);
     }
 
-    @GetMapping("/id")
-    public ResponseEntity<Optional<Cart>> getCartById(@RequestBody CartKeyDTO dto) {
-        Optional<Cart> cart = cartService.getCartById(cartService.mapDTOtoCartKey(dto));
-        return ResponseEntity.ok(cart);
+    // @GetMapping("/id")
+    // public ResponseEntity<Optional<Cart>> getCartById(@RequestBody Long
+    // customerID) {
+    // Optional<Cart> cart =
+    // cartService.getCartById(cartService.mapDTOtoCartKey(dto));
+    // return ResponseEntity.ok(cart);
+    // }
+
+    @GetMapping("/")
+    public List<Cart> getCartByCustomer(@RequestParam Long customerId) {
+        return cartService.getCartsByCustomer(customerId);
     }
 
     @PostMapping
@@ -52,8 +60,8 @@ public class CartController {
     }
 
     @DeleteMapping
-    public ResponseEntity<Object> deleteCart(@RequestBody CartKeyDTO dto) {
-        cartService.deleteCart(cartService.mapDTOtoCartKey(dto));
+    public ResponseEntity<Object> deleteCart(@RequestParam Long customerId, @RequestParam Long productId) {
+        cartService.deleteCart(customerId, productId);
         return ResponseEntity.ok().build();
     }
 }
