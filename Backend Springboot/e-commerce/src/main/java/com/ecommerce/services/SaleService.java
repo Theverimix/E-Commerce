@@ -1,57 +1,57 @@
 package com.ecommerce.services;
 
 import com.ecommerce.dto.SaleDTO;
+import com.ecommerce.dto.SaleDTOMapper;
 import com.ecommerce.entities.Sale;
 import com.ecommerce.repositories.SaleRepository;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class SaleService {
 
     private final SaleRepository saleRepository;
+    private final SaleDTOMapper saleDtoMapper;
 
-    public SaleService(SaleRepository saleRepository) {
+    public SaleService(SaleRepository saleRepository, SaleDTOMapper saleDtoMapper) {
         this.saleRepository = saleRepository;
+        this.saleDtoMapper = saleDtoMapper;
     }
 
-    public List<Sale> getAllSales() {
-        return saleRepository.findAll();
+    public List<SaleDTO> getAllSales() {
+        return saleRepository.findAll().stream()
+                .map(saleDtoMapper)
+                .collect(Collectors.toList());
     }
 
-    public Optional<Sale> getSaleById(@NonNull Long id) {
-        return saleRepository.findById(id);
+    public SaleDTO getSaleById(@NonNull Long id) {
+        return saleRepository.findById(id)
+                .map(saleDtoMapper)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        "Sale with id [%s] not found.".formatted(id)));
     }
 
-    public Sale saveSale(SaleDTO dto) {
-        return saleRepository.save(mapDTOToSale(dto));
+    public void saveSale(SaleDTO dto) {
+        saleRepository.save(mapDTOToSale(dto));
     }
 
-    public Sale updateSale(SaleDTO dto) {
-        return saleRepository.save(mapDTOToSale(dto));
+    public void updateSale(SaleDTO dto) {
+        saleRepository.save(mapDTOToSale(dto));
     }
 
     public void deleteSale(@NonNull Long id) {
-        saleRepository.deleteById(id);
+        Sale sale = saleRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        "Sale with id [%s] not found.".formatted(id)));
+
+        saleRepository.delete(sale);
     }
-
-    // public SaleDTO mapSaleToDTO(Sale sale) {
-    // SaleDTO dto = new SaleDTO();
-
-    // dto.setId(sale.getId());
-    // dto.setName(sale.getName());
-    // dto.setStartAt(sale.getStartAt());
-    // dto.setEndAt(sale.getEndAt());
-    // dto.setDiscountType(sale.getDiscountType());
-    // dto.setDiscountValue(sale.getDiscountValue());
-    // dto.setProducts(sale.getProducts());
-
-    // return dto;
-    // }
 
     public Sale mapDTOToSale(SaleDTO dto) {
         Sale sale = new Sale();

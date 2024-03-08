@@ -2,7 +2,10 @@ package com.ecommerce.services;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+import com.ecommerce.dto.OrderDetailsDTOMapper;
+import com.ecommerce.entities.Order;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
@@ -16,50 +19,50 @@ import com.ecommerce.repositories.ProductRepository;
 @Service
 public class OrderDetailsService {
     private final OrderDetailsRepository orderDetailsRepository;
-
     private final ProductRepository productRepository;
-
     private final OrderRepository orderRepository;
+    private final OrderDetailsDTOMapper dtoMapper;
 
     public OrderDetailsService(OrderDetailsRepository orderDetailsRepository, ProductRepository productRepository,
-            OrderRepository orderRepository) {
+                               OrderRepository orderRepository, OrderDetailsDTOMapper dtoMapper) {
         this.orderDetailsRepository = orderDetailsRepository;
         this.productRepository = productRepository;
         this.orderRepository = orderRepository;
+        this.dtoMapper = dtoMapper;
     }
 
-    public List<OrderDetails> getAllOrderDetailss() {
-        return orderDetailsRepository.findAll();
+    public List<OrderDetailsDTO> getAllOrderDetails() {
+        return orderDetailsRepository.findAll().stream()
+                .map(dtoMapper)
+                .collect(Collectors.toList());
     }
 
-    public Optional<OrderDetails> getOrderDetailsById(@NonNull OrderDetailsKey id) {
-        return orderDetailsRepository.findById(id);
+    public List<OrderDetailsDTO> getDetailsByOrder(Long orderId) {
+        Order order = orderRepository.findById(orderId)
+                .orElse(null);
+
+        return orderDetailsRepository.findByOrder(order).stream()
+                .map(dtoMapper)
+                .collect(Collectors.toList());
     }
 
-    public OrderDetails saveOrderDetails(OrderDetailsDTO dto) {
-        return orderDetailsRepository.save(mapDTOToOrderDetails(dto));
+    public void saveOrderDetails(OrderDetailsDTO dto) {
+        orderDetailsRepository.save(mapDTOToOrderDetails(dto));
     }
 
-    public OrderDetails updateOrderDetails(OrderDetailsDTO dto) {
-        return orderDetailsRepository.save(mapDTOToOrderDetails(dto));
+    public void updateOrderDetails(OrderDetailsDTO dto) {
+        orderDetailsRepository.save(mapDTOToOrderDetails(dto));
     }
 
     public void deleteOrderDetails(@NonNull OrderDetailsKey id) {
         orderDetailsRepository.deleteById(id);
     }
 
-    // public OrderDetailsDTO mapOrderDetailsToDTO(OrderDetails orderDetails) {
-    // OrderDetailsDTO dto = new OrderDetailsDTO();
+    public OrderDetailsKey buildOrderDetailsKey(Long productId, Long orderId){
+        return new OrderDetailsKey(productId, orderId);
+    }
 
-    // dto.setId(mapOrderDetailsKeytoDTO(orderDetails.getId()));
-    // dto.setProduct(orderDetails.getProduct());
-    // dto.setOrder(orderDetails.getOrder());
-    // dto.setAmmount(orderDetails.getAmmount());
-
-    // return dto;
-    // }
-
-    public OrderDetails mapDTOToOrderDetails(OrderDetailsDTO dto) {
+    private OrderDetails mapDTOToOrderDetails(OrderDetailsDTO dto) {
         OrderDetailsKey orderDetailsKey = new OrderDetailsKey();
         orderDetailsKey.setOrderId(dto.orderId());
         orderDetailsKey.setProductId(dto.productId());

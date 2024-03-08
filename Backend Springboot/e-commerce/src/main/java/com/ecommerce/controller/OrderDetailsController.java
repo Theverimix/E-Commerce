@@ -1,23 +1,16 @@
 package com.ecommerce.controller;
 
 import java.util.List;
-import java.util.Optional;
 
+import com.ecommerce.entities.OrderDetailsKey;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.ecommerce.dto.OrderDetailsDTO;
 import com.ecommerce.entities.OrderDetails;
 import com.ecommerce.services.OrderDetailsService;
 
 @RestController
-@RequestMapping("/orderdetails")
 public class OrderDetailsController {
 
     private final OrderDetailsService orderDetailsService;
@@ -26,34 +19,29 @@ public class OrderDetailsController {
         this.orderDetailsService = orderDetailsService;
     }
 
-    @GetMapping("/details")
-    public ResponseEntity<List<OrderDetails>> getAllOrderDetailss() {
-        List<OrderDetails> orderDetailss = orderDetailsService.getAllOrderDetailss();
-        return ResponseEntity.ok(orderDetailss);
+    @GetMapping("/order/{id}/details")
+    public ResponseEntity<List<OrderDetailsDTO>> getDetailsByOrder(@PathVariable Long id) {
+        List<OrderDetailsDTO> details = orderDetailsService.getDetailsByOrder(id);
+        return ResponseEntity.ok(details);
     }
 
-    @GetMapping("/details/id")
-    public ResponseEntity<Optional<OrderDetails>> getOrderDetailsById(@RequestBody OrderDetailsKeyDTO dto) {
-        Optional<OrderDetails> orderDetails = orderDetailsService
-                .getOrderDetailsById(orderDetailsService.mapDTOtoOrderDetailsKey(dto));
-        return ResponseEntity.ok(orderDetails);
+    @PostMapping("/order/details")
+    public ResponseEntity<?> saveOrderDetails(@RequestBody OrderDetailsDTO dto) {
+        orderDetailsService.saveOrderDetails(dto);
+        return ResponseEntity.ok().build();
     }
 
-    @PostMapping
-    public ResponseEntity<OrderDetails> saveOrderDetails(@RequestBody OrderDetailsDTO orderDetails) {
-        OrderDetails newOrderDetails = orderDetailsService.saveOrderDetails(orderDetails);
-        return ResponseEntity.ok(newOrderDetails);
+    @PutMapping("/order/details")
+    public ResponseEntity<OrderDetails> updateOrderDetails(@RequestBody OrderDetailsDTO dto) {
+        orderDetailsService.updateOrderDetails(dto);
+        return ResponseEntity.ok().build();
     }
 
-    @PutMapping
-    public ResponseEntity<OrderDetails> updateOrderDetails(@RequestBody OrderDetailsDTO newOrderDetails) {
-        OrderDetails orderDetails = orderDetailsService.updateOrderDetails(newOrderDetails);
-        return ResponseEntity.ok(orderDetails);
-    }
+    @DeleteMapping("/order/{orderId}/detail/{productId}")
+    public ResponseEntity<Object> deleteOrderDetails(@PathVariable Long orderId, @PathVariable Long productId) {
+        OrderDetailsKey key = orderDetailsService.buildOrderDetailsKey(productId, orderId);
+        orderDetailsService.deleteOrderDetails(key);
 
-    @DeleteMapping
-    public ResponseEntity<Object> deleteOrderDetails(@RequestBody OrderDetailsKeyDTO dto) {
-        orderDetailsService.deleteOrderDetails(orderDetailsService.mapDTOtoOrderDetailsKey(dto));
         return ResponseEntity.ok().build();
     }
 
