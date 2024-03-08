@@ -3,23 +3,29 @@ package com.ecommerce.services;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
 import com.ecommerce.dto.CartDTO;
-import com.ecommerce.dto.CartKeyDTO;
 import com.ecommerce.entities.Cart;
 import com.ecommerce.entities.CartKey;
 import com.ecommerce.repositories.CartRepository;
+import com.ecommerce.repositories.CustomerRepository;
+import com.ecommerce.repositories.ProductRepository;
 
 @Service
 public class CartService {
     private final CartRepository cartRepository;
 
-    @Autowired
-    public CartService(CartRepository cartRepository) {
+    private final CustomerRepository customerRepository;
+
+    private final ProductRepository productRepository;
+
+    public CartService(CartRepository cartRepository, CustomerRepository customerRepository,
+            ProductRepository productRepository) {
         this.cartRepository = cartRepository;
+        this.customerRepository = customerRepository;
+        this.productRepository = productRepository;
     }
 
     public List<Cart> getAllCarts() {
@@ -42,43 +48,29 @@ public class CartService {
         cartRepository.deleteById(id);
     }
 
-    public CartDTO mapCartToDTO(Cart cart) {
-        CartDTO dto = new CartDTO();
+    // public CartDTO mapCartToDTO(Cart cart) {
+    // CartDTO dto = new CartDTO();
 
-        dto.setId(mapCartKeytoDTO(cart.getId()));
-        dto.setProduct(cart.getProduct());
-        dto.setCustomer(cart.getCustomer());
-        dto.setAmmount(cart.getAmmount());
+    // dto.setId(mapCartKeytoDTO(cart.getId()));
+    // dto.setProduct(cart.getProduct());
+    // dto.setCustomer(cart.getCustomer());
+    // dto.setAmmount(cart.getAmmount());
 
-        return dto;
-    }
+    // return dto;
+    // }
 
     public Cart mapDTOToCart(CartDTO dto) {
-        Cart cart = new Cart();
+        CartKey cartKey = new CartKey();
+        cartKey.setCustomerId(dto.customerId());
+        cartKey.setProductId(dto.productId());
 
-        cart.setId(mapDTOtoCartKey(dto.getId()));
-        cart.setProduct(dto.getProduct());
-        cart.setCustomer(dto.getCustomer());
-        cart.setAmmount(dto.getAmmount());
+        Cart cart = new Cart();
+        cart.setId(cartKey);
+        cart.setProduct(productRepository.findById(dto.productId()).orElse(null));
+        cart.setCustomer(customerRepository.findById(dto.customerId()).orElse(null));
+        cart.setAmmount(dto.ammount());
 
         return cart;
     }
 
-    public CartKeyDTO mapCartKeytoDTO(CartKey cartKey) {
-        CartKeyDTO dto = new CartKeyDTO();
-
-        dto.setCustomerId(cartKey.getCustomerId());
-        dto.setProductId(cartKey.getProductId());
-
-        return dto;
-    }
-
-    public CartKey mapDTOtoCartKey(CartKeyDTO dto) {
-        CartKey cartKey = new CartKey();
-
-        cartKey.setCustomerId(dto.getCustomerId());
-        cartKey.setProductId(dto.getProductId());
-
-        return cartKey;
-    }
 }

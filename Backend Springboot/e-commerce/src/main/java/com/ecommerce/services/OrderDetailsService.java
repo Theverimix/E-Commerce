@@ -3,23 +3,29 @@ package com.ecommerce.services;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
 import com.ecommerce.dto.OrderDetailsDTO;
-import com.ecommerce.dto.OrderDetailsKeyDTO;
 import com.ecommerce.entities.OrderDetails;
 import com.ecommerce.entities.OrderDetailsKey;
 import com.ecommerce.repositories.OrderDetailsRepository;
+import com.ecommerce.repositories.OrderRepository;
+import com.ecommerce.repositories.ProductRepository;
 
 @Service
 public class OrderDetailsService {
     private final OrderDetailsRepository orderDetailsRepository;
 
-    @Autowired
-    public OrderDetailsService(OrderDetailsRepository orderDetailsRepository) {
+    private final ProductRepository productRepository;
+
+    private final OrderRepository orderRepository;
+
+    public OrderDetailsService(OrderDetailsRepository orderDetailsRepository, ProductRepository productRepository,
+            OrderRepository orderRepository) {
         this.orderDetailsRepository = orderDetailsRepository;
+        this.productRepository = productRepository;
+        this.orderRepository = orderRepository;
     }
 
     public List<OrderDetails> getAllOrderDetailss() {
@@ -42,43 +48,28 @@ public class OrderDetailsService {
         orderDetailsRepository.deleteById(id);
     }
 
-    public OrderDetailsDTO mapOrderDetailsToDTO(OrderDetails orderDetails) {
-        OrderDetailsDTO dto = new OrderDetailsDTO();
+    // public OrderDetailsDTO mapOrderDetailsToDTO(OrderDetails orderDetails) {
+    // OrderDetailsDTO dto = new OrderDetailsDTO();
 
-        dto.setId(mapOrderDetailsKeytoDTO(orderDetails.getId()));
-        dto.setProduct(orderDetails.getProduct());
-        dto.setOrder(orderDetails.getOrder());
-        dto.setAmmount(orderDetails.getAmmount());
+    // dto.setId(mapOrderDetailsKeytoDTO(orderDetails.getId()));
+    // dto.setProduct(orderDetails.getProduct());
+    // dto.setOrder(orderDetails.getOrder());
+    // dto.setAmmount(orderDetails.getAmmount());
 
-        return dto;
-    }
+    // return dto;
+    // }
 
     public OrderDetails mapDTOToOrderDetails(OrderDetailsDTO dto) {
-        OrderDetails orderDetails = new OrderDetails();
+        OrderDetailsKey orderDetailsKey = new OrderDetailsKey();
+        orderDetailsKey.setOrderId(dto.orderId());
+        orderDetailsKey.setProductId(dto.productId());
 
-        orderDetails.setId(mapDTOtoOrderDetailsKey(dto.getId()));
-        orderDetails.setProduct(dto.getProduct());
-        orderDetails.setOrder(dto.getOrder());
-        orderDetails.setAmmount(dto.getAmmount());
+        OrderDetails orderDetails = new OrderDetails();
+        orderDetails.setId(orderDetailsKey);
+        orderDetails.setProduct(productRepository.findById(dto.productId()).orElse(null));
+        orderDetails.setOrder(orderRepository.findById(dto.orderId()).orElse(null));
+        orderDetails.setAmmount(dto.ammount());
 
         return orderDetails;
-    }
-
-    public OrderDetailsKeyDTO mapOrderDetailsKeytoDTO(OrderDetailsKey orderDetailsKey) {
-        OrderDetailsKeyDTO dto = new OrderDetailsKeyDTO();
-
-        dto.setOrderId(orderDetailsKey.getOrderId());
-        dto.setProductId(orderDetailsKey.getProductId());
-
-        return dto;
-    }
-
-    public OrderDetailsKey mapDTOtoOrderDetailsKey(OrderDetailsKeyDTO dto) {
-        OrderDetailsKey orderDetailsKey = new OrderDetailsKey();
-
-        orderDetailsKey.setOrderId(dto.getOrderId());
-        orderDetailsKey.setProductId(dto.getProductId());
-
-        return orderDetailsKey;
     }
 }

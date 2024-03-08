@@ -4,7 +4,6 @@ import com.ecommerce.dto.UserDTO;
 import com.ecommerce.entities.User;
 import com.ecommerce.repositories.UserRepository;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +15,6 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    @Autowired
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
@@ -41,28 +39,28 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
-    public UserDTO mapUserToDTO(User user) {
-        UserDTO dto = new UserDTO();
+    // public UserDTO mapUserToDTO(User user) {
+    // UserDTO dto = new UserDTO();
 
-        dto.setId(user.getId());
-        dto.setName(user.getName());
-        dto.setPassword(user.getPassword());
-        dto.setEmail(user.getEmail());
-        dto.setState(user.getState());
-        dto.setRole(user.getRole());
+    // dto.setId(user.getId());
+    // dto.setName(user.getName());
+    // dto.setPassword(user.getPassword());
+    // dto.setEmail(user.getEmail());
+    // dto.setState(user.getState());
+    // dto.setRole(user.getRole());
 
-        return dto;
-    }
+    // return dto;
+    // }
 
     public User mapDTOToUser(UserDTO dto) {
         User user = new User();
 
-        user.setId(dto.getId());
-        user.setName(dto.getName());
-        user.setPassword(dto.getPassword());
-        user.setEmail(dto.getEmail());
-        user.setState(dto.getState());
-        user.setRole(dto.getRole());
+        user.setId(dto.id());
+        user.setName(dto.name());
+        user.setPassword(dto.password());
+        user.setEmail(dto.email());
+        user.setState(dto.state());
+        user.setRole(dto.role());
 
         return user;
     }

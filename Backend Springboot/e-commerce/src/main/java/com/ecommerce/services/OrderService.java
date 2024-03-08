@@ -2,8 +2,6 @@ package com.ecommerce.services;
 
 import java.util.List;
 import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +13,6 @@ import com.ecommerce.repositories.OrderRepository;
 public class OrderService {
     private final OrderRepository orderRepository;
 
-    @Autowired
     public OrderService(OrderRepository orderRepository) {
         this.orderRepository = orderRepository;
     }
@@ -40,28 +37,28 @@ public class OrderService {
         orderRepository.deleteById(id);
     }
 
-    public OrderDTO mapOrderToDTO(Order order) {
-        OrderDTO dto = new OrderDTO();
+    // public OrderDTO mapOrderToDTO(Order order) {
+    // OrderDTO dto = new OrderDTO();
 
-        dto.setId(order.getId());
-        dto.setCustomer(order.getCustomer());
-        dto.setAdress(order.getAdress());
-        dto.setStatus(order.getStatus());
-        dto.setDate(order.getDate());
-        dto.setDetails(order.getDetails());
+    // dto.setId(order.getId());
+    // dto.setCustomer(order.getCustomer());
+    // dto.setAdress(order.getAdress());
+    // dto.setStatus(order.getStatus());
+    // dto.setDate(order.getDate());
+    // dto.setDetails(order.getDetails());
 
-        return dto;
-    }
+    // return dto;
+    // }
 
     public Order mapDTOToOrder(OrderDTO dto) {
         Order order = new Order();
 
-        order.setId(dto.getId());
-        order.setCustomer(dto.getCustomer());
-        order.setAdress(dto.getAdress());
-        order.setStatus(dto.getStatus());
-        order.setDate(dto.getDate());
-        order.setDetails(dto.getDetails());
+        order.setId(dto.id());
+        order.setCustomer(dto.customer());
+        order.setAdress(dto.address());
+        order.setStatus(dto.status());
+        order.setDate(dto.date());
+        order.setDetails(dto.details());
 
         return order;
     }
