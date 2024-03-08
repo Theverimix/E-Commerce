@@ -16,7 +16,6 @@ import com.ecommerce.dto.CartDTO;
 import com.ecommerce.entities.Cart;
 import com.ecommerce.services.CartService;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 @RestController
 @RequestMapping("/cart")
@@ -60,8 +59,8 @@ public class CartController {
     }
 
     @DeleteMapping
-    public ResponseEntity<Object> deleteCart(@RequestParam Long customerId, @RequestParam Long productId) {
-        cartService.deleteCart(customerId, productId);
+    public ResponseEntity<Object> deleteCart(@RequestBody CartDTO dto) {
+        cartService.deleteCart(dto.customerId(), dto.productId());
         return ResponseEntity.ok().build();
     }
 }
