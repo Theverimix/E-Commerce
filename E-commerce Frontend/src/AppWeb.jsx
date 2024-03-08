@@ -1,11 +1,13 @@
-import './styles/appWeb.css'
-import Menubar from 'primereact/menubar'
+
+import Header from './components/header/Header.jsx'
+import Carousel from './components/carousel/Carousel.jsx';
 
 function AppWeb() {
     
     return (
     <>
-        <Menubar model={items} start={start} end={end} />
+        <Header />
+        <Carousel/>
         </>
     );
 }
