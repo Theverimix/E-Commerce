@@ -1,23 +1,9 @@
-/* Estilos para el header */
-header {
-  background-color: #333; /* Color de fondo del encabezado */
-  color: #fff; /* Color del texto en el encabezado */
-  padding: 10px 0; /* Espaciado interno en el encabezado */
+.login-item:hover {
+  border-bottom: 2px solid #e69b0c;
+  cursor: pointer;
 }
 
-/* Estilos para la barra de navegación */
-nav ul {
-  list-style-type: none; /* Eliminar viñetas de la lista */
-  margin: 0;
-  padding: 0;
-}
-
-nav ul li {
-  display: inline; /* Mostrar elementos de la lista en línea */
-  margin-right: 10px; /* Espaciado entre elementos de la lista */
-}
-
-nav ul li a {
-  color: #fff; /* Color del texto del enlace */
-  text-decoration: none; /* Eliminar subrayado de los enlaces */
+.signin-item:hover{
+  border-bottom: 2px solid #e69b0c;
+  cursor: pointer;
 }

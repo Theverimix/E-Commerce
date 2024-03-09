@@ -1,9 +1,14 @@
 import React from 'react';
+import { Card } from 'primereact/card';
+import { Button } from 'primereact/button';
 import { Menubar } from 'primereact/menubar';
+import { Divider } from 'primereact/divider';
 import { InputText } from 'primereact/inputtext';
 import { Badge } from 'primereact/badge';
 import { Avatar } from 'primereact/avatar';  
 import brutalLogo from '../../assets/icons/Brutal_black_bottomless.png';
+
+import './header.css';
 
 export default function Header() {
     const itemRenderer = (item) => (
@@ -99,7 +104,7 @@ export default function Header() {
             ]
         },
         {
-            label: 'Contact',
+            label: 'Contacto',
             icon: 'pi pi-envelope'
         }
     ];
@@ -108,17 +113,12 @@ export default function Header() {
 
 
     const endItemRenderer = (item) => (
-        <a className="flex align-items-center p-menuitem-link">
+        <a className={'flex align-items-center p-menuitem-link'}>
             <span className={item.icon} />
             <span className="mx-2">{item.label}</span>
             {item.badge && <Badge className="ml-auto" value={item.badge} />}
             </a>
     );
-
-    const loginItem = {
-        label: 'Log in',
-        icon: 'pi pi-user'
-    };
 
     const cartItem = {
         label: 'Carrito',
@@ -126,17 +126,30 @@ export default function Header() {
         badge: 4
         
     };
+
+    const loginItem = {
+        label: 'Log in'
+    };
+
+    const singinItem = {
+        label: 'Sing in'
+    };
+
     const end = (
        <>
-            {endItemRenderer(loginItem)}
-            <div style={{ margin: '0 5px' }}></div>
-            {endItemRenderer(cartItem)}
-            </> 
+        {endItemRenderer(cartItem)}
+        </> 
         
     );
 
     return (
         <div className="card">
+            <div style={{display:'flex', justifyContent:'flex-end', alignItems: 'center'}}>
+            <a className='login-item'>Iniciar sesión</a>
+            <Divider layout="vertical" />
+            <a className='signin-item'>Registrarse</a>
+            </div>
+            
             <Menubar model={items} start={start} end={end}/>
         </div>
     )

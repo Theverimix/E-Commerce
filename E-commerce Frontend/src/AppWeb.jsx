@@ -1,13 +1,15 @@
-
+import React, {useState} from 'react';
 import Header from './components/header/Header.jsx'
-import Carousel from './components/carousel/Carousel.jsx';
+import Welcome from './components/welcome/Welcome.jsx';
+import Footer from './components/footer/Footer.jsx';
 
 function AppWeb() {
     
     return (
     <>
         <Header />
-        <Carousel/>
+        <Welcome/>
+        <Footer/>
         </>
     );
 }
