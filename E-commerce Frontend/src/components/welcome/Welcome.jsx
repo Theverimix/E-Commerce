@@ -2,12 +2,13 @@ import React from 'react';
 import {Carousel} from 'primereact/carousel';
 import { Card } from 'primereact/card';
 import Banner from '../banner/Banner.jsx';
+import { Divider } from 'primereact/divider';
 
 //Provisional code to see results. ENABLED TO DELETE IN THE FUTURE
-import imgProducts1 from '../../assets/img/products/bcaa-12000.jpg'
-import imgProducts2 from '../../assets/img/products/nitro-bcaa-250.jpg'
-import imgProducts3 from '../../assets/img/products/muscle-builder-7lb-gn.jpg'
-import imgProducts4 from '../../assets/img/products/nobooster-sn.jpg'
+import imgProducts1 from '../../assets/img/products/bcaa-12000.png'
+import imgProducts2 from '../../assets/img/products/nitro-bcaa-250.png'
+import imgProducts3 from '../../assets/img/products/muscle-builder-7lb-gn.png'
+import imgProducts4 from '../../assets/img/products/nobooster-sn.png'
 
 export default function Welcome() {
 
@@ -80,12 +81,43 @@ export default function Welcome() {
     return(
         <>
         <Banner/>
+        <hr style={{ borderBottom: '2px solid #e69b0c', margin: '0' }} />
+        
         <Card title="Suplementos" className="md:w-25rem">
-
+       
         <Carousel value={products} numVisible={3} numScroll={1} responsiveOptions={responsiveOptions} className="custom-carousel" circular
 autoplayInterval={8000} itemTemplate={productTemplate} />
         </Card>
+        
+        <div className="card flex justify-content-center" style={{display:'flex', justifyContent:'center', alignItems: 'center'}}>
+        
+            <p>
+              
+            <b>
+            
+            ENVÍOS A TODO EL URUGUAY
+            </b>
+            <br />
+            Llegamos a todos los rincones del país.
+            </p>
+            <Divider layout="vertical" />
+            <p>
+            <b>
+            PAGA EN HASTA 12 CUOTAS
+            </b>
+            <br />
+            Aceptamos todos los medios de pago.
+            </p>
+            <Divider layout="vertical" />
+            <p>
+                <b>
+RETIRO EN SUCURSALES
+</b><br />
+Pickup gratis en nuestras tiendas.
+            </p>
+        </div>
 
+        <hr style={{ borderBottom: '2px solid #e69b0c', margin: '0' }} />
         <Card title="Accesorios" className="md:w-25rem">
 
         <Carousel value={products} numVisible={3} numScroll={3} responsiveOptions={responsiveOptions} className="custom-carousel" circular

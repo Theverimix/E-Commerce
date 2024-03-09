@@ -144,6 +144,7 @@ export default function Header() {
 
     return (
         <div className="card">
+            
             <div style={{display:'flex', justifyContent:'flex-end', alignItems: 'center'}}>
             <a className='login-item'>Iniciar sesión</a>
             <Divider layout="vertical" />
