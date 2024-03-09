@@ -3,7 +3,6 @@ package com.ecommerce.controller;
 import java.util.List;
 
 import com.ecommerce.dto.CustomerRegistrationDTO;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,7 +20,6 @@ import com.ecommerce.services.CustomerService;
 public class CustomerController {
     private final CustomerService customerService;
 
-    @Autowired
     public CustomerController(CustomerService customerService) {
         this.customerService = customerService;
     }
@@ -39,19 +37,19 @@ public class CustomerController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<Object> registerCustomer(@RequestBody CustomerRegistrationDTO dto){
+    public ResponseEntity<?> registerCustomer(@RequestBody CustomerRegistrationDTO dto){
         customerService.registerCustomer(dto);
         return ResponseEntity.ok(dto);
     }
 
     @PostMapping
-    public ResponseEntity<Object> saveCustomer(@RequestBody CustomerDTO customer) {
+    public ResponseEntity<?> saveCustomer(@RequestBody CustomerDTO customer) {
         customerService.saveCustomer(customer);
         return ResponseEntity.ok().build();
     }
 
     @PutMapping
-    public ResponseEntity<Object> updateCustomer(@RequestBody CustomerDTO newCustomer) {
+    public ResponseEntity<?> updateCustomer(@RequestBody CustomerDTO newCustomer) {
         customerService.updateCustomer(newCustomer);
         return ResponseEntity.ok().build();
     }

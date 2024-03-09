@@ -33,14 +33,6 @@ public class CartController {
         return ResponseEntity.ok(carts);
     }
 
-    // @GetMapping("/id")
-    // public ResponseEntity<Optional<Cart>> getCartById(@RequestBody Long
-    // customerID) {
-    // Optional<Cart> cart =
-    // cartService.getCartById(cartService.mapDTOtoCartKey(dto));
-    // return ResponseEntity.ok(cart);
-    // }
-
     @GetMapping("/")
     public List<Cart> getCartByCustomer(@RequestParam Long customerId) {
         return cartService.getCartsByCustomer(customerId);

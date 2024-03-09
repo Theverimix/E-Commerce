@@ -1,49 +1,65 @@
 package com.ecommerce.services;
 
+import com.ecommerce.dto.CategoryDTO;
+import com.ecommerce.dto.CategoryDTOMapper;
 import com.ecommerce.entities.Category;
 import com.ecommerce.repositories.CategoryRepository;
 import jakarta.persistence.EntityNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CategoryService {
 
     private final CategoryRepository categoryRepository;
+    private final CategoryDTOMapper dtoMapper;
 
-    @Autowired
-    public CategoryService(CategoryRepository categoryRepository) {
+    public CategoryService(CategoryRepository categoryRepository, CategoryDTOMapper dtoMapper) {
         this.categoryRepository = categoryRepository;
+        this.dtoMapper = dtoMapper;
     }
 
-    public List<Category> getAllCategories(){
-        return categoryRepository.findAll();
+    public List<CategoryDTO> getAllCategories(){
+        return categoryRepository.findAll().stream()
+                .map(dtoMapper)
+                .collect(Collectors.toList());
     }
 
-    public Optional<Category> getCategoryById(Long id){
-        return categoryRepository.findById(id);
+    public CategoryDTO getCategoryById(Long id){
+        return categoryRepository.findById(id)
+                .map(dtoMapper)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        "Category with id [%s] not found.".formatted(id)
+                ));
     }
 
-    public Category saveCategory(Category category){
-        return categoryRepository.save(category);
+    public void saveCategory(CategoryDTO dto){
+        categoryRepository.save(
+                mapDtoToCategory(new Category(), dto)
+        );
     }
 
-    public Category updateCategory(Long id, Category newCategory) {
+    public void updateCategory(Long id, CategoryDTO dto) {
         Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Entity not found with id: " + id));
-        category.setName(newCategory.getName());
-        category.setDescription(newCategory.getDescription());
-        category.setVisible(newCategory.isVisible());
-        //category.setProducts(newCategory.getProducts());
-        return categoryRepository.save(category);
+        categoryRepository.save(mapDtoToCategory(
+                category, dto
+        ));
     }
 
     public void deleteCategory(Long id){
         Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Entity not found with id: " + id));
         categoryRepository.delete(category);
+    }
+
+    private Category mapDtoToCategory(Category category, CategoryDTO dto){
+        category.setId(dto.id());
+        category.setName(dto.name());
+        category.setDescription(dto.description());
+        category.setVisible(dto.visible());
+        return category;
     }
 }

@@ -13,7 +13,7 @@ public class CategoryDTOMapper implements Function<Category, CategoryDTO> {
                 category.getId(),
                 category.getName(),
                 category.getDescription(),
-                category.isVisible(),
-                category.getProducts());
+                category.isVisible()
+        );
     }
 }

@@ -13,5 +13,5 @@ public record OrderDTO(
         String address,
         OrderStatus status,
         Date date,
-        Set<OrderDetails> details) {
-}
+        Set<OrderDetails> details
+) {}

@@ -37,19 +37,19 @@ public class ProductController {
     }
 
     @PostMapping
-    ResponseEntity<Object> saveProduct(@RequestBody ProductDTO product){
+    ResponseEntity<?> saveProduct(@RequestBody ProductDTO product){
         productService.saveProduct(product);
         return ResponseEntity.ok().build();
     }
 
     @PutMapping("/{id}")
-    ResponseEntity<Object> updateProduct(@PathVariable Long id, @RequestBody ProductDTO newProduct){
+    ResponseEntity<?> updateProduct(@PathVariable Long id, @RequestBody ProductDTO newProduct){
         productService.updateProduct(id, newProduct);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{id}")
-    ResponseEntity<Object> deleteProduct(@PathVariable Long id){
+    ResponseEntity<?> deleteProduct(@PathVariable Long id){
         productService.deleteProduct(id);
         return ResponseEntity.ok().build();
     }

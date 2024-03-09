@@ -1,7 +1,10 @@
 package com.ecommerce.services;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
+
+import com.ecommerce.dto.OrderDTOMapper;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
@@ -12,45 +15,40 @@ import com.ecommerce.repositories.OrderRepository;
 @Service
 public class OrderService {
     private final OrderRepository orderRepository;
+    private final OrderDTOMapper dtoMapper;
 
-    public OrderService(OrderRepository orderRepository) {
+    public OrderService(OrderRepository orderRepository, OrderDTOMapper dtoMapper) {
         this.orderRepository = orderRepository;
+        this.dtoMapper = dtoMapper;
     }
 
-    public List<Order> getAllOrders() {
-        return orderRepository.findAll();
+    public List<OrderDTO> getAllOrders() {
+        return orderRepository.findAll().stream()
+                .map(dtoMapper)
+                .collect(Collectors.toList());
     }
 
-    public Optional<Order> getOrderById(@NonNull Long id) {
-        return orderRepository.findById(id);
+    public OrderDTO getOrderById(@NonNull Long id) {
+        return orderRepository.findById(id)
+                .map(dtoMapper)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        "Order with id [%s] not found.".formatted(id)
+                ));
     }
 
-    public Order saveOrder(OrderDTO dto) {
-        return orderRepository.save(mapDTOToOrder(dto));
+    public void saveOrder(OrderDTO dto) {
+        orderRepository.save(mapDtoToOrder(dto));
     }
 
-    public Order updateOrder(OrderDTO dto) {
-        return orderRepository.save(mapDTOToOrder(dto));
+    public void updateOrder(OrderDTO dto) {
+        orderRepository.save(mapDtoToOrder(dto));
     }
 
     public void deleteOrder(@NonNull Long id) {
         orderRepository.deleteById(id);
     }
 
-    // public OrderDTO mapOrderToDTO(Order order) {
-    // OrderDTO dto = new OrderDTO();
-
-    // dto.setId(order.getId());
-    // dto.setCustomer(order.getCustomer());
-    // dto.setAdress(order.getAdress());
-    // dto.setStatus(order.getStatus());
-    // dto.setDate(order.getDate());
-    // dto.setDetails(order.getDetails());
-
-    // return dto;
-    // }
-
-    public Order mapDTOToOrder(OrderDTO dto) {
+    private Order mapDtoToOrder(OrderDTO dto) {
         Order order = new Order();
 
         order.setId(dto.id());

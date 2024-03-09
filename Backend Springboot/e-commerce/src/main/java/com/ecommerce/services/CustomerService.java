@@ -48,7 +48,7 @@ public class CustomerService {
         customer.setPassword(dto.password());
         customer.setEmail(dto.email());
         customer.setPhone(dto.phone());
-        customer.setAddress(dto.adress());
+        customer.setAddress(dto.address());
         customer.setCountry(dto.country());
         customer.setRegisterDate(new Date());
         customer.setState(UserState.ACTIVE);
@@ -67,7 +67,7 @@ public class CustomerService {
     public void deleteCustomer(@NonNull Long id) {
         Customer customer = customerRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(
-                        "Product with id [%s] not found.".formatted(id)));
+                        "Customer with id [%s] not found.".formatted(id)));
 
         customerRepository.delete(customer);
     }
