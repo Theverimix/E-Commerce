@@ -45,15 +45,18 @@ public class CartService {
         Customer customer = customerRepository.findById(customerId).orElse(null);
         log.warn("Customer Id: " + customerId);
         log.warn(customer.toString());
-        return cartRepository.findByCustomer(customer);
+
+        List<Cart> lista = cartRepository.findByCustomer(customer);
+        log.warn("Lista: " + lista);
+        return lista;
     }
 
-    public Cart saveCart(CartDTO dto) {
-        return cartRepository.save(mapDTOToCart(dto));
+    public void saveCart(CartDTO dto) {
+        cartRepository.save(mapDTOToCart(dto));
     }
 
-    public Cart updateCart(CartDTO dto) {
-        return cartRepository.save(mapDTOToCart(dto));
+    public void updateCart(CartDTO dto) {
+        cartRepository.save(mapDTOToCart(dto));
     }
 
     public void deleteCart(@NonNull Long customerId, @NonNull Long productId) {
@@ -75,6 +78,8 @@ public class CartService {
     // }
 
     public Cart mapDTOToCart(CartDTO dto) {
+        log.warn("Cart DTO = " + dto.toString());
+
         CartKey cartKey = new CartKey();
         cartKey.setCustomerId(dto.customerId());
         cartKey.setProductId(dto.productId());

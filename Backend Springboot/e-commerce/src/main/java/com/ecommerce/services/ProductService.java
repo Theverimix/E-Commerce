@@ -4,6 +4,7 @@ import com.ecommerce.dto.ProductDTO;
 import com.ecommerce.dto.ProductDTOMapper;
 import com.ecommerce.dto.ProductRegistrationDTO;
 import com.ecommerce.entities.Product;
+import com.ecommerce.entities.ProductState;
 import com.ecommerce.repositories.ProductRepository;
 import com.ecommerce.repositories.ProductStateRepository;
 
@@ -68,7 +69,7 @@ public class ProductService {
                 dto.price(),
                 dto.stock(),
                 dto.createdDate(),
-                dto.state(),
+                productStateRepository.findById(dto.stateId()).orElse(null),
                 dto.visible(),
                 dto.images(),
                 dto.productCategories(),

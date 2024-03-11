@@ -33,8 +33,7 @@ public class UserService {
         return userRepository.findById(id)
                 .map(dtoMapper)
                 .orElseThrow(() -> new EntityNotFoundException(
-                        "Customer with id [%s] not found.".formatted(id)
-                ));
+                        "Customer with id [%s] not found.".formatted(id)));
     }
 
     public void saveUser(UserDTO dto) {

@@ -13,7 +13,7 @@ import java.util.List;
 @Repository
 public interface OrderDetailsRepository extends JpaRepository<OrderDetails, OrderDetailsKey> {
 
-    @Query(value = "SELECT d FROM OrderDetails d WHERE d.order < :order")
+    @Query(value = "SELECT d FROM OrderDetails d WHERE d.order = :order")
     List<OrderDetails> findByOrder(Order order);
 
 }

@@ -11,7 +11,7 @@ import com.ecommerce.entities.Customer;
 
 public interface CartRepository extends JpaRepository<Cart, CartKey> {
 
-    @Query(value = "SELECT * FROM user WHERE customer=?", nativeQuery = true)
-    public List<Cart> findByCustomer(Customer customer);
+    @Query(value = "SELECT c FROM Cart c WHERE c.customer = :customer")
+    List<Cart> findByCustomer(Customer customer);
 
 }

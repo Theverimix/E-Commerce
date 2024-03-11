@@ -4,10 +4,10 @@ import com.ecommerce.enums.UserRole;
 import com.ecommerce.enums.UserState;
 
 public record UserDTO(
-        Long id,
-        String name,
-        String password,
-        String email,
-        UserState state,
-        UserRole role
-) {}
+                Long id,
+                String name,
+                String password,
+                String email,
+                UserState state,
+                UserRole role) {
+}

@@ -38,21 +38,21 @@ public class CartController {
     }
 
     @GetMapping("/{customerId}")
-    public List<Cart> getCartByCustomer(@PathVariable Long customerId) {
+    public ResponseEntity<List<Cart>> getCartByCustomer(@PathVariable Long customerId) {
         log.warn("Customer ID = " + customerId);
-        return cartService.getCartsByCustomer(customerId);
+        return ResponseEntity.ok(cartService.getCartsByCustomer(customerId));
     }
 
     @PostMapping
-    public ResponseEntity<Cart> saveCart(@RequestBody CartDTO cart) {
-        Cart newCart = cartService.saveCart(cart);
-        return ResponseEntity.ok(newCart);
+    public ResponseEntity<?> saveCart(@RequestBody CartDTO cart) {
+        cartService.saveCart(cart);
+        return ResponseEntity.ok().build();
     }
 
     @PutMapping
-    public ResponseEntity<Cart> updateCart(@RequestBody CartDTO newCart) {
-        Cart cart = cartService.updateCart(newCart);
-        return ResponseEntity.ok(cart);
+    public ResponseEntity<?> updateCart(@RequestBody CartDTO newCart) {
+        cartService.updateCart(newCart);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping
