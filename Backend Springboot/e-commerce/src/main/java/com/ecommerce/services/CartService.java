@@ -14,8 +14,12 @@ import com.ecommerce.repositories.CartRepository;
 import com.ecommerce.repositories.CustomerRepository;
 import com.ecommerce.repositories.ProductRepository;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class CartService {
+
     private final CartRepository cartRepository;
 
     private final CustomerRepository customerRepository;
@@ -39,6 +43,8 @@ public class CartService {
 
     public List<Cart> getCartsByCustomer(@NonNull Long customerId) {
         Customer customer = customerRepository.findById(customerId).orElse(null);
+        log.warn("Customer Id: " + customerId);
+        log.warn(customer.toString());
         return cartRepository.findByCustomer(customer);
     }
 

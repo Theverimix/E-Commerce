@@ -5,13 +5,14 @@ import com.ecommerce.dto.ProductDTOMapper;
 import com.ecommerce.dto.ProductRegistrationDTO;
 import com.ecommerce.entities.Product;
 import com.ecommerce.repositories.ProductRepository;
+import com.ecommerce.repositories.ProductStateRepository;
+
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -19,21 +20,23 @@ import java.util.stream.Collectors;
 public class ProductService {
 
     private final ProductRepository productRepository;
+    private final ProductStateRepository productStateRepository;
     private final ProductDTOMapper productDtoMapper;
     private final ProductStateService productStateService;
 
-    public ProductService(ProductRepository productRepository, ProductDTOMapper productDtoMapper, ProductStateService productStateService) {
+    public ProductService(ProductRepository productRepository, ProductDTOMapper productDtoMapper,
+            ProductStateService productStateService, ProductStateRepository productStateRepository) {
         this.productRepository = productRepository;
         this.productDtoMapper = productDtoMapper;
         this.productStateService = productStateService;
+        this.productStateRepository = productStateRepository;
     }
 
     public ProductDTO getProductById(Long id) {
         return productRepository.findById(id)
                 .map(productDtoMapper)
                 .orElseThrow(() -> new EntityNotFoundException(
-                        "Product with id [%s] not found.".formatted(id)
-                ));
+                        "Product with id [%s] not found.".formatted(id)));
     }
 
     public List<ProductDTO> getAllProducts() {
@@ -42,7 +45,7 @@ public class ProductService {
                 .collect(Collectors.toList());
     }
 
-    public void addProduct(ProductRegistrationDTO dto){
+    public void addProduct(ProductRegistrationDTO dto) {
         Product product = new Product();
         product.setName(dto.name());
         product.setDescription(dto.description());
@@ -52,7 +55,7 @@ public class ProductService {
         product.setCreatedAt(new Date());
         product.setImages(dto.images());
         product.setProductCategories(dto.productCategories());
-        product.setState(productStateService.getStateById(dto.idState()));
+        product.setState(productStateRepository.findById(dto.idState()).orElse(null));
         log.warn("product:" + product);
         productRepository.save(product);
     }
@@ -69,8 +72,7 @@ public class ProductService {
                 dto.visible(),
                 dto.images(),
                 dto.productCategories(),
-                dto.productSales()
-        );
+                dto.productSales());
         log.warn("product:" + product);
         productRepository.save(product);
     }
