@@ -2,6 +2,7 @@ package com.ecommerce.controller;
 
 import java.util.List;
 
+import com.ecommerce.dto.OrderRegistrationDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,14 +10,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ecommerce.dto.OrderDTO;
 import com.ecommerce.services.OrderService;
 
 @RestController
-@RequestMapping("/order")
 public class OrderController {
     private final OrderService orderService;
 
@@ -24,27 +23,33 @@ public class OrderController {
         this.orderService = orderService;
     }
 
-    @GetMapping
+    @GetMapping("/order")
     public ResponseEntity<List<OrderDTO>> getAllOrders() {
         List<OrderDTO> orders = orderService.getAllOrders();
         return ResponseEntity.ok(orders);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/order/{id}")
     public ResponseEntity<OrderDTO> getOrderById(@PathVariable Long id) {
         OrderDTO order = orderService.getOrderById(id);
         return ResponseEntity.ok(order);
     }
 
+    @GetMapping("/customer/{customerId}/orders")
+    public ResponseEntity<List<OrderDTO>> getOrdersByCustomer(@PathVariable Long customerId) {
+        List<OrderDTO> orders = orderService.getOrdersByCustomer(customerId);
+        return ResponseEntity.ok(orders);
+    }
+
     @PostMapping
-    public ResponseEntity<?> saveOrder(@RequestBody OrderDTO order) {
+    public ResponseEntity<?> saveOrder(@RequestBody OrderRegistrationDTO order) {
         orderService.saveOrder(order);
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping
-    public ResponseEntity<?> updateOrder(@RequestBody OrderDTO newOrder) {
-        orderService.updateOrder(newOrder);
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateOrder(@PathVariable Long id, @RequestBody OrderRegistrationDTO newOrder) {
+        orderService.updateOrder(id, newOrder);
         return ResponseEntity.ok().build();
     }
 

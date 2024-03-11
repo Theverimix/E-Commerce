@@ -84,7 +84,6 @@ public class CustomerService {
         customer.setRegisterDate(dto.registerDate());
         customer.setCountry(dto.country());
         customer.setPhone(dto.phone());
-        customer.setOrders(dto.orders());
 
         return customer;
     }

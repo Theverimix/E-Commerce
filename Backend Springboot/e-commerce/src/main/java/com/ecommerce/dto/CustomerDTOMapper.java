@@ -12,15 +12,13 @@ public class CustomerDTOMapper implements Function<Customer, CustomerDTO> {
         return new CustomerDTO(
                 customer.getId(),
                 customer.getName(),
-                customer.getPassword(),
                 customer.getEmail(),
                 customer.getState(),
                 customer.getRole(),
                 customer.getAddress(),
                 customer.getRegisterDate(),
                 customer.getCountry(),
-                customer.getPhone(),
-                customer.getOrders()
+                customer.getPhone()
         );
     }
 }

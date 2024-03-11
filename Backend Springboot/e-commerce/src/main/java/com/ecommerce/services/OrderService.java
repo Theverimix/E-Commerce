@@ -1,9 +1,14 @@
 package com.ecommerce.services;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import com.ecommerce.dto.OrderDTOMapper;
+import com.ecommerce.dto.OrderRegistrationDTO;
+import com.ecommerce.entities.Customer;
+import com.ecommerce.enums.OrderStatus;
+import com.ecommerce.repositories.CustomerRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
@@ -16,10 +21,12 @@ import com.ecommerce.repositories.OrderRepository;
 public class OrderService {
     private final OrderRepository orderRepository;
     private final OrderDTOMapper dtoMapper;
+    private final CustomerRepository customerRepository;
 
-    public OrderService(OrderRepository orderRepository, OrderDTOMapper dtoMapper) {
+    public OrderService(OrderRepository orderRepository, OrderDTOMapper dtoMapper, CustomerRepository customerRepository) {
         this.orderRepository = orderRepository;
         this.dtoMapper = dtoMapper;
+        this.customerRepository = customerRepository;
     }
 
     public List<OrderDTO> getAllOrders() {
@@ -36,28 +43,46 @@ public class OrderService {
                 ));
     }
 
-    public void saveOrder(OrderDTO dto) {
-        orderRepository.save(mapDtoToOrder(dto));
+    public List<OrderDTO> getOrdersByCustomer(Long idCustomer) {
+        Customer customer = customerRepository.findById(idCustomer)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        "Customer with id [%s] not found.".formatted(idCustomer)
+                ));
+        return orderRepository.findByCustomer(customer).stream()
+                .map(dtoMapper)
+                .collect(Collectors.toList());
     }
 
-    public void updateOrder(OrderDTO dto) {
-        orderRepository.save(mapDtoToOrder(dto));
+    public void saveOrder(OrderRegistrationDTO dto) {
+        Customer customer = customerRepository.findById(dto.customerId())
+                .orElseThrow(() -> new EntityNotFoundException(
+                        "Customer with id [%s] not found.".formatted(dto.customerId())
+                ));
+
+        Order order = new Order();
+        order.setAdress(dto.address());
+        order.setCustomer(customer);
+        order.setDate(new Date());
+        order.setDetails(dto.details());
+        order.setStatus(OrderStatus.IN_PROCESS);
+        orderRepository.save(order);
+    }
+
+    public void updateOrder(Long id, OrderRegistrationDTO dto) {
+        Order order = orderRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        "Order with id [%s] not found.".formatted(id)
+                ));
+        order.setAdress(dto.address());
+        order.setDetails(dto.details());
+        orderRepository.save(order);
     }
 
     public void deleteOrder(@NonNull Long id) {
-        orderRepository.deleteById(id);
-    }
-
-    private Order mapDtoToOrder(OrderDTO dto) {
-        Order order = new Order();
-
-        order.setId(dto.id());
-        order.setCustomer(dto.customer());
-        order.setAdress(dto.address());
-        order.setStatus(dto.status());
-        order.setDate(dto.date());
-        order.setDetails(dto.details());
-
-        return order;
+        Order order = orderRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        "Order with id [%s] not found.".formatted(id)
+                ));
+        orderRepository.delete(order);
     }
 }
