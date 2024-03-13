@@ -1,33 +1,30 @@
 import React from 'react';
 import { Card } from 'primereact/card';
-import { Button } from 'primereact/button';
 import { Menubar } from 'primereact/menubar';
 import { Divider } from 'primereact/divider';
-import { InputText } from 'primereact/inputtext';
 import { Badge } from 'primereact/badge';
-import { Avatar } from 'primereact/avatar';  
 import brutalLogo from '../../assets/icons/Brutal_black_bottomless.png';
+import { Link } from 'react-router-dom';
 
 import './header.css';
 
+
+
 export default function Header() {
     const itemRenderer = (item) => (
-        <a className="flex align-items-center p-menuitem-link">
+        <Link to={item.href} className="flex align-items-center p-menuitem-link">
             <span className={item.icon} />
             <span className="mx-2">{item.label}</span>
             {item.badge && <Badge className="ml-auto" value={item.badge} />}
-            </a>
+            </Link>
     );
 
     const items = [
         {
             label: 'Home',
-            icon: 'pi pi-home'
+            icon: 'pi pi-home',
+            href:'/'
         },
-        // {
-        //     label: 'Features',
-        //     icon: 'pi pi-star'
-        // },
         {
             label: 'Prductos',
             icon: 'pi pi-search',
@@ -109,7 +106,7 @@ export default function Header() {
         }
     ];
 
-    const start = <img alt="logo" src={brutalLogo} height="50" className="mr-2"></img>;
+    const start = <Link to='/'><img alt="logo" src={brutalLogo} height="50" className="mr-2"></img></Link>;
 
 
     const endItemRenderer = (item) => (
@@ -128,11 +125,11 @@ export default function Header() {
     };
 
     const loginItem = {
-        label: 'Log in'
+        label: 'Log in',
     };
 
     const singinItem = {
-        label: 'Sing in'
+        label: 'Sing in',
     };
 
     const end = (
@@ -146,9 +143,9 @@ export default function Header() {
         <div className="card">
             
             <div style={{display:'flex', justifyContent:'flex-end', alignItems: 'center'}}>
-            <a className='login-item'>Iniciar sesión</a>
+            <Link to='/loginRegister' className='login-item' >Iniciar sesión</Link>
             <Divider layout="vertical" />
-            <a className='signin-item'>Registrarse</a>
+            <Link to='/loginRegister' className='signin-item'>Registrarse</Link>
             </div>
             
             <Menubar model={items} start={start} end={end}/>
