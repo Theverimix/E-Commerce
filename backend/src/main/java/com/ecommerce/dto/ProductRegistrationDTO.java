@@ -6,13 +6,12 @@ import java.util.List;
 import java.util.Set;
 
 public record ProductRegistrationDTO(
-        String name,
-        String description,
-        double price,
-        int stock,
-        Long idState,
-        boolean visible,
-        List<String> images,
-        Set<Category> productCategories
-) {
+                @NotBlank @Min(3) String name,
+                @NotBlank @Min(3) String description,
+                @NotBlank double price,
+                @NotBlank int stock,
+                @NotBlank Long idState,
+                @NotBlank boolean visible,
+                List<String> images,
+                Set<Category> productCategories) {
 }
