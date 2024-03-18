@@ -36,12 +36,6 @@ public class CustomerController {
         return ResponseEntity.ok(customer);
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<?> registerCustomer(@RequestBody CustomerRegistrationDTO dto){
-        customerService.registerCustomer(dto);
-        return ResponseEntity.ok(dto);
-    }
-
     @PostMapping
     public ResponseEntity<?> saveCustomer(@RequestBody CustomerDTO customer) {
         customerService.saveCustomer(customer);
