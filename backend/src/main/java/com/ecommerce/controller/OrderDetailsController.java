@@ -10,14 +10,13 @@ import com.ecommerce.dto.OrderDetailsDTO;
 import com.ecommerce.entities.OrderDetails;
 import com.ecommerce.services.OrderDetailsService;
 
+import lombok.RequiredArgsConstructor;
+
 @RestController
+@RequiredArgsConstructor
 public class OrderDetailsController {
 
     private final OrderDetailsService orderDetailsService;
-
-    public OrderDetailsController(OrderDetailsService orderDetailsService) {
-        this.orderDetailsService = orderDetailsService;
-    }
 
     @GetMapping("/order/{id}/details")
     public ResponseEntity<List<OrderDetailsDTO>> getDetailsByOrder(@PathVariable Long id) {

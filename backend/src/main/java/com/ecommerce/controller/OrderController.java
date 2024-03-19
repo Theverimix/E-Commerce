@@ -15,13 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ecommerce.dto.OrderDTO;
 import com.ecommerce.services.OrderService;
 
+import lombok.RequiredArgsConstructor;
+
 @RestController
+@RequiredArgsConstructor
 public class OrderController {
     private final OrderService orderService;
-
-    public OrderController(OrderService orderService) {
-        this.orderService = orderService;
-    }
 
     @GetMapping("/order")
     public ResponseEntity<List<OrderDTO>> getAllOrders() {

@@ -14,10 +14,12 @@ import com.ecommerce.repositories.CartRepository;
 import com.ecommerce.repositories.CustomerRepository;
 import com.ecommerce.repositories.ProductRepository;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class CartService {
 
     private final CartRepository cartRepository;
@@ -25,13 +27,6 @@ public class CartService {
     private final CustomerRepository customerRepository;
 
     private final ProductRepository productRepository;
-
-    public CartService(CartRepository cartRepository, CustomerRepository customerRepository,
-            ProductRepository productRepository) {
-        this.cartRepository = cartRepository;
-        this.customerRepository = customerRepository;
-        this.productRepository = productRepository;
-    }
 
     public List<Cart> getAllCarts() {
         return cartRepository.findAll();

@@ -16,20 +16,16 @@ import com.ecommerce.dto.CartDTO;
 import com.ecommerce.entities.Cart;
 import com.ecommerce.services.CartService;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
-import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequestMapping("/cart")
 @Slf4j
+@RequiredArgsConstructor
 public class CartController {
 
     private final CartService cartService;
-
-    public CartController(CartService cartService) {
-        this.cartService = cartService;
-    }
 
     @GetMapping
     public ResponseEntity<List<Cart>> getAllCarts() {

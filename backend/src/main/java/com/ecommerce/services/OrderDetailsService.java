@@ -1,7 +1,6 @@
 package com.ecommerce.services;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.ecommerce.dto.OrderDetailsDTOMapper;
@@ -16,20 +15,15 @@ import com.ecommerce.repositories.OrderDetailsRepository;
 import com.ecommerce.repositories.OrderRepository;
 import com.ecommerce.repositories.ProductRepository;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class OrderDetailsService {
     private final OrderDetailsRepository orderDetailsRepository;
     private final ProductRepository productRepository;
     private final OrderRepository orderRepository;
     private final OrderDetailsDTOMapper dtoMapper;
-
-    public OrderDetailsService(OrderDetailsRepository orderDetailsRepository, ProductRepository productRepository,
-                               OrderRepository orderRepository, OrderDetailsDTOMapper dtoMapper) {
-        this.orderDetailsRepository = orderDetailsRepository;
-        this.productRepository = productRepository;
-        this.orderRepository = orderRepository;
-        this.dtoMapper = dtoMapper;
-    }
 
     public List<OrderDetailsDTO> getAllOrderDetails() {
         return orderDetailsRepository.findAll().stream()
@@ -58,7 +52,7 @@ public class OrderDetailsService {
         orderDetailsRepository.deleteById(id);
     }
 
-    public OrderDetailsKey buildOrderDetailsKey(Long productId, Long orderId){
+    public OrderDetailsKey buildOrderDetailsKey(Long productId, Long orderId) {
         return new OrderDetailsKey(productId, orderId);
     }
 

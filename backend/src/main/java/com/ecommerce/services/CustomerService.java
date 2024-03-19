@@ -9,6 +9,8 @@ import com.ecommerce.dto.CustomerRegistrationDTO;
 import com.ecommerce.enums.UserRole;
 import com.ecommerce.enums.UserState;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
@@ -17,22 +19,17 @@ import com.ecommerce.entities.Customer;
 import com.ecommerce.repositories.CustomerRepository;
 
 @Service
+@RequiredArgsConstructor
 public class CustomerService {
 
     private final CustomerRepository customerRepository;
     private final CustomerDTOMapper customerDtoMapper;
 
-    public CustomerService(CustomerRepository customerRepository, CustomerDTOMapper customerDTOMapper) {
-        this.customerRepository = customerRepository;
-        this.customerDtoMapper = customerDTOMapper;
-    }
-
     public CustomerDTO getCustomerById(@NonNull Long id) {
         return customerRepository.findById(id)
                 .map(customerDtoMapper)
                 .orElseThrow(() -> new EntityNotFoundException(
-                        "Product with id [%s] not found.".formatted(id)
-                ));
+                        "Product with id [%s] not found.".formatted(id)));
     }
 
     public List<CustomerDTO> getAllCustomers() {
@@ -87,6 +84,5 @@ public class CustomerService {
 
         return customer;
     }
-
 
 }
