@@ -6,6 +6,8 @@ import com.ecommerce.entities.User;
 import com.ecommerce.repositories.UserRepository;
 
 import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
@@ -13,15 +15,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
     private final UserRepository userRepository;
     private final UserDTOMapper dtoMapper;
-
-    public UserService(UserRepository userRepository, UserDTOMapper dtoMapper) {
-        this.userRepository = userRepository;
-        this.dtoMapper = dtoMapper;
-    }
 
     public List<UserDTO> getAllUsers() {
         return userRepository.findAll().stream()

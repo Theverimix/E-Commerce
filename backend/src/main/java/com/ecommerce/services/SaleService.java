@@ -6,23 +6,20 @@ import com.ecommerce.entities.Sale;
 import com.ecommerce.repositories.SaleRepository;
 
 import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class SaleService {
 
     private final SaleRepository saleRepository;
     private final SaleDTOMapper saleDtoMapper;
-
-    public SaleService(SaleRepository saleRepository, SaleDTOMapper saleDtoMapper) {
-        this.saleRepository = saleRepository;
-        this.saleDtoMapper = saleDtoMapper;
-    }
 
     public List<SaleDTO> getAllSales() {
         return saleRepository.findAll().stream()

@@ -4,11 +4,11 @@ import com.ecommerce.dto.ProductDTO;
 import com.ecommerce.dto.ProductDTOMapper;
 import com.ecommerce.dto.ProductRegistrationDTO;
 import com.ecommerce.entities.Product;
-import com.ecommerce.entities.ProductState;
 import com.ecommerce.repositories.ProductRepository;
 import com.ecommerce.repositories.ProductStateRepository;
 
 import jakarta.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -18,20 +18,12 @@ import java.util.stream.Collectors;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class ProductService {
 
     private final ProductRepository productRepository;
     private final ProductStateRepository productStateRepository;
     private final ProductDTOMapper productDtoMapper;
-    private final ProductStateService productStateService;
-
-    public ProductService(ProductRepository productRepository, ProductDTOMapper productDtoMapper,
-            ProductStateService productStateService, ProductStateRepository productStateRepository) {
-        this.productRepository = productRepository;
-        this.productDtoMapper = productDtoMapper;
-        this.productStateService = productStateService;
-        this.productStateRepository = productStateRepository;
-    }
 
     public ProductDTO getProductById(Long id) {
         return productRepository.findById(id)

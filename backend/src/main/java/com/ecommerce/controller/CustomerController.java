@@ -2,7 +2,6 @@ package com.ecommerce.controller;
 
 import java.util.List;
 
-import com.ecommerce.dto.CustomerRegistrationDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,14 +14,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ecommerce.dto.CustomerDTO;
 import com.ecommerce.services.CustomerService;
 
+import lombok.RequiredArgsConstructor;
+
 @RestController
 @RequestMapping("/customer")
+@RequiredArgsConstructor
 public class CustomerController {
     private final CustomerService customerService;
-
-    public CustomerController(CustomerService customerService) {
-        this.customerService = customerService;
-    }
 
     @GetMapping
     public ResponseEntity<List<CustomerDTO>> getAllCustomers() {
@@ -34,12 +32,6 @@ public class CustomerController {
     public ResponseEntity<CustomerDTO> getCustomerById(@PathVariable Long id) {
         CustomerDTO customer = customerService.getCustomerById(id);
         return ResponseEntity.ok(customer);
-    }
-
-    @PostMapping("/register")
-    public ResponseEntity<?> registerCustomer(@RequestBody CustomerRegistrationDTO dto){
-        customerService.registerCustomer(dto);
-        return ResponseEntity.ok(dto);
     }
 
     @PostMapping

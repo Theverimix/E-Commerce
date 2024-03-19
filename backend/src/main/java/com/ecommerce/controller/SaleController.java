@@ -15,15 +15,14 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ecommerce.dto.SaleDTO;
 import com.ecommerce.services.SaleService;
 
+import lombok.RequiredArgsConstructor;
+
 @RestController
 @RequestMapping("/sale")
+@RequiredArgsConstructor
 public class SaleController {
 
     private final SaleService saleService;
-
-    public SaleController(SaleService saleService) {
-        this.saleService = saleService;
-    }
 
     @GetMapping
     public ResponseEntity<List<SaleDTO>> getAllSales() {
