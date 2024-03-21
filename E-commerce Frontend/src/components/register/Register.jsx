@@ -4,23 +4,15 @@ import { Divider } from 'primereact/divider';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import headerImage from '../../assets/img/ec-girl-banner.jpg';
+import './register.css'
 
-export default function LoginRegister() {
-    const headerLogin = (
-        <img alt="Card" src={headerImage} />
-
-    );
-    const footerLogin = (
-        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
-            <Button label="Log in" icon="pi pi-check" />
-        </div>
-    );
-
+export default function Register() {
 
     const subTitle = (
-        <p>
-            Registrarte tiene muchos beneficios: compras más rápidas, atención personalizada, ofertas exclusivas y muchos más.
-        </p>
+        <div class="register-grid">
+            <div id="item-register-0">INFORMACIÓN PERSONAL</div>
+            <div id="item-register-1">INFORMACIÓN DE ACCESO</div>
+        </div>
     )
     const headerRegister = (
         <img alt="Card" src={headerImage} />
@@ -34,30 +26,26 @@ export default function LoginRegister() {
 
     return (
         <div className="card flex justify-content-center" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <Card title="Ya eres miembro?" subTitle="Inicia sesion" header={headerLogin} footer={footerLogin} >
+            <Card title="Crear una nueva cuenta" subTitle={subTitle} header={headerRegister} footer={footerRegister} >
                 <div className="flex flex-wrap justify-content-center align-items-center gap-2">
-                    <label className="w-6rem">Username</label><br />
+                    <label className="w-6rem">Nombre</label><br />
                     <div className="p-inputgroup flex-1">
                         <span className="p-inputgroup-addon">
                             <i className="pi pi-user"></i>
                         </span>
-                        <InputText placeholder="Username" />
+                        <InputText placeholder="Ingresa tu nombre" />
                     </div>
                     <br />
 
-                    <label className="w-6rem">Password</label><br />
+                    <label className="w-6rem">Apellido</label><br />
                     <div className="p-inputgroup flex-1">
                         <span className="p-inputgroup-addon">
-                            <i className="pi pi-key"></i>
+                            <i className="pi pi-user"></i>
                         </span>
-                        <InputText placeholder="Password" />
+                        <InputText placeholder="Ingresa tu apellido" />
                     </div>
                 </div>
             </Card>
-            <Divider layout='vertical'>
-
-            </Divider>
-            <Card title="Quieres unirte?" subTitle={subTitle} header={headerRegister} footer={footerRegister} />
 
 
         </div>

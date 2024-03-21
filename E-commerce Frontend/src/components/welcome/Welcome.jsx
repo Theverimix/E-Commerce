@@ -1,5 +1,5 @@
-import React from 'react'; 
-import {Carousel} from 'primereact/carousel';
+import React from 'react';
+import { Carousel } from 'primereact/carousel';
 import { Card } from 'primereact/card';
 import Banner from '../banner/Banner.jsx';
 import { Divider } from 'primereact/divider';
@@ -12,9 +12,9 @@ import imgProducts4 from '../../assets/img/products/nobooster-sn.png'
 
 export default function Welcome() {
 
-    //Provisional code to see results. ENABLED TO DELETE IN THE FUTURE
+  //Provisional code to see results. ENABLED TO DELETE IN THE FUTURE
 
-    // Array of products with attributes: image, name and price
+  // Array of products with attributes: image, name and price
   const products = [
     {
       image: imgProducts1,
@@ -32,10 +32,10 @@ export default function Welcome() {
       price: 39.99
     },
     {
-        image: imgProducts4,
-        name: 'Producto 4',
-        price: 49.99
-      },
+      image: imgProducts4,
+      name: 'Producto 4',
+      price: 49.99
+    },
     // Add more objects as needed
   ];
 
@@ -43,10 +43,10 @@ export default function Welcome() {
   // Responsive options for the Carousel component
   const responsiveOptions = [
     {
-        breakpoint: '600px',
-        numVisible: 4,
-        numScroll: 4
-      },
+      breakpoint: '600px',
+      numVisible: 4,
+      numScroll: 4
+    },
     {
       breakpoint: '600px',
       numVisible: 3,
@@ -62,7 +62,7 @@ export default function Welcome() {
       numVisible: 1,
       numScroll: 1
     }
-    
+
   ];
 
   //Provisional code to see results. ENABLED TO DELETE IN THE FUTURE
@@ -78,52 +78,52 @@ export default function Welcome() {
   );
 
 
-    return(
-        <>
-        <Banner/>
-        <hr style={{ borderBottom: '2px solid #e69b0c', margin: '0' }} />
-        
-        <Card title="Suplementos" className="md:w-25rem">
-       
-        <Carousel value={products} numVisible={3} numScroll={1} responsiveOptions={responsiveOptions} className="custom-carousel" circular
-autoplayInterval={8000} itemTemplate={productTemplate} />
-        </Card>
-        
-        <div className="card flex justify-content-center" style={{display:'flex', justifyContent:'center', alignItems: 'center'}}>
-        
-            <p>
-              
-            <b>
-            
-            ENVÍOS A TODO EL URUGUAY
-            </b>
-            <br />
-            Llegamos a todos los rincones del país.
-            </p>
-            <Divider layout="vertical" />
-            <p>
-            <b>
-            PAGA EN HASTA 12 CUOTAS
-            </b>
-            <br />
-            Aceptamos todos los medios de pago.
-            </p>
-            <Divider layout="vertical" />
-            <p>
-                <b>
-RETIRO EN SUCURSALES
-</b><br />
-Pickup gratis en nuestras tiendas.
-            </p>
-        </div>
+  return (
+    <>
+      <Banner />
+      <hr style={{ borderBottom: '2px solid #e69b0c', margin: '0' }} />
 
-        <hr style={{ borderBottom: '2px solid #e69b0c', margin: '0' }} />
+      <Card title="Suplementos" className="md:w-25rem">
+
+        <Carousel value={products} numVisible={3} numScroll={1} responsiveOptions={responsiveOptions} className="custom-carousel" circular
+          autoplayInterval={8000} itemTemplate={productTemplate} />
+      </Card>
+
+      <div className="card flex justify-content-center" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+
+        <p>
+
+          <b>
+
+            ENVÍOS A TODO EL URUGUAY
+          </b>
+          <br />
+          Llegamos a todos los rincones del país.
+        </p>
+        <Divider layout="vertical" />
+        <p>
+          <b>
+            PAGA EN HASTA 12 CUOTAS
+          </b>
+          <br />
+          Aceptamos todos los medios de pago.
+        </p>
+        <Divider layout="vertical" />
+        <p>
+          <b>
+            RETIRO EN SUCURSALES
+          </b><br />
+          Pickup gratis en nuestras tiendas.
+        </p>
+      </div>
+
+      {/* <hr style={{ borderBottom: '2px solid #e69b0c', margin: '0' }} />
         <Card title="Accesorios" className="md:w-25rem">
 
         <Carousel value={products} numVisible={3} numScroll={3} responsiveOptions={responsiveOptions} className="custom-carousel" circular
 autoplayInterval={8000} itemTemplate={productTemplate} />
-        </Card>
-        
-        </>
-    )
+        </Card> */}
+
+    </>
+  )
 }

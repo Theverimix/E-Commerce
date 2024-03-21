@@ -23,7 +23,9 @@ export default function Header() {
         {
             label: 'Home',
             icon: 'pi pi-home',
-            href:'/'
+            href:'/',
+            template: itemRenderer
+            
         },
         {
             label: 'Prductos',
@@ -35,15 +37,18 @@ export default function Header() {
                     items: [
                         {
                             label: 'Fuerza',
-                            icon: 'pi pi-palette'
+                            icon: 'pi pi-palette',
+                            template: itemRenderer
                         },
                         {
                             label: 'Cardio',
-                            icon: 'pi pi-palette'
+                            icon: 'pi pi-palette',
+                            template: itemRenderer
                         },
                         {
                             label: 'Accesorios',
-                            icon: 'pi pi-palette'
+                            icon: 'pi pi-palette',
+                            template: itemRenderer
                         }
                     ]
                 },
@@ -56,11 +61,13 @@ export default function Header() {
                     items: [
                         {
                             label: 'Apollo',
-                            icon: 'pi pi-palette'
+                            icon: 'pi pi-palette',
+                            template: itemRenderer
                         },
                         {
                             label: 'Ultima',
-                            icon: 'pi pi-palette'
+                            icon: 'pi pi-palette',
+                            template: itemRenderer
                         }
                     ]
                 },
@@ -73,11 +80,13 @@ export default function Header() {
                     items: [
                         {
                             label: 'Apollo',
-                            icon: 'pi pi-palette'
+                            icon: 'pi pi-palette',
+                            template: itemRenderer
                         },
                         {
                             label: 'Ultima',
-                            icon: 'pi pi-palette'
+                            icon: 'pi pi-palette',
+                            template: itemRenderer
                         }
                     ]
                 },
@@ -90,11 +99,13 @@ export default function Header() {
                     items: [
                         {
                             label: 'Apollo',
-                            icon: 'pi pi-palette'
+                            icon: 'pi pi-palette',
+                            template: itemRenderer
                         },
                         {
                             label: 'Ultima',
-                            icon: 'pi pi-palette'
+                            icon: 'pi pi-palette',
+                            template: itemRenderer
                         }
                     ]
                 }
@@ -102,19 +113,22 @@ export default function Header() {
         },
         {
             label: 'Contacto',
-            icon: 'pi pi-envelope'
+            icon: 'pi pi-envelope',
+            template: itemRenderer
         }
     ];
 
-    const start = <Link to='/'><img alt="logo" src={brutalLogo} height="50" className="mr-2"></img></Link>;
+    
+
+    const start = <Link to='/'><img alt="logo" src={brutalLogo} height="50"  style={{maxWidth:'100%', width:'100%'}}/></Link>;
 
 
     const endItemRenderer = (item) => (
-        <a className={'flex align-items-center p-menuitem-link'}>
+        <Link >
             <span className={item.icon} />
             <span className="mx-2">{item.label}</span>
             {item.badge && <Badge className="ml-auto" value={item.badge} />}
-            </a>
+            </Link>
     );
 
     const cartItem = {
@@ -143,9 +157,9 @@ export default function Header() {
         <div className="card">
             
             <div style={{display:'flex', justifyContent:'flex-end', alignItems: 'center'}}>
-            <Link to='/loginRegister' className='login-item' >Iniciar sesión</Link>
-            <Divider layout="vertical" />
-            <Link to='/loginRegister' className='signin-item'>Registrarse</Link>
+            <Link to='/loginRegister' className='login-item'>Iniciar sesión</Link>
+            <Divider layout="vertical"/>
+            <Link to='/Register' className='signin-item'>Registrarse</Link>
             </div>
             
             <Menubar model={items} start={start} end={end}/>
