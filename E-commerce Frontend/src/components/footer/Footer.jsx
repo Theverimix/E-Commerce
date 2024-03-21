@@ -1,10 +1,15 @@
-import React from 'react'; 
+import React from 'react';
 import { Card } from 'primereact/card';
 import { Button } from 'primereact/button';
 
 import { Divider } from 'primereact/divider';
-        
+
+import { Link } from 'react-router-dom';
+import { InputText } from 'primereact/inputtext';
 import footerImg from '../../assets/icons/Footer .jpg'
+
+import footerImgDevs from '../../assets/img/DAGA_devs_poweredBy_light.png'
+import './footer.css'
 
 export default function Footer() {
 
@@ -14,42 +19,89 @@ export default function Footer() {
     );
     const footer = (
         <>
-        <img alt="Card" src={footerImg} />
-            {/* <Button label="Save" icon="pi pi-check" />
-            <Button label="Cancel" severity="secondary" icon="pi pi-times" style={{ marginLeft: '0.5em' }} /> */}
+            {/*<img alt="Card" src={footerImg} />*/}
+            <Divider />
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <img alt="Card" src={footerImgDevs} style={{ width: '180px' }} />
+            </div>
         </>
     );
 
+
+
     return (
-        <div className="card flex justify-content-center">
-            <div className="card flex justify-content-center" style={{display:'flex', justifyContent:'center', alignItems: 'center'}}></div>
-            <Card title="CONTACTO" footer={footer} header={header} className="md:w-25rem" >
+        <div   >
+            <div className="angry-grid">
+                <Card title="CONTACTO" header={header} footer={footer} id="item-0">
+                    <p>
+                        <b>
+                            SUCURSALES
+                        </b>
+                        <br />
+                        21 de Setiembre 2866, Punta Carretas
+                        <br />
+                        <br />
+                        <b>
+                            TELEFONO
+                        </b>
+                        <br />
+                        +598 123389223
+                        <br />
+                        <br />
+                        <b>
+                            EMAIL
+                        </b>
+                        <br />
+                        contacto@brutal.uy
+                    </p>
+
+
+                </Card>
+
+
+
+                <Card title="BENEFICIOS" header={header} id="item-1">
+                    <div className="p-d-flex">
+                        <p className="m-0 p-be-margin">
+                            Dejanos tu email para recibir novedades y ofertas preferenciales de nuestros productos.
+                        </p>
+
+                        <div className="p-inputgroup flex-1">
+                            <InputText placeholder="Ingresa tu email" />
+                            <Button label='SUSCRIBIRME' />
+                        </div>
+                    </div>
+                </Card>
+
+                <Card title="ASISTENCIA" id="item-2">
+                    <p className="m-0">
+                        Lorem ipsum dolor sit a
+                    </p>
+                </Card>
+
+                <Card title="EMPRESA" id="item-3" >
+                    <p className="m-0">
+                        is, culpa ratione quam perferendis esse, cupiditate neque quas!
+                    </p>
+                </Card>
+
+
+            </div>
+
+
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
                 <p>
                     <b>
-                        SUCURSALES
+                        © 2024 | Todos los derechos reservados.
                     </b>
-                    <br />
-                    21 de Setiembre 2866, Punta Carretas
-                    <br />
-                    <br />
-                    <b>
-                        TELEFONO
-                    </b>
-                    <br />
-                    +598 123389223
-                    <br />
-                    <br />
-                    <b>
-                        EMAIL
-                    </b>
-                    <br />
-                    contacto@brutal.uy
-                    <br />
-                    <br />
                 </p>
-                
-            </Card>
-            
-        </div>
+
+
+            </div>
+
+
+        </div >
+
+
     )
 }

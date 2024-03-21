@@ -1,9 +1,23 @@
+.login-item{
+  color: rgba(255, 255, 255, 0.87);
+  text-decoration: none;
+}
+
 .login-item:hover {
   border-bottom: 2px solid #e69b0c;
   cursor: pointer;
+  color: rgba(255, 255, 255, 255);
+  
+}
+
+.signin-item{
+  color: rgba(255, 255, 255, 0.87);
+  text-decoration: none;
 }
 
 .signin-item:hover{
   border-bottom: 2px solid #e69b0c;
   cursor: pointer;
+  color: rgba(255, 255, 255, 255);
+  
 }
