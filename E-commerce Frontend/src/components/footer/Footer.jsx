@@ -6,7 +6,7 @@ import { Divider } from 'primereact/divider';
 
 import { Link } from 'react-router-dom';
 import { InputText } from 'primereact/inputtext';
-import footerImg from '../../assets/icons/Footer .jpg'
+import headerImg from '../../assets/img/ec_texture_definitive.jpg'
 
 import footerImgDevs from '../../assets/img/DAGA_devs_poweredBy_light.png'
 import './footer.css'
@@ -14,8 +14,10 @@ import './footer.css'
 export default function Footer() {
 
     const header = (
-        // <img alt="Card" src="https://primefaces.org/cdn/primereact/images/usercard.png" />
+        <>
+        <img src={headerImg} alt="headerImg" />
         <hr style={{ borderBottom: '2px solid #e69b0c', margin: '0' }} />
+        </>
     );
     const footer = (
         <>
@@ -31,8 +33,11 @@ export default function Footer() {
 
     return (
         <div   >
+            <Card header={header} ></Card>
             <div className="angry-grid">
-                <Card title="CONTACTO" header={header} footer={footer} id="item-0">
+                
+
+                <Card title="CONTACTO" footer={footer} id="item-0">
                     <p>
                         <b>
                             SUCURSALES
@@ -60,7 +65,7 @@ export default function Footer() {
 
 
 
-                <Card title="BENEFICIOS" header={header} id="item-1">
+                <Card title="BENEFICIOS" id="item-1">
                     <div className="p-d-flex">
                         <p className="m-0 p-be-margin">
                             Dejanos tu email para recibir novedades y ofertas preferenciales de nuestros productos.
