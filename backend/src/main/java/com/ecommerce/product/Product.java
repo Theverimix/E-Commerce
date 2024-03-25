@@ -1,7 +1,6 @@
 package com.ecommerce.product;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
 
 import com.ecommerce.product.category.Category;
@@ -39,7 +38,7 @@ public class Product {
 
     private boolean visible;
 
-    private List<String> images;
+    private Set<String> images;
 
     @ManyToMany
     @JoinTable(

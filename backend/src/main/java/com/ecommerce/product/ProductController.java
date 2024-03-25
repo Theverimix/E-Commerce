@@ -8,39 +8,38 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/product")
+@RequestMapping("/products")
 @RequiredArgsConstructor
 public class ProductController {
 
     private final ProductService productService;
 
     @GetMapping
-    ResponseEntity<List<ProductDTO>> getAllProducts() {
-        List<ProductDTO> products = productService.getAllProducts();
+    ResponseEntity<List<ProductResponse>> getAllProducts() {
+        List<ProductResponse> products = productService.getAllProducts();
         return ResponseEntity.ok(products);
     }
 
     @GetMapping("/{id}")
-    ResponseEntity<ProductDTO> getProductById(@PathVariable Long id) {
-        ProductDTO product = productService.getProductById(id);
-        return ResponseEntity.ok(product);
-    }
-
-    @PostMapping("/add")
-    ResponseEntity<ProductRegistrationDTO> addProduct(@RequestBody ProductRegistrationDTO product) {
-        productService.addProduct(product);
+    ResponseEntity<ProductResponse> getProductById(@PathVariable Long id) {
+        ProductResponse product = productService.getProductById(id);
         return ResponseEntity.ok(product);
     }
 
     @PostMapping
-    ResponseEntity<?> saveProduct(@RequestBody ProductDTO product) {
-        productService.saveProduct(product);
+    ResponseEntity<?> saveProduct(
+            @RequestBody ProductRegisterRequest request
+    ) {
+        productService.saveProduct(request);
         return ResponseEntity.ok().build();
     }
 
     @PutMapping("/{id}")
-    ResponseEntity<?> updateProduct(@PathVariable Long id, @RequestBody ProductDTO newProduct) {
-        productService.updateProduct(id, newProduct);
+    ResponseEntity<?> updateProduct(
+            @PathVariable Long id,
+            @RequestBody ProductUpdateRequest request
+    ){
+        productService.updateProduct(id, request);
         return ResponseEntity.ok().build();
     }
 
