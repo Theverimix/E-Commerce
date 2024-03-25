@@ -1,13 +1,31 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card } from 'primereact/card';
 import { Divider } from 'primereact/divider';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { Password } from 'primereact/password';
 import headerImage from '../../assets/img/ec_texture_definitive.jpg';
+import { userRegister } from '../../controller/registerController';
 import './register.css'
 
 export default function Register() {
+
+    const [name, setName] = useState('');
+    const [lastname, setLastname] = useState('');
+    const [username, setUsername] = useState('');
+
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [passwordsMatch, setPasswordsMatch] = useState(true);
+
+    function confirmPass() {
+        setPasswordsMatch(confirmPassword === password);
+        if (confirmPassword === password) {
+            userRegister(name,lastname,username,password)
+        }else{
+            alert('Passwords not match')
+        }
+    }
 
     const subTitle = (
         <div class="register-grid">
@@ -21,7 +39,7 @@ export default function Register() {
     );
     const footerRegister = (
         <div style={{ display: 'flex', justifyContent: 'flex-end', marginRight: '20px' }}>
-            <Button label="REGISTRARSE" />
+            <Button label="REGISTRARSE" onClick={() => confirmPass()}/>
         </div>
     );
 
@@ -50,7 +68,7 @@ export default function Register() {
                                 <i className="pi pi-user"></i>
                             </span>
                             <span className="p-float-label">
-                                <InputText />
+                                <InputText value={name} onChange={(e) => setName(e.target.value)}/>
                                 <label htmlFor="nombre">Nombre</label>
                             </span>
                         </div>
@@ -62,7 +80,7 @@ export default function Register() {
                                 <i className="pi pi-user"></i>
                             </span>
                             <span className="p-float-label">
-                                <InputText />
+                                <InputText value={lastname} onChange={(e) => setLastname(e.target.value)}/>
                                 <label htmlFor="apellido">Apellido</label>
                             </span>
                         </div>
@@ -76,7 +94,7 @@ export default function Register() {
                                 <i className="pi pi-at"></i>
                             </span>
                             <span className="p-float-label">
-                                <InputText />
+                                <InputText value={username} onChange={(e) => setUsername(e.target.value)}/>
                                 <label htmlFor="email">Email</label>
                             </span>
                         </div>
@@ -88,7 +106,7 @@ export default function Register() {
                                 <i className="pi pi-key"></i>
                             </span>
                             <span className="p-float-label">
-                                <Password header={headerPass} footer={footerPass} toggleMask />
+                                <Password className={passwordsMatch ? '' : 'p-invalid'} header={headerPass} footer={footerPass} toggleMask value={password} onChange={(e) => setPassword(e.target.value)}/>
                                 <label htmlFor="password">Password</label>
                             </span>
                         </div>
@@ -100,16 +118,17 @@ export default function Register() {
                                 <i className="pi pi-key"></i>
                             </span>
                             <span className="p-float-label">
-                                <Password onChange={(e) => setValue(e.target.value)} feedback={false} tabIndex={1} toggleMask />
-                                <label htmlFor="passwordConfirm">Confirmar contraseña</label>
+                                <Password className={passwordsMatch ? '' : 'p-invalid'} feedback={false} tabIndex={1} toggleMask value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}/>
+                                <label htmlFor="passwordConfirm">Confirm password</label>
                             </span>
+                            
                         </div>
-
+                        {!passwordsMatch && (
+                                <small className='p-error'>Passwords doesn't match</small>
+                            )}
                     </div>
                 </div>
             </Card>
-
-
         </div>
     )
 }

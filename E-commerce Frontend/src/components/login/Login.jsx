@@ -6,32 +6,13 @@ import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { Password } from 'primereact/password';
 import headerImage from '../../assets/img/ec_texture_definitive.jpg';
-import axios from 'axios';
-import './login.css'
+import { userLogin } from '../../controller/loginController';
+import './login.css';
 
 export default function LoginRegister() {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-
-    const userLogin = async () => {
-
-        try {
-            const response = await axios.post('http://localhost:8080/api/auth/login', {
-                email: username,
-                password: password
-            });
-            console.log('Login successful:', response.data);
-            alert("Success")
-            // Aquí podrías redirigir al usuario a otra página después de iniciar sesión correctamente
-        } catch (error) {
-            console.error('Login failed:', error);
-            alert("Failed")
-            // Aquí podrías mostrar un mensaje de error al usuario
-        }
-    };
-
-
 
     const titleLogin = (
         <div class="title-grid">
@@ -56,7 +37,7 @@ export default function LoginRegister() {
     const footerLogin = (
         <div class="footer-grid">
             <div id="item-footer-login-0" style={{ display: 'flex', justifyContent: 'flex-end', marginRight: '20px' }}>
-                <Button label="INGRESAR" onClick={userLogin} />
+                <Button label="INGRESAR" onClick={() => userLogin(username, password)} />
             </div>
 
             <div id="item-footer-login-1" style={{ display: 'flex', justifyContent: 'flex-end', marginRight: '20px' }}>
