@@ -1,10 +1,10 @@
 package com.ecommerce.auth;
 
 import com.ecommerce.config.JwtService;
-import com.ecommerce.entities.User;
+import com.ecommerce.user.User;
 import com.ecommerce.enums.UserRole;
 import com.ecommerce.enums.UserState;
-import com.ecommerce.repositories.UserRepository;
+import com.ecommerce.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
