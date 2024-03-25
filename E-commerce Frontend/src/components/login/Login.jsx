@@ -4,6 +4,7 @@ import { Divider } from 'primereact/divider';
 import { Link } from 'react-router-dom';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
+import { Password } from 'primereact/password';
 import headerImage from '../../assets/img/ec_texture_definitive.jpg';
 import axios from 'axios';
 import './login.css'
@@ -59,7 +60,7 @@ export default function LoginRegister() {
             </div>
 
             <div id="item-footer-login-1" style={{ display: 'flex', justifyContent: 'flex-end', marginRight: '20px' }}>
-                <Link to='/Register'><Button label="REGISTRARSE"/></Link>
+                <Link to='/Register'><Button label="REGISTRARSE" /></Link>
             </div>
         </div>
     );
@@ -85,21 +86,28 @@ export default function LoginRegister() {
             <Card title={titleLogin} subTitle={subTitleLogin} header={headerLogin} footer={footerLogin} >
                 <div className='login-grid'>
                     <div id='item-inputs-login-0' style={{ margin: '0px 130px 0 20px' }}>
-                        <label className="w-6rem">Username</label><br />
+                        <br />
                         <div className="p-inputgroup flex-1">
                             <span className="p-inputgroup-addon">
                                 <i className="pi pi-user"></i>
                             </span>
-                            <InputText placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} />
+                            <span className="p-float-label">
+                            <InputText value={username} onChange={(e) => setUsername(e.target.value)} />
+                            <label htmlFor="username">Username</label>
+                            </span>
                         </div>
                         <br />
 
-                        <label className="w-6rem">Password</label><br />
+                        <br />
                         <div className="p-inputgroup flex-1">
                             <span className="p-inputgroup-addon">
                                 <i className="pi pi-key"></i>
                             </span>
-                            <InputText placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                            {/* <InputText placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} /> */}
+                            <span className="p-float-label">
+                                <Password value={password} onChange={(e) => setPassword(e.target.value)} feedback={false} tabIndex={1} toggleMask/>
+                                <label htmlFor="password">Password</label>
+                            </span>
                         </div>
                     </div>
 

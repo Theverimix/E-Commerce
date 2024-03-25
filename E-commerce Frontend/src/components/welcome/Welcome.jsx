@@ -1,8 +1,8 @@
 import React from 'react';
 import { Carousel } from 'primereact/carousel';
 import { Card } from 'primereact/card';
-import Banner from '../banner/Banner.jsx';
 import { Divider } from 'primereact/divider';
+import bannerImage from '../../assets/img/ec-banner-definitive.gif';
 
 //Provisional code to see results. ENABLED TO DELETE IN THE FUTURE
 import imgProducts1 from '../../assets/img/products/bcaa-12000.png'
@@ -80,7 +80,8 @@ export default function Welcome() {
 
   return (
     <>
-      <Banner />
+      <img src={bannerImage} alt="Logo" onContextMenu={(e) => cm.current.show(e)} style={{ width: '100%' }} />
+
       <hr style={{ borderBottom: '2px solid #e69b0c', margin: '0' }} />
 
       <Card title="Suplementos" className="md:w-25rem">
