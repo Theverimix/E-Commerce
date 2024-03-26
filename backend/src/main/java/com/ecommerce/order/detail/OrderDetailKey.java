@@ -1,4 +1,4 @@
-package com.ecommerce.order;
+package com.ecommerce.order.detail;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
@@ -9,7 +9,7 @@ import java.util.Objects;
 
 @Embeddable
 @AllArgsConstructor @NoArgsConstructor @Getter @Setter
-public class OrderDetailsKey implements Serializable {
+public class OrderDetailKey implements Serializable {
 
     @Column(name = "product_id")
     private Long productId;
@@ -21,7 +21,7 @@ public class OrderDetailsKey implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        OrderDetailsKey that = (OrderDetailsKey) o;
+        OrderDetailKey that = (OrderDetailKey) o;
         return Objects.equals(productId, that.productId) && Objects.equals(orderId, that.orderId);
     }
 

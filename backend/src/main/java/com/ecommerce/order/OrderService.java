@@ -16,24 +16,25 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class OrderService {
+
         private final OrderRepository orderRepository;
-        private final OrderDTOMapper dtoMapper;
+        private final OrderMapper dtoMapper;
         private final CustomerRepository customerRepository;
 
-        public List<OrderDTO> getAllOrders() {
-                return orderRepository.findAll().stream()
-                                .map(dtoMapper)
-                                .collect(Collectors.toList());
-        }
-
-        public OrderDTO getOrderById(@NonNull Long id) {
+        public OrderResponse getOrderById(@NonNull Long id) {
                 return orderRepository.findById(id)
                                 .map(dtoMapper)
                                 .orElseThrow(() -> new EntityNotFoundException(
                                                 "Order with id [%s] not found.".formatted(id)));
         }
 
-        public List<OrderDTO> getOrdersByCustomer(Long idCustomer) {
+        public List<OrderResponse> getAllOrders() {
+                return orderRepository.findAll().stream()
+                        .map(dtoMapper)
+                        .collect(Collectors.toList());
+        }
+
+        public List<OrderResponse> getOrdersByCustomer(Long idCustomer) {
                 Customer customer = customerRepository.findById(idCustomer)
                                 .orElseThrow(() -> new EntityNotFoundException(
                                                 "Customer with id [%s] not found.".formatted(idCustomer)));
@@ -48,7 +49,7 @@ public class OrderService {
                                                 "Customer with id [%s] not found.".formatted(dto.customerId())));
 
                 Order order = new Order();
-                order.setAdress(dto.address());
+                order.setAddress(dto.address());
                 order.setCustomer(customer);
                 order.setDate(new Date());
                 order.setDetails(dto.details());
@@ -60,7 +61,7 @@ public class OrderService {
                 Order order = orderRepository.findById(id)
                                 .orElseThrow(() -> new EntityNotFoundException(
                                                 "Order with id [%s] not found.".formatted(id)));
-                order.setAdress(dto.address());
+                order.setAddress(dto.address());
                 order.setDetails(dto.details());
                 orderRepository.save(order);
         }

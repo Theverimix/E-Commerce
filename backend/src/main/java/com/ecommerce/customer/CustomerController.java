@@ -2,6 +2,8 @@ package com.ecommerce.customer;
 
 import java.util.List;
 
+import com.ecommerce.order.OrderResponse;
+import com.ecommerce.order.OrderService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,32 +16,40 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/customer")
+@RequestMapping("/customers")
 @RequiredArgsConstructor
 public class CustomerController {
-    private final CustomerService customerService;
+    
+    private final CustomerService service;
+    private final OrderService orderService;
 
     @GetMapping
     public ResponseEntity<List<CustomerDTO>> getAllCustomers() {
-        List<CustomerDTO> customers = customerService.getAllCustomers();
+        List<CustomerDTO> customers = service.getAllCustomers();
         return ResponseEntity.ok(customers);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<CustomerDTO> getCustomerById(@PathVariable Long id) {
-        CustomerDTO customer = customerService.getCustomerById(id);
+    @GetMapping("/{customerId}")
+    public ResponseEntity<CustomerDTO> getCustomerById(@PathVariable Long customerId) {
+        CustomerDTO customer = service.getCustomerById(customerId);
         return ResponseEntity.ok(customer);
+    }
+
+    @GetMapping("/{customerId}/orders")
+    public ResponseEntity<List<OrderResponse>> getOrdersByCustomer(@PathVariable Long customerId) {
+        List<OrderResponse> orders = orderService.getOrdersByCustomer(customerId);
+        return ResponseEntity.ok(orders);
     }
 
     @PostMapping
     public ResponseEntity<?> saveCustomer(@RequestBody CustomerDTO customer) {
-        customerService.saveCustomer(customer);
+        service.saveCustomer(customer);
         return ResponseEntity.ok().build();
     }
 
     @PutMapping
     public ResponseEntity<?> updateCustomer(@RequestBody CustomerDTO newCustomer) {
-        customerService.updateCustomer(newCustomer);
+        service.updateCustomer(newCustomer);
         return ResponseEntity.ok().build();
     }
 }

@@ -2,6 +2,7 @@ package com.ecommerce.order;
 
 import com.ecommerce.enums.OrderStatus;
 import com.ecommerce.customer.Customer;
+import com.ecommerce.order.detail.OrderDetail;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,7 +28,7 @@ public class Order {
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
-    private String adress;
+    private String address;
 
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
@@ -35,5 +36,5 @@ public class Order {
     private Date date;
 
     @OneToMany(mappedBy = "order")
-    private Set<OrderDetails> details;
+    private Set<OrderDetail> details;
 }

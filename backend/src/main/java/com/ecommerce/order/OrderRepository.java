@@ -10,7 +10,9 @@ import java.util.List;
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {
 
-    @Query(value = "SELECT o FROM Order o WHERE o.customer = :customer")
+    //@Query(value = "SELECT o FROM Order o WHERE o.customer = :customer")
+    //List<Order> findByCustomer(Customer customer);
+
     List<Order> findByCustomer(Customer customer);
 
 }

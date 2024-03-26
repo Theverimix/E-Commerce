@@ -1,5 +1,6 @@
-package com.ecommerce.order;
+package com.ecommerce.order.detail;
 
+import com.ecommerce.order.Order;
 import com.ecommerce.product.Product;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -8,11 +9,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
+@Table(name = "OrderDetails")
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
-public class OrderDetails {
+public class OrderDetail {
 
     @EmbeddedId
-    private OrderDetailsKey id;
+    private OrderDetailKey id;
 
     @ManyToOne
     @MapsId("productId")
@@ -24,5 +26,5 @@ public class OrderDetails {
     @JoinColumn(name = "order_id")
     private Order order;
 
-    private int ammount;
+    private int amount;
 }
