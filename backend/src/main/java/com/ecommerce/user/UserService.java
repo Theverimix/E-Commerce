@@ -13,45 +13,36 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UserService {
 
-    private final UserRepository userRepository;
-    private final UserDTOMapper dtoMapper;
+    private final UserRepository repository;
+    private final UserMapper mapper;
 
-    public List<UserDTO> getAllUsers() {
-        return userRepository.findAll().stream()
-                .map(dtoMapper)
+    public List<UserResponse> getAllUsers() {
+        return repository.findAll().stream()
+                .map(mapper)
                 .collect(Collectors.toList());
     }
 
-    public UserDTO getUserById(@NonNull Long id) {
-        return userRepository.findById(id)
-                .map(dtoMapper)
+    public UserResponse getUserById(@NonNull Long id) {
+        return repository.findById(id)
+                .map(mapper)
                 .orElseThrow(() -> new EntityNotFoundException(
                         "Customer with id [%s] not found.".formatted(id)));
     }
 
-    public void saveUser(UserDTO dto) {
-        userRepository.save(mapDTOToUser(dto));
-    }
-
-    public void updateUser(UserDTO dto) {
-        userRepository.save(mapDTOToUser(dto));
+    public void updateUser(Long id, UserUpdateRequest request) {
+        User user = repository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("User not found."));
+        user.setName(request.name());
+        user.setPassword(request.password());
+        user.setEmail(request.email());
+        user.setState(request.state());
+        repository.save(user);
     }
 
     public void deleteUser(@NonNull Long id) {
-        userRepository.deleteById(id);
-    }
-
-    private User mapDTOToUser(UserDTO dto) {
-        User user = new User();
-
-        user.setId(dto.id());
-        user.setName(dto.name());
-        user.setPassword(dto.password());
-        user.setEmail(dto.email());
-        user.setState(dto.state());
-        user.setRole(dto.role());
-
-        return user;
+        User user = repository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("User not found."));
+        repository.delete(user);
     }
 
 }

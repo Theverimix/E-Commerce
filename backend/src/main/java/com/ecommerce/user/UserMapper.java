@@ -5,13 +5,12 @@ import org.springframework.stereotype.Service;
 import java.util.function.Function;
 
 @Service
-public class UserDTOMapper implements Function<User, UserDTO> {
+public class UserMapper implements Function<User, UserResponse> {
     @Override
-    public UserDTO apply(User user) {
-        return new UserDTO(
+    public UserResponse apply(User user) {
+        return new UserResponse(
                 user.getId(),
                 user.getName(),
-                user.getPassword(),
                 user.getEmail(),
                 user.getState(),
                 user.getRole()

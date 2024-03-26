@@ -15,39 +15,36 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/users")
 @RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
 
     @GetMapping
-    public ResponseEntity<List<UserDTO>> getAllUsers() {
-        List<UserDTO> users = userService.getAllUsers();
+    public ResponseEntity<List<UserResponse>> getAllUsers() {
+        List<UserResponse> users = userService.getAllUsers();
         return ResponseEntity.ok(users);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<UserDTO> getUserById(@PathVariable Long id) {
-        UserDTO user = userService.getUserById(id);
+    @GetMapping("/{userId}")
+    public ResponseEntity<UserResponse> getUserById(@PathVariable Long userId) {
+        UserResponse user = userService.getUserById(userId);
         return ResponseEntity.ok(user);
     }
 
-    @PostMapping
-    public ResponseEntity<?> saveUser(@RequestBody UserDTO user) {
-        userService.saveUser(user);
+    @PutMapping("/{userId}")
+    public ResponseEntity<?> updateUser(
+            @PathVariable Long userId,
+            @RequestBody UserUpdateRequest request
+    ) {
+        userService.updateUser(userId, request);
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping
-    public ResponseEntity<?> updateUser(@RequestBody UserDTO newUser) {
-        userService.updateUser(newUser);
-        return ResponseEntity.ok().build();
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteUser(@PathVariable Long id) {
-        userService.deleteUser(id);
+    @DeleteMapping("/{userId}")
+    public ResponseEntity<?> deleteUser(@PathVariable Long userId) {
+        userService.deleteUser(userId);
         return ResponseEntity.ok().build();
     }
 }
