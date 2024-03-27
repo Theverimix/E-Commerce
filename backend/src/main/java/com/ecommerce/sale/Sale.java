@@ -39,6 +39,6 @@ public class Sale {
 
     private int discountValue;
 
-    @ManyToMany(mappedBy = "productSales")
+    @ManyToMany(mappedBy = "sales")
     Set<Product> products;
 }

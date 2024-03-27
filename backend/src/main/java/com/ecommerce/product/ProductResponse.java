@@ -1,7 +1,7 @@
 package com.ecommerce.product;
 
-import com.ecommerce.product.category.CategoryDTO;
-import com.ecommerce.product.state.ProductStateDTO;
+import com.ecommerce.product.category.CategoryResponse;
+import com.ecommerce.product.state.ProductStateResponse;
 import com.ecommerce.sale.SaleDTO;
 
 import java.util.Date;
@@ -14,9 +14,9 @@ public record ProductResponse(
         double price,
         int stock,
         Date createdAt,
-        ProductStateDTO state,
+        ProductStateResponse state,
         boolean visible,
         Set<String> images,
-        Set<CategoryDTO> categories,
+        Set<CategoryResponse> categories,
         Set<SaleDTO> sales
 ) {}

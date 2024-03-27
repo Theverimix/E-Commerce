@@ -1,7 +1,7 @@
 package com.ecommerce.product;
 
-import com.ecommerce.product.category.CategoryDTOMapper;
-import com.ecommerce.product.state.ProductStateDTOMapper;
+import com.ecommerce.product.category.CategoryMapper;
+import com.ecommerce.product.state.ProductStateMapper;
 import com.ecommerce.sale.SaleDTOMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,8 +13,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ProductMapper implements Function<Product, ProductResponse> {
 
-    private final ProductStateDTOMapper stateMapper;
-    private final CategoryDTOMapper categoryMapper;
+    private final ProductStateMapper stateMapper;
+    private final CategoryMapper categoryMapper;
     private final SaleDTOMapper saleMapper;
 
     @Override
@@ -29,10 +29,10 @@ public class ProductMapper implements Function<Product, ProductResponse> {
                 stateMapper.apply(product.getState()),
                 product.isVisible(),
                 product.getImages(),
-                product.getProductCategories().stream()
+                product.getCategories().stream()
                         .map(categoryMapper)
                         .collect(Collectors.toSet()),
-                product.getProductSales().stream()
+                product.getSales().stream()
                         .map(saleMapper)
                         .collect(Collectors.toSet())
         );

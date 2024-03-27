@@ -13,37 +13,41 @@ import java.util.stream.Collectors;
 public class ProductStateService {
 
     private final ProductStateRepository repository;
-    private final ProductStateDTOMapper dtoMapper;
+    private final ProductStateMapper mapper;
 
-    public List<ProductStateDTO> getAllStates() {
+    public List<ProductStateResponse> getAllStates() {
         return repository.findAll().stream()
-                .map(dtoMapper)
+                .map(mapper)
                 .collect(Collectors.toList());
     }
 
-    public ProductStateDTO getStateById(Long id) {
-        return repository.findById(id)
-                .map(dtoMapper)
+    public ProductStateResponse getStateById(Long stateId) {
+        return repository.findById(stateId)
+                .map(mapper)
                 .orElseThrow(() -> new EntityNotFoundException(
-                        "State with id [%s] not found.".formatted(id)));
+                        "State with id [%s] not found.".formatted(stateId)));
     }
 
-    public void saveState(ProductStateDTO dto) {
-        repository.save(new ProductState(
-                dto.id(), dto.name(), dto.visible()));
-    }
-
-    public void updateState(Long id, ProductState newState) {
-        ProductState state = repository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Entity not found with id: " + id));
-        state.setName(newState.getName());
-        state.setVisible(newState.isVisible());
+    public void saveState(ProductStateRequest request) {
+        ProductState state = new ProductState();
+        state.setName(request.name());
+        state.setVisible(request.visible());
         repository.save(state);
     }
 
-    public void deleteState(Long id) {
-        ProductState state = repository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Entity not found with id: " + id));
+    public void updateState(Long stateId, ProductStateRequest request) {
+        ProductState state = repository.findById(stateId)
+                .orElseThrow(() -> new EntityNotFoundException("Entity not found with id: " + stateId));
+
+        state.setName(request.name());
+        state.setVisible(request.visible());
+        repository.save(state);
+    }
+
+    public void deleteState(Long stateId) {
+        ProductState state = repository.findById(stateId)
+                .orElseThrow(() -> new EntityNotFoundException("Entity not found with id: " + stateId));
+
         repository.delete(state);
     }
 }

@@ -1,6 +1,6 @@
 package com.ecommerce.product.category;
 
-public record CategoryDTO(
+public record CategoryResponse(
         Long id,
         String name,
         String description,

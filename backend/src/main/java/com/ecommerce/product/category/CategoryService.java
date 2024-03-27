@@ -13,44 +13,43 @@ import java.util.stream.Collectors;
 public class CategoryService {
 
     private final CategoryRepository categoryRepository;
-    private final CategoryDTOMapper dtoMapper;
+    private final CategoryMapper dtoMapper;
 
-    public List<CategoryDTO> getAllCategories() {
+    public List<CategoryResponse> getAllCategories() {
         return categoryRepository.findAll().stream()
                 .map(dtoMapper)
                 .collect(Collectors.toList());
     }
 
-    public CategoryDTO getCategoryById(Long id) {
+    public CategoryResponse getCategoryById(Long id) {
         return categoryRepository.findById(id)
                 .map(dtoMapper)
                 .orElseThrow(() -> new EntityNotFoundException(
                         "Category with id [%s] not found.".formatted(id)));
     }
 
-    public void saveCategory(CategoryDTO dto) {
-        categoryRepository.save(
-                mapDtoToCategory(new Category(), dto));
+    public void saveCategory(CategoryRequest request) {
+        Category category = new Category();
+        category.setName(request.name());
+        category.setDescription(request.description());
+        category.setVisible(request.visible());
+        categoryRepository.save(category);
     }
 
-    public void updateCategory(Long id, CategoryDTO dto) {
-        Category category = categoryRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Entity not found with id: " + id));
-        categoryRepository.save(mapDtoToCategory(
-                category, dto));
+    public void updateCategory(Long categoryId, CategoryRequest request) {
+        Category category = categoryRepository.findById(categoryId)
+                .orElseThrow(() -> new EntityNotFoundException("Category not found with id: " + categoryId));
+
+        category.setName(request.name());
+        category.setDescription(request.description());
+        category.setVisible(request.visible());
+
+        categoryRepository.save(category);
     }
 
-    public void deleteCategory(Long id) {
-        Category category = categoryRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Entity not found with id: " + id));
+    public void deleteCategory(Long categoryId) {
+        Category category = categoryRepository.findById(categoryId)
+                .orElseThrow(() -> new EntityNotFoundException("Entity not found with id: " + categoryId));
         categoryRepository.delete(category);
-    }
-
-    private Category mapDtoToCategory(Category category, CategoryDTO dto) {
-        category.setId(dto.id());
-        category.setName(dto.name());
-        category.setDescription(dto.description());
-        category.setVisible(dto.visible());
-        return category;
     }
 }

@@ -5,10 +5,10 @@ import java.util.function.Function;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ProductStateDTOMapper implements Function<ProductState, ProductStateDTO> {
+public class ProductStateMapper implements Function<ProductState, ProductStateResponse> {
     @Override
-    public ProductStateDTO apply(ProductState productState) {
-        return new ProductStateDTO(
+    public ProductStateResponse apply(ProductState productState) {
+        return new ProductStateResponse(
                 productState.getId(),
                 productState.getName(),
                 productState.isVisible());

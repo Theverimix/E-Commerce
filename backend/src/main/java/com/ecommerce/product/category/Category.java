@@ -29,6 +29,6 @@ public class Category {
 
     private boolean visible;
 
-    @ManyToMany(mappedBy = "productCategories")
+    @ManyToMany(mappedBy = "categories")
     Set<Product> products;
 }

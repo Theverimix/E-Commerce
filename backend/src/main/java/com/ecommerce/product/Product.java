@@ -45,12 +45,12 @@ public class Product {
             name = "product_categories",
             joinColumns = @JoinColumn(name = "product_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id"))
-    private Set<Category> productCategories;
+    private Set<Category> categories;
 
     @ManyToMany
     @JoinTable(
             name = "product_sales",
             joinColumns = @JoinColumn(name = "product_id"),
             inverseJoinColumns = @JoinColumn(name = "sale_id"))
-    private Set<Sale> productSales;
+    private Set<Sale> sales;
 }

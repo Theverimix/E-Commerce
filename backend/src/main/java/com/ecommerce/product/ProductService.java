@@ -13,20 +13,26 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ProductService {
 
+    private final ProductMapper mapper;
     private final ProductRepository productRepository;
     private final ProductStateRepository productStateRepository;
-    private final ProductMapper productMapper;
 
-    public ProductResponse getProductById(Long id) {
-        return productRepository.findById(id)
-                .map(productMapper)
+    public ProductResponse getProductById(Long productId) {
+        return productRepository.findById(productId)
+                .map(mapper)
                 .orElseThrow(() -> new EntityNotFoundException(
-                        "Product with id [%s] not found.".formatted(id)));
+                        "Product with id [%s] not found.".formatted(productId)));
+    }
+
+    public List<ProductResponse> getProductsByCategory(Long categoryId) {
+        return productRepository.findByCategory(categoryId).stream()
+                .map(mapper)
+                .collect(Collectors.toList());
     }
 
     public List<ProductResponse> getAllProducts() {
         return productRepository.findAll().stream()
-                .map(productMapper)
+                .map(mapper)
                 .collect(Collectors.toList());
     }
 
@@ -39,7 +45,7 @@ public class ProductService {
         product.setVisible(dto.visible());
         product.setCreatedAt(new Date());
         product.setImages(dto.images());
-        product.setProductCategories(dto.productCategories());
+        product.setCategories(dto.productCategories());
         product.setState(productStateRepository.findById(dto.idState()).orElse(null));
         productRepository.save(product);
     }

@@ -8,33 +8,36 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/product/state")
+@RequestMapping("/product/states")
 @RequiredArgsConstructor
 public class ProductStateController {
 
     private final ProductStateService service;
 
     @GetMapping
-    public ResponseEntity<List<ProductStateDTO>> getAllStates() {
-        List<ProductStateDTO> states = service.getAllStates();
+    public ResponseEntity<List<ProductStateResponse>> getAllStates() {
+        List<ProductStateResponse> states = service.getAllStates();
         return ResponseEntity.ok(states);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProductStateDTO> getProductStateById(@PathVariable Long id) {
-        ProductStateDTO product = service.getStateById(id);
+    public ResponseEntity<ProductStateResponse> getProductStateById(@PathVariable Long id) {
+        ProductStateResponse product = service.getStateById(id);
         return ResponseEntity.ok(product);
     }
 
     @PostMapping
-    public ResponseEntity<?> saveProductState(@RequestBody ProductStateDTO state) {
-        service.saveState(state);
+    public ResponseEntity<?> saveProductState(@RequestBody ProductStateRequest request) {
+        service.saveState(request);
         return ResponseEntity.ok().build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateProduct(@PathVariable Long id, @RequestBody ProductState newState) {
-        service.updateState(id, newState);
+    public ResponseEntity<?> updateProduct(
+            @PathVariable Long id,
+            @RequestBody ProductStateRequest request
+    ) {
+        service.updateState(id, request);
         return ResponseEntity.ok().build();
     }
 
