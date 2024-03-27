@@ -13,43 +13,44 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @RestController
-@RequestMapping("/cart")
-@Slf4j
+@RequestMapping("/customers/{customerId}/cart")
 @RequiredArgsConstructor
 public class CartController {
 
     private final CartService cartService;
 
     @GetMapping
-    public ResponseEntity<List<Cart>> getAllCarts() {
-        List<Cart> carts = cartService.getAllCarts();
-        return ResponseEntity.ok(carts);
-    }
-
-    @GetMapping("/{customerId}")
-    public ResponseEntity<List<Cart>> getCartByCustomer(@PathVariable Long customerId) {
-        log.warn("Customer ID = " + customerId);
-        return ResponseEntity.ok(cartService.getCartsByCustomer(customerId));
+    public ResponseEntity<List<CartResponse>> getCartByCustomer(@PathVariable Long customerId) {
+        List<CartResponse> response = cartService.getItemsFromCartByCustomer(customerId);
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping
-    public ResponseEntity<?> saveCart(@RequestBody CartDTO cart) {
-        cartService.saveCart(cart);
+    public ResponseEntity<?> addProductToCart(
+            @PathVariable Long customerId,
+            @RequestBody CartRequest request
+    ) {
+        cartService.addProductToCart(customerId, request);
         return ResponseEntity.ok().build();
     }
 
     @PutMapping
-    public ResponseEntity<?> updateCart(@RequestBody CartDTO newCart) {
-        cartService.updateCart(newCart);
+    public ResponseEntity<?> updateProductFromCart(
+            @PathVariable Long customerId,
+            @RequestBody CartRequest request
+    ) {
+        cartService.updateProductFromCart(customerId, request);
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping
-    public ResponseEntity<Object> deleteCart(@RequestBody CartDTO dto) {
-        cartService.deleteCart(dto.customerId(), dto.productId());
+    @DeleteMapping("/{productId}")
+    public ResponseEntity<Object> removeProductFromCart(
+            @PathVariable Long customerId,
+            @PathVariable Long productId
+    ) {
+        cartService.removeProductFromCart(customerId, productId);
         return ResponseEntity.ok().build();
     }
 }

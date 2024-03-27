@@ -1,8 +1,10 @@
 package com.ecommerce.cart;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
+import com.ecommerce.product.Product;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
@@ -11,77 +13,57 @@ import com.ecommerce.customer.CustomerRepository;
 import com.ecommerce.product.ProductRepository;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @Service
-@Slf4j
 @RequiredArgsConstructor
 public class CartService {
 
-    private final CartRepository cartRepository;
-
+    private final CartRepository repository;
+    private final CartMapper mapper;
     private final CustomerRepository customerRepository;
-
     private final ProductRepository productRepository;
 
-    public List<Cart> getAllCarts() {
-        return cartRepository.findAll();
+    public List<CartResponse> getItemsFromCartByCustomer(@NonNull Long customerId) {
+        Customer customer = customerRepository.findById(customerId)
+                .orElseThrow(() -> new EntityNotFoundException("Customer not found."));
+
+        return repository.findByCustomer(customer).stream()
+                .map(mapper)
+                .collect(Collectors.toList());
     }
 
-    public Optional<Cart> getCartById(@NonNull CartKey id) {
-        return cartRepository.findById(id);
+    public void addProductToCart(Long customerId, CartRequest request) {
+        Customer customer = customerRepository.findById(customerId)
+                .orElseThrow(() -> new EntityNotFoundException("Customer not found."));
+
+        Product product = productRepository.findById(request.productId())
+                .orElseThrow(() -> new EntityNotFoundException("Customer not found."));
+
+        repository.save(new Cart(
+                null,
+                product,
+                customer,
+                request.amount()
+        ));
     }
 
-    public List<Cart> getCartsByCustomer(@NonNull Long customerId) {
-        Customer customer = customerRepository.findById(customerId).orElse(null);
-        log.warn("Customer Id: " + customerId);
-        log.warn(customer.toString());
+    public void updateProductFromCart(@NonNull Long customerId, @NonNull CartRequest request) {
+        CartKey key = new CartKey(request.productId(), customerId);
 
-        List<Cart> lista = cartRepository.findByCustomer(customer);
-        log.warn("Lista: " + lista);
-        return lista;
+        Cart cart = repository.findById(key)
+                .orElseThrow(() -> new EntityNotFoundException("Item cart not found."));
+
+        cart.setAmount(request.amount());
+
+        repository.save(cart);
     }
 
-    public void saveCart(CartDTO dto) {
-        cartRepository.save(mapDTOToCart(dto));
+    public void removeProductFromCart(@NonNull Long customerId, @NonNull Long productId) {
+        CartKey key = new CartKey(customerId, productId);
+
+        Cart cart = repository.findById(key)
+                .orElseThrow(() -> new EntityNotFoundException("Item cart not found."));
+
+        repository.delete(cart);
     }
-
-    public void updateCart(CartDTO dto) {
-        cartRepository.save(mapDTOToCart(dto));
-    }
-
-    public void deleteCart(@NonNull Long customerId, @NonNull Long productId) {
-        CartKey cartKey = new CartKey();
-        cartKey.setCustomerId(customerId);
-        cartKey.setProductId(productId);
-        cartRepository.deleteById(cartKey);
-    }
-
-    // public CartDTO mapCartToDTO(Cart cart) {
-    // CartDTO dto = new CartDTO();
-
-    // dto.setId(mapCartKeytoDTO(cart.getId()));
-    // dto.setProduct(cart.getProduct());
-    // dto.setCustomer(cart.getCustomer());
-    // dto.setAmmount(cart.getAmmount());
-
-    // return dto;
-    // }
-
-    public Cart mapDTOToCart(CartDTO dto) {
-        log.warn("Cart DTO = " + dto.toString());
-
-        CartKey cartKey = new CartKey();
-        cartKey.setCustomerId(dto.customerId());
-        cartKey.setProductId(dto.productId());
-
-        Cart cart = new Cart();
-        cart.setId(cartKey);
-        cart.setProduct(productRepository.findById(dto.productId()).orElse(null));
-        cart.setCustomer(customerRepository.findById(dto.customerId()).orElse(null));
-        cart.setAmmount(dto.ammount());
-
-        return cart;
-    }
-
 }

@@ -29,5 +29,6 @@ public class Cart {
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
-    private int ammount;
+    @Column(name = "amount")
+    private int amount;
 }
