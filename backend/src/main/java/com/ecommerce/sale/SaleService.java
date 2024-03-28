@@ -13,49 +13,51 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class SaleService {
 
-    private final SaleRepository saleRepository;
-    private final SaleDTOMapper saleDtoMapper;
+    private final SaleRepository repository;
+    private final SaleMapper mapper;
 
-    public List<SaleDTO> getAllSales() {
-        return saleRepository.findAll().stream()
-                .map(saleDtoMapper)
+    List<SaleResponse> getAllSales() {
+        return repository.findAll().stream()
+                .map(mapper)
                 .collect(Collectors.toList());
     }
 
-    public SaleDTO getSaleById(@NonNull Long id) {
-        return saleRepository.findById(id)
-                .map(saleDtoMapper)
+    SaleResponse getSaleById(@NonNull Long id) {
+        return repository.findById(id)
+                .map(mapper)
                 .orElseThrow(() -> new EntityNotFoundException(
                         "Sale with id [%s] not found.".formatted(id)));
     }
 
-    public void saveSale(SaleDTO dto) {
-        saleRepository.save(mapDTOToSale(dto));
+    void saveSale(SaleRequest request) {
+        Sale sale = Sale.builder()
+                .name(request.name())
+                .startAt(request.startAt())
+                .endAt(request.endAt())
+                .discountType(request.discountType())
+                .discountValue(request.discountValue())
+                .build();
+        repository.save(sale);
     }
 
-    public void updateSale(SaleDTO dto) {
-        saleRepository.save(mapDTOToSale(dto));
+    void updateSale(Long saleId, SaleRequest request) {
+        Sale sale = repository.findById(saleId)
+                .orElseThrow(() -> new EntityNotFoundException("Sale with id [%s] not found.".formatted(saleId)));
+
+        sale.setName(request.name());
+        sale.setStartAt(request.startAt());
+        sale.setEndAt(request.endAt());
+        sale.setDiscountType(request.discountType());
+        sale.setDiscountValue(request.discountValue());
+
+        repository.save(sale);
     }
 
-    public void deleteSale(@NonNull Long id) {
-        Sale sale = saleRepository.findById(id)
+    void deleteSale(@NonNull Long id) {
+        Sale sale = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException(
                         "Sale with id [%s] not found.".formatted(id)));
 
-        saleRepository.delete(sale);
-    }
-
-    public Sale mapDTOToSale(SaleDTO dto) {
-        Sale sale = new Sale();
-
-        sale.setId(dto.id());
-        sale.setName(dto.name());
-        sale.setStartAt(dto.startAt());
-        sale.setEndAt(dto.endAt());
-        sale.setDiscountType(dto.discountType());
-        sale.setDiscountValue(dto.discountValue());
-        sale.setProducts(dto.products());
-
-        return sale;
+        repository.delete(sale);
     }
 }

@@ -6,12 +6,11 @@ import java.util.Set;
 import com.ecommerce.product.Product;
 import com.ecommerce.enums.DiscountsTypes;
 
-public record SaleDTO(
+public record SaleResponse(
         Long id,
         String name,
         Date startAt,
         Date endAt,
         DiscountsTypes discountType,
-        int discountValue,
-        Set<Product> products
+        int discountValue
 ) {}

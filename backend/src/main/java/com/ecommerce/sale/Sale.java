@@ -19,9 +19,10 @@ import lombok.*;
 
 @Entity
 @Table(name = "sales")
-@Data
+@Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Sale {
 
     @Id

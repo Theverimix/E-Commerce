@@ -2,7 +2,7 @@ package com.ecommerce.product;
 
 import com.ecommerce.product.category.CategoryMapper;
 import com.ecommerce.product.state.ProductStateMapper;
-import com.ecommerce.sale.SaleDTOMapper;
+import com.ecommerce.sale.SaleMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +15,7 @@ public class ProductMapper implements Function<Product, ProductResponse> {
 
     private final ProductStateMapper stateMapper;
     private final CategoryMapper categoryMapper;
-    private final SaleDTOMapper saleMapper;
+    private final SaleMapper saleMapper;
 
     @Override
     public ProductResponse apply(Product product) {

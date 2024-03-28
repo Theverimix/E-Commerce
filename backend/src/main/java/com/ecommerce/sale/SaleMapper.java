@@ -5,18 +5,17 @@ import org.springframework.stereotype.Service;
 import java.util.function.Function;
 
 @Service
-public class SaleDTOMapper implements Function<Sale, SaleDTO> {
+public class SaleMapper implements Function<Sale, SaleResponse> {
 
     @Override
-    public SaleDTO apply(Sale sale) {
-        return new SaleDTO(
+    public SaleResponse apply(Sale sale) {
+        return new SaleResponse(
                 sale.getId(),
                 sale.getName(),
                 sale.getStartAt(),
                 sale.getEndAt(),
                 sale.getDiscountType(),
-                sale.getDiscountValue(),
-                sale.getProducts()
+                sale.getDiscountValue()
         );
     }
 }

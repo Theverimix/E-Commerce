@@ -2,7 +2,7 @@ package com.ecommerce.product;
 
 import com.ecommerce.product.category.CategoryResponse;
 import com.ecommerce.product.state.ProductStateResponse;
-import com.ecommerce.sale.SaleDTO;
+import com.ecommerce.sale.SaleResponse;
 
 import java.util.Date;
 import java.util.Set;
@@ -18,5 +18,5 @@ public record ProductResponse(
         boolean visible,
         Set<String> images,
         Set<CategoryResponse> categories,
-        Set<SaleDTO> sales
+        Set<SaleResponse> sales
 ) {}

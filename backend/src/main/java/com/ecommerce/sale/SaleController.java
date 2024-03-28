@@ -15,39 +15,39 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/sale")
+@RequestMapping("/sales")
 @RequiredArgsConstructor
 public class SaleController {
 
     private final SaleService saleService;
 
     @GetMapping
-    public ResponseEntity<List<SaleDTO>> getAllSales() {
-        List<SaleDTO> sales = saleService.getAllSales();
+    public ResponseEntity<List<SaleResponse>> getAllSales() {
+        List<SaleResponse> sales = saleService.getAllSales();
         return ResponseEntity.ok(sales);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<SaleDTO> getSaleById(@PathVariable Long id) {
-        SaleDTO sale = saleService.getSaleById(id);
+    @GetMapping("/{saleId}")
+    public ResponseEntity<SaleResponse> getSaleById(@PathVariable Long saleId) {
+        SaleResponse sale = saleService.getSaleById(saleId);
         return ResponseEntity.ok(sale);
     }
 
     @PostMapping
-    public ResponseEntity<?> saveSale(@RequestBody SaleDTO sale) {
-        saleService.saveSale(sale);
+    public ResponseEntity<?> saveSale(@RequestBody SaleRequest request) {
+        saleService.saveSale(request);
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping
-    public ResponseEntity<?> updateSale(@RequestBody SaleDTO newSale) {
-        saleService.updateSale(newSale);
+    @PutMapping("/{saleId}")
+    public ResponseEntity<?> updateSale(@PathVariable Long saleId, @RequestBody SaleRequest request) {
+        saleService.updateSale(saleId, request);
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteSale(@PathVariable Long id) {
-        saleService.deleteSale(id);
+    @DeleteMapping("/{saleId}")
+    public ResponseEntity<?> deleteSale(@PathVariable Long saleId) {
+        saleService.deleteSale(saleId);
         return ResponseEntity.ok().build();
     }
 }
