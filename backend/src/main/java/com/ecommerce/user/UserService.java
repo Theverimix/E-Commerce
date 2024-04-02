@@ -36,6 +36,7 @@ public class UserService {
         user.setPassword(request.password());
         user.setEmail(request.email());
         user.setState(request.state());
+
         repository.save(user);
     }
 
