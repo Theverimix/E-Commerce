@@ -30,8 +30,8 @@ public class OrderService {
 
         public List<OrderResponse> getAllOrders() {
                 return orderRepository.findAll().stream()
-                        .map(dtoMapper)
-                        .collect(Collectors.toList());
+                                .map(dtoMapper)
+                                .collect(Collectors.toList());
         }
 
         public List<OrderResponse> getOrdersByCustomer(Long idCustomer) {

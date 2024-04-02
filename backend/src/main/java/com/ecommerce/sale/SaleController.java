@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -34,13 +35,13 @@ public class SaleController {
     }
 
     @PostMapping
-    public ResponseEntity<?> saveSale(@RequestBody SaleRequest request) {
+    public ResponseEntity<?> saveSale(@RequestBody @Valid SaleRequest request) {
         saleService.saveSale(request);
         return ResponseEntity.ok().build();
     }
 
     @PutMapping("/{saleId}")
-    public ResponseEntity<?> updateSale(@PathVariable Long saleId, @RequestBody SaleRequest request) {
+    public ResponseEntity<?> updateSale(@PathVariable Long saleId, @Valid @RequestBody SaleRequest request) {
         saleService.updateSale(saleId, request);
         return ResponseEntity.ok().build();
     }

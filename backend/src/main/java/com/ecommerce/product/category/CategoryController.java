@@ -5,6 +5,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.validation.Valid;
+
 import java.util.List;
 
 @RestController
@@ -27,7 +29,7 @@ public class CategoryController {
     }
 
     @PostMapping
-    public ResponseEntity<?> saveCategory(@RequestBody CategoryRequest request) {
+    public ResponseEntity<?> saveCategory(@RequestBody @Valid CategoryRequest request) {
         categoryService.saveCategory(request);
         return ResponseEntity.ok().build();
     }
@@ -35,8 +37,7 @@ public class CategoryController {
     @PutMapping("/{id}")
     public ResponseEntity<?> updateCategory(
             @PathVariable Long id,
-            @RequestBody CategoryRequest request
-    ) {
+            @RequestBody @Valid CategoryRequest request) {
         categoryService.updateCategory(id, request);
         return ResponseEntity.ok().build();
     }

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -17,8 +18,7 @@ public class OrderDetailController {
     @GetMapping("/{productId}")
     public ResponseEntity<OrderDetailResponse> getDetail(
             @PathVariable Long orderId,
-            @PathVariable Long productId
-    ) {
+            @PathVariable Long productId) {
         OrderDetailResponse response = service.findById(orderId, productId);
         return ResponseEntity.ok(response);
     }
@@ -32,8 +32,7 @@ public class OrderDetailController {
     @PostMapping
     public ResponseEntity<?> saveOrderDetails(
             @PathVariable Long orderId,
-            @RequestBody OrderDetailRequest request
-    ) {
+            @Valid @RequestBody OrderDetailRequest request) {
         service.saveOrderDetail(orderId, request);
         return ResponseEntity.ok().build();
     }
@@ -41,8 +40,7 @@ public class OrderDetailController {
     @PutMapping
     public ResponseEntity<?> updateOrderDetails(
             @PathVariable Long orderId,
-            @RequestBody OrderDetailRequest request
-    ) {
+            @Valid @RequestBody OrderDetailRequest request) {
         service.updateOrderDetail(orderId, request);
         return ResponseEntity.ok().build();
     }
@@ -50,8 +48,7 @@ public class OrderDetailController {
     @DeleteMapping("/{productId}")
     public ResponseEntity<Object> deleteOrderDetails(
             @PathVariable Long orderId,
-            @PathVariable Long productId
-    ) {
+            @PathVariable Long productId) {
         service.deleteOrderDetail(orderId, productId);
         return ResponseEntity.ok().build();
     }

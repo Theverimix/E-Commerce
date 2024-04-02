@@ -1,11 +1,11 @@
 package com.ecommerce.product;
 
+import com.ecommerce.product.state.ProductState;
 import com.ecommerce.product.state.ProductStateRepository;
+
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.annotation.Validated;
 
 import java.util.Date;
 import java.util.List;
@@ -38,6 +38,9 @@ public class ProductService {
     }
 
     public void saveProduct(ProductRegisterRequest dto) {
+        ProductState state = productStateRepository.findById(dto.idState()).orElseThrow(
+                () -> new EntityNotFoundException("State with id [%s] not found.".formatted(dto.idState())));
+
         Product product = new Product();
         product.setName(dto.name());
         product.setDescription(dto.description());
@@ -47,7 +50,7 @@ public class ProductService {
         product.setCreatedAt(new Date());
         product.setImages(dto.images());
         product.setCategories(dto.productCategories());
-        product.setState(productStateRepository.findById(dto.idState()).orElse(null));
+        product.setState(state);
         productRepository.save(product);
     }
 

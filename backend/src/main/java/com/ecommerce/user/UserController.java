@@ -3,7 +3,6 @@ package com.ecommerce.user;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import jakarta.annotation.security.RolesAllowed;
+import jakarta.validation.Valid;
 
 import java.util.List;
 
@@ -25,7 +24,6 @@ public class UserController {
 
     private final UserService userService;
 
-    @RolesAllowed("ADMINISTRATOR")
     @GetMapping
     public ResponseEntity<List<UserResponse>> getAllUsers() {
         List<UserResponse> users = userService.getAllUsers();
@@ -41,7 +39,7 @@ public class UserController {
     @PutMapping("/{userId}")
     public ResponseEntity<?> updateUser(
             @PathVariable Long userId,
-            @RequestBody UserUpdateRequest request) {
+            @Valid @RequestBody UserUpdateRequest request) {
         userService.updateUser(userId, request);
         return ResponseEntity.ok().build();
     }

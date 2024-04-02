@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -26,13 +27,14 @@ public class OrderController {
     }
 
     @PostMapping
-    public ResponseEntity<?> saveOrder(@RequestBody OrderRegistrationDTO order) {
+    public ResponseEntity<?> saveOrder(@RequestBody @Valid OrderRegistrationDTO order) {
         orderService.saveOrder(order);
         return ResponseEntity.ok().build();
     }
 
     @PutMapping("/{orderId}")
-    public ResponseEntity<?> updateOrder(@PathVariable Long orderId, @RequestBody OrderRegistrationDTO newOrder) {
+    public ResponseEntity<?> updateOrder(@PathVariable Long orderId,
+            @RequestBody @Valid OrderRegistrationDTO newOrder) {
         orderService.updateOrder(orderId, newOrder);
         return ResponseEntity.ok().build();
     }

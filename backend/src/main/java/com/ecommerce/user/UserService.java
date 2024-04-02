@@ -26,7 +26,7 @@ public class UserService {
         return repository.findById(id)
                 .map(mapper)
                 .orElseThrow(() -> new EntityNotFoundException(
-                        "Customer with id [%s] not found.".formatted(id)));
+                        "User with id [%s] not found.".formatted(id)));
     }
 
     public void updateUser(Long id, UserUpdateRequest request) {

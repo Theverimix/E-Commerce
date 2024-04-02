@@ -1,8 +1,6 @@
 package com.ecommerce.product;
 
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.PositiveOrZero;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.ResponseEntity;
@@ -37,8 +35,7 @@ public class ProductController {
 
     @PostMapping
     ResponseEntity<?> saveProduct(
-            @Valid @RequestBody ProductRegisterRequest request
-    ) {
+            @Valid @RequestBody ProductRegisterRequest request) {
         service.saveProduct(request);
         return ResponseEntity.ok().build();
     }
@@ -46,8 +43,7 @@ public class ProductController {
     @PutMapping("/{id}")
     ResponseEntity<?> updateProduct(
             @PathVariable Long id,
-            @RequestBody ProductUpdateRequest request
-    ){
+            @Valid @RequestBody ProductUpdateRequest request) {
         service.updateProduct(id, request);
         return ResponseEntity.ok().build();
     }

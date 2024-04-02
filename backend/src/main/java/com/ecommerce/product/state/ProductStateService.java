@@ -25,7 +25,7 @@ public class ProductStateService {
         return repository.findById(stateId)
                 .map(mapper)
                 .orElseThrow(() -> new EntityNotFoundException(
-                        "State with id [%s] not found.".formatted(stateId)));
+                        "Product State with id [%s] not found.".formatted(stateId)));
     }
 
     public void saveState(ProductStateRequest request) {
@@ -37,7 +37,7 @@ public class ProductStateService {
 
     public void updateState(Long stateId, ProductStateRequest request) {
         ProductState state = repository.findById(stateId)
-                .orElseThrow(() -> new EntityNotFoundException("Entity not found with id: " + stateId));
+                .orElseThrow(() -> new EntityNotFoundException("Product State not found with id: " + stateId));
 
         state.setName(request.name());
         state.setVisible(request.visible());
@@ -46,7 +46,7 @@ public class ProductStateService {
 
     public void deleteState(Long stateId) {
         ProductState state = repository.findById(stateId)
-                .orElseThrow(() -> new EntityNotFoundException("Entity not found with id: " + stateId));
+                .orElseThrow(() -> new EntityNotFoundException("Product State not found with id: " + stateId));
 
         repository.delete(state);
     }

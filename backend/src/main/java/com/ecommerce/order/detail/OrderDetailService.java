@@ -1,6 +1,7 @@
 package com.ecommerce.order.detail;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import com.ecommerce.order.Order;
@@ -27,12 +28,12 @@ public class OrderDetailService {
         OrderDetailKey key = buildOrderDetailsKey(orderId, productId);
         return repository.findById(key)
                 .map(mapper)
-                .orElseThrow(() -> new EntityNotFoundException("Product in order not found."));
+                .orElseThrow(() -> new EntityNotFoundException("Product with id [%s] not found.".formatted(productId)));
     }
 
     public List<OrderDetailResponse> findDetailsByOrder(Long orderId) {
         Order order = orderRepository.findById(orderId)
-                .orElse(null);
+                .orElseThrow(() -> new EntityNotFoundException("Order with id [%s] not found.".formatted(orderId)));
 
         return repository.findByOrder(order).stream()
                 .map(mapper)
@@ -47,16 +48,17 @@ public class OrderDetailService {
     public void updateOrderDetail(Long orderId, OrderDetailRequest request) {
         OrderDetailKey key = buildOrderDetailsKey(orderId, request.productId());
         OrderDetail detail = repository.findById(key)
-                .orElseThrow(() -> new EntityNotFoundException("Entity not found."));
+                .orElseThrow(() -> new EntityNotFoundException("Product with id [%s] not found.".formatted(orderId)));
 
         detail.setAmount(request.amount());
         repository.save(detail);
     }
 
     public void deleteOrderDetail(@NonNull Long orderId, @NonNull Long productId) {
-        repository.deleteById(
-                buildOrderDetailsKey(orderId, productId)
-        );
+        Optional<OrderDetail> orderDetail = repository.findById(buildOrderDetailsKey(orderId, productId));
+
+        repository.delete(orderDetail
+                .orElseThrow(() -> new EntityNotFoundException("Order Detail with not found.")));
     }
 
     private OrderDetailKey buildOrderDetailsKey(Long orderId, Long productId) {

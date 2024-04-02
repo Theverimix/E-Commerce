@@ -5,6 +5,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.validation.Valid;
+
 import java.util.List;
 
 @RestController
@@ -27,7 +29,7 @@ public class ProductStateController {
     }
 
     @PostMapping
-    public ResponseEntity<?> saveProductState(@RequestBody ProductStateRequest request) {
+    public ResponseEntity<?> saveProductState(@RequestBody @Valid ProductStateRequest request) {
         service.saveState(request);
         return ResponseEntity.ok().build();
     }
@@ -35,8 +37,7 @@ public class ProductStateController {
     @PutMapping("/{id}")
     public ResponseEntity<?> updateProduct(
             @PathVariable Long id,
-            @RequestBody ProductStateRequest request
-    ) {
+            @Valid @RequestBody ProductStateRequest request) {
         service.updateState(id, request);
         return ResponseEntity.ok().build();
     }
