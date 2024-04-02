@@ -1,6 +1,8 @@
 package com.ecommerce.product;
 
-import jakarta.websocket.server.PathParam;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.ResponseEntity;
@@ -35,7 +37,7 @@ public class ProductController {
 
     @PostMapping
     ResponseEntity<?> saveProduct(
-            @RequestBody ProductRegisterRequest request
+            @Valid @RequestBody ProductRegisterRequest request
     ) {
         service.saveProduct(request);
         return ResponseEntity.ok().build();

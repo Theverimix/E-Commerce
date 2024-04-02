@@ -2,8 +2,10 @@ package com.ecommerce.product;
 
 import com.ecommerce.product.state.ProductStateRepository;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.Date;
 import java.util.List;
@@ -20,8 +22,7 @@ public class ProductService {
     public ProductResponse getProductById(Long productId) {
         return productRepository.findById(productId)
                 .map(mapper)
-                .orElseThrow(() -> new EntityNotFoundException(
-                        "Product with id [%s] not found.".formatted(productId)));
+                .orElseThrow(() -> new EntityNotFoundException("Product with id [%s] not found.".formatted(productId)));
     }
 
     public List<ProductResponse> getProductsByCategory(Long categoryId) {
@@ -52,8 +53,7 @@ public class ProductService {
 
     public void updateProduct(Long id, ProductUpdateRequest req) {
         Product product = productRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(
-                        "Product with id [%s] not found.".formatted(id)));
+                .orElseThrow(() -> new EntityNotFoundException("Product with id [%s] not found.".formatted(id)));
 
         product.setName(req.name());
         product.setDescription(req.description());
