@@ -1,6 +1,9 @@
 package com.ecommerce.cart;
 
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
+
 public record CartRequest(
-        Long productId,
-        int amount
-) {}
+                @NotNull @PositiveOrZero Long productId,
+                @NotNull @PositiveOrZero int amount) {
+}

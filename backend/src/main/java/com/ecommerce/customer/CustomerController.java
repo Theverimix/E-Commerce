@@ -4,6 +4,9 @@ import java.util.List;
 
 import com.ecommerce.order.OrderResponse;
 import com.ecommerce.order.OrderService;
+
+import jakarta.validation.Valid;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,7 +22,7 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/customers")
 @RequiredArgsConstructor
 public class CustomerController {
-    
+
     private final CustomerService service;
     private final OrderService orderService;
 
@@ -42,13 +45,13 @@ public class CustomerController {
     }
 
     @PostMapping
-    public ResponseEntity<?> saveCustomer(@RequestBody CustomerDTO customer) {
+    public ResponseEntity<?> saveCustomer(@RequestBody @Valid CustomerDTO customer) {
         service.saveCustomer(customer);
         return ResponseEntity.ok().build();
     }
 
     @PutMapping
-    public ResponseEntity<?> updateCustomer(@RequestBody CustomerDTO newCustomer) {
+    public ResponseEntity<?> updateCustomer(@RequestBody @Valid CustomerDTO newCustomer) {
         service.updateCustomer(newCustomer);
         return ResponseEntity.ok().build();
     }

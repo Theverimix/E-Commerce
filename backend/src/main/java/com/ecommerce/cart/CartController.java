@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -30,8 +31,7 @@ public class CartController {
     @PostMapping
     public ResponseEntity<?> addProductToCart(
             @PathVariable Long customerId,
-            @RequestBody CartRequest request
-    ) {
+            @Valid @RequestBody CartRequest request) {
         cartService.addProductToCart(customerId, request);
         return ResponseEntity.ok().build();
     }
@@ -39,8 +39,7 @@ public class CartController {
     @PutMapping
     public ResponseEntity<?> updateProductFromCart(
             @PathVariable Long customerId,
-            @RequestBody CartRequest request
-    ) {
+            @Valid @RequestBody CartRequest request) {
         cartService.updateProductFromCart(customerId, request);
         return ResponseEntity.ok().build();
     }
@@ -48,8 +47,7 @@ public class CartController {
     @DeleteMapping("/{productId}")
     public ResponseEntity<Object> removeProductFromCart(
             @PathVariable Long customerId,
-            @PathVariable Long productId
-    ) {
+            @PathVariable Long productId) {
         cartService.removeProductFromCart(customerId, productId);
         return ResponseEntity.ok().build();
     }

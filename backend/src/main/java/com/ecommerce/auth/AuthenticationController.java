@@ -14,15 +14,13 @@ public class AuthenticationController {
 
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> registration(
-            @RequestBody RegisterRequest request
-    ) {
+            @Valid @RequestBody RegisterRequest request) {
         return ResponseEntity.ok(service.register(request));
     }
 
     @PostMapping("/login")
     public ResponseEntity<AuthenticationResponse> login(
-            @Valid @RequestBody LoginRequest request
-    ) {
+            @Valid @RequestBody LoginRequest request) {
         return ResponseEntity.ok(service.login(request));
     }
 }

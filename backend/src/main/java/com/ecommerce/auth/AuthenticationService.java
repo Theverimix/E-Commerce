@@ -1,12 +1,17 @@
 package com.ecommerce.auth;
 
 import com.ecommerce.config.JwtService;
+import com.ecommerce.customer.Customer;
+import com.ecommerce.customer.CustomerRepository;
 import com.ecommerce.user.User;
 import com.ecommerce.enums.UserRole;
 import com.ecommerce.enums.UserState;
 import com.ecommerce.user.UserRepository;
 
 import lombok.RequiredArgsConstructor;
+
+import java.util.Date;
+
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -17,20 +22,22 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AuthenticationService {
 
-        private final UserRepository repository;
+        private final CustomerRepository customerRepository;
+        private final UserRepository userRepository;
         private final PasswordEncoder passwordEncoder;
         private final JwtService jwtService;
         private final AuthenticationManager manager;
 
         public AuthenticationResponse register(RegisterRequest request) {
-                User user = User.builder()
+                Customer user = Customer.builder()
                                 .name(request.name())
                                 .email(request.email())
                                 .password(passwordEncoder.encode(request.password()))
                                 .role(UserRole.CUSTOMER)
                                 .state(UserState.ACTIVE)
+                                .registerDate(new Date())
                                 .build();
-                repository.save(user);
+                customerRepository.save(user);
                 String token = jwtService.generateToken(user);
                 return AuthenticationResponse.builder()
                                 .token(token)
@@ -42,7 +49,7 @@ public class AuthenticationService {
                                 new UsernamePasswordAuthenticationToken(
                                                 request.email(),
                                                 request.password()));
-                User user = repository.findByEmail(request.email())
+                User user = userRepository.findByEmail(request.email())
                                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
                 String token = jwtService.generateToken(user);

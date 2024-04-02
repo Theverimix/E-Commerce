@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 import java.util.Date;
 import java.util.List;
@@ -20,6 +21,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
+@SuperBuilder
 @AllArgsConstructor
 @PrimaryKeyJoinColumn(name = "customerId")
 public class Customer extends User {
