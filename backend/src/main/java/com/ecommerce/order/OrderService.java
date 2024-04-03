@@ -43,7 +43,7 @@ public class OrderService {
                                 .collect(Collectors.toList());
         }
 
-        public void saveOrder(OrderRegistrationDTO dto) {
+        public void saveOrder(OrderRegistrationRequest dto) {
                 Customer customer = customerRepository.findById(dto.customerId())
                                 .orElseThrow(() -> new EntityNotFoundException(
                                                 "Customer with id [%s] not found.".formatted(dto.customerId())));
@@ -57,7 +57,7 @@ public class OrderService {
                 orderRepository.save(order);
         }
 
-        public void updateOrder(Long id, OrderRegistrationDTO dto) {
+        public void updateOrder(Long id, OrderRegistrationRequest dto) {
                 Order order = orderRepository.findById(id)
                                 .orElseThrow(() -> new EntityNotFoundException(
                                                 "Order with id [%s] not found.".formatted(id)));

@@ -2,7 +2,7 @@ package com.ecommerce.cart;
 
 import java.util.List;
 
-import org.springframework.http.ResponseEntity;
+import com.ecommerce.exception.ApiResponse;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,32 +23,32 @@ public class CartController {
     private final CartService cartService;
 
     @GetMapping
-    public ResponseEntity<List<CartResponse>> getCartByCustomer(@PathVariable Long customerId) {
+    public ApiResponse getCartByCustomer(@PathVariable Long customerId) {
         List<CartResponse> response = cartService.getItemsFromCartByCustomer(customerId);
-        return ResponseEntity.ok(response);
+        return ApiResponse.ok(response);
     }
 
     @PostMapping
-    public ResponseEntity<?> addProductToCart(
+    public ApiResponse addProductToCart(
             @PathVariable Long customerId,
             @Valid @RequestBody CartRequest request) {
         cartService.addProductToCart(customerId, request);
-        return ResponseEntity.ok().build();
+        return ApiResponse.created();
     }
 
     @PutMapping
-    public ResponseEntity<?> updateProductFromCart(
+    public ApiResponse updateProductFromCart(
             @PathVariable Long customerId,
             @Valid @RequestBody CartRequest request) {
         cartService.updateProductFromCart(customerId, request);
-        return ResponseEntity.ok().build();
+        return ApiResponse.updated();
     }
 
     @DeleteMapping("/{productId}")
-    public ResponseEntity<Object> removeProductFromCart(
+    public ApiResponse removeProductFromCart(
             @PathVariable Long customerId,
             @PathVariable Long productId) {
         cartService.removeProductFromCart(customerId, productId);
-        return ResponseEntity.ok().build();
+        return ApiResponse.deleted();
     }
 }

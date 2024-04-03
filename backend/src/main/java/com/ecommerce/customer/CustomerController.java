@@ -2,12 +2,12 @@ package com.ecommerce.customer;
 
 import java.util.List;
 
+import com.ecommerce.exception.ApiResponse;
 import com.ecommerce.order.OrderResponse;
 import com.ecommerce.order.OrderService;
 
 import jakarta.validation.Valid;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,32 +27,32 @@ public class CustomerController {
     private final OrderService orderService;
 
     @GetMapping
-    public ResponseEntity<List<CustomerDTO>> getAllCustomers() {
+    public ApiResponse getAllCustomers() {
         List<CustomerDTO> customers = service.getAllCustomers();
-        return ResponseEntity.ok(customers);
+        return ApiResponse.ok(customers);
     }
 
     @GetMapping("/{customerId}")
-    public ResponseEntity<CustomerDTO> getCustomerById(@PathVariable Long customerId) {
+    public ApiResponse getCustomerById(@PathVariable Long customerId) {
         CustomerDTO customer = service.getCustomerById(customerId);
-        return ResponseEntity.ok(customer);
+        return ApiResponse.ok(customer);
     }
 
     @GetMapping("/{customerId}/orders")
-    public ResponseEntity<List<OrderResponse>> getOrdersByCustomer(@PathVariable Long customerId) {
+    public ApiResponse getOrdersByCustomer(@PathVariable Long customerId) {
         List<OrderResponse> orders = orderService.getOrdersByCustomer(customerId);
-        return ResponseEntity.ok(orders);
+        return ApiResponse.ok(orders);
     }
 
     @PostMapping
-    public ResponseEntity<?> saveCustomer(@RequestBody @Valid CustomerDTO customer) {
+    public ApiResponse saveCustomer(@RequestBody @Valid CustomerDTO customer) {
         service.saveCustomer(customer);
-        return ResponseEntity.ok().build();
+        return ApiResponse.created();
     }
 
     @PutMapping
-    public ResponseEntity<?> updateCustomer(@RequestBody @Valid CustomerDTO newCustomer) {
+    public ApiResponse updateCustomer(@RequestBody @Valid CustomerDTO newCustomer) {
         service.updateCustomer(newCustomer);
-        return ResponseEntity.ok().build();
+        return ApiResponse.updated();
     }
 }

@@ -1,8 +1,8 @@
 package com.ecommerce.product.state;
 
+import com.ecommerce.exception.ApiResponse;
 import lombok.RequiredArgsConstructor;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
@@ -17,34 +17,34 @@ public class ProductStateController {
     private final ProductStateService service;
 
     @GetMapping
-    public ResponseEntity<List<ProductStateResponse>> getAllStates() {
+    public ApiResponse getAllStates() {
         List<ProductStateResponse> states = service.getAllStates();
-        return ResponseEntity.ok(states);
+        return ApiResponse.ok(states);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<ProductStateResponse> getProductStateById(@PathVariable Long id) {
-        ProductStateResponse product = service.getStateById(id);
-        return ResponseEntity.ok(product);
+    @GetMapping("/{stateId}")
+    public ApiResponse getProductStateById(@PathVariable Long stateId) {
+        ProductStateResponse product = service.getStateById(stateId);
+        return ApiResponse.ok(product);
     }
 
     @PostMapping
-    public ResponseEntity<?> saveProductState(@RequestBody @Valid ProductStateRequest request) {
+    public ApiResponse saveProductState(@RequestBody @Valid ProductStateRequest request) {
         service.saveState(request);
-        return ResponseEntity.ok().build();
+        return ApiResponse.created();
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<?> updateProduct(
-            @PathVariable Long id,
+    @PutMapping("/{stateId}")
+    public ApiResponse updateProduct(
+            @PathVariable Long stateId,
             @Valid @RequestBody ProductStateRequest request) {
-        service.updateState(id, request);
-        return ResponseEntity.ok().build();
+        service.updateState(stateId, request);
+        return ApiResponse.updated();
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteProduct(@PathVariable Long id) {
-        service.deleteState(id);
-        return ResponseEntity.ok().build();
+    @DeleteMapping("/{stateId}")
+    public ApiResponse deleteProduct(@PathVariable Long stateId) {
+        service.deleteState(stateId);
+        return ApiResponse.deleted(stateId);
     }
 }

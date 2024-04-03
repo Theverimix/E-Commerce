@@ -1,8 +1,8 @@
 package com.ecommerce.user;
 
+import com.ecommerce.exception.ApiResponse;
 import lombok.RequiredArgsConstructor;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -25,29 +25,29 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping
-    public ResponseEntity<List<UserResponse>> getAllUsers() {
+    public ApiResponse getAllUsers() {
         List<UserResponse> users = userService.getAllUsers();
-        return ResponseEntity.ok(users);
+        return ApiResponse.ok(users);
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<UserResponse> getUserById(@PathVariable Long userId) {
+    public ApiResponse getUserById(@PathVariable Long userId) {
         UserResponse user = userService.getUserById(userId);
-        return ResponseEntity.ok(user);
+        return ApiResponse.ok(user);
     }
 
     @PutMapping("/{userId}")
-    public ResponseEntity<?> updateUser(
+    public ApiResponse updateUser(
             @PathVariable Long userId,
             @Valid @RequestBody UserUpdateRequest request) {
         userService.updateUser(userId, request);
-        return ResponseEntity.ok().build();
+        return ApiResponse.updated();
     }
 
     @DeleteMapping("/{userId}")
-    public ResponseEntity<?> deleteUser(@PathVariable Long userId) {
+    public ApiResponse deleteUser(@PathVariable Long userId) {
         userService.deleteUser(userId);
-        return ResponseEntity.ok().build();
+        return ApiResponse.deleted();
     }
 
     @GetMapping("/userinfo")

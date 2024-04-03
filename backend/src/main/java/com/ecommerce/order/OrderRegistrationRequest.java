@@ -9,7 +9,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
 
-public record OrderRegistrationDTO(
+public record OrderRegistrationRequest(
                 @NotNull @PositiveOrZero Long customerId,
                 @NotBlank @Size(min = 3) String address,
                 Set<OrderDetail> details) {

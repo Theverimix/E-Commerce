@@ -2,7 +2,7 @@ package com.ecommerce.order.detail;
 
 import java.util.List;
 
-import org.springframework.http.ResponseEntity;
+import com.ecommerce.exception.ApiResponse;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
@@ -16,40 +16,40 @@ public class OrderDetailController {
     private final OrderDetailService service;
 
     @GetMapping("/{productId}")
-    public ResponseEntity<OrderDetailResponse> getDetail(
+    public ApiResponse getDetail(
             @PathVariable Long orderId,
             @PathVariable Long productId) {
         OrderDetailResponse response = service.findById(orderId, productId);
-        return ResponseEntity.ok(response);
+        return ApiResponse.ok(response);
     }
 
     @GetMapping
-    public ResponseEntity<List<OrderDetailResponse>> getDetailsByOrder(@PathVariable Long orderId) {
+    public ApiResponse getDetailsByOrder(@PathVariable Long orderId) {
         List<OrderDetailResponse> response = service.findDetailsByOrder(orderId);
-        return ResponseEntity.ok(response);
+        return ApiResponse.ok(response);
     }
 
     @PostMapping
-    public ResponseEntity<?> saveOrderDetails(
+    public ApiResponse saveOrderDetails(
             @PathVariable Long orderId,
             @Valid @RequestBody OrderDetailRequest request) {
         service.saveOrderDetail(orderId, request);
-        return ResponseEntity.ok().build();
+        return ApiResponse.created();
     }
 
     @PutMapping
-    public ResponseEntity<?> updateOrderDetails(
+    public ApiResponse updateOrderDetails(
             @PathVariable Long orderId,
             @Valid @RequestBody OrderDetailRequest request) {
         service.updateOrderDetail(orderId, request);
-        return ResponseEntity.ok().build();
+        return ApiResponse.updated();
     }
 
     @DeleteMapping("/{productId}")
-    public ResponseEntity<Object> deleteOrderDetails(
+    public ApiResponse deleteOrderDetails(
             @PathVariable Long orderId,
             @PathVariable Long productId) {
         service.deleteOrderDetail(orderId, productId);
-        return ResponseEntity.ok().build();
+        return ApiResponse.deleted();
     }
 }

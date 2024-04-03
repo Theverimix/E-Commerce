@@ -1,8 +1,8 @@
 package com.ecommerce.product.category;
 
+import com.ecommerce.exception.ApiResponse;
 import lombok.RequiredArgsConstructor;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
@@ -17,34 +17,34 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     @GetMapping
-    public ResponseEntity<List<CategoryResponse>> getAllCategories() {
+    public ApiResponse getAllCategories() {
         List<CategoryResponse> categories = categoryService.getAllCategories();
-        return ResponseEntity.ok(categories);
+        return ApiResponse.ok(categories);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<CategoryResponse> getCategoryById(@PathVariable Long id) {
-        CategoryResponse category = categoryService.getCategoryById(id);
-        return ResponseEntity.ok(category);
+    @GetMapping("/{categoryId}")
+    public ApiResponse getCategoryById(@PathVariable Long categoryId) {
+        CategoryResponse category = categoryService.getCategoryById(categoryId);
+        return ApiResponse.ok(category);
     }
 
     @PostMapping
-    public ResponseEntity<?> saveCategory(@RequestBody @Valid CategoryRequest request) {
+    public ApiResponse saveCategory(@RequestBody @Valid CategoryRequest request) {
         categoryService.saveCategory(request);
-        return ResponseEntity.ok().build();
+        return ApiResponse.created();
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<?> updateCategory(
-            @PathVariable Long id,
+    @PutMapping("/{categoryId}")
+    public ApiResponse updateCategory(
+            @PathVariable Long categoryId,
             @RequestBody @Valid CategoryRequest request) {
-        categoryService.updateCategory(id, request);
-        return ResponseEntity.ok().build();
+        categoryService.updateCategory(categoryId, request);
+        return ApiResponse.updated();
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Object> updateCategory(@PathVariable Long id) {
-        categoryService.deleteCategory(id);
-        return ResponseEntity.ok().build();
+    @DeleteMapping("/{categoryId}")
+    public ApiResponse updateCategory(@PathVariable Long categoryId) {
+        categoryService.deleteCategory(categoryId);
+        return ApiResponse.deleted(categoryId);
     }
 }

@@ -1,8 +1,8 @@
 package com.ecommerce.auth;
 
+import com.ecommerce.exception.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -13,14 +13,18 @@ public class AuthenticationController {
     private final AuthenticationService service;
 
     @PostMapping("/register")
-    public ResponseEntity<AuthenticationResponse> registration(
-            @Valid @RequestBody RegisterRequest request) {
-        return ResponseEntity.ok(service.register(request));
+    public ApiResponse registration(
+            @Valid @RequestBody RegisterRequest request
+    ) {
+        AuthenticationResponse response = service.register(request);
+        return ApiResponse.ok(response);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthenticationResponse> login(
-            @Valid @RequestBody LoginRequest request) {
-        return ResponseEntity.ok(service.login(request));
+    public ApiResponse login(
+            @Valid @RequestBody LoginRequest request
+    ) {
+        AuthenticationResponse response = service.login(request);
+        return ApiResponse.ok(response);
     }
 }

@@ -6,8 +6,12 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 public record RegisterRequest(
-                @NotBlank @Size(min = 3) String name,
-                @NotBlank String password, // @Pattern(regexp =
-                                           // "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@#$%^&+=!])(?=.*[a-zA-Z\\d@#$%^&+=!]).{8,}$")
-                @Email String email) {
-}
+        @NotBlank
+        @Size(min = 3)
+        String name,
+        @NotBlank
+        @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@#$%^&+=!])(?=.*[a-zA-Z\\d@#$%^&+=!]).{8,}$")
+        String password,
+        @Email
+        String email
+) {}

@@ -27,43 +27,43 @@ public class ErrorHandler {
     @ExceptionHandler(ObjectNotFoundException.class)
     @ResponseStatus(NOT_FOUND)
     ApiResponse objectNotFoundException(ObjectNotFoundException e) {
-        return new ApiResponse(false, NOT_FOUND.value(), e.getMessage());
+        return ApiResponse.notFound(e.getMessage());
     }
 
     @ExceptionHandler(EntityNotFoundException.class)
     @ResponseStatus(NOT_FOUND)
     ApiResponse entityNotFoundException(EntityNotFoundException e) {
-        return new ApiResponse(false, NOT_FOUND.value(), e.getMessage());
+        return ApiResponse.notFound(e.getMessage());
     }
 
     @ExceptionHandler({UsernameNotFoundException.class, BadCredentialsException.class})
     @ResponseStatus(UNAUTHORIZED)
     ApiResponse authenticationException(Exception e) {
-        return new ApiResponse(false, UNAUTHORIZED.value(), e.getMessage());
+        return ApiResponse.unauthorized(e.getMessage());
     }
 
     @ExceptionHandler(InsufficientAuthenticationException.class)
     @ResponseStatus(UNAUTHORIZED)
     ApiResponse insufficientAuthenticationException(InsufficientAuthenticationException e) {
-        return new ApiResponse(false, UNAUTHORIZED.value(), "Login credentials are missing.", e.getMessage());
+        return ApiResponse.unauthorized("Login credentials are missing").data(e.getMessage());
     }
 
     @ExceptionHandler(AccountStatusException.class)
     @ResponseStatus(UNAUTHORIZED)
     ApiResponse accountStatusException(AccountStatusException e) {
-        return new ApiResponse(false, UNAUTHORIZED.value(), "User account is abnormal.", e.getMessage());
+        return ApiResponse.unauthorized("User account is abnormal").data(e.getMessage());
     }
 
     @ExceptionHandler(AccessDeniedException.class)
     @ResponseStatus(FORBIDDEN)
     ApiResponse accessDeniedException(AccessDeniedException e) {
-        return new ApiResponse(false, FORBIDDEN.value(), "No permission.", e.getMessage());
+        return ApiResponse.forbidden("No permission").data(e.getMessage());
     }
 
     @ExceptionHandler(NoHandlerFoundException.class)
     @ResponseStatus(NOT_FOUND)
-    ApiResponse noHandlerFoundException(NoHandlerFoundException ex) {
-        return new ApiResponse(false, NOT_FOUND.value(), "This API endpoint is not found.", ex.getMessage());
+    ApiResponse noHandlerFoundException(NoHandlerFoundException e) {
+        return ApiResponse.notFound("This API endpoint is not found.").data(e.getMessage());
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -76,14 +76,14 @@ public class ErrorHandler {
             String val = error.getDefaultMessage();
             map.put(key, val);
         });
-        return new ApiResponse(false, BAD_REQUEST.value(), "Provided arguments are invalid, see data for details.", map);
+        return ApiResponse.badRequest("Provided arguments are invalid, see data for details.").data(map);
     }
 
     // Handles any unhandled exceptions.
     @ExceptionHandler(Exception.class)
     @ResponseStatus(INTERNAL_SERVER_ERROR)
     ApiResponse otherException(Exception e) {
-        return new ApiResponse(false, INTERNAL_SERVER_ERROR.value(), "A server internal error occurs.", e.getMessage());
+        return ApiResponse.internalServerError("A server internal error occurs.").data(e.getMessage());
     }
 
 }
