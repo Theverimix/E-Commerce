@@ -10,10 +10,8 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 
 @Configuration
 @EnableWebSecurity
@@ -23,22 +21,10 @@ public class SecurityConfig {
 
         private final AuthenticationProvider authProvider;
         private final JwtAuthenticationFilter jwtAuthenticationFilter;
+        private final CustomAccessDeniedHandler customAccessDeniedHandler;
 
         @Bean
         public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-                AccessDeniedHandler accessDeniedHandler = (request, response, accessDeniedException) -> {
-                        // Configura el código de estado HTTP adecuado
-                        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-
-                        // Configura el tipo de contenido de la respuesta
-                        response.setContentType("application/json");
-
-                        // Aquí puedes personalizar la respuesta de acceso denegado según tus
-                        // necesidades
-                        String responseBody = "{\"error\": \"Acceso denegado: No tienes los permisos necesarios\"}";
-                        response.getWriter().write(responseBody);
-                };
-
                 return http
                                 .csrf(csrf -> csrf.disable())
                                 .authorizeHttpRequests(authorize -> authorize
@@ -47,7 +33,7 @@ public class SecurityConfig {
                                                 .requestMatchers(RequestMatcherUtil::isApiAuthRequest).permitAll()
                                                 .requestMatchers("/users/**").hasAuthority("ADMINISTRATOR")
                                                 .anyRequest().authenticated())
-                                .exceptionHandling(ex -> ex.accessDeniedHandler(accessDeniedHandler))
+                                .exceptionHandling(ex -> ex.accessDeniedHandler(customAccessDeniedHandler))
                                 .authenticationProvider(authProvider)
                                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                                 .build();

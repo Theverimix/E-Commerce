@@ -36,7 +36,7 @@ public class ErrorHandler {
         return ApiResponse.notFound(e.getMessage());
     }
 
-    @ExceptionHandler({UsernameNotFoundException.class, BadCredentialsException.class})
+    @ExceptionHandler({ UsernameNotFoundException.class, BadCredentialsException.class })
     @ResponseStatus(UNAUTHORIZED)
     ApiResponse authenticationException(Exception e) {
         return ApiResponse.unauthorized(e.getMessage());
