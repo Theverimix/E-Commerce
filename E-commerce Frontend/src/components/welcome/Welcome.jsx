@@ -2,7 +2,10 @@ import React from 'react';
 import { Carousel } from 'primereact/carousel';
 import { Card } from 'primereact/card';
 import { Divider } from 'primereact/divider';
+import { Button } from 'primereact/button';
 import bannerImage from '../../assets/img/ec-banner-definitive.gif';
+import '/node_modules/primeflex/primeflex.css';
+import './welcome.css'
 
 //Provisional code to see results. ENABLED TO DELETE IN THE FUTURE
 import imgProducts1 from '../../assets/img/products/bcaa-12000.png'
@@ -19,21 +22,25 @@ export default function Welcome() {
     {
       image: imgProducts1,
       name: 'Producto 1',
+      desc: 'Description 1',
       price: 19.99
     },
     {
       image: imgProducts2,
       name: 'Producto 2',
+      desc: 'Description 2',
       price: 29.99
     },
     {
       image: imgProducts3,
       name: 'Producto 3',
+      desc: 'Description 3',
       price: 39.99
     },
     {
       image: imgProducts4,
       name: 'Producto 4',
+      desc: 'Description 4',
       price: 49.99
     },
     // Add more objects as needed
@@ -67,15 +74,26 @@ export default function Welcome() {
 
   //Provisional code to see results. ENABLED TO DELETE IN THE FUTURE
   // Template for each element of the Carousel
-  const productTemplate = (product) => (
-    <div className="product-item">
-      <img src={product.image} alt={product.name} />
-      <div className="product-details">
-        <h4>{product.name}</h4>
-        <p>${product.price.toFixed(2)}</p>
+  const productTemplate = (product) => {
+    return (
+      <div className='box p-4 fadein animation-duration-500'>
+        <div className='surface-card mb-4 w-full text-center p-5'>
+          <img src={product.image} alt={product.name} className='w-10 shadow-2' />
+          {/* <Button icon="pi pi-star" rounded text outlined /> */}
+        </div>
+        <div className='flex align-items-center mb-4'>
+          <div className='flex flex-column'>
+            <span className="block font-semibold mb-1">{product.name}</span>
+            <span className="text-secondary text-sm">{product.desc}</span>
+          </div>
+          <span className="font-medium text-xl ml-auto">${product.price.toFixed(2)}</span>
+        </div>
+        <div className="mt-5 flex flex-wrap gap-2 justify-content-center">
+          <Button label="Add to cart" icon="pi pi-cart" outlined badgeClassName="p-badge-danger" className='w-full p-button p-component p-button-outlined' />
+        </div>
       </div>
-    </div>
-  );
+    );
+  };
 
 
   return (
@@ -84,7 +102,7 @@ export default function Welcome() {
 
       <hr style={{ borderBottom: '2px solid #e69b0c', margin: '0' }} />
 
-      <Card title="Suplementos" className="md:w-25rem">
+      <Card title="Suplementos" className="md:w-full">
 
         <Carousel value={products} numVisible={3} numScroll={1} responsiveOptions={responsiveOptions} className="custom-carousel" circular
           autoplayInterval={8000} itemTemplate={productTemplate} />

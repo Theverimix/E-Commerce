@@ -66,7 +66,7 @@ export default function LoginRegister() {
         <div className="card flex justify-content-center" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             <Card title={titleLogin} subTitle={subTitleLogin} header={headerLogin} footer={footerLogin} >
                 <div className='login-grid'>
-                    <div id='item-inputs-login-0' style={{ margin: '0px 130px 0 20px' }}>
+                    <form id='item-inputs-login-0' style={{ margin: '0px 130px 0 20px' }}>
                         <br />
                         <div className="p-inputgroup flex-1">
                             <span className="p-inputgroup-addon">
@@ -90,7 +90,7 @@ export default function LoginRegister() {
                                 <label htmlFor="password">Password</label>
                             </span>
                         </div>
-                    </div>
+                    </form>
 
 
                 </div>

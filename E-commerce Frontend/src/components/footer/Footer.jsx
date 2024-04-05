@@ -67,11 +67,11 @@ export default function Footer() {
 
                 <Card title="BENEFICIOS" id="item-1">
                     <div className="p-d-flex">
-                        <p className="m-0 p-be-margin">
+                        <p className="mr-1 p-be-margin">
                             Dejanos tu email para recibir novedades y ofertas preferenciales de nuestros productos.
                         </p>
 
-                        <div className="p-inputgroup flex-1">
+                        <div className="p-inputgroup flex-2">
                             <InputText placeholder="Ingresa tu email" />
                             <Button label='SUSCRIBIRME' />
                         </div>

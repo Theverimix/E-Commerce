@@ -73,7 +73,7 @@ export default function Header() {
     const endItemRenderer = (item) => (
         <Link to={item.href} className="p-menuitem-link icon-item" >
             <span className={item.icon} style={{marginRight:'0.5rem'}}/>
-            <span className="mx-2" style={{marginRight:'0.2rem'}}>{item.label}</span>
+            {/* <span className="mx-2" style={{marginRight:'0.2rem'}}>{item.label}</span> */}
             {item.badge && <Badge className="ml-auto" value={item.badge} />}
         </Link>
     );

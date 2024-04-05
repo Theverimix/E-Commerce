@@ -61,7 +61,7 @@ export default function Register() {
         <div className="card flex justify-content-center" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             <Card title="CREAR UNA NUEVA CUENTA" subTitle={subTitle} header={headerRegister} footer={footerRegister} >
                 <div className='inputs-register-grid'>
-                    <div id='item-inputs-register-0' style={{ margin: '20px' }}>
+                    <form id='item-inputs-register-0' style={{ margin: '20px' }}>
                         <br />
                         <div className="p-inputgroup flex-1">
                             <span className="p-inputgroup-addon">
@@ -84,7 +84,7 @@ export default function Register() {
                                 <label htmlFor="apellido">Apellido</label>
                             </span>
                         </div>
-                    </div>
+                    </form>
 
                     <div id='item-inputs-register-1' style={{ margin: '20px' }}>
 
