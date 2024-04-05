@@ -113,7 +113,7 @@ export default function Welcome() {
           <span className="font-medium text-xl ml-auto">${product.price.toFixed(2)}</span>
         </div>
         <div className="mt-5 flex flex-wrap gap-2 justify-content-center">
-          <Button label="Add to cart" icon="pi pi-cart" outlined badgeClassName="p-badge-danger" className='w-full p-button p-component p-button-outlined' />
+          <Button label="Add to cart" icon="pi pi-shopping-cart" outlined badgeClassName="p-badge-danger" className='w-full p-button p-component p-button-outlined' />
         </div>
       </div>
     );
