@@ -5,10 +5,15 @@ import com.ecommerce.product.state.ProductStateRepository;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,10 +36,19 @@ public class ProductService {
                 .collect(Collectors.toList());
     }
 
-    public List<ProductResponse> getAllProducts() {
-        return productRepository.findAll().stream()
-                .map(mapper)
-                .collect(Collectors.toList());
+    // public List<ProductResponse> getAllProducts() {
+    // return productRepository.findAll().stream()
+    // .map(mapper)
+    // .collect(Collectors.toList());
+    // }
+
+    public Page<ProductResponse> getAllProducts(int pagina) {
+        // Crea un objeto Pageable para la paginación
+        PageRequest pageRequest = PageRequest.of(pagina, 9, Sort.by("id"));
+        // Llama al método del repositorio para obtener los productos paginados
+        Page<Product> pageProducts = productRepository.findAll(pageRequest);
+
+        return pageProducts.map(mapper);
     }
 
     public void saveProduct(ProductRegisterRequest dto) {
@@ -71,4 +85,5 @@ public class ProductService {
                 .orElseThrow(() -> new EntityNotFoundException("Product with id [%s] not found.".formatted(id)));
         productRepository.delete(product);
     }
+
 }

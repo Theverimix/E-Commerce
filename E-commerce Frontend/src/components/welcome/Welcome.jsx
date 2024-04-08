@@ -1,4 +1,6 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
+
+import axios from 'axios';
 import { Carousel } from 'primereact/carousel';
 import { Card } from 'primereact/card';
 import { Divider } from 'primereact/divider';
@@ -7,6 +9,7 @@ import { Tag } from 'primereact/tag';
 import bannerImage from '../../assets/img/ec-banner-definitive.gif';
 
 import './welcome.css'
+import { getProducts } from '../../controller/productController';
 
 //Provisional code to see results. ENABLED TO DELETE IN THE FUTURE
 import imgProducts1 from '../../assets/img/products/bcaa-12000.png'
@@ -16,40 +19,56 @@ import imgProducts4 from '../../assets/img/products/nobooster-sn.png'
 
 export default function Welcome() {
 
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const productList = await getProducts(0); // Aquí pasas el número de página que deseas obtener
+        console.log("Productos recibidos:", productList); // Aquí verificas los datos recibidos en la consola
+        setProducts(productList);
+      } catch (error) {
+        console.error('Error al obtener productos:', error);
+      }
+    };
+
+    fetchData();
+  }, []); // Se ejecuta solo una vez al montar el componente
+
   //Provisional code to see results. ENABLED TO DELETE IN THE FUTURE
 
   // Array of products with attributes: image, name and price
-  const products = [
-    {
-      image: imgProducts1,
-      name: 'Producto 1',
-      desc: 'Description 1',
-      stock: 'INSTOCK',
-      price: 19.99
-    },
-    {
-      image: imgProducts2,
-      name: 'Producto 2',
-      desc: 'Description 2',
-      stock: 'INSTOCK',
-      price: 29.99
-    },
-    {
-      image: imgProducts3,
-      name: 'Producto 3',
-      desc: 'Description 3',
-      stock: 'LOWSTOCK',
-      price: 39.99
-    },
-    {
-      image: imgProducts4,
-      name: 'Producto 4',
-      desc: 'Description 4',
-      stock: 'OUTOFSTOCK',
-      price: 49.99
-    },
-    // Add more objects as needed
-  ];
+  // const products = [
+  //   {
+  //     image: imgProducts1,
+  //     name: 'Producto 1',
+  //     desc: 'Description 1',
+  //     stock: 'INSTOCK',
+  //     price: 19.99
+  //   },
+  //   {
+  //     image: imgProducts2,
+  //     name: 'Producto 2',
+  //     desc: 'Description 2',
+  //     stock: 'INSTOCK',
+  //     price: 29.99
+  //   },
+  //   {
+  //     image: imgProducts3,
+  //     name: 'Producto 3',
+  //     desc: 'Description 3',
+  //     stock: 'LOWSTOCK',
+  //     price: 39.99
+  //   },
+  //   {
+  //     image: imgProducts4,
+  //     name: 'Producto 4',
+  //     desc: 'Description 4',
+  //     stock: 'OUTOFSTOCK',
+  //     price: 49.99
+  //   },
+  //   // Add more objects as needed
+  // ];
 
   //Provisional code to see results. ENABLED TO DELETE IN THE FUTURE
   // Responsive options for the Carousel component
@@ -100,8 +119,7 @@ export default function Welcome() {
       <div className='box p-4 fadein animation-duration-500'>
         <Button icon="pi pi-star" rounded text outlined />
         <div className='surface-card mb-4 w-full text-center p-5'>
-          <img src={product.image} alt={product.name} className='w-10 shadow-2' />
-           
+          <img src={product.images[0]} alt={product.name} className='w-10 shadow-2' />
         </div>
         
         <div className='flex align-items-center mb-4'>

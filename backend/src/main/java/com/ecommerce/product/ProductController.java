@@ -16,10 +16,16 @@ public class ProductController {
     private final ProductService service;
 
     @GetMapping
-    ApiResponse getAllProducts() {
-        List<ProductResponse> products = service.getAllProducts();
+    ApiResponse getAllProducts(@RequestParam(name = "page", defaultValue = "0") int page) {
+        List<ProductResponse> products = service.getAllProducts(page).getContent();
         return ApiResponse.ok(products);
     }
+
+    // @GetMapping
+    // ApiResponse getAllProducts() {
+    // List<ProductResponse> products = service.getAllProducts();
+    // return ApiResponse.ok(products);
+    // }
 
     @GetMapping("/search")
     ApiResponse getProductsByCategory(@RequestParam("category") Long categoryId) {
@@ -35,8 +41,7 @@ public class ProductController {
 
     @PostMapping
     ApiResponse saveProduct(
-            @Valid @RequestBody ProductRegisterRequest request
-    ) {
+            @Valid @RequestBody ProductRegisterRequest request) {
         service.saveProduct(request);
         return ApiResponse.created();
     }
@@ -44,8 +49,7 @@ public class ProductController {
     @PutMapping("/{productId}")
     ApiResponse updateProduct(
             @PathVariable Long productId,
-            @Valid @RequestBody ProductUpdateRequest request
-    ) {
+            @Valid @RequestBody ProductUpdateRequest request) {
         service.updateProduct(productId, request);
         return ApiResponse.updated();
     }
