@@ -82,7 +82,7 @@ export default function Header() {
         label: 'Carrito',
         icon: 'pi pi-shopping-cart',
         badge: 4,
-        href: ''
+        href: '/ProductList'
     };
 
     const loginItem = {

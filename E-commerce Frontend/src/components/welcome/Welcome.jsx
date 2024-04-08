@@ -5,7 +5,7 @@ import { Divider } from 'primereact/divider';
 import { Button } from 'primereact/button';
 import { Tag } from 'primereact/tag';
 import bannerImage from '../../assets/img/ec-banner-definitive.gif';
-import '/node_modules/primeflex/primeflex.css';
+
 import './welcome.css'
 
 //Provisional code to see results. ENABLED TO DELETE IN THE FUTURE

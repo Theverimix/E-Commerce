@@ -1,17 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card } from 'primereact/card';
 import { Divider } from 'primereact/divider';
-import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
-import { Password } from 'primereact/password';
+import { Tree } from 'primereact/tree';
 
 export default function ShopCart() {
+
     
-    
-    
-    return(
-        <>
-        
-        </>
-    )
 }
