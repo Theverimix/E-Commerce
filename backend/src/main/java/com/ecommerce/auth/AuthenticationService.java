@@ -7,10 +7,12 @@ import com.ecommerce.user.User;
 import com.ecommerce.enums.UserRole;
 import com.ecommerce.enums.UserState;
 import com.ecommerce.user.UserRepository;
+import com.ecommerce.utils.StringFormatter;
 
 import lombok.RequiredArgsConstructor;
 
 import java.util.Date;
+import java.util.function.Function;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -30,7 +32,8 @@ public class AuthenticationService {
 
         public AuthenticationResponse register(RegisterRequest request) {
                 Customer user = Customer.builder()
-                                .name(request.name())
+                                .name(StringFormatter.format(request.firstname()) + " "
+                                                + StringFormatter.format(request.lastname()))
                                 .email(request.email())
                                 .password(passwordEncoder.encode(request.password()))
                                 .role(UserRole.CUSTOMER)
