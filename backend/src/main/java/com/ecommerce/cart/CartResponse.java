@@ -1,10 +1,10 @@
 package com.ecommerce.cart;
 
-import com.ecommerce.customer.CustomerDTO;
+import com.ecommerce.customer.CustomerResponse;
 import com.ecommerce.product.ProductResponse;
 
 public record CartResponse(
         ProductResponse product,
-        CustomerDTO customer,
+        CustomerResponse customer,
         int amount
 ) {}

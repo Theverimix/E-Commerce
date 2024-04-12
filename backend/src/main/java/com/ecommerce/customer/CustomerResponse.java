@@ -5,7 +5,7 @@ import com.ecommerce.enums.UserState;
 
 import java.util.Date;
 
-public record CustomerDTO(
+public record CustomerResponse(
                 Long id,
                 String firstname,
                 String lastname,
@@ -15,5 +15,6 @@ public record CustomerDTO(
                 String address,
                 Date registerDate,
                 String country,
-                String phone) {
+                String phone
+) {
 }

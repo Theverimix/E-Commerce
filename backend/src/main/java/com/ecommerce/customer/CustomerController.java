@@ -10,7 +10,6 @@ import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,13 +27,13 @@ public class CustomerController {
 
     @GetMapping
     public ApiResponse getAllCustomers() {
-        List<CustomerDTO> customers = service.getAllCustomers();
+        List<CustomerResponse> customers = service.getAllCustomers();
         return ApiResponse.ok(customers);
     }
 
     @GetMapping("/{customerId}")
     public ApiResponse getCustomerById(@PathVariable Long customerId) {
-        CustomerDTO customer = service.getCustomerById(customerId);
+        CustomerResponse customer = service.getCustomerById(customerId);
         return ApiResponse.ok(customer);
     }
 
@@ -44,15 +43,12 @@ public class CustomerController {
         return ApiResponse.ok(orders);
     }
 
-    @PostMapping
-    public ApiResponse saveCustomer(@RequestBody @Valid CustomerDTO customer) {
-        service.saveCustomer(customer);
-        return ApiResponse.created();
-    }
-
-    @PutMapping
-    public ApiResponse updateCustomer(@RequestBody @Valid CustomerDTO newCustomer) {
-        service.updateCustomer(newCustomer);
+    @PutMapping("/{customerId}")
+    public ApiResponse updateCustomer(
+            @PathVariable Long customerId,
+            @RequestBody @Valid CustomerUpdateRequest request
+    ) {
+        service.updateCustomer(customerId, request);
         return ApiResponse.updated();
     }
 }

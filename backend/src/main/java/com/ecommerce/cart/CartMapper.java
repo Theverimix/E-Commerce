@@ -2,7 +2,7 @@ package com.ecommerce.cart;
 
 import java.util.function.Function;
 
-import com.ecommerce.customer.CustomerDTOMapper;
+import com.ecommerce.customer.CustomerMapper;
 import com.ecommerce.product.ProductMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 public class CartMapper implements Function<Cart, CartResponse> {
 
     private final ProductMapper productMapper;
-    private final CustomerDTOMapper customerMapper;
+    private final CustomerMapper customerMapper;
 
     public CartResponse apply(Cart cart) {
         return new CartResponse(

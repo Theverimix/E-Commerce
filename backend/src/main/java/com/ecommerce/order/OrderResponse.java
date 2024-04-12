@@ -1,6 +1,6 @@
 package com.ecommerce.order;
 
-import com.ecommerce.customer.CustomerDTO;
+import com.ecommerce.customer.CustomerResponse;
 import com.ecommerce.enums.OrderStatus;
 import com.ecommerce.order.detail.OrderDetailResponse;
 
@@ -9,7 +9,7 @@ import java.util.Set;
 
 public record OrderResponse(
         Long id,
-        CustomerDTO customer,
+        CustomerResponse customer,
         String address,
         OrderStatus status,
         Date date,
