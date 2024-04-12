@@ -10,7 +10,8 @@ public class CustomerDTOMapper implements Function<Customer, CustomerDTO> {
     public CustomerDTO apply(Customer customer) {
         return new CustomerDTO(
                 customer.getId(),
-                customer.getName(),
+                customer.getFirstname(),
+                customer.getLastname(),
                 customer.getEmail(),
                 customer.getState(),
                 customer.getRole(),

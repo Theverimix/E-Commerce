@@ -5,7 +5,8 @@ import com.ecommerce.enums.UserState;
 
 public record UserResponse(
         Long id,
-        String name,
+        String firstname,
+        String lastname,
         String email,
         UserState state,
         UserRole role

@@ -32,14 +32,14 @@ public class AuthenticationService {
 
         public AuthenticationResponse register(RegisterRequest request) {
                 Customer user = Customer.builder()
-                                .name(StringFormatter.format(request.firstname()) + " "
-                                                + StringFormatter.format(request.lastname()))
-                                .email(request.email())
-                                .password(passwordEncoder.encode(request.password()))
-                                .role(UserRole.CUSTOMER)
-                                .state(UserState.ACTIVE)
-                                .registerDate(new Date())
-                                .build();
+                        .firstname(request.firstname())
+                        .lastname(request.lastname())
+                        .email(request.email())
+                        .password(passwordEncoder.encode(request.password()))
+                        .role(UserRole.CUSTOMER)
+                        .state(UserState.ACTIVE)
+                        .registerDate(new Date())
+                        .build();
                 customerRepository.save(user);
                 String token = jwtService.generateToken(user);
                 return AuthenticationResponse.builder()

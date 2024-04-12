@@ -50,7 +50,8 @@ public class CustomerService {
         Customer customer = new Customer();
 
         customer.setId(dto.id());
-        customer.setName(dto.name());
+        customer.setFirstname(dto.firstname());
+        customer.setLastname(dto.lastname());
         customer.setEmail(dto.email());
         customer.setState(dto.state());
         customer.setRole(dto.role());

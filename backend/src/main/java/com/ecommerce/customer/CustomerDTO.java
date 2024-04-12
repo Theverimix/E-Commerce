@@ -7,7 +7,8 @@ import java.util.Date;
 
 public record CustomerDTO(
                 Long id,
-                String name,
+                String firstname,
+                String lastname,
                 String email,
                 UserState state,
                 UserRole role,

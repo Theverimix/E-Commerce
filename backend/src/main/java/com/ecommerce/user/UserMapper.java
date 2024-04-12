@@ -10,7 +10,8 @@ public class UserMapper implements Function<User, UserResponse> {
     public UserResponse apply(User user) {
         return new UserResponse(
                 user.getId(),
-                user.getName(),
+                user.getFirstname(),
+                user.getLastname(),
                 user.getEmail(),
                 user.getState(),
                 user.getRole()
