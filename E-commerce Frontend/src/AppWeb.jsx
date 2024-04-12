@@ -1,32 +1,32 @@
-import React, {useState} from 'react';
-import Header from './components/header/Header.jsx'
-import Welcome from './components/welcome/Welcome.jsx';
-import Footer from './components/footer/Footer.jsx';
-import LoginRegister from './components/login/Login.jsx';
-import Register from './components/register/Register.jsx';
-import ShopCart from './components/shopCart/ShopCart.jsx';
-import ProductList from './components/productsList/ProductList.jsx';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import React, { useState } from "react";
+import Header from "./components/header/Header.jsx";
+import Welcome from "./pages/welcome/Welcome.jsx";
+import Footer from "./components/footer/Footer.jsx";
+import LoginRegister from "./pages/login/Login.jsx";
+import Register from "./pages/register/Register.jsx";
+import ShopCart from "./pages/shopCart/ShopCart.jsx";
+import ProductList from "./pages/productsList/ProductList.jsx";
+import Profile from "./pages/profile/profile.jsx";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-import '/node_modules/primeflex/primeflex.css';
+import "/node_modules/primeflex/primeflex.css";
 function AppWeb() {
-    
-    return (
-        
+  return (
     <>
-        <BrowserRouter>
+      <BrowserRouter>
         <Header />
         <Routes>
-            <Route path='/' element={<Welcome/>}/>
-            <Route path='/loginRegister' element={<LoginRegister/>}/>
-            <Route path='/Register' element={<Register/>}/>
-            <Route path='/ProductList' element={<ProductList/>}/>
+          <Route path="/" element={<Welcome />} />
+          <Route path="/loginRegister" element={<LoginRegister />} />
+          <Route path="/Register" element={<Register />} />
+          <Route path="/ProductList" element={<ProductList />} />
+          <Route path="/Profile" element={<Profile />} />
         </Routes>
-        
-        <Footer/>
-        </BrowserRouter>
+
+        <Footer />
+      </BrowserRouter>
     </>
-    );
+  );
 }
 
 export default AppWeb;
