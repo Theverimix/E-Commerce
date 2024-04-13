@@ -5,7 +5,7 @@ import Footer from "./components/footer/Footer.jsx";
 import LoginRegister from "./pages/login/Login.jsx";
 import Register from "./pages/register/Register.jsx";
 import ShopCart from "./pages/shopCart/ShopCart.jsx";
-import ProductList from "./pages/productsList/ProductList.jsx";
+import ProductPage from "./pages/productsPage/ProductPage.jsx";
 import Profile from "./pages/profile/profile.jsx";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
@@ -17,10 +17,10 @@ function AppWeb() {
         <Header />
         <Routes>
           <Route path="/" element={<Welcome />} />
-          <Route path="/loginRegister" element={<LoginRegister />} />
-          <Route path="/Register" element={<Register />} />
-          <Route path="/ProductList" element={<ProductList />} />
-          <Route path="/Profile" element={<Profile />} />
+          <Route path="/login" element={<LoginRegister />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/products" element={<ProductPage />} />
         </Routes>
 
         <Footer />
