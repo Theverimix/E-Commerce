@@ -1,0 +1,29 @@
+.main {
+  margin-top: 10px;
+}
+
+.galleryMain {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.grid-container {
+  display: grid;
+  margin-top: 2%;
+  grid-template-columns: repeat(3, 1fr); /* Tres columnas de igual ancho */
+  gap: 20px; /* Espacio entre las imágenes */
+}
+
+.item {
+  text-align: center;
+}
+
+.image-container {
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+img {
+  width: 100%; /* Ajusta el ancho de la imagen al contenedor */
+  border-radius: inherit; /* Hereda el radio de borde del contenedor */
+}

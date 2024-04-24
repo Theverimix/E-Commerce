@@ -4,6 +4,7 @@ import Welcome from "./pages/welcome/Welcome.jsx";
 import Footer from "./components/footer/Footer.jsx";
 import LoginRegister from "./pages/login/Login.jsx";
 import Register from "./pages/register/Register.jsx";
+import Home from "./pages/home/home.jsx";
 import ShopCart from "./pages/shopCart/ShopCart.jsx";
 import ProductList from "./pages/productsList/ProductList.jsx";
 import Profile from "./pages/profile/profile.jsx";
@@ -15,12 +16,21 @@ function AppWeb() {
     <>
       <BrowserRouter>
         <Header />
+
         <Routes>
           <Route path="/" element={<Welcome />} />
-          <Route path="/loginRegister" element={<LoginRegister />} />
-          <Route path="/Register" element={<Register />} />
-          <Route path="/ProductList" element={<ProductList />} />
-          <Route path="/Profile" element={<Profile />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/products" element={<ProductList />} />
+          <Route path="/products/id" element={<ProductList />} />
+          <Route path="/cart" element={<ProductList />} />
+          <Route path="/chekout" element={<ProductList />} />
+          <Route path="/confirmation" element={<ProductList />} />
+          <Route path="/login" element={<LoginRegister />} />
+          <Route path="/singup" element={<Register />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/search" element={<ProductList />} />
+          <Route path="/terms" element={<ProductList />} />
+          <Route path="/contact" element={<ProductList />} />
         </Routes>
 
         <Footer />

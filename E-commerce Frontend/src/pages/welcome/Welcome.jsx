@@ -1,24 +1,23 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from "react";
 
-import axios from 'axios';
-import { Carousel } from 'primereact/carousel';
-import { Card } from 'primereact/card';
-import { Divider } from 'primereact/divider';
-import { Button } from 'primereact/button';
-import { Tag } from 'primereact/tag';
-import bannerImage from '../../assets/img/ec-banner-definitive.gif';
+import axios from "axios";
+import { Carousel } from "primereact/carousel";
+import { Card } from "primereact/card";
+import { Divider } from "primereact/divider";
+import { Button } from "primereact/button";
+import { Tag } from "primereact/tag";
+import bannerImage from "../../assets/img/ec-banner-definitive.gif";
 
-import './welcome.css'
-import { getProducts } from '../../controller/productController';
+import "./welcome.css";
+import { getProducts } from "../../controller/productController";
 
 //Provisional code to see results. ENABLED TO DELETE IN THE FUTURE
-import imgProducts1 from '../../assets/img/products/bcaa-12000.png'
-import imgProducts2 from '../../assets/img/products/nitro-bcaa-250.png'
-import imgProducts3 from '../../assets/img/products/muscle-builder-7lb-gn.png'
-import imgProducts4 from '../../assets/img/products/nobooster-sn.png'
+import imgProducts1 from "../../assets/img/products/bcaa-12000.png";
+import imgProducts2 from "../../assets/img/products/nitro-bcaa-250.png";
+import imgProducts3 from "../../assets/img/products/muscle-builder-7lb-gn.png";
+import imgProducts4 from "../../assets/img/products/nobooster-sn.png";
 
 export default function Welcome() {
-
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
@@ -28,7 +27,7 @@ export default function Welcome() {
         console.log("Productos recibidos:", productList); // Aquí verificas los datos recibidos en la consola
         setProducts(productList);
       } catch (error) {
-        console.error('Error al obtener productos:', error);
+        console.error("Error al obtener productos:", error);
       }
     };
 
@@ -74,106 +73,131 @@ export default function Welcome() {
   // Responsive options for the Carousel component
   const responsiveOptions = [
     {
-      breakpoint: '600px',
+      breakpoint: "600px",
       numVisible: 4,
-      numScroll: 1
+      numScroll: 1,
     },
     {
-      breakpoint: '600px',
+      breakpoint: "600px",
       numVisible: 3,
-      numScroll: 1
+      numScroll: 1,
     },
     {
-      breakpoint: '600px',
+      breakpoint: "600px",
       numVisible: 2,
-      numScroll: 1
+      numScroll: 1,
     },
     {
-      breakpoint: '600px',
+      breakpoint: "600px",
       numVisible: 1,
-      numScroll: 1
-    }
-
+      numScroll: 1,
+    },
   ];
 
   const getSeverity = (product) => {
     switch (product.stock) {
-        case 'INSTOCK':
-            return 'success';
+      case "INSTOCK":
+        return "success";
 
-        case 'LOWSTOCK':
-            return 'warning';
+      case "LOWSTOCK":
+        return "warning";
 
-        case 'OUTOFSTOCK':
-            return 'danger';
+      case "OUTOFSTOCK":
+        return "danger";
 
-        default:
-            return null;
+      default:
+        return null;
     }
-};
+  };
 
   //Provisional code to see results. ENABLED TO DELETE IN THE FUTURE
   // Template for each element of the Carousel
   const productTemplate = (product) => {
     return (
-      <div className='box p-4 fadein animation-duration-500'>
+      <div className="box p-4 fadein animation-duration-500">
         <Button icon="pi pi-star" rounded text outlined />
-        <div className='surface-card mb-4 w-full text-center p-5'>
-          <img src={product.images[0]} alt={product.name} className='w-10 shadow-2' />
+        <div className="surface-card mb-4 w-full text-center p-5">
+          <img
+            src={product.images[0]}
+            alt={product.name}
+            className="w-10 shadow-2"
+          />
         </div>
-        
-        <div className='flex align-items-center mb-4'>
-          <div className='flex flex-column'>
+
+        <div className="flex align-items-center mb-4">
+          <div className="flex flex-column">
             <span className="block font-semibold mb-1">{product.name}</span>
-            <Tag value={product.stock} severity={getSeverity(product)} className="text-secondary text-sm"></Tag>
+            <Tag
+              value={product.stock}
+              severity={getSeverity(product)}
+              className="text-secondary text-sm"
+            ></Tag>
             {/* <span className="text-secondary text-sm">{product.desc}</span> */}
           </div>
-          <span className="font-medium text-xl ml-auto">${product.price.toFixed(2)}</span>
+          <span className="font-medium text-xl ml-auto">
+            ${product.price.toFixed(2)}
+          </span>
         </div>
         <div className="mt-5 flex flex-wrap gap-2 justify-content-center">
-          <Button label="Add to cart" icon="pi pi-shopping-cart" outlined badgeClassName="p-badge-danger" className='w-full p-button p-component p-button-outlined' />
+          <Button
+            label="Add to cart"
+            icon="pi pi-shopping-cart"
+            outlined
+            badgeClassName="p-badge-danger"
+            className="w-full p-button p-component p-button-outlined"
+          />
         </div>
       </div>
     );
   };
 
-
   return (
     <>
-      <img src={bannerImage} alt="Logo" onContextMenu={(e) => cm.current.show(e)} style={{ width: '100%' }} />
+      <img
+        src={bannerImage}
+        alt="Logo"
+        onContextMenu={(e) => cm.current.show(e)}
+        style={{ width: "100%" }}
+      />
 
-      <hr style={{ borderBottom: '2px solid #e69b0c', margin: '0' }} />
+      <hr style={{ borderBottom: "2px solid #e69b0c", margin: "0" }} />
 
       <Card title="Suplementos" className="md:w-full">
-
-        <Carousel value={products} numVisible={3} numScroll={1} responsiveOptions={responsiveOptions} className="custom-carousel" circular
-          autoplayInterval={8000} itemTemplate={productTemplate} />
+        <Carousel
+          value={products}
+          numVisible={3}
+          numScroll={1}
+          responsiveOptions={responsiveOptions}
+          className="custom-carousel"
+          circular
+          autoplayInterval={8000}
+          itemTemplate={productTemplate}
+        />
       </Card>
 
-      <div className="card flex justify-content-center" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-
+      <div
+        className="card flex justify-content-center"
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
         <p>
-
-          <b>
-
-            ENVÍOS A TODO EL URUGUAY
-          </b>
+          <b>ENVÍOS A TODO EL URUGUAY</b>
           <br />
           Llegamos a todos los rincones del país.
         </p>
         <Divider layout="vertical" />
         <p>
-          <b>
-            PAGA EN HASTA 12 CUOTAS
-          </b>
+          <b>PAGA EN HASTA 12 CUOTAS</b>
           <br />
           Aceptamos todos los medios de pago.
         </p>
         <Divider layout="vertical" />
         <p>
-          <b>
-            RETIRO EN SUCURSALES
-          </b><br />
+          <b>RETIRO EN SUCURSALES</b>
+          <br />
           Pickup gratis en nuestras tiendas.
         </p>
       </div>
@@ -184,7 +208,6 @@ export default function Welcome() {
         <Carousel value={products} numVisible={3} numScroll={3} responsiveOptions={responsiveOptions} className="custom-carousel" circular
 autoplayInterval={8000} itemTemplate={productTemplate} />
         </Card> */}
-
     </>
-  )
+  );
 }

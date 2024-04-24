@@ -1,4 +1,4 @@
-.login-item{
+.login-item {
   color: rgba(255, 255, 255, 0.87);
   text-decoration: none;
 }
@@ -7,31 +7,28 @@
   border-bottom: 2px solid #e69b0c;
   cursor: pointer;
   color: rgba(255, 255, 255, 255);
-  
 }
 
-.signin-item{
+.signin-item {
   color: rgba(255, 255, 255, 0.87);
   text-decoration: none;
 }
 
-.signin-item:hover{
+.signin-item:hover {
   border-bottom: 2px solid #e69b0c;
   cursor: pointer;
   color: rgba(255, 255, 255, 255);
-  
 }
 
-.icon-item{
+.icon-item {
   color: rgba(255, 255, 255, 0.87);
   padding: 0.5rem;
 }
 
-.icon-item:hover{
-  background-color:rgba(255, 255, 255, 0.03);
+.icon-item:hover {
+  background-color: rgba(255, 255, 255, 0.03);
   border-radius: 3px;
   padding: 0.5rem;
   cursor: pointer;
   color: rgba(255, 255, 255, 255);
-  
 }
