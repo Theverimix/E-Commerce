@@ -20,17 +20,17 @@ function AppWeb() {
         <Routes>
           <Route path="/" element={<Welcome />} />
           <Route path="/home" element={<Home />} />
-          <Route path="/products" element={<ProductList />} />
-          <Route path="/products/id" element={<ProductList />} />
-          <Route path="/cart" element={<ProductList />} />
-          <Route path="/chekout" element={<ProductList />} />
-          <Route path="/confirmation" element={<ProductList />} />
+          <Route path="/products" element={<ProductPage />} />
+          <Route path="/products/id" element={<ProductPage />} />
+          <Route path="/cart" element={<ProductPage />} />
+          <Route path="/chekout" element={<ProductPage />} />
+          <Route path="/confirmation" element={<ProductPage />} />
           <Route path="/login" element={<LoginRegister />} />
           <Route path="/singup" element={<Register />} />
           <Route path="/profile" element={<Profile />} />
-          <Route path="/search" element={<ProductList />} />
-          <Route path="/terms" element={<ProductList />} />
-          <Route path="/contact" element={<ProductList />} />
+          <Route path="/search" element={<ProductPage />} />
+          <Route path="/terms" element={<ProductPage />} />
+          <Route path="/contact" element={<ProductPage />} />
         </Routes>
 
         <Footer />
