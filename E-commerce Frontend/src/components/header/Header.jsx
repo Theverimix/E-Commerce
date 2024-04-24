@@ -129,7 +129,7 @@ export default function Header() {
           alignItems: "center",
         }}
       >
-        <Link to="/loginRegister" className="login-item">
+        <Link to="/login" className="login-item">
           Iniciar sesión
         </Link>
         <Divider layout="vertical" />

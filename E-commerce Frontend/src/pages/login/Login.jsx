@@ -16,16 +16,16 @@ export default function LoginRegister() {
 
     const titleLogin = (
         <div class="title-grid">
-            <div id="item-title-login-0">CLIENTES REGISTRADOS</div>
-            <div id="item-title-login-1">CLIENTES NUEVOS</div>
+            <div id="item-title-login-0">Registered customers</div>
+            <div id="item-title-login-1">New customers</div>
         </div>
     );
 
     const subTitleLogin = (
 
         <div class="subTitle-grid">
-            <div id="item-subTitle-login-0" style={{ margin: '20px' }}>Si tienes una cuenta ingresa los datos:</div>
-            <div id="item-subtitle-login-1" style={{ margin: '20px' }}>Registrarte tiene muchos beneficios: compras más rápidas, atención personalizada, ofertas exclusivas y muchos más.</div>
+            <div id="item-subTitle-login-0" style={{ margin: '20px' }}>If you have an account, enter the data:</div>
+            <div id="item-subtitle-login-1" style={{ margin: '20px' }}>Registering has many benefits: faster shopping, personalized attention, exclusive offers and many more.</div>
         </div>
 
     );
@@ -37,11 +37,11 @@ export default function LoginRegister() {
     const footerLogin = (
         <div class="footer-grid">
             <div id="item-footer-login-0" style={{ display: 'flex', justifyContent: 'flex-end', marginRight: '20px' }}>
-                <Button label="INGRESAR" onClick={() => userLogin(username, password)} />
+                <Button label="Log in" onClick={() => userLogin(username, password)} />
             </div>
 
             <div id="item-footer-login-1" style={{ display: 'flex', justifyContent: 'flex-end', marginRight: '20px' }}>
-                <Link to='/Register'><Button label="REGISTRARSE" /></Link>
+                <Link to='/singup'><Button label="Sing up" /></Link>
             </div>
         </div>
     );
@@ -49,7 +49,7 @@ export default function LoginRegister() {
 
     const subTitle = (
         <p>
-            Registrarte tiene muchos beneficios: compras más rápidas, atención personalizada, ofertas exclusivas y muchos más.
+            Registering has many benefits: faster shopping, personalized attention, exclusive offers and many more.
         </p>
     )
     const headerRegister = (
@@ -65,8 +65,8 @@ export default function LoginRegister() {
     return (
         <div className="card flex justify-content-center" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             <Card title={titleLogin} subTitle={subTitleLogin} header={headerLogin} footer={footerLogin} >
-                <div className='login-grid'>
-                    <form id='item-inputs-login-0' style={{ margin: '0px 130px 0 20px' }}>
+                <div className='login-grid' >
+                    <div id='item-inputs-login-0' style={{ margin: '0 135px 0 20px' }}>
                         <br />
                         <div className="p-inputgroup flex-1">
                             <span className="p-inputgroup-addon">
@@ -74,7 +74,7 @@ export default function LoginRegister() {
                             </span>
                             <span className="p-float-label">
                             <InputText value={username} onChange={(e) => setUsername(e.target.value)} />
-                            <label htmlFor="username">Username</label>
+                            <label htmlFor="username">Email</label>
                             </span>
                         </div>
                         <br />
@@ -90,7 +90,7 @@ export default function LoginRegister() {
                                 <label htmlFor="password">Password</label>
                             </span>
                         </div>
-                    </form>
+                    </div>
 
 
                 </div>
