@@ -27,10 +27,16 @@ export default function Register() {
         }
     }
 
+    const title = (
+        <div >
+            <h2 className='text-center'>Singup</h2>
+        </div>
+    )
+
     const subTitle = (
-        <div class="register-grid">
-            <div id="item-register-0" style={{ margin: '20px' }}>Información personal</div>
-            <div id="item-register-1" style={{ margin: '20px' }}>Información de acceso</div>
+        <div >
+            <div className='text-center' style={{ margin: '20px' }}>Create your account to start shopping the best deals!</div>
+            {/* <div id="item-register-1" style={{ margin: '20px' }}>Información de acceso</div> */}
         </div>
     )
     const headerRegister = (
@@ -59,9 +65,9 @@ export default function Register() {
 
     return (
         <div className="card flex justify-content-center" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <Card title="CREAR UNA NUEVA CUENTA" subTitle={subTitle} header={headerRegister} footer={footerRegister} >
-                <div className='inputs-register-grid'>
-                    <form id='item-inputs-register-0' style={{ margin: '20px' }}>
+            <Card title={title} subTitle={subTitle} header={headerRegister} footer={footerRegister} >
+                <div style={{ marginLeft: '50vh' , marginRight: '50vh'}}>
+                    <div  style={{ margin: '20px' }}>
                         <br />
                         <div className="p-inputgroup flex-1">
                             <span className="p-inputgroup-addon">
@@ -84,9 +90,10 @@ export default function Register() {
                                 <label htmlFor="apellido">Apellido</label>
                             </span>
                         </div>
-                    </form>
+                        <br />
+                    {/* </div>
 
-                    <div id='item-inputs-register-1' style={{ margin: '20px' }}>
+                    <div id='item-inputs-register-1' style={{ margin: '20px' }}> */}
 
                         <br />
                         <div className="p-inputgroup flex-1">
