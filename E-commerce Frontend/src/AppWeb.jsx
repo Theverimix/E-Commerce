@@ -6,7 +6,7 @@ import LoginRegister from "./pages/login/Login.jsx";
 import Register from "./pages/register/Register.jsx";
 import Home from "./pages/home/home.jsx";
 import ShopCart from "./pages/shopCart/ShopCart.jsx";
-import ProductList from "./pages/productsList/ProductList.jsx";
+import ProductPage from "./pages/productsPage/ProductPage.jsx";
 import Profile from "./pages/profile/profile.jsx";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 

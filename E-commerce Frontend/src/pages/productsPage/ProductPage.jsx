@@ -4,9 +4,44 @@ import { Divider } from 'primereact/divider';
 import { Button } from 'primereact/button';
 import { Tree } from 'primereact/tree';
 import { DataView, DataViewLayoutOptions } from 'primereact/dataview';
-        
+import ProductList from '../../components/product/ProductList';
 
-export default function ProductList() {
+const products = [
+    {
+        "id": 1,
+        "image": "https://imgs.search.brave.com/lsEmPulZ7iOwsgg6eyvIefhH6QLnXG7wA125_B2YDfM/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9pbWFn/ZXMtbmEuc3NsLWlt/YWdlcy1hbWF6b24u/Y29tL2ltYWdlcy9J/LzYxTTZheGhIcGZM/LmpwZw",
+        "name": "Producto 1",
+        "desc": "Description 1",
+        "stock": "INSTOCK",
+        "price": 19.99
+    },
+    {
+        "id": 2,
+        "image": "https://imgs.search.brave.com/lsEmPulZ7iOwsgg6eyvIefhH6QLnXG7wA125_B2YDfM/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9pbWFn/ZXMtbmEuc3NsLWlt/YWdlcy1hbWF6b24u/Y29tL2ltYWdlcy9J/LzYxTTZheGhIcGZM/LmpwZw",
+        "name": "Producto 2",
+        "desc": "Description 2",
+        "stock": "INSTOCK",
+        "price": 29.99
+    },
+    {
+        "id": 3,
+        "image": "https://imgs.search.brave.com/lsEmPulZ7iOwsgg6eyvIefhH6QLnXG7wA125_B2YDfM/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9pbWFn/ZXMtbmEuc3NsLWlt/YWdlcy1hbWF6b24u/Y29tL2ltYWdlcy9J/LzYxTTZheGhIcGZM/LmpwZw",
+        "name": "Producto 3",
+        "desc": "Description 3",
+        "stock": "LOWSTOCK",
+        "price": 39.99
+    },
+    {
+        "id": 4,
+        "image": "https://imgs.search.brave.com/lsEmPulZ7iOwsgg6eyvIefhH6QLnXG7wA125_B2YDfM/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9pbWFn/ZXMtbmEuc3NsLWlt/YWdlcy1hbWF6b24u/Y29tL2ltYWdlcy9J/LzYxTTZheGhIcGZM/LmpwZw",
+        "name": "Producto 4",
+        "desc": "Description 4",
+        "stock": "OUTOFSTOCK",
+        "price": 49.99
+    } 
+]
+
+export default function ProductPage() {
 
     const cateFilter = [{
         key: '0',
@@ -34,13 +69,14 @@ export default function ProductList() {
         ]
     }];
 
-
-
-
-
-
     return (
-        <div className='grid'>
+        <ProductList products={products} />
+    )
+    
+}
+
+/*
+<div className='grid'>
             <div className='col-fixed' style={{ Width: '1000px' }}>
                 <div className="card flex justify-content-center">
                     <Tree value={cateFilter} selectionMode="checkbox" className="w-full md:w-20rem" />
@@ -50,6 +86,4 @@ export default function ProductList() {
                 <DataView value={products} itemTemplate={itemTemplate} layout={layout} header={header()} />
             </div>
         </div>
-    )
-
-}
+*/

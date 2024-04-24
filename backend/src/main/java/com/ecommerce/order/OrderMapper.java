@@ -3,7 +3,7 @@ package com.ecommerce.order;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import com.ecommerce.customer.CustomerDTOMapper;
+import com.ecommerce.customer.CustomerMapper;
 import com.ecommerce.order.detail.OrderDetailMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class OrderMapper implements Function<Order, OrderResponse> {
 
-    private final CustomerDTOMapper dtoMapper;
+    private final CustomerMapper dtoMapper;
     private final OrderDetailMapper detailMapper;
 
     public OrderResponse apply(Order order) {

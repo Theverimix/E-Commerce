@@ -13,54 +13,33 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class CustomerService {
 
-    private final CustomerRepository customerRepository;
-    private final CustomerDTOMapper customerDtoMapper;
+    private final CustomerRepository repository;
+    private final CustomerMapper mapper;
 
-    public CustomerDTO getCustomerById(@NonNull Long id) {
-        return customerRepository.findById(id)
-                .map(customerDtoMapper)
-                .orElseThrow(() -> new EntityNotFoundException(
-                        "Product with id [%s] not found.".formatted(id)));
+    public CustomerResponse getCustomerById(@NonNull Long id) {
+        return repository.findById(id)
+                .map(mapper)
+                .orElseThrow(() -> new EntityNotFoundException("Customer with id [%s] not found.".formatted(id)));
     }
 
-    public List<CustomerDTO> getAllCustomers() {
-        return customerRepository.findAll()
+    public List<CustomerResponse> getAllCustomers() {
+        return repository.findAll()
                 .stream()
-                .map(customerDtoMapper)
+                .map(mapper)
                 .collect(Collectors.toList());
     }
 
-    public void saveCustomer(CustomerDTO dto) {
-        customerRepository.save(mapDTOToCustomer(dto));
+    public void updateCustomer(Long customerId, CustomerUpdateRequest request) {
+        Customer customer = repository.findById(customerId)
+                .orElseThrow(() -> new EntityNotFoundException("Customer with id [%s] not found.".formatted(customerId)));
+
+        customer.setFirstname(request.firstname());
+        customer.setLastname(request.lastname());
+        customer.setEmail(request.email());
+        customer.setAddress(request.address());
+        customer.setCountry(request.country());
+        customer.setPhone(request.phone());
+
+        repository.save(customer);
     }
-
-    public void updateCustomer(CustomerDTO dto) {
-        customerRepository.save(mapDTOToCustomer(dto));
-    }
-
-    public void deleteCustomer(@NonNull Long id) {
-        Customer customer = customerRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException(
-                        "Customer with id [%s] not found.".formatted(id)));
-
-        customerRepository.delete(customer);
-    }
-
-    public Customer mapDTOToCustomer(CustomerDTO dto) {
-        Customer customer = new Customer();
-
-        customer.setId(dto.id());
-        customer.setFirstname(dto.firstname());
-        customer.setLastname(dto.lastname());
-        customer.setEmail(dto.email());
-        customer.setState(dto.state());
-        customer.setRole(dto.role());
-        customer.setAddress(dto.address());
-        customer.setRegisterDate(dto.registerDate());
-        customer.setCountry(dto.country());
-        customer.setPhone(dto.phone());
-
-        return customer;
-    }
-
 }
