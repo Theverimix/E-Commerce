@@ -3,6 +3,8 @@ import Gallery from "../../components/Galleria/Galleria";
 import { Card } from "primereact/card";
 import { Button } from "primereact/button";
 
+import Carousel from "../../components/homeCarousel/homeCarousel";
+
 import "./HomeStyle.css";
 
 import categoria1 from "../../assets/img/products/bcaa-12000.png";
@@ -74,6 +76,28 @@ export default function Home() {
         </div>
 
         {/* products */}
+
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "column",
+          }}
+        >
+          <h1 style={{ marginBottom: "2.5px" }}>BEST PRODUCTS</h1>
+          <p style={{ textAlign: "center", maxWidth: "600px" }}>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit,
+            consectetur non fugiat dicta ab nulla commodi quas voluptatibus cum
+            sint accusantium soluta, tenetur officia delectus accusamus dolore
+            expedita eum aliquam.
+          </p>
+          <Button label="All Products" style={{ marginTop: "10px" }}></Button>
+        </div>
+
+        <div className="carousel">
+          <Carousel />
+        </div>
       </div>
     </>
   );
