@@ -40,7 +40,7 @@ export default function Home() {
         <div className="grid-container">
           <div className="box p-4 fadein animation-duration-500">
             <div className="surface-card mb-4 w-full text-center p-5">
-              <img src={categoria1} alt="nashe" className="w-10 shadow-2" />
+              <img src={categoria1} className="w-10 shadow-2" />
             </div>
 
             <div className="flex align-items-center mb-4">
@@ -52,7 +52,7 @@ export default function Home() {
 
           <div className="box p-4 fadein animation-duration-500">
             <div className="surface-card mb-4 w-full text-center p-5">
-              <img src={categoria2} alt="nashe" className="w-10 shadow-2" />
+              <img src={categoria2} className="w-10 shadow-2" />
             </div>
 
             <div className="flex align-items-center mb-4">
@@ -64,7 +64,7 @@ export default function Home() {
 
           <div className="box p-4 fadein animation-duration-500">
             <div className="surface-card mb-4 w-full text-center p-5">
-              <img src={categoria3} alt="nashe" className="w-10 shadow-2" />
+              <img src={categoria3} className="w-10 shadow-2" />
             </div>
 
             <div className="flex align-items-center mb-4">

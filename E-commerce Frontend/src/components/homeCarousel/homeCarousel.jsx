@@ -1,86 +1,95 @@
 import React, { useState, useEffect } from "react";
 import { Galleria } from "primereact/galleria";
+import { Skeleton } from "primereact/skeleton";
 import { Carousel } from "primereact/carousel";
 import { Button } from "primereact/button";
 import { PrimeIcons } from "primereact/api";
 
-import producto1 from "../../assets/img/products/muscle-builder-7lb-gn.png";
-import producto2 from "../../assets/img/products/nitro-bcaa-250.png";
-import producto3 from "../../assets/img/products/nobooster-sn.png";
-import producto4 from "../../assets/img/products/valija_30kg2.png";
-import producto5 from "../../assets/img/products/mancuerna_35_kg.png";
-import producto6 from "../../assets/img/products/bcaa-12000.png";
+import { getProducts } from "../../controller/productController";
 
 import "./homeCarousel.css";
 
-export default function homeCarousel() {
-  const imagesData = [
-    {
-      itemImageSrc: producto1,
-      alt: "Descripción de la imagen 1",
-      itemName: "Producto 1",
-    },
-    {
-      itemImageSrc: producto2,
-      alt: "Descripción de la imagen 2",
-      itemName: "Producto 2",
-    },
-    {
-      itemImageSrc: producto3,
-      alt: "Descripción de la imagen 3",
-      itemName: "Producto 3",
-    },
-    {
-      itemImageSrc: producto4,
-      alt: "Descripción de la imagen 4",
-      itemName: "Producto 4",
-    },
-    {
-      itemImageSrc: producto5,
-      alt: "Descripción de la imagen 5",
-      itemName: "Producto 5",
-    },
-    {
-      itemImageSrc: producto6,
-      alt: "Descripción de la imagen 6",
-      itemName: "Producto 6",
-    },
-    // Agrega más objetos para cada una de tus imágenes
-  ];
+export default function HomeCarousel() {
+  const [products, setProducts] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const [images, setImages] = useState(imagesData);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const productList = await getProducts(0);
+        console.log("Productos recibidos:", productList);
+        setProducts(productList);
+        setIsLoading(false); // Ya no está cargando
+      } catch (error) {
+        console.error("Error al obtener productos:", error);
+        setIsLoading(false); // En caso de error, también dejar de cargar
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const itemTemplate = (item) => {
     return (
       <div className="box p-4 fadein animation-duration-500">
         <div className="surface-card mb-4 w-full text-center p-5">
           <img
-            src={item.itemImageSrc}
-            alt={item.alt}
+            src={item.images}
             style={{ width: "100%", display: "block" }}
+            alt={item.name}
           />
         </div>
 
         <div className="flex align-items-center mb-4">
-          <div className="flex flex-column">
-            <span className="block font-semibold mb-1">{item.itemName}</span>
+          <div className="flex w-full">
+            <span className="block font-semibold mb-1">{item.name}</span>
+            <span className="block font-semibold mb-1 ml-auto">
+              ${item.price}
+            </span>
           </div>
         </div>
-        <div className="pruebita">
-          <Button label="Add to Cart" icon={PrimeIcons.SHOPPING_CART}></Button>
+        <div>
+          <Button
+            className="w-full"
+            label="Add to Cart"
+            icon={PrimeIcons.SHOPPING_CART}
+          />
         </div>
       </div>
     );
   };
 
+  // Si está cargando, muestra esqueletos; si no, muestra el carrusel con productos
   return (
-    <Carousel
-      value={images}
-      numVisible={4}
-      className="custom-carousel"
-      circular
-      autoplayInterval={5000}
-      itemTemplate={itemTemplate}
-    />
+    <div>
+      {isLoading ? (
+        <div className="flex justify-content-center align-items-center">
+          {/* Estructura de carga para el carrusel */}
+          {[...Array(4)].map((_, index) => (
+            <div key={index} className="box w-full">
+              <div className="mb-4 w-full text-center p-5">
+                <Skeleton shape="rectangle" height="20rem" />
+              </div>
+              <div className="flex align-items-center mb-4">
+                <div className="flex w-full">
+                  <Skeleton width="40%" />
+                  <Skeleton width="20%" className="ml-auto" />
+                </div>
+              </div>
+              <Skeleton height="40px" />
+            </div>
+          ))}
+        </div>
+      ) : (
+        <Carousel
+          value={products}
+          numVisible={4}
+          className="custom-carousel"
+          circular
+          autoplayInterval={5000}
+          itemTemplate={itemTemplate}
+        />
+      )}
+    </div>
   );
 }
