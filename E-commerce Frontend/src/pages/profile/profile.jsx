@@ -5,7 +5,7 @@ import { Button } from "primereact/button";
 import { Card } from 'primereact/card';
 import { InputMask } from 'primereact/inputmask';
 
-import { updateProfile } from "./ProfileApi";
+import { updateProfile } from "../../controller/ProfileController";
 
 export default function Profile() {
   const [data, setData] = useState({
