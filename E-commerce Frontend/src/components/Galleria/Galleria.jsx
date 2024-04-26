@@ -30,10 +30,11 @@ export default function Gallery() {
 
   return (
     <Carousel
+      showIndicators={false}
       value={images}
       numVisible={1}
       className="custom-carousel"
-      circular
+      circular={true}
       autoplayInterval={3000}
       itemTemplate={itemTemplate}
     />

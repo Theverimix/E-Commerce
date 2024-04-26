@@ -9,9 +9,24 @@
 
 .grid-container {
   display: grid;
+  margin: auto;
+  max-width: 70%;
   margin-top: 2%;
+  margin-bottom: 2%;
   grid-template-columns: repeat(3, 1fr); /* Tres columnas de igual ancho */
   gap: 20px; /* Espacio entre las imágenes */
+}
+
+.grid-container .p-5 {
+  padding: 1% !important;
+}
+
+.grid-container .surface-card {
+  background-color: #1e1e1e00 !important;
+}
+
+.grid-container .w-10 {
+  width: 83.3333% !important;
 }
 
 .item {
@@ -26,4 +41,8 @@
 img {
   width: 100%; /* Ajusta el ancho de la imagen al contenedor */
   border-radius: inherit; /* Hereda el radio de borde del contenedor */
+}
+
+.carousel {
+  margin: 5%;
 }
