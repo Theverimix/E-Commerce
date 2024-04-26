@@ -117,3 +117,8 @@
     grid-column-end: 3;
     
  }
+
+ /* Remove when primereact fixes the problem */
+ .p-input-icon-right > svg{
+   right: 10px;
+ }

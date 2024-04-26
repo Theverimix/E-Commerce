@@ -86,7 +86,7 @@ export default function LoginRegister() {
                             </span>
                             {/* <InputText placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} /> */}
                             <span className="p-float-label">
-                                <Password value={password} onChange={(e) => setPassword(e.target.value)} feedback={false} tabIndex={1} toggleMask/>
+                                <Password value={password} onChange={(e) => setPassword(e.target.value)} feedback={false} tabIndex={1} toggleMask className='p-pass-field'/>
                                 <label htmlFor="password">Password</label>
                             </span>
                         </div>
