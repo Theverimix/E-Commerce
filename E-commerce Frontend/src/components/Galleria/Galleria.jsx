@@ -2,16 +2,23 @@ import React, { useState, useEffect } from "react";
 import { Galleria } from "primereact/galleria";
 import { Carousel } from "primereact/carousel";
 
-import imagen1 from "../../assets/img/ec-boy-banner.jpg";
-import imagen2 from "../../assets/img/ec-girl-banner.jpg";
-import imagen3 from "../../assets/img/9946768.jpg";
-import imagen4 from "../../assets/img/asfsafasf.png";
+import banner1 from "../../assets/img/gallery/Banner 1.jpg";
+import banner2 from "../../assets/img/gallery/Banner 2.jpg";
+import banner3 from "../../assets/img/gallery/Banner 3.jpg";
 
 export default function Gallery() {
   const imagesData = [
     {
-      itemImageSrc: imagen4,
+      itemImageSrc: banner1,
       alt: "Descripción de la imagen 1",
+    },
+    {
+      itemImageSrc: banner2,
+      alt: "Descripción de la imagen 2",
+    },
+    {
+      itemImageSrc: banner3,
+      alt: "Descripción de la imagen 3",
     },
     // Agrega más objetos para cada una de tus imágenes
   ];
