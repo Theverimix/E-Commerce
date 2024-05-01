@@ -8,6 +8,7 @@ import { classNames } from "primereact/utils";
 import { DataScroller } from "primereact/datascroller";
 import { ScrollPanel } from "primereact/scrollpanel";
 import { Panel } from "primereact/panel";
+import { Link } from "react-router-dom";
 
 export default function ProductCartList() {
   const [products, setProducts] = useState([]);
@@ -65,23 +66,20 @@ export default function ProductCartList() {
               <div className="text-2xl font-bold text-900">{product.name}</div>
               <div className="flex align-items-center gap-3">
                 <span className="flex align-items-center gap-2">
-                  <i className="pi pi-tag"></i>
-                  <span className="font-semibold">{product.categories}</span>
+                  <span className="font-semibold">Quantity: 1</span>
                 </span>
-                <Tag
-                  value={getInventoryStatus(getSeverity(product))}
-                  severity={getSeverity(product)}
-                ></Tag>
               </div>
             </div>
-            <div className="flex sm:flex-column align-items-center sm:align-items-end gap-3 sm:gap-2">
+            {/* Applying stretch to ensure this div takes full height */}
+            <div
+              className="flex sm:flex-column align-items-center sm:align-items-end gap-3 sm:gap-2"
+              style={{ alignSelf: "stretch" }}
+            >
               <span className="text-2xl font-semibold">${product.price}</span>
               <Button
-                icon="pi pi-shopping-cart"
-                className="p-button-rounded"
-                disabled={
-                  getInventoryStatus(getSeverity(product)) === "OUTOFSTOCK"
-                }
+                className="product-list-button"
+                unstyled
+                label="Remove"
               ></Button>
             </div>
           </div>
@@ -110,7 +108,7 @@ export default function ProductCartList() {
   );
 
   return (
-    <Panel header="Products" toggleable>
+    <Panel header="Products">
       <ScrollPanel style={{ width: "100%", height: "500px" }}>
         <DataView value={products} listTemplate={listTemplate} />
       </ScrollPanel>

@@ -1,13 +1,23 @@
+.cart-title {
+  /* padding: 10px; */
+  margin-left: 5%;
+  margin-top: 2%;
+  margin-bottom: 0;
+}
+
+.cart-subtitle {
+  /* padding: 10px; */
+  margin-left: 5%;
+  margin-top: 0;
+}
+
 .cart-container {
   display: grid; /* Activar grid */
   grid-template-columns: 1fr 1fr; /* Dos columnas de igual tamaño */
   grid-gap: 10px; /* Espacio entre celdas */
   padding: 10px; /* Padding del contenedor */
-  justify-content: center;
-  margin: 0 auto;
   width: 95%; /* Ancho del contenedor */
-  margin-top: 5%;
-  margin-bottom: 20%;
+  margin-bottom: 5%;
 }
 
 .cart-grid-cell {
@@ -17,6 +27,8 @@
   height: 100%; /* Alto del 100% para ocupar todo el espacio */
 }
 
-.cart-container .p-orderlist-controls {
-  display: none;
+.product-list-button {
+  background: none;
+  border: 0;
+  color: inherit;
 }
