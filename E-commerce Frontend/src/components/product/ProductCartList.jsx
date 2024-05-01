@@ -1,21 +1,26 @@
 import React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Tag } from "primereact/tag";
 import { Button } from "primereact/button";
 import { DataView } from "primereact/dataview";
 import { getProducts } from "../../controller/productController";
 import { classNames } from "primereact/utils";
+import { DataScroller } from "primereact/datascroller";
+import { ScrollPanel } from "primereact/scrollpanel";
+import { Panel } from "primereact/panel";
 
-export default function ProductCardList() {
+export default function ProductCartList() {
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const ds = useRef(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const productList = await getProducts(0);
+        const productList = await getProducts(0).then((data) =>
+          setProducts(data)
+        );
         console.log("Productos recibidos:", productList);
-        setProducts(productList);
         setIsLoading(false); // Ya no está cargando
       } catch (error) {
         console.error("Error al obtener productos:", error);
@@ -95,9 +100,20 @@ export default function ProductCardList() {
     return <div className="grid grid-nogutter">{list}</div>;
   };
 
+  const footer = (
+    <Button
+      type="text"
+      icon="pi pi-plus"
+      label="Load"
+      onClick={() => ds.current.load()}
+    />
+  );
+
   return (
-    <div className="card">
-      <DataView value={products} listTemplate={listTemplate} />
-    </div>
+    <Panel header="Products" toggleable>
+      <ScrollPanel style={{ width: "100%", height: "500px" }}>
+        <DataView value={products} listTemplate={listTemplate} />
+      </ScrollPanel>
+    </Panel>
   );
 }

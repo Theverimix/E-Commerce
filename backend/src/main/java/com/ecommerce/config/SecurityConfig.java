@@ -28,12 +28,12 @@ public class SecurityConfig {
                 return http
                                 .csrf(csrf -> csrf.disable())
                                 .authorizeHttpRequests(authorize -> authorize
-                                        .requestMatchers(PathRequest.toStaticResources().atCommonLocations())
-                                        .permitAll()
-                                        .requestMatchers(RequestMatcherUtil::isApiAuthRequest).permitAll()
-                                        .requestMatchers("/users/**").hasAuthority("ADMINISTRATOR")
-                                        .requestMatchers("/products/**").permitAll()
-                                        .anyRequest().authenticated())
+                                                .requestMatchers(PathRequest.toStaticResources().atCommonLocations())
+                                                .permitAll()
+                                                .requestMatchers(RequestMatcherUtil::isApiAuthRequest).permitAll()
+                                                .requestMatchers("/users/**").hasAuthority("ADMINISTRATOR")
+                                                .requestMatchers("/products/**").permitAll()
+                                                .anyRequest().authenticated())
                                 .exceptionHandling(ex -> ex.accessDeniedHandler(customAccessDeniedHandler))
                                 .authenticationProvider(authProvider)
                                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)

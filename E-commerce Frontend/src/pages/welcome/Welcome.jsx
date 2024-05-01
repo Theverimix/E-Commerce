@@ -11,6 +11,8 @@ import bannerImage from "../../assets/img/ec-banner-definitive.gif";
 import "./welcome.css";
 import { getProducts } from "../../controller/productController";
 
+import SaveCartToLocalStorage from "../../components/cart/saveToCart";
+
 //Provisional code to see results. ENABLED TO DELETE IN THE FUTURE
 import imgProducts1 from "../../assets/img/products/bcaa-12000.png";
 import imgProducts2 from "../../assets/img/products/nitro-bcaa-250.png";
@@ -153,61 +155,7 @@ export default function Welcome() {
 
   return (
     <>
-      <img
-        src={bannerImage}
-        alt="Logo"
-        onContextMenu={(e) => cm.current.show(e)}
-        style={{ width: "100%" }}
-      />
-
-      <hr style={{ borderBottom: "2px solid #e69b0c", margin: "0" }} />
-
-      <Card title="Suplementos" className="md:w-full">
-        <Carousel
-          value={products}
-          numVisible={3}
-          numScroll={1}
-          responsiveOptions={responsiveOptions}
-          className="custom-carousel"
-          circular
-          autoplayInterval={8000}
-          itemTemplate={productTemplate}
-        />
-      </Card>
-
-      <div
-        className="card flex justify-content-center"
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <p>
-          <b>ENVÍOS A TODO EL URUGUAY</b>
-          <br />
-          Llegamos a todos los rincones del país.
-        </p>
-        <Divider layout="vertical" />
-        <p>
-          <b>PAGA EN HASTA 12 CUOTAS</b>
-          <br />
-          Aceptamos todos los medios de pago.
-        </p>
-        <Divider layout="vertical" />
-        <p>
-          <b>RETIRO EN SUCURSALES</b>
-          <br />
-          Pickup gratis en nuestras tiendas.
-        </p>
-      </div>
-
-      {/* <hr style={{ borderBottom: '2px solid #e69b0c', margin: '0' }} />
-        <Card title="Accesorios" className="md:w-25rem">
-
-        <Carousel value={products} numVisible={3} numScroll={3} responsiveOptions={responsiveOptions} className="custom-carousel" circular
-autoplayInterval={8000} itemTemplate={productTemplate} />
-        </Card> */}
+      <SaveCartToLocalStorage></SaveCartToLocalStorage>
     </>
   );
 }

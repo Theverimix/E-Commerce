@@ -1,10 +1,17 @@
 import React from "react";
-import ProductCardList from "../product/ProductCardList";
+import ProductCartList from "../product/ProductCartList";
+
+import "./cart.css";
 
 export default function cart() {
   return (
-    <div>
-      <ProductCardList />
+    <div className="cart-container">
+      <div className="cart-grid-cell">
+        <ProductCartList />
+      </div>
+      <div className="cart-grid-cell">
+        <h1>HOLIS</h1>
+      </div>
     </div>
   );
 }

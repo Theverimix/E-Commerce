@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Header from "./components/header/Header.jsx";
-import Welcome from "./pages/welcome/Welcome.jsx";
 import Footer from "./components/footer/Footer.jsx";
 import LoginRegister from "./pages/login/Login.jsx";
 import Register from "./pages/register/Register.jsx";
@@ -12,6 +11,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import "/node_modules/primeflex/primeflex.css";
 import OrderPage from "./pages/order/OrderPage.jsx";
+import Welcome from "./pages/welcome/Welcome.jsx";
 
 function AppWeb() {
   return (
@@ -20,11 +20,11 @@ function AppWeb() {
         <Header />
 
         <Routes>
-          <Route path="/" element={<Welcome />} />
+          <Route path="/" element={<Home />} />
           <Route path="/home" element={<Home />} />
           <Route path="/products" element={<ProductPage />} />
           <Route path="/products/id" element={<ProductPage />} />
-          <Route path="/cart" element={<ProductPage />} />
+          <Route path="/cart" element={<ShopCart />} />
           <Route path="/chekout" element={<ProductPage />} />
           <Route path="/confirmation" element={<ProductPage />} />
           <Route path="/orders" element={<OrderPage />} />
@@ -34,6 +34,7 @@ function AppWeb() {
           <Route path="/search" element={<ProductPage />} />
           <Route path="/terms" element={<ProductPage />} />
           <Route path="/contact" element={<ProductPage />} />
+          <Route path="/pruebas" element={<Welcome />} />
         </Routes>
 
         <Footer />

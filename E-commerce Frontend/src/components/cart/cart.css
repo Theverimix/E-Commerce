@@ -1,0 +1,22 @@
+.cart-container {
+  display: grid; /* Activar grid */
+  grid-template-columns: 1fr 1fr; /* Dos columnas de igual tamaño */
+  grid-gap: 10px; /* Espacio entre celdas */
+  padding: 10px; /* Padding del contenedor */
+  justify-content: center;
+  margin: 0 auto;
+  width: 95%; /* Ancho del contenedor */
+  margin-top: 5%;
+  margin-bottom: 20%;
+}
+
+.cart-grid-cell {
+  text-align: center; /* Texto centrado */
+  padding: 0; /* Sin padding adicional */
+  margin: 0; /* Sin margen adicional */
+  height: 100%; /* Alto del 100% para ocupar todo el espacio */
+}
+
+.cart-container .p-orderlist-controls {
+  display: none;
+}
