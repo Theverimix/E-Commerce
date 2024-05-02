@@ -8,26 +8,9 @@ import { classNames } from "primereact/utils";
 import { ScrollPanel } from "primereact/scrollpanel";
 import { Panel } from "primereact/panel";
 
-import productos from "../../assets/data/products.json";
-
-export default function ProductCartList() {
+export const ProductCartList = (products) => {
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await getProducts(0);
-        setProducts(data);
-      } catch (error) {
-        console.error("Error al obtener productos:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
 
   const itemTemplate = (product, index) => {
     if (isLoading) {
@@ -75,16 +58,16 @@ export default function ProductCartList() {
             <div className="flex flex-column align-items-center sm:align-items-start gap-3">
               <div className="text-2xl font-bold text-900">{product.name}</div>
               <div className="flex align-items-center gap-3">
-                <span className="font-semibold">Quantity: 1</span>
+                <span className="font-semibold">{product.amount}</span>
               </div>
             </div>
             <div className="flex sm:flex-column align-items-center sm:align-items-end gap-3 sm:gap-2">
-              <span className="text-2xl font-semibold">${product.price}</span>
+              <span className="text-2xl font-semibold text-yellow-300">
+                ${product.price}
+              </span>
               <Button
-                className="product-list-button"
-                onClick={() =>
-                  productos.data.forEach((p) => console.log("holis"))
-                }
+                className="product-list-button no-underline hover:underline hover:text-yellow-300 cursor-pointer"
+                onClick={() => console.log("holi")}
                 unstyled
                 label="Remove"
               />
@@ -124,4 +107,4 @@ export default function ProductCartList() {
       </ScrollPanel>
     </Panel>
   );
-}
+};

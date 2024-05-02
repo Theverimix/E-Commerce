@@ -6,6 +6,21 @@ import { Link } from "react-router-dom";
 import CartSummary from "./cartSummary";
 
 export default function cart() {
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await getProducts(0);
+        setProducts(data);
+      } catch (error) {
+        console.error("Error al obtener productos:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <div>
       <h1 className="cart-title">Your Cart</h1>
