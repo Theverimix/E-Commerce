@@ -23,7 +23,7 @@ function AppWeb() {
           <Route path="/" element={<Home />} />
           <Route path="/home" element={<Home />} />
           <Route path="/products" element={<ProductPage />} />
-          <Route path="/products/id" element={<ProductPage />} />
+          <Route path="/products/:id" element={<ProductPage />} />
           <Route path="/cart" element={<ShopCart />} />
           <Route path="/chekout" element={<ProductPage />} />
           <Route path="/confirmation" element={<ProductPage />} />

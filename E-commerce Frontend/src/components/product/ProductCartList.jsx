@@ -1,53 +1,63 @@
 import React from "react";
 import { useState, useEffect, useRef } from "react";
-import { Tag } from "primereact/tag";
+import { Skeleton } from "primereact/skeleton";
 import { Button } from "primereact/button";
 import { DataView } from "primereact/dataview";
 import { getProducts } from "../../controller/productController";
 import { classNames } from "primereact/utils";
-import { DataScroller } from "primereact/datascroller";
 import { ScrollPanel } from "primereact/scrollpanel";
 import { Panel } from "primereact/panel";
-import { Link } from "react-router-dom";
+
+import productos from "../../assets/data/products.json";
 
 export default function ProductCartList() {
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const ds = useRef(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const productList = await getProducts(0).then((data) =>
-          setProducts(data)
-        );
-        console.log("Productos recibidos:", productList);
-        setIsLoading(false); // Ya no está cargando
+        const data = await getProducts(0);
+        setProducts(data);
       } catch (error) {
         console.error("Error al obtener productos:", error);
-        setIsLoading(false); // En caso de error, también dejar de cargar
+      } finally {
+        setIsLoading(false);
       }
     };
 
     fetchData();
   }, []);
 
-  const getSeverity = (product) => {
-    if (product.stock <= 0) {
-      return "danger";
-    } else {
-      return "success";
-    }
-  };
-
-  const getInventoryStatus = (severity) => {
-    if (severity == "danger") {
-      return "OUTOFSTOCK";
-    } else {
-      return "INSTOCK";
-    }
-  };
   const itemTemplate = (product, index) => {
+    if (isLoading) {
+      return (
+        <div className="col-12" key={index}>
+          <div
+            className={classNames(
+              "flex flex-column xl:flex-row xl:align-items-start p-4 gap-4",
+              { "border-top-1 surface-border": index !== 0 }
+            )}
+          >
+            <Skeleton
+              shape="rectangle"
+              className="m-auto w-9 sm:w-16rem xl:w-10rem xl:h-10rem sm:h-16rem"
+            />
+            <div className="flex flex-column sm:flex-row justify-content-between align-items-center xl:align-items-start flex-1 gap-4">
+              <div className="flex flex-column align-items-center sm:align-items-start gap-3">
+                <Skeleton width="11rem" height="2rem" />
+                <Skeleton width="7rem" height="1rem" />
+              </div>
+              <div className="flex sm:flex-column align-items-center sm:align-items-end gap-3 sm:gap-2">
+                <Skeleton width="5rem" height="2rem" />
+                <Skeleton width="4rem" height="1rem" />
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
     return (
       <div className="col-12" key={product.id}>
         <div
@@ -65,22 +75,19 @@ export default function ProductCartList() {
             <div className="flex flex-column align-items-center sm:align-items-start gap-3">
               <div className="text-2xl font-bold text-900">{product.name}</div>
               <div className="flex align-items-center gap-3">
-                <span className="flex align-items-center gap-2">
-                  <span className="font-semibold">Quantity: 1</span>
-                </span>
+                <span className="font-semibold">Quantity: 1</span>
               </div>
             </div>
-            {/* Applying stretch to ensure this div takes full height */}
-            <div
-              className="flex sm:flex-column align-items-center sm:align-items-end gap-3 sm:gap-2"
-              style={{ alignSelf: "stretch" }}
-            >
+            <div className="flex sm:flex-column align-items-center sm:align-items-end gap-3 sm:gap-2">
               <span className="text-2xl font-semibold">${product.price}</span>
               <Button
                 className="product-list-button"
+                onClick={() =>
+                  productos.data.forEach((p) => console.log("holis"))
+                }
                 unstyled
                 label="Remove"
-              ></Button>
+              />
             </div>
           </div>
         </div>
@@ -89,23 +96,26 @@ export default function ProductCartList() {
   };
 
   const listTemplate = (items) => {
-    if (!items || items.length === 0) return null;
+    if (isLoading) {
+      // Mostrar skeletons para indicar que se están cargando datos
+      return (
+        <div className="grid grid-nogutter">
+          {Array.from({ length: 5 }, (_, index) => itemTemplate(null, index))}
+        </div>
+      );
+    }
 
-    let list = items.map((product, index) => {
-      return itemTemplate(product, index);
-    });
+    // Si no hay productos y no está cargando, muestra un mensaje apropiado
+    if (!items || items.length === 0) {
+      return <div>No hay productos disponibles</div>;
+    }
 
-    return <div className="grid grid-nogutter">{list}</div>;
+    return (
+      <div className="grid grid-nogutter">
+        {items.map((product, index) => itemTemplate(product, index))}
+      </div>
+    );
   };
-
-  const footer = (
-    <Button
-      type="text"
-      icon="pi pi-plus"
-      label="Load"
-      onClick={() => ds.current.load()}
-    />
-  );
 
   return (
     <Panel header="Products">

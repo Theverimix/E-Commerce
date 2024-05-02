@@ -1,0 +1,179 @@
+{
+    "success": true,
+    "statusCode": 200,
+    "message": "Ok",
+    "timestamp": "2024-05-02T16:40:35.4601727",
+    "data": [
+        {
+            "id": 1,
+            "name": "Suplemento 1",
+            "description": "Suplemento 1",
+            "price": 49.99,
+            "stock": 100,
+            "createdAt": "2024-03-27T21:11:19.223+00:00",
+            "state": {
+                "id": 1,
+                "name": "Active",
+                "visible": true
+            },
+            "visible": true,
+            "images": [
+                "https://i.ibb.co/LNy4Sf0/muscle-builder-7lb-gn.png"
+            ],
+            "categories": [],
+            "sales": []
+        },
+        {
+            "id": 2,
+            "name": "Suplemento 2",
+            "description": "Suplemento 2",
+            "price": 29.99,
+            "stock": 50,
+            "createdAt": "2024-03-27T21:11:19.223+00:00",
+            "state": {
+                "id": 2,
+                "name": "Desactivate",
+                "visible": true
+            },
+            "visible": true,
+            "images": [
+                "https://i.ibb.co/sKCSG1H/nobooster-sn.png"
+            ],
+            "categories": [],
+            "sales": []
+        },
+        {
+            "id": 3,
+            "name": "Mancuerna 45Kg",
+            "description": "Mancuerna 45Kg",
+            "price": 39.99,
+            "stock": 80,
+            "createdAt": "2024-03-27T21:11:19.223+00:00",
+            "state": {
+                "id": 1,
+                "name": "Active",
+                "visible": true
+            },
+            "visible": false,
+            "images": [
+                "https://i.ibb.co/vsmSvq5/mancuerna-35-kg.png"
+            ],
+            "categories": [],
+            "sales": []
+        },
+        {
+            "id": 50,
+            "name": "Producto A",
+            "description": "Producto 50",
+            "price": 10.99,
+            "stock": 50,
+            "createdAt": "2024-04-24T15:00:00.000+00:00",
+            "state": {
+                "id": 1,
+                "name": "Active",
+                "visible": true
+            },
+            "visible": true,
+            "images": [
+                "https://i.ibb.co/JrJkhQx/BS-OB86-EXT-Body-Solid-Barra-ol-mpica-extrema-potencia-para-Crossfit-BS-OB86-EXT.png"
+            ],
+            "categories": [],
+            "sales": []
+        },
+        {
+            "id": 51,
+            "name": "Producto B",
+            "description": "Producto 51",
+            "price": 15.5,
+            "stock": 100,
+            "createdAt": "2024-04-23T18:30:00.000+00:00",
+            "state": {
+                "id": 2,
+                "name": "Desactivate",
+                "visible": true
+            },
+            "visible": false,
+            "images": [
+                "https://i.ibb.co/HFnXD22/SPR1000-Back-Body-Solid-Power-Rack-uso-100-comercial-Altura-Extendida-SPR1000-Back.png"
+            ],
+            "categories": [],
+            "sales": []
+        },
+        {
+            "id": 52,
+            "name": "Producto C",
+            "description": "Producto 52",
+            "price": 22.75,
+            "stock": 30,
+            "createdAt": "2024-04-25T13:00:00.000+00:00",
+            "state": {
+                "id": 1,
+                "name": "Active",
+                "visible": true
+            },
+            "visible": true,
+            "images": [
+                "https://i.ibb.co/D74bzVy/MB501-RG-Agarre-profesional-forro-de-goma-tipo-D-para-equipo-de-poleas-MB501-RG.png"
+            ],
+            "categories": [],
+            "sales": []
+        },
+        {
+            "id": 53,
+            "name": "Producto D",
+            "description": "Producto 53",
+            "price": 5.99,
+            "stock": 200,
+            "createdAt": "2024-04-22T11:45:00.000+00:00",
+            "state": {
+                "id": 2,
+                "name": "Desactivate",
+                "visible": true
+            },
+            "visible": true,
+            "images": [
+                "https://i.ibb.co/kQFLd1H/LVBP-PCL-Leverage-Bench-Press-Banca-de-pecho-plano.png"
+            ],
+            "categories": [],
+            "sales": []
+        },
+        {
+            "id": 54,
+            "name": "Producto E",
+            "description": "Producto 54",
+            "price": 19.99,
+            "stock": 75,
+            "createdAt": "2024-04-21T17:00:00.000+00:00",
+            "state": {
+                "id": 3,
+                "name": "Closed",
+                "visible": true
+            },
+            "visible": false,
+            "images": [
+                "https://i.ibb.co/nM6tmnQ/GVKR82-Body-Solid-Vertical-Knee-Raise-Chin-Dip-Elevaci-n-vertical-de-rodillas-Inmersi-n-de-ment-n-BS.png"
+            ],
+            "categories": [],
+            "sales": []
+        },
+        {
+            "id": 55,
+            "name": "Producto F",
+            "description": "Producto 55",
+            "price": 14.99,
+            "stock": 120,
+            "createdAt": "2024-04-24T16:15:00.000+00:00",
+            "state": {
+                "id": 1,
+                "name": "Active",
+                "visible": true
+            },
+            "visible": true,
+            "images": [
+                "https://i.ibb.co/SsnKvKc/BT-SR11-E-Bodytone-Levantamiento-de-cadera-gluteo-Hip-and-glute-Lift-Hip-Thrust-BT-SR11-E.png"
+            ],
+            "categories": [],
+            "sales": []
+        }
+    ]
+}
