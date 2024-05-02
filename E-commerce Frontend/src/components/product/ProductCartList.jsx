@@ -8,10 +8,9 @@ import { classNames } from "primereact/utils";
 import { ScrollPanel } from "primereact/scrollpanel";
 import { Panel } from "primereact/panel";
 
-export const ProductCartList = (products) => {
-  const [products, setProducts] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-
+export default function ProductCartList({ products, removeButton = false}) {
+  const [isLoading, setIsLoading] = useState(false);
+  
   const itemTemplate = (product, index) => {
     if (isLoading) {
       return (
@@ -58,7 +57,7 @@ export const ProductCartList = (products) => {
             <div className="flex flex-column align-items-center sm:align-items-start gap-3">
               <div className="text-2xl font-bold text-900">{product.name}</div>
               <div className="flex align-items-center gap-3">
-                <span className="font-semibold">{product.amount}</span>
+                <span className="font-semibold">Quantity: {product.amount}</span>
               </div>
             </div>
             <div className="flex sm:flex-column align-items-center sm:align-items-end gap-3 sm:gap-2">
@@ -66,6 +65,7 @@ export const ProductCartList = (products) => {
                 ${product.price}
               </span>
               <Button
+                visible={removeButton}
                 className="product-list-button no-underline hover:underline hover:text-yellow-300 cursor-pointer"
                 onClick={() => console.log("holi")}
                 unstyled

@@ -6,6 +6,8 @@ import { Button } from "primereact/button";
 import { Dialog } from 'primereact/dialog';
 import OrderDialog from './OrderDetails';
 import OrderDetails from './OrderDetails';
+import { Chip } from 'primereact/chip';
+import { format } from 'date-fns';
 
 export default function OrderList({orders}) {
     const [dialog, setDialog] = useState(false);
@@ -25,8 +27,14 @@ export default function OrderList({orders}) {
         )
     }
 
-    const sumTotal = (order) => {
-        const {details} = order
+    const dateFormatted = ({date}) => {
+        const newDate = format(new Date(date), "MM':'HH dd/MM/yyyy")
+        return (
+            <Chip label={newDate} />
+        )
+    }
+
+    const sumTotal = ({ details }) => {
         const total = details
             .map(item => item.product.price * item.amount)
             .reduce((a, i) => a + i, 0);
@@ -40,7 +48,7 @@ export default function OrderList({orders}) {
         </Dialog>
         <DataTable value={orders} >
             <Column field='id' header='Id' />
-            <Column field='date' header='Date' />
+            <Column body={dateFormatted} header='Date' />
             <Column field='status' header='Status' />
             <Column body={sumTotal} header='Total' />
             <Column
