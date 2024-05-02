@@ -11,7 +11,7 @@ public record OrderResponse(
         Long id,
         CustomerResponse customer,
         String address,
-        OrderStatus status,
+        String status,
         Date date,
         Set<OrderDetailResponse> details
 ) {}

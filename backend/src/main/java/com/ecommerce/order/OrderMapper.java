@@ -20,7 +20,7 @@ public class OrderMapper implements Function<Order, OrderResponse> {
                 order.getId(),
                 dtoMapper.apply(order.getCustomer()),
                 order.getAddress(),
-                order.getStatus(),
+                order.getStatus().getName(),
                 order.getDate(),
                 order.getDetails().stream()
                         .map(detailMapper)
