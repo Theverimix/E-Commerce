@@ -1,12 +1,10 @@
 import React from "react";
-import { Card } from "primereact/card";
-import { Menubar } from "primereact/menubar";
 import { MegaMenu } from "primereact/megamenu";
 import { Divider } from "primereact/divider";
 import { Badge } from "primereact/badge";
 import { InputText } from "primereact/inputtext";
-import { IconField } from 'primereact/iconfield';
-import { InputIcon } from 'primereact/inputicon';
+import { IconField } from "primereact/iconfield";
+import { InputIcon } from "primereact/inputicon";
 import brutalLogo from "../../assets/icons/Brutal_black_bottomless.png";
 import { Link } from "react-router-dom";
 
@@ -85,7 +83,6 @@ export default function Header() {
       icon: "pi pi-envelope",
       template: itemRenderer,
     },
-
   ];
 
   const start = (
@@ -98,8 +95,6 @@ export default function Header() {
       />
     </Link>
   );
-
-
 
   const endItemRenderer = (item) => (
     <Link to={item.href} className="p-menuitem-link icon-item">
@@ -115,16 +110,21 @@ export default function Header() {
     href: "/ProductList",
   };
 
-  const end = [<div className="flex justify-content-between flex-wrap">
-    <div className="h-input-search">
-      <IconField iconPosition="left" >
-        <InputIcon className="pi pi-search" />
-        <InputText v-model="value1" placeholder="Search" style={{ borderRadius: '10px' }} />
-      </IconField>
-    </div>
-    {endItemRenderer(cartItem)}
-
-  </div>];
+  const end = [
+    <div className="flex justify-content-between flex-wrap">
+      <div className="h-input-search">
+        <IconField iconPosition="left">
+          <InputIcon className="pi pi-search" />
+          <InputText
+            v-model="value1"
+            placeholder="Search"
+            style={{ borderRadius: "10px" }}
+          />
+        </IconField>
+      </div>
+      {endItemRenderer(cartItem)}
+    </div>,
+  ];
 
   return (
     <div className="card">
@@ -133,11 +133,10 @@ export default function Header() {
           <img
             alt="logo"
             src={brutalLogo}
-
             style={{ maxWidth: "100%", width: "30%" }}
           />
         </Link>
-        <div className="flex align-items-center justify-content-center"> 
+        <div className="flex align-items-center justify-content-center">
           <Link to="/login" className="login-item">
             Iniciar sesión
           </Link>
@@ -148,12 +147,7 @@ export default function Header() {
         </div>
       </div>
 
-
-
-      <MegaMenu model={items}  end={end}/>
-
-
-
+      <MegaMenu model={items} end={end} />
     </div>
   );
 }
