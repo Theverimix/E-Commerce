@@ -1,15 +1,16 @@
-import React from 'react'
-import ProductCartList from '../../components/product/ProductCartList'
+import React from "react";
+import ProductList from "../../components/product/ProductList";
 
 export default function OrderDetails({ order }) {
-  const { details } = order
+  const { details } = order;
 
-  const getProducts = () => order.details.map(detail => {
-    return {
-      ...detail.product,
-      amount: detail.amount
-    }
-  })
+  const getProducts = () =>
+    order.details.map((detail) => {
+      return {
+        ...detail.product,
+        amount: detail.amount,
+      };
+    });
 
   return (
     <>
@@ -18,8 +19,8 @@ export default function OrderDetails({ order }) {
         <h3>Order No: {order.id}</h3>
         <h3>Address: {order.address}</h3>
         <h3>Order date: {order.date}</h3>
-        <ProductCartList products={getProducts()} />
+        <ProductList products={getProducts()} linkeable />
       </div>
     </>
-  )
+  );
 }

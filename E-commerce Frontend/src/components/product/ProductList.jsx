@@ -7,7 +7,7 @@ import { ScrollPanel } from "primereact/scrollpanel";
 import { Panel } from "primereact/panel";
 import { Link, useNavigate } from "react-router-dom";
 
-export default function ProductCartList({
+export default function ProductList({
   products,
   removeButton = false,
   isLoading = false,

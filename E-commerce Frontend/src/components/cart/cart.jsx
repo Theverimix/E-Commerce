@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import ProductCartList from "../product/ProductList";
+import ProductList from "../product/ProductList";
 import { getProducts } from "../../controller/productController";
 
 import "./cart.css";
@@ -44,7 +44,7 @@ export default function cart() {
       </p>
       <div className="cart-container m-auto mb-6">
         <div className="cart-grid-cell">
-          <ProductCartList
+          <ProductList
             products={mapProducts()}
             isLoading={isLoading}
             removeButton
