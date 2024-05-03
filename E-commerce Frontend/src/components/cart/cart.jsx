@@ -1,16 +1,20 @@
-import React from "react";
-import ProductCartList from "../product/ProductCartList";
+import React, { useEffect, useRef, useState } from "react";
+import ProductCartList from "../product/ProductList";
+import { getProducts } from "../../controller/productController";
 
 import "./cart.css";
 import { Link } from "react-router-dom";
 import CartSummary from "./cartSummary";
 
 export default function cart() {
+  const [products, setProduct] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         const data = await getProducts(0);
-        setProducts(data);
+        setProduct(data);
       } catch (error) {
         console.error("Error al obtener productos:", error);
       } finally {
@@ -20,6 +24,14 @@ export default function cart() {
 
     fetchData();
   }, []);
+
+  const mapProducts = () =>
+    products.map((product) => {
+      return {
+        ...product,
+        amount: 1,
+      };
+    });
 
   return (
     <div>
@@ -32,7 +44,12 @@ export default function cart() {
       </p>
       <div className="cart-container m-auto mb-6">
         <div className="cart-grid-cell">
-          <ProductCartList />
+          <ProductCartList
+            products={mapProducts()}
+            isLoading={isLoading}
+            removeButton
+            linkeable
+          />
         </div>
         <div className="cart-grid-cell md:w-10 lg:w-8 m-auto">
           <h2>Order Summary</h2>
