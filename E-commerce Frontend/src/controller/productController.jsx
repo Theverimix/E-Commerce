@@ -15,16 +15,18 @@ export async function getProducts(page) {
     // Hacer algo con la respuesta
     const list = response.data.data;
 
+    console.log(list);
+
     // Logging para verificar el contenido de 'list'
     // console.log("Lista de productos:", list);
 
-    if (!list || list.length === 0) {
+    if (!list.products || list.products.length === 0) {
       console.error("Error fetching data: Product list is empty");
       return [];
     }
 
     // console.log("Lista de productos:");
-    // list.forEach((product) => {
+    // list.products.forEach((product) => {
     //   console.log(product);
     //   // Aquí puedes hacer console.log de cada propiedad del producto si lo deseas
     // });

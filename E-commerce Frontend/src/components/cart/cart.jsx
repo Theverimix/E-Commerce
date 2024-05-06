@@ -7,23 +7,44 @@ import { Link } from "react-router-dom";
 import CartSummary from "./cartSummary";
 
 export default function cart() {
-  const [products, setProduct] = useState([]);
+  const [products, setProducts] = useState([]);
+  const [totalElements, setTotalElements] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
+  const [page, setPage] = useState(0);
+  const [cache, setCache] = useState({});
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        const data = await getProducts(0);
-        setProduct(data);
-      } catch (error) {
-        console.error("Error al obtener productos:", error);
-      } finally {
-        setIsLoading(false);
+      if (!(page in cache)) {
+        setIsLoading(true);
+        console.log("Fetching data for page:", page);
+        try {
+          const data = await getProducts(page);
+          setProducts(data.products);
+
+          setCache((prev) => ({
+            ...prev,
+            [page]: data.products,
+          }));
+
+          setTotalElements(data.totalElements);
+          // console.log("Fetched products:", data.products);
+        } catch (error) {
+          console.error("Error al obtener productos:", error);
+        } finally {
+          setIsLoading(false);
+        }
+      } else {
+        setProducts(cache[page]);
       }
     };
 
     fetchData();
-  }, []);
+  }, [page]);
+
+  const handlePageChange = (newPage) => {
+    setPage(newPage); // Cambia la página para actualizar los datos
+  };
 
   const mapProducts = () =>
     products.map((product) => {
@@ -49,6 +70,9 @@ export default function cart() {
             isLoading={isLoading}
             removeButton
             linkeable
+            paginator
+            totalElements={totalElements}
+            onPageChange={handlePageChange}
           />
         </div>
         <div className="cart-grid-cell md:w-10 lg:w-8 m-auto">

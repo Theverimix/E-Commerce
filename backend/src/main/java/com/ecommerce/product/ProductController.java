@@ -17,7 +17,7 @@ public class ProductController {
 
     @GetMapping
     ApiResponse getAllProducts(@RequestParam(name = "page", defaultValue = "0") int page) {
-        List<ProductResponse> products = service.getAllProducts(page).getContent();
+        ProductPageResponse products = service.getAllProducts(page);
         return ApiResponse.ok(products);
     }
 

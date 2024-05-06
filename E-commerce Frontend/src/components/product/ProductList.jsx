@@ -1,19 +1,31 @@
-import React from "react";
+import React, { useState } from "react";
 import { Skeleton } from "primereact/skeleton";
 import { Button } from "primereact/button";
 import { DataView } from "primereact/dataview";
 import { classNames } from "primereact/utils";
 import { ScrollPanel } from "primereact/scrollpanel";
 import { Panel } from "primereact/panel";
+import { Paginator } from "primereact/paginator";
 import { Link, useNavigate } from "react-router-dom";
 
 export default function ProductList({
   products,
+  totalElements,
   removeButton = false,
   isLoading = false,
   linkeable = false,
+  paginator = false,
+  onPageChange,
 }) {
   const navigate = useNavigate();
+  const [first, setFirst] = useState(0);
+
+  const handlePageChange = (event) => {
+    setFirst(event.first); // Actualiza el estado local
+    if (onPageChange) {
+      onPageChange(event.first / 9); // Llama a la prop para indicar la nueva página
+    }
+  };
 
   const itemTemplate = (product, index) => {
     if (isLoading) {
@@ -67,7 +79,9 @@ export default function ProductList({
           />
           <div className="flex flex-column sm:flex-row justify-content-between align-items-center xl:align-items-start flex-1 gap-4">
             <div className="flex flex-column align-items-center sm:align-items-start gap-3">
-              <div className="text-2xl font-bold text-900">{product.name}</div>
+              <div className="text-2xl font-bold text-900 hover:text-primary">
+                {product.name}
+              </div>
               <div className="flex align-items-center gap-3">
                 <span className="font-semibold">
                   Quantity: {product.amount}
@@ -117,8 +131,16 @@ export default function ProductList({
   return (
     <Panel header="Products">
       <ScrollPanel style={{ width: "100%", height: "500px" }}>
-        <DataView value={products} listTemplate={listTemplate} />
+        <DataView value={products} listTemplate={listTemplate} rows={9} />
       </ScrollPanel>
+      {paginator && (
+        <Paginator
+          first={first}
+          rows={9}
+          totalRecords={totalElements}
+          onPageChange={handlePageChange}
+        ></Paginator>
+      )}
     </Panel>
   );
 }

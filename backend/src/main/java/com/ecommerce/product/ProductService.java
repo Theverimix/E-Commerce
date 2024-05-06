@@ -41,13 +41,17 @@ public class ProductService {
     // .collect(Collectors.toList());
     // }
 
-    public Page<ProductResponse> getAllProducts(int pagina) {
+    public ProductPageResponse getAllProducts(int pagina) {
         // Crea un objeto Pageable para la paginación
         PageRequest pageRequest = PageRequest.of(pagina, 9, Sort.by("id"));
         // Llama al método del repositorio para obtener los productos paginados
         Page<Product> pageProducts = productRepository.findAll(pageRequest);
+        int totalPages = pageProducts.getTotalPages();
+        long totalElements = pageProducts.getTotalElements();
 
-        return pageProducts.map(mapper);
+        List<ProductResponse> productListMap = pageProducts.map(mapper).getContent();
+
+        return new ProductPageResponse(productListMap, totalPages, totalElements);
     }
 
     public void saveProduct(ProductRegisterRequest dto) {

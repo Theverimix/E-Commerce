@@ -141,7 +141,7 @@ export default function Header() {
             Iniciar sesión
           </Link>
           <Divider layout="vertical" />
-          <Link to="/singup" className="signin-item">
+          <Link to="/signup" className="signin-item">
             Registrarse
           </Link>
         </div>
