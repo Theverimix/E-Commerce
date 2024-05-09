@@ -35,12 +35,7 @@ export default function Header() {
   );
 
   const items = [
-    {
-      label: "Home",
-      icon: "pi pi-home",
-      href: "/",
-      template: itemRenderer,
-    },
+    
     {
       label: "Productos",
       icon: "pi pi-box",
