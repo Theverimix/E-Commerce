@@ -6,6 +6,8 @@ import { InputText } from "primereact/inputtext";
 import { IconField } from "primereact/iconfield";
 import { InputIcon } from "primereact/inputicon";
 import brutalLogo from "../../assets/icons/Brutal_black_bottomless.png";
+import { Toolbar } from 'primereact/toolbar';
+import { Button } from 'primereact/button';
 import { Link } from "react-router-dom";
 
 import "./header.css";
@@ -17,6 +19,19 @@ export default function Header() {
       <span className="mx-2">{item.label}</span>
       {item.badge && <Badge className="ml-auto" value={item.badge} />}
     </Link>
+  );
+
+  const center = (
+    <div className="h-input-search">
+      <IconField iconPosition="left">
+        <InputIcon className="pi pi-search" />
+        <InputText
+          v-model="value1"
+          placeholder="Search"
+          style={{ borderRadius: "10px" }}
+        />
+      </IconField>
+    </div>
   );
 
   const items = [
@@ -86,14 +101,17 @@ export default function Header() {
   ];
 
   const start = (
-    <Link to="/">
-      <img
-        alt="logo"
-        src={brutalLogo}
-        height="50"
-        style={{ maxWidth: "100%", width: "100%" }}
-      />
-    </Link>
+    <>
+      <Link to="/">
+        <img
+          alt="logo"
+          src={brutalLogo}
+          height="50"
+          style={{ maxWidth: "100%", width: "100%" }}
+        />
+      </Link>
+      <MegaMenu model={items} className="p-0" style={{ border: "none" }} />
+    </>
   );
 
   const endItemRenderer = (item) => (
@@ -112,42 +130,15 @@ export default function Header() {
 
   const end = [
     <div className="flex justify-content-between flex-wrap">
-      <div className="h-input-search">
-        <IconField iconPosition="left">
-          <InputIcon className="pi pi-search" />
-          <InputText
-            v-model="value1"
-            placeholder="Search"
-            style={{ borderRadius: "10px" }}
-          />
-        </IconField>
-      </div>
+    
+    <Button icon="pi pi-user" rounded text raised aria-label="User"/>
       {endItemRenderer(cartItem)}
     </div>,
   ];
 
   return (
     <div className="card">
-      <div className="flex justify-content-between flex-wrap">
-        <Link to="/">
-          <img
-            alt="logo"
-            src={brutalLogo}
-            style={{ maxWidth: "100%", width: "30%" }}
-          />
-        </Link>
-        <div className="flex align-items-center justify-content-center">
-          <Link to="/login" className="login-item">
-            Iniciar sesión
-          </Link>
-          <Divider layout="vertical" />
-          <Link to="/signup" className="signin-item">
-            Registrarse
-          </Link>
-        </div>
-      </div>
-
-      <MegaMenu model={items} end={end} />
+      <Toolbar start={start} center={center} end={end} className="p-2" style={{ border: "none" }} />
     </div>
   );
 }
