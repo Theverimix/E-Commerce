@@ -5,5 +5,6 @@ import jakarta.validation.constraints.PositiveOrZero;
 
 public record OrderDetailRequest(
                 @NotNull @PositiveOrZero Long productId,
-                @NotNull @PositiveOrZero int amount) {
-}
+                @NotNull @PositiveOrZero int amount,
+                @NotNull @PositiveOrZero double price
+) { }

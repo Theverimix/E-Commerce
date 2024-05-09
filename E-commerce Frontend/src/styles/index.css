@@ -1,7 +1,4 @@
-body{
+body {
     margin: 0;
-    background: #f6fff2;
     font-family: system-ui;
-    display: grid;
-    place-content: center;
 }

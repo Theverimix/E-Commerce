@@ -3,7 +3,10 @@ import Header from "./components/header/Header.jsx";
 import Footer from "./components/footer/Footer.jsx";
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+
 import "/node_modules/primeflex/primeflex.css";
+
+import "/src/styles/index.css"
 
 const Home = lazy(() => import("./pages/home/Home.jsx"));
 const OrderPage = lazy(() => import("./pages/order/OrderPage.jsx"));
