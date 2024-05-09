@@ -1,0 +1,34 @@
+.catalog-title {
+  /* padding: 10px; */
+  margin-left: 5%;
+  margin-top: 2%;
+  margin-bottom: 0;
+}
+
+.catalog-subtitle {
+  /* padding: 10px; */
+  margin-left: 5%;
+  margin-top: 0;
+}
+
+.catalog-container {
+  display: grid; /* Activar grid */
+  grid-template-columns: 0.5fr 2fr; /* Dos columnas de igual tamaño */
+  grid-gap: 10px; /* Espacio entre celdas */
+  padding: 10px; /* Padding del contenedor */
+  width: 95%; /* Ancho del contenedor */
+  margin-bottom: 5%;
+}
+
+.cart-grid-cell {
+  text-align: center; /* Texto centrado */
+  padding: 0; /* Sin padding adicional */
+  margin: 0; /* Sin margen adicional */
+  height: 100%; /* Alto del 100% para ocupar todo el espacio */
+}
+
+.product-list-button {
+  background: none;
+  border: 0;
+  color: inherit;
+}
