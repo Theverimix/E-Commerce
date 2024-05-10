@@ -25,7 +25,7 @@ export default function OrderDetails({ order }) {
         
         <h4>Tracking number: 4564648789551</h4>
 
-        <ProductList products={getProducts()} linkeable />
+        <ProductList products={getProducts()} linkeable height="300px"/>
       </div>
     </>
   );

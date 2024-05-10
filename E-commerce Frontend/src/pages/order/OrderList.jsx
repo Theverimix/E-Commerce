@@ -9,7 +9,7 @@ import OrderDetails from './OrderDetails';
 import { Chip } from 'primereact/chip';
 import { format } from 'date-fns';
 
-export default function OrderList({orders}) {
+export default function OrderList({ orders }) {
     const [dialog, setDialog] = useState(false);
     const [orderSelected, setOrderSelected] = useState({});
 
@@ -29,9 +29,7 @@ export default function OrderList({orders}) {
 
     const dateFormatted = ({date}) => {
         const newDate = format(new Date(date), "MM':'HH dd/MM/yyyy")
-        return (
-            <Chip label={newDate} />
-        )
+        return <Chip label={newDate} />
     }
 
     const sumTotal = ({ details }) => {
