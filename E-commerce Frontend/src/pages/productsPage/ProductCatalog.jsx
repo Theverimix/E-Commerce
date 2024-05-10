@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
-import ProductList from "../product/ProductList";
+import ProductList from "../../components/product/ProductList";
 import { getProducts } from "../../controller/productController";
 
-import "./cart.css";
+import "./ProductCatalog.css";
 import { Link } from "react-router-dom";
-import CartSummary from "./cartSummary";
+import ProductCatalogFilter from "../../components/product/ProductCatalogFilter";
 
-export default function cart() {
+function ProductCatalog() {
   const [products, setProducts] = useState([]);
   const [totalElements, setTotalElements] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
@@ -56,31 +56,31 @@ export default function cart() {
 
   return (
     <div>
-      <h1 className="cart-title">Your Cart</h1>
-      <p className="cart-subtitle">
-        Not ready to checkout?{" "}
-        <Link style={{ textDecoration: "none" }} to="/">
-          Continue Shopping
-        </Link>
+      <h1 className="catalog-title">Shop</h1>
+      <p className="catalog-subtitle w-5">
+        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nobis fugit
+        veniam alias incidunt distinctio harum aut nam dolor ratione quibusdam
+        deserunt, excepturi sint sequi blanditiis labore. Debitis ipsa amet
+        provident.
       </p>
-      <div className="cart-container m-auto mb-6">
-        <div className="cart-grid-cell">
+      <div className="catalog-container m-auto mb-6">
+        <div>
+          <ProductCatalogFilter />
+        </div>
+        <div className="catalog-grid-cell">
           <ProductList
             products={mapProducts()}
             isLoading={isLoading}
             removeButton
             linkeable
             paginator
-            height="30rem"
             totalElements={totalElements}
             onPageChange={handlePageChange}
           />
-        </div>
-        <div className="cart-grid-cell md:w-10 lg:w-8 m-auto">
-          <h2>Order Summary</h2>
-          <CartSummary />
         </div>
       </div>
     </div>
   );
 }
+
+export default ProductCatalog;

@@ -5,6 +5,6 @@ import com.ecommerce.product.ProductResponse;
 public record OrderDetailResponse(
         Long orderId,
         ProductResponse product,
-        int amount
-
+        int amount,
+        double price
 ) {}

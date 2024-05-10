@@ -27,4 +27,7 @@ public class OrderDetail {
     private Order order;
 
     private int amount;
+
+    private double price;
+
 }

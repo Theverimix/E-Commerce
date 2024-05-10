@@ -41,7 +41,7 @@ public class OrderDetailService {
     }
 
     public void saveOrderDetail(Long orderId, OrderDetailRequest request) {
-        OrderDetail detail = mapDTOToOrderDetails(orderId, request.productId(), request.amount());
+        OrderDetail detail = mapDTOToOrderDetails(orderId, request.productId(), request.amount(), request.price());
         repository.save(detail);
     }
 
@@ -65,11 +65,12 @@ public class OrderDetailService {
         return new OrderDetailKey(productId, orderId);
     }
 
-    private OrderDetail mapDTOToOrderDetails(Long orderId, Long productId, int amount) {
+    private OrderDetail mapDTOToOrderDetails(Long orderId, Long productId, int amount, double price) {
         OrderDetail detail = new OrderDetail();
         detail.setProduct(productRepository.findById(productId).orElse(null));
         detail.setOrder(orderRepository.findById(orderId).orElse(null));
         detail.setAmount(amount);
+        detail.setPrice(price);
         return detail;
     }
 }

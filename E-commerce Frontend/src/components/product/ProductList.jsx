@@ -15,6 +15,7 @@ export default function ProductList({
   isLoading = false,
   linkeable = false,
   paginator = false,
+  height = "auto",
   onPageChange,
 }) {
   const navigate = useNavigate();
@@ -89,7 +90,7 @@ export default function ProductList({
               </div>
             </div>
             <div className="flex sm:flex-column align-items-center sm:align-items-end gap-3 sm:gap-2">
-              <span className="text-2xl font-semibold text-yellow-300">
+              <span className="text-2xl font-semibold text-primary">
                 ${product.price}
               </span>
               <Button
@@ -130,7 +131,7 @@ export default function ProductList({
 
   return (
     <Panel header="Products">
-      <ScrollPanel style={{ width: "100%", height: "500px" }}>
+      <ScrollPanel style={{ height: height }}>
         <DataView value={products} listTemplate={listTemplate} rows={9} />
       </ScrollPanel>
       {paginator && (

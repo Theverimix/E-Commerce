@@ -17,7 +17,8 @@ public class OrderDetailMapper implements Function<OrderDetail, OrderDetailRespo
         return new OrderDetailResponse(
                 detail.getOrder().getId(),
                 productMapper.apply(detail.getProduct()),
-                detail.getAmount()
+                detail.getAmount(),
+                detail.getPrice()
         );
     }
 }
