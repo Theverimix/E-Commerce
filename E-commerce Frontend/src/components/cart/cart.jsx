@@ -63,8 +63,8 @@ export default function cart() {
           Continue Shopping
         </Link>
       </p>
-      <div className="cart-container m-auto mb-6">
-        <div className="cart-grid-cell">
+      <div className="grid m-auto mb-6">
+        <div className="col">
           <ProductList
             products={mapProducts()}
             isLoading={isLoading}
@@ -76,8 +76,8 @@ export default function cart() {
             onPageChange={handlePageChange}
           />
         </div>
-        <div className="cart-grid-cell md:w-10 lg:w-8 m-auto">
-          <h2>Order Summary</h2>
+        <div className="col-4 justify-content-center text">
+          <h2 className="text-center">Order Summary</h2>
           <CartSummary />
         </div>
       </div>

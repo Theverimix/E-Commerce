@@ -3,7 +3,6 @@ import ProductList from "../../components/product/ProductList";
 import { getProducts } from "../../controller/productController";
 
 import "./ProductCatalog.css";
-import { Link } from "react-router-dom";
 import ProductCatalogFilter from "../../components/product/ProductCatalogFilter";
 
 function ProductCatalog() {
@@ -63,11 +62,11 @@ function ProductCatalog() {
         deserunt, excepturi sint sequi blanditiis labore. Debitis ipsa amet
         provident.
       </p>
-      <div className="catalog-container m-auto mb-6">
-        <div>
+      <div className="grid m-auto mb-6">
+        <div className="col-3">
           <ProductCatalogFilter />
         </div>
-        <div className="catalog-grid-cell">
+        <div className="col">
           <ProductList
             products={mapProducts()}
             isLoading={isLoading}

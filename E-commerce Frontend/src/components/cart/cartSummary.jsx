@@ -2,8 +2,11 @@ import React from "react";
 import { Divider } from "primereact/divider";
 import { Button } from "primereact/button";
 import { InputText } from "primereact/inputtext";
+import { useNavigate } from "react-router-dom";
 
 export default function cartSummary() {
+  const navigate = useNavigate();
+
   return (
     <div className="w-full px-7">
       <InputText
@@ -23,7 +26,11 @@ export default function cartSummary() {
         <span>Total</span>
         <span>$134</span>
       </div>
-      <Button className="w-full mt-4" label="Continue to Shipping"></Button>
+      <Button
+        className="w-full mt-4"
+        label="Continue to Shipping"
+        onClick={() => navigate("/checkout")}
+      ></Button>
     </div>
   );
 }

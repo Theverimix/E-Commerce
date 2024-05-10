@@ -4,6 +4,7 @@ import { Tree } from "primereact/tree";
 import { Slider } from "primereact/slider";
 import { Panel } from "primereact/panel";
 import { InputText } from "primereact/inputtext";
+import { Button } from "primereact/button";
 
 export default function ProductCatalogFilter() {
   const [price, setPrice] = useState([0, 5000]);
@@ -166,23 +167,24 @@ export default function ProductCatalogFilter() {
           onChange={handleChangePrice}
           onSlideEnd={handleChangePrice}
           className="w-full"
-          max={50}
-          step={5}
+          max={5000}
+          step={50}
           range
         />
-        <p className="text-sm text-500">
+        <p className="text-sm text-500 flex justify-content-between ">
           {"US$ " + price[0]} - {"US$ " + price[1]}
           {/* <p>
             Price: <InputText value={price[0]} /> -{" "}
             <InputText value={price[1]} onChange={handleChangePrice} />
           </p> */}
+          <Button className="w-auto h-2rem" label="Filter" />
         </p>
       </Panel>
       <Tree
         value={nodes}
         nodeTemplate={nodeTemplate}
         togglerTemplate={togglerTemplate}
-        className="w-full md:w-30rem"
+        // className="w-full md:w-30rem"
         expandedKeys={expandedKeys}
       />
     </div>
