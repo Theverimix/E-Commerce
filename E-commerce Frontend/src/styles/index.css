@@ -1,7 +1,13 @@
 body{
-    margin: 0;
-    background: #f6fff2;
-    font-family: system-ui;
-    display: grid;
-    place-content: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #1f2937;
+}
+
+#root{
+    max-width: 160vh;
+    position: relative;
+    z-index: 99;
+    
 }

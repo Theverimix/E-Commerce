@@ -88,11 +88,7 @@ export default function Header() {
         ],
       ],
     },
-    {
-      label: "Contacto",
-      icon: "pi pi-envelope",
-      template: itemRenderer,
-    },
+    
   ];
 
   const start = (
@@ -105,7 +101,7 @@ export default function Header() {
           style={{ maxWidth: "100%", width: "100%" }}
         />
       </Link>
-      <MegaMenu model={items} className="p-0" style={{ border: "none" }} />
+      <MegaMenu model={items} className="p-0 " style={{ border: "none" }} />
     </>
   );
 
@@ -133,7 +129,7 @@ export default function Header() {
 
   return (
     <div className="card">
-      <Toolbar start={start} center={center} end={end} className="p-2" style={{ border: "none" }} />
+      <Toolbar start={start} center={center} end={end} className="p-2" style={{ border: "none"}} />
     </div>
   );
 }
