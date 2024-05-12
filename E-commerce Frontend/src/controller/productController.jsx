@@ -38,3 +38,14 @@ export async function getProducts(page) {
     return [];
   }
 }
+
+export async function getProductById(id) {
+  try {
+    const response = await axiosInstance.get(`/products/${id}`);
+
+    return response;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    return [];
+  }
+}

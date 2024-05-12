@@ -1,89 +1,118 @@
-import React, { useState, useEffect } from 'react';
-import { Card } from 'primereact/card';
-import { Divider } from 'primereact/divider';
-import { Button } from 'primereact/button';
-import { Tree } from 'primereact/tree';
-import { DataView, DataViewLayoutOptions } from 'primereact/dataview';
-import ProductList from '../../components/product/ProductList';
-
-const products = [
-    {
-        "id": 1,
-        "image": "https://imgs.search.brave.com/lsEmPulZ7iOwsgg6eyvIefhH6QLnXG7wA125_B2YDfM/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9pbWFn/ZXMtbmEuc3NsLWlt/YWdlcy1hbWF6b24u/Y29tL2ltYWdlcy9J/LzYxTTZheGhIcGZM/LmpwZw",
-        "name": "Producto 1",
-        "desc": "Description 1",
-        "stock": "INSTOCK",
-        "price": 19.99
-    },
-    {
-        "id": 2,
-        "image": "https://imgs.search.brave.com/lsEmPulZ7iOwsgg6eyvIefhH6QLnXG7wA125_B2YDfM/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9pbWFn/ZXMtbmEuc3NsLWlt/YWdlcy1hbWF6b24u/Y29tL2ltYWdlcy9J/LzYxTTZheGhIcGZM/LmpwZw",
-        "name": "Producto 2",
-        "desc": "Description 2",
-        "stock": "INSTOCK",
-        "price": 29.99
-    },
-    {
-        "id": 3,
-        "image": "https://imgs.search.brave.com/lsEmPulZ7iOwsgg6eyvIefhH6QLnXG7wA125_B2YDfM/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9pbWFn/ZXMtbmEuc3NsLWlt/YWdlcy1hbWF6b24u/Y29tL2ltYWdlcy9J/LzYxTTZheGhIcGZM/LmpwZw",
-        "name": "Producto 3",
-        "desc": "Description 3",
-        "stock": "LOWSTOCK",
-        "price": 39.99
-    },
-    {
-        "id": 4,
-        "image": "https://imgs.search.brave.com/lsEmPulZ7iOwsgg6eyvIefhH6QLnXG7wA125_B2YDfM/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9pbWFn/ZXMtbmEuc3NsLWlt/YWdlcy1hbWF6b24u/Y29tL2ltYWdlcy9J/LzYxTTZheGhIcGZM/LmpwZw",
-        "name": "Producto 4",
-        "desc": "Description 4",
-        "stock": "OUTOFSTOCK",
-        "price": 49.99
-    } 
-]
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { InputNumber } from "primereact/inputnumber";
+import { getProductById } from "../../controller/productController";
+import ProductGallery from "../../components/product/ProductGallery";
+import { Card } from "primereact/card";
+import { Button } from "primereact/button";
+import { Skeleton } from "primereact/skeleton";
 
 export default function ProductPage() {
+  const [quantity, setQuantity] = useState(1);
+  const [product, setProduct] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
+  const { id } = useParams();
 
-    const cateFilter = [{
-        key: '0',
-        label: 'Documents',
-        data: 'Documents Folder',
-        icon: 'pi pi-fw pi-inbox',
-        children: [
-            {
-                key: '0-0',
-                label: 'Work',
-                data: 'Work Folder',
-                icon: 'pi pi-fw pi-cog',
-                children: [
-                    { key: '0-0-0', label: 'Expenses.doc', icon: 'pi pi-fw pi-file', data: 'Expenses Document' },
-                    { key: '0-0-1', label: 'Resume.doc', icon: 'pi pi-fw pi-file', data: 'Resume Document' }
-                ]
-            },
-            {
-                key: '0-1',
-                label: 'Home',
-                data: 'Home Folder',
-                icon: 'pi pi-fw pi-home',
-                children: [{ key: '0-1-0', label: 'Invoices.txt', icon: 'pi pi-fw pi-file', data: 'Invoices for this month' }]
-            }
-        ]
-    }];
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await getProductById(id);
+        setProduct(response.data.data);
+      } catch (error) {
+        console.error("Error al obtener producto:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-    return (
-        <ProductList products={products} />
-    )
-    
+    fetchData();
+  }, [id]);
+
+  const changeQuantity = (newValue) => {
+    const newQuantity = Math.max(1, Math.min(newValue, product.stock));
+    setQuantity(newQuantity);
+  };
+
+  const handleAddToCart = () => {
+    // Aquí puedes implementar la lógica para agregar el producto al carrito
+    // Puedes usar `product` y `quantity` para enviar la información relevante al carrito
+  };
+
+  const cardHeader = (
+    <div>
+      <div className="mx-5 flex justify-content-between align-items-center">
+        <h2 className="mb-0 text-primary">
+          {isLoading ? <Skeleton width="12rem" height="2rem" /> : product.name}
+        </h2>
+        <h3 className="mb-0 text-secondary">
+          {isLoading ? (
+            <Skeleton width="4rem" height="2rem" />
+          ) : (
+            `$ ${product.price}`
+          )}
+        </h3>
+      </div>
+    </div>
+  );
+
+  const cardFooter = (
+    <div className="flex justify-content-between mt-5">
+      {isLoading ? (
+        <Skeleton className="w-20rem h-2rem" />
+      ) : (
+        <Button
+          className="w-full mr-5 font-bold"
+          icon="pi pi-shopping-cart"
+          label={`Add to cart - $${(product.price * quantity).toFixed(2)}`}
+          onClick={handleAddToCart}
+          disabled={isLoading}
+        ></Button>
+      )}
+
+      {isLoading ? (
+        <Skeleton className="w-6rem h-2rem" />
+      ) : (
+        <InputNumber
+          size={1}
+          value={quantity}
+          onValueChange={(e) => changeQuantity(e.value)}
+          showButtons
+          mode="decimal"
+          min={1}
+          max={product.stock}
+          buttonLayout="horizontal"
+          incrementButtonIcon="pi pi-plus"
+          decrementButtonIcon="pi pi-minus"
+          step={1}
+          disabled={isLoading}
+        />
+      )}
+    </div>
+  );
+
+  return (
+    <div className="grid m-5 mx-8">
+      <div className="col-7 flex justify-content-center align-items-center">
+        {isLoading ? (
+          <Skeleton className="w-8 h-28rem" />
+        ) : (
+          <ProductGallery width={"450px"} productImages={product.images} />
+        )}
+      </div>
+      <div className="col-5 flex justify-content-center flex-column">
+        <Card className="w-auto" header={cardHeader} footer={cardFooter}>
+          {isLoading ? (
+            <Skeleton width="100%" height="20rem" />
+          ) : (
+            <>
+              <h4 className="my-2">Descripción</h4>
+              <div style={{ whiteSpace: "pre-wrap" }} className="m-0">
+                {product.description}
+              </div>
+            </>
+          )}
+        </Card>
+      </div>
+    </div>
+  );
 }
-
-/*
-<div className='grid'>
-            <div className='col-fixed' style={{ Width: '1000px' }}>
-                <div className="card flex justify-content-center">
-                    <Tree value={cateFilter} selectionMode="checkbox" className="w-full md:w-20rem" />
-                </div>
-            </div>
-            <div className='col'>
-                <DataView value={products} itemTemplate={itemTemplate} layout={layout} header={header()} />
-            </div>
-        </div>
-*/
