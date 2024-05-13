@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Galleria } from "primereact/galleria";
 import { Skeleton } from "primereact/skeleton";
 import { Carousel } from "primereact/carousel";
 import { Button } from "primereact/button";
@@ -18,7 +17,7 @@ export default function HomeCarousel() {
       try {
         const productList = await getProducts(0);
         console.log("Productos recibidos:", productList);
-        setProducts(productList);
+        setProducts(productList.products);
         setIsLoading(false); // Ya no está cargando
       } catch (error) {
         console.error("Error al obtener productos:", error);
