@@ -162,7 +162,7 @@ export default function Header() {
       <div style={{ marginLeft: '10%', marginRight: '10%' }}>
       {/* <Toolbar start={start} center={center} end={end} unstyled className="flex justify-content-between align-items-center p-2 " style={{ border: "none"}} />
       <Divider className="my-0"></Divider> */}
-      <MegaMenu start={start} model={items} end={end} className="flex justify-content-between align-items-center p-0 " breakpoint="960px" style={{ border: "none"}} /> 
+      <MegaMenu start={start} model={items} end={end} className="flex justify-content-between align-items-center p-0 sticky-toolbar" breakpoint="960px" style={{ border: "none"}} /> 
       
       </div>
     </div>

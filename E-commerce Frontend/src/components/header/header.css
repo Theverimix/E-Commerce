@@ -33,3 +33,11 @@
   color: var(--primary-100);
 }
 
+.sticky-toolbar {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  /* Ajusta el valor del índice z según sea necesario */
+}
+
