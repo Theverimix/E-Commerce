@@ -6,8 +6,6 @@ import { PrimeIcons } from "primereact/api";
 
 import { getProducts } from "../../controller/productController";
 
-import "./homeCarousel.css";
-
 export default function HomeCarousel() {
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -30,8 +28,8 @@ export default function HomeCarousel() {
 
   const itemTemplate = (item) => {
     return (
-      <div className="box p-4 fadein animation-duration-500">
-        <div className="surface-card mb-4 w-full text-center p-5">
+      <div className="p-4 fadein animation-duration-500">
+        <div className="surface-card mb-4 w-full text-center">
           <img
             src={item.images}
             style={{ width: "100%", display: "block" }}
@@ -40,7 +38,7 @@ export default function HomeCarousel() {
         </div>
 
         <div className="flex align-items-center mb-4">
-          <div className="flex w-full">
+          <div className="w-full">
             <span className="block font-semibold mb-1">{item.name}</span>
             <span className="block font-semibold mb-1 ml-auto">
               ${item.price}
@@ -81,9 +79,9 @@ export default function HomeCarousel() {
         </div>
       ) : (
         <Carousel
+          // style={{ maxWidth: "60%" }}
           value={products}
           numVisible={4}
-          className="custom-carousel"
           circular
           autoplayInterval={5000}
           itemTemplate={itemTemplate}

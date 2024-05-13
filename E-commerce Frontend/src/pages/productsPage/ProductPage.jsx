@@ -6,6 +6,7 @@ import ProductGallery from "../../components/product/ProductGallery";
 import { Card } from "primereact/card";
 import { Button } from "primereact/button";
 import { Skeleton } from "primereact/skeleton";
+import "../../styles/appWeb.css";
 
 export default function ProductPage() {
   const [quantity, setQuantity] = useState(1);
@@ -40,7 +41,7 @@ export default function ProductPage() {
 
   const cardHeader = (
     <div>
-      <div className="mx-5 flex justify-content-between align-items-center">
+      <div className="mx-5 flex justify-content-between px-2 align-items-center">
         <h2 className="mb-0 text-primary">
           {isLoading ? <Skeleton width="12rem" height="2rem" /> : product.name}
         </h2>
@@ -56,7 +57,7 @@ export default function ProductPage() {
   );
 
   const cardFooter = (
-    <div className="flex justify-content-between mt-5">
+    <div className="flex justify-content-between px-4 pb-3 mt-5">
       {isLoading ? (
         <Skeleton className="w-20rem h-2rem" />
       ) : (
@@ -91,7 +92,7 @@ export default function ProductPage() {
   );
 
   return (
-    <div className="grid m-5 mx-8">
+    <div className="main grid m-5 mx-8">
       <div className="col-7 flex justify-content-center align-items-center">
         {isLoading ? (
           <Skeleton className="w-8 h-28rem" />
@@ -104,12 +105,12 @@ export default function ProductPage() {
           {isLoading ? (
             <Skeleton width="100%" height="20rem" />
           ) : (
-            <>
+            <div className="px-4">
               <h4 className="my-2">Descripción</h4>
               <div style={{ whiteSpace: "pre-wrap" }} className="m-0">
                 {product.description}
               </div>
-            </>
+            </div>
           )}
         </Card>
       </div>
