@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from "react";
 import Gallery from "../../components/Galleria/Galleria";
-import { Card } from "primereact/card";
 import { Button } from "primereact/button";
 
 import Carousel from "../../components/homeCarousel/homeCarousel";
 
 import "./HomeStyle.css";
+import "../../styles/appWeb.css";
 
 import categoria1 from "../../assets/img/products/bcaa-12000.png";
 import categoria2 from "../../assets/img/products/mancuerna_35_kg.png";
 import categoria3 from "../../assets/img/products/muscle-builder-7lb-gn.png";
+import { useNavigate } from "react-router-dom";
 
 export default function Home() {
+  const navigate = useNavigate();
   return (
     <>
       <div className="main">
@@ -34,7 +36,13 @@ export default function Home() {
             sint accusantium soluta, tenetur officia delectus accusamus dolore
             expedita eum aliquam.
           </p>
-          <Button label="All Products" style={{ marginTop: "10px" }}></Button>
+          <Button
+            label="All Products"
+            style={{ marginTop: "10px" }}
+            onClick={() => {
+              navigate(`/products`);
+            }}
+          ></Button>
         </div>
 
         <div className="grid-container">
@@ -86,10 +94,16 @@ export default function Home() {
             sint accusantium soluta, tenetur officia delectus accusamus dolore
             expedita eum aliquam.
           </p>
-          <Button label="All Products" style={{ marginTop: "10px" }}></Button>
+          <Button
+            label="All Products"
+            style={{ marginTop: "10px" }}
+            onClick={() => {
+              navigate(`/products`);
+            }}
+          ></Button>
         </div>
 
-        <div className="carousel">
+        <div>
           <Carousel />
         </div>
       </div>
