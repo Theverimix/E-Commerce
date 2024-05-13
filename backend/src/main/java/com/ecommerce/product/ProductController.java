@@ -21,22 +21,16 @@ public class ProductController {
         return ApiResponse.ok(products);
     }
 
-    // @GetMapping
-    // ApiResponse getAllProducts() {
-    // List<ProductResponse> products = service.getAllProducts();
-    // return ApiResponse.ok(products);
-    // }
+    @GetMapping("/{productId}")
+    ApiResponse getProductById(@PathVariable Long productId) {
+        ProductResponse product = service.getProductById(productId);
+        return ApiResponse.ok(product);
+    }
 
     @GetMapping("/search")
     ApiResponse getProductsByCategory(@RequestParam("category") Long categoryId) {
         List<ProductResponse> products = service.getProductsByCategory(categoryId);
         return ApiResponse.ok(products);
-    }
-
-    @GetMapping("/{productId}")
-    ApiResponse getProductById(@PathVariable Long productId) {
-        ProductResponse product = service.getProductById(productId);
-        return ApiResponse.ok(product);
     }
 
     @PostMapping

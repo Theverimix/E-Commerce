@@ -24,7 +24,7 @@ public class ProductService {
     private final ProductStateRepository productStateRepository;
 
     public ProductResponse getProductById(Long productId) {
-        return productRepository.findById(productId)
+        return productRepository.findByIdAndVisibleTrue(productId)
                 .map(mapper)
                 .orElseThrow(() -> new EntityNotFoundException("Product with id [%s] not found.".formatted(productId)));
     }
@@ -35,17 +35,11 @@ public class ProductService {
                 .collect(Collectors.toList());
     }
 
-    // public List<ProductResponse> getAllProducts() {
-    // return productRepository.findAll().stream()
-    // .map(mapper)
-    // .collect(Collectors.toList());
-    // }
+    public ProductPageResponse getAllProducts(int page) {
+        PageRequest pageRequest = PageRequest.of(page, 9, Sort.by("id"));
 
-    public ProductPageResponse getAllProducts(int pagina) {
-        // Crea un objeto Pageable para la paginación
-        PageRequest pageRequest = PageRequest.of(pagina, 9, Sort.by("id"));
-        // Llama al método del repositorio para obtener los productos paginados
-        Page<Product> pageProducts = productRepository.findAll(pageRequest);
+        Page<Product> pageProducts = productRepository.findAllByVisibleTrue(pageRequest);
+
         int totalPages = pageProducts.getTotalPages();
         long totalElements = pageProducts.getTotalElements();
 
