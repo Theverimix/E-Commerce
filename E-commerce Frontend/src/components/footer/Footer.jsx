@@ -12,14 +12,8 @@ import footerImgDevs from "../../assets/img/DAGA_devs_poweredBy_light.png";
 import "./footer.css";
 
 export default function Footer() {
-  const header = (
-    <>
-      <hr style={{ borderBottom: "2px solid #e69b0c", margin: "0" }} />
-    </>
-  );
   const footer = (
     <>
-      {/*<img alt="Card" src={footerImg} />*/}
       <Divider />
       <div style={{ display: "flex", justifyContent: "center" }}>
         <img alt="Card" src={footerImgDevs} style={{ width: "180px" }} />
@@ -28,10 +22,11 @@ export default function Footer() {
   );
 
   return (
-    <div>
-      <Card header={header}></Card>
-      <div className="angry-grid">
-        <Card title="CONTACTO" footer={footer} id="item-0">
+    <div >
+      <hr style={{ borderBottom: "2px solid #e69b0c", margin: "0" }} />
+      <div className="grid neted-grid" style={{ marginRight: "10%",marginLeft:"10%" }}>
+        <div className="col-4">
+          <h2>CONTACTO</h2>
           <p>
             <b>SUCURSALES</b>
             <br />
@@ -47,33 +42,36 @@ export default function Footer() {
             <br />
             contacto@brutal.uy
           </p>
-        </Card>
+        </div>
+        <div className="col-8">
+          <div className="grid">
+            <div className="col-12">
+              <h2>BENEFICIOS</h2>
+              <div className="p-d-flex">
+                <p className="mr-1 p-be-margin">
+                  Dejanos tu email para recibir novedades y ofertas preferenciales
+                  de nuestros productos.
+                </p>
 
-        <Card title="BENEFICIOS" id="item-1">
-          <div className="p-d-flex">
-            <p className="mr-1 p-be-margin">
-              Dejanos tu email para recibir novedades y ofertas preferenciales
-              de nuestros productos.
-            </p>
-
-            <div className="p-inputgroup flex-2">
-              <InputText placeholder="Ingresa tu email" />
-              <Button label="SUSCRIBIRME" />
+                <div className="p-inputgroup flex-2">
+                  <InputText placeholder="Ingresa tu email" />
+                  <Button label="SUSCRIBIRME" />
+                </div>
+              </div>
+            </div>
+            <div className="col-6">
+              <h2>ASISTENCIA</h2>
+              <p className="m-0">Lorem ipsum dolor sit a</p>
+            </div>
+            <div className="col-6">
+              <h2>EMPRESA</h2>
+              <p className="m-0">
+                is, culpa ratione quam perferendis esse, cupiditate neque quas!
+              </p>
             </div>
           </div>
-        </Card>
-
-        <Card title="ASISTENCIA" id="item-2">
-          <p className="m-0">Lorem ipsum dolor sit a</p>
-        </Card>
-
-        <Card title="EMPRESA" id="item-3">
-          <p className="m-0">
-            is, culpa ratione quam perferendis esse, cupiditate neque quas!
-          </p>
-        </Card>
+        </div>
       </div>
-
       <div style={{ display: "flex", justifyContent: "center" }}>
         <p>
           <b>© 2024 | Todos los derechos reservados.</b>

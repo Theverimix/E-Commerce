@@ -6,8 +6,5 @@ body{
 }
 
 #root{
-    max-width: 160vh;
-    position: relative;
     z-index: 99;
-    
 }

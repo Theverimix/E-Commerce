@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useRef } from 'react';
 import { MegaMenu } from "primereact/megamenu";
-import { Divider } from "primereact/divider";
+import { Menu } from 'primereact/menu';
 import { Badge } from "primereact/badge";
 import { InputText } from "primereact/inputtext";
 import { IconField } from "primereact/iconfield";
@@ -13,6 +13,8 @@ import { Link } from "react-router-dom";
 import "./header.css";
 
 export default function Header() {
+  const menuRight = useRef(null);
+
   const itemRenderer = (item) => (
     <Link to={item.href} className="flex align-items-center p-menuitem-link">
       <span className={item.icon} style={{ marginRight: "0.5rem" }} />
@@ -21,21 +23,8 @@ export default function Header() {
     </Link>
   );
 
-  const center = (
-    <div className="h-input-search">
-      <IconField iconPosition="left">
-        <InputIcon className="pi pi-search" />
-        <InputText
-          v-model="value1"
-          placeholder="Search"
-          style={{ borderRadius: "10px" }}
-        />
-      </IconField>
-    </div>
-  );
-
   const items = [
-    
+
     {
       label: "Productos",
       icon: "pi pi-box",
@@ -88,25 +77,11 @@ export default function Header() {
         ],
       ],
     },
-    
+
   ];
 
-  const start = (
-    <>
-      <Link to="/">
-        <img
-          alt="logo"
-          src={brutalLogo}
-          height="50"
-          style={{ maxWidth: "100%", width: "100%" }}
-        />
-      </Link>
-      <MegaMenu model={items} className="p-0 " style={{ border: "none" }} />
-    </>
-  );
-
   const endItemRenderer = (item) => (
-    <Link to={item.href} className="p-menuitem-link icon-item">
+    <Link to={item.href} className="p-menuitem-link icon-item ">
       <span className={item.icon} style={{ marginRight: "0.5rem" }} />
       {item.badge && <Badge className="ml-auto" value={item.badge} />}
     </Link>
@@ -116,20 +91,81 @@ export default function Header() {
     label: "Carrito",
     icon: "pi pi-shopping-cart",
     badge: 4,
-    href: "/ProductList",
+    href: "/cart",
   };
 
+  const options = [
+    {
+        label: 'Options',
+        items: [
+            {
+                label: 'Login',
+                icon: 'pi pi-sign-in',
+                url: '/login'
+            },
+            {
+                label: 'Signup',
+                icon: 'pi pi-user-plus',
+                url: '/signup'
+            }
+        ]
+    }
+];
+
+  const start = (
+    <div className="grid m-0">
+      <div className="col-fixed" style={{ width: '150px' }}>
+        <Link to="/" >
+          <img
+            alt="logo"
+            src={brutalLogo}
+            height="50"
+          />
+        </Link>
+      </div>
+    </div>
+  );
+
+  const center = (
+    <div className="h-input-search">
+      <div className="col ">
+        <IconField iconPosition="left">
+          <InputIcon className="pi pi-search" />
+          <InputText
+            v-model="value1"
+            placeholder="Search"
+            style={{ borderRadius: "10px" }}
+          />
+        </IconField>
+      </div>
+    </div>
+  );
+
   const end = [
-    <div className="flex justify-content-between flex-wrap">
-    
-    <Button icon="pi pi-user" rounded text raised aria-label="User"/>
-      {endItemRenderer(cartItem)}
-    </div>,
+    <div className='flex justify-content-between align-items-center'>
+        <IconField iconPosition="left" className='mx-2'>
+          <InputIcon className="pi pi-search" />
+          <InputText
+            v-model="value1"
+            placeholder="Search"
+            style={{ borderRadius: "10px" }}
+          />
+        </IconField>
+        <Menu model={options} popup ref={menuRight} id="popup_menu_right" popupAlignment="right" />
+        <Button icon="pi pi-user" rounded text raised className="mr-1" onClick={(event) => menuRight.current.toggle(event)} aria-controls="popup_menu_right" aria-haspopup />
+        {endItemRenderer(cartItem)}
+    </div>
   ];
 
   return (
-    <div className="card">
-      <Toolbar start={start} center={center} end={end} className="p-2" style={{ border: "none"}} />
+    <div style={{ background: '#1e1e1e' }}>
+      <div style={{ marginLeft: '10%', marginRight: '10%' }}>
+      {/* <Toolbar start={start} center={center} end={end} unstyled className="flex justify-content-between align-items-center p-2 " style={{ border: "none"}} />
+      <Divider className="my-0"></Divider> */}
+      <MegaMenu start={start} model={items} end={end} className="flex justify-content-between align-items-center p-0 " breakpoint="960px" style={{ border: "none"}} /> 
+      
+      </div>
     </div>
+    
   );
 }

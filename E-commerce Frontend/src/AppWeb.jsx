@@ -5,8 +5,7 @@ import Footer from "./components/footer/Footer.jsx";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import "/node_modules/primeflex/primeflex.css";
-
-import "/src/styles/index.css"
+import '../src/styles/appWeb.css'
 
 const Home = lazy(() => import("./pages/home/Home.jsx"));
 const OrderPage = lazy(() => import("./pages/order/OrderPage.jsx"));
@@ -28,29 +27,28 @@ const Catalog = lazy(() => import("./pages/productsPage/ProductCatalog.jsx"));
 
 function AppWeb() {
   return (
-    <>
+    < >
       <BrowserRouter>
         <Header />
-        <Suspense fallback={<div>Loading...</div>}>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/home" element={<Home />} />
-            <Route path="/products" element={<Catalog />} />
-            <Route path="/products/:id" element={<ProductPage />} />
-            <Route path="/cart" element={<ShopCart />} />
-            <Route path="/checkout" element={<ProductPage />} />
-            <Route path="/confirmation" element={<ProductPage />} />
-            <Route path="/orders" element={<OrderPage />} />
-            <Route path="/login" element={<LoginRegister />} />
-            <Route path="/signup" element={<Register />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/search" element={<ProductPage />} />
-            <Route path="/terms" element={<ProductPage />} />
-            <Route path="/contact" element={<ProductPage />} />
-            <Route path="/pruebas" element={<Welcome />} />
-          </Routes>
-        </Suspense>
-
+          <Suspense fallback={<div>Loading...</div>} >
+            <Routes >
+              <Route path="/" element={<Home />} />
+              <Route path="/home" element={<Home />} />
+              <Route path="/products" element={<Catalog />} />
+              <Route path="/products/:id" element={<ProductPage />} />
+              <Route path="/cart" element={<ShopCart />} />
+              <Route path="/checkout" element={<ProductPage />} />
+              <Route path="/confirmation" element={<ProductPage />} />
+              <Route path="/orders" element={<OrderPage />} />
+              <Route path="/login" element={<LoginRegister />} />
+              <Route path="/signup" element={<Register />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/search" element={<ProductPage />} />
+              <Route path="/terms" element={<ProductPage />} />
+              <Route path="/contact" element={<ProductPage />} />
+              <Route path="/pruebas" element={<Welcome />} />
+            </Routes>
+          </Suspense>
         <Footer />
       </BrowserRouter>
     </>
