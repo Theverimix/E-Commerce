@@ -43,10 +43,8 @@ export default function Home() {
               <img src={categoria1} className="w-10 shadow-2" />
             </div>
 
-            <div className="flex align-items-center mb-4">
-              <div className="flex flex-column">
-                <span className="block font-semibold mb-1">SUPLEMENTOS</span>
-              </div>
+            <div className="flex align-items-center mb-4 justify-content-center">
+              <span className="block font-semibold mb-1">SUPLEMENTOS</span>
             </div>
           </div>
 
@@ -55,10 +53,8 @@ export default function Home() {
               <img src={categoria2} className="w-10 shadow-2" />
             </div>
 
-            <div className="flex align-items-center mb-4">
-              <div className="flex flex-column">
-                <span className="block font-semibold mb-1">EQUIPAMIENTO</span>
-              </div>
+            <div className="flex align-items-center mb-4 justify-content-center">
+              <span className="block font-semibold mb-1">EQUIPAMIENTO</span>
             </div>
           </div>
 
@@ -67,10 +63,8 @@ export default function Home() {
               <img src={categoria3} className="w-10 shadow-2" />
             </div>
 
-            <div className="flex align-items-center mb-4">
-              <div className="flex flex-column">
-                <span className="block font-semibold mb-1">ACCESORIOS</span>
-              </div>
+            <div className="flex align-items-center mb-4 justify-content-center">
+              <span className="block font-semibold mb-1">ACCESORIOS</span>
             </div>
           </div>
         </div>
