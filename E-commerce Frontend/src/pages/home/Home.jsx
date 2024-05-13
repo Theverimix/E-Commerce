@@ -16,8 +16,8 @@ export default function Home() {
   const navigate = useNavigate();
   return (
     <>
-      <div className="main">
-        <div className="galleryMain">
+      <div>
+        <div className="galleryMain mt-3">
           <Gallery />
         </div>
 
@@ -103,7 +103,7 @@ export default function Home() {
           ></Button>
         </div>
 
-        <div>
+        <div className="carousel">
           <Carousel />
         </div>
       </div>

@@ -58,7 +58,7 @@ export default function HomeCarousel() {
 
   // Si está cargando, muestra esqueletos; si no, muestra el carrusel con productos
   return (
-    <div>
+    <div className="m-0">
       {isLoading ? (
         <div className="flex justify-content-center align-items-center">
           {/* Estructura de carga para el carrusel */}
@@ -79,7 +79,6 @@ export default function HomeCarousel() {
         </div>
       ) : (
         <Carousel
-          // style={{ maxWidth: "60%" }}
           value={products}
           numVisible={4}
           circular

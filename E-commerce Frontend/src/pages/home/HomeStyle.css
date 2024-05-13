@@ -1,6 +1,6 @@
-.main {
+/* .main {
   margin-top: 10px;
-}
+} */
 
 .galleryMain {
   width: 100%;
@@ -46,4 +46,5 @@ img {
 
 .carousel {
   margin: 5%;
+  max-width: 99vw;
 }
