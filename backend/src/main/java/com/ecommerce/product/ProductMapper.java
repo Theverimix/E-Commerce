@@ -31,10 +31,9 @@ public class ProductMapper implements Function<Product, ProductResponse> {
                 product.getImages(),
                 product.getCategories().stream()
                         .map(categoryMapper)
-                        .collect(Collectors.toSet()),
+                        .collect(Collectors.toList()),
                 product.getSales().stream()
                         .map(saleMapper)
-                        .collect(Collectors.toSet())
-        );
+                        .collect(Collectors.toList()));
     }
 }

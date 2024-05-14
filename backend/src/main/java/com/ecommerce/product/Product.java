@@ -1,6 +1,7 @@
 package com.ecommerce.product;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 import com.ecommerce.product.category.Category;
@@ -42,9 +43,9 @@ public class Product {
 
         @ManyToMany
         @JoinTable(name = "product_categories", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
-        private Set<Category> categories;
+        private List<Category> categories;
 
         @ManyToMany
         @JoinTable(name = "product_sales", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "sale_id"))
-        private Set<Sale> sales;
+        private List<Sale> sales;
 }

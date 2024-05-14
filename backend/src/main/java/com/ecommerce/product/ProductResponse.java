@@ -6,17 +6,18 @@ import com.ecommerce.sale.SaleResponse;
 
 import java.util.Date;
 import java.util.Set;
+import java.util.List;
 
 public record ProductResponse(
-        Long id,
-        String name,
-        String description,
-        double price,
-        int stock,
-        Date createdAt,
-        ProductStateResponse state,
-        boolean visible,
-        Set<String> images,
-        Set<CategoryResponse> categories,
-        Set<SaleResponse> sales
-) {}
+                Long id,
+                String name,
+                String description,
+                double price,
+                int stock,
+                Date createdAt,
+                ProductStateResponse state,
+                boolean visible,
+                Set<String> images,
+                List<CategoryResponse> categories,
+                List<SaleResponse> sales) {
+}
