@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.ecommerce.customer.Customer;
-import com.ecommerce.enums.OrderStatus;
 import com.ecommerce.customer.CustomerRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;

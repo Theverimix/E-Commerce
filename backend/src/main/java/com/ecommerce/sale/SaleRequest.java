@@ -1,7 +1,5 @@
 package com.ecommerce.sale;
 
-import com.ecommerce.enums.DiscountsTypes;
-
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;

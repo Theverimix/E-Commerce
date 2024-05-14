@@ -1,7 +1,5 @@
 package com.ecommerce.user;
 
-import com.ecommerce.enums.UserState;
-
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

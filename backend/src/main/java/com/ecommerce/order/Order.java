@@ -1,6 +1,5 @@
 package com.ecommerce.order;
 
-import com.ecommerce.enums.OrderStatus;
 import com.ecommerce.customer.Customer;
 import com.ecommerce.order.detail.OrderDetail;
 import jakarta.persistence.*;

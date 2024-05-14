@@ -1,4 +1,4 @@
-package com.ecommerce.enums;
+package com.ecommerce.order;
 
 import lombok.Getter;
 

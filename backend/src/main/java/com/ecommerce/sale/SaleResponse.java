@@ -1,10 +1,6 @@
 package com.ecommerce.sale;
 
 import java.util.Date;
-import java.util.Set;
-
-import com.ecommerce.product.Product;
-import com.ecommerce.enums.DiscountsTypes;
 
 public record SaleResponse(
         Long id,

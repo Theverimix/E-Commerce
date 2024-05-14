@@ -1,7 +1,7 @@
 package com.ecommerce.customer;
 
-import com.ecommerce.enums.UserRole;
-import com.ecommerce.enums.UserState;
+import com.ecommerce.user.UserRole;
+import com.ecommerce.user.UserState;
 
 import java.util.Date;
 

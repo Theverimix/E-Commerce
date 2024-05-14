@@ -3,8 +3,6 @@ package com.ecommerce.sale;
 import java.util.Date;
 import java.util.Set;
 
-import com.ecommerce.enums.DiscountsTypes;
-
 import com.ecommerce.product.Product;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

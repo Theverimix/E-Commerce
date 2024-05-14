@@ -4,15 +4,13 @@ import com.ecommerce.config.JwtService;
 import com.ecommerce.customer.Customer;
 import com.ecommerce.customer.CustomerRepository;
 import com.ecommerce.user.User;
-import com.ecommerce.enums.UserRole;
-import com.ecommerce.enums.UserState;
+import com.ecommerce.user.UserRole;
+import com.ecommerce.user.UserState;
 import com.ecommerce.user.UserRepository;
-import com.ecommerce.utils.StringFormatter;
 
 import lombok.RequiredArgsConstructor;
 
 import java.util.Date;
-import java.util.function.Function;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

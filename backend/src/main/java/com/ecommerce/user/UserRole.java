@@ -1,4 +1,4 @@
-package com.ecommerce.enums;
+package com.ecommerce.user;
 
 public enum UserRole {
     CUSTOMER, MANAGER, ADMINISTRATOR

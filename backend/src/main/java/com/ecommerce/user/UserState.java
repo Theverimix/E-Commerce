@@ -1,4 +1,4 @@
-package com.ecommerce.enums;
+package com.ecommerce.user;
 
 public enum UserState {
     ACTIVE, INACTIVE, CLOSED
