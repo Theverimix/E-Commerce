@@ -1,9 +1,12 @@
 package com.ecommerce.exception;
 
-import lombok.Getter;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
+
 import org.springframework.http.HttpStatus;
 
-import java.time.LocalDateTime;
+import lombok.Getter;
 
 @Getter
 public class ApiResponse {
@@ -21,9 +24,20 @@ public class ApiResponse {
         this.timestamp = timestamp;
     }
 
+    public Date convertirADate() {
+        // Obtener la zona horaria por defecto del sistema
+        ZoneId zonaHoraria = ZoneId.systemDefault();
+
+        // Convertir LocalDate a Date
+        Date fechaDate = Date.from(timestamp.atZone(zonaHoraria).toInstant());
+
+        return fechaDate;
+    }
+
     public static ApiResponse ok(Object data) {
         return success(HttpStatus.OK, "Ok").data(data);
     }
+
     public static ApiResponse ok(String message) {
         return success(HttpStatus.OK, message);
     }
@@ -72,7 +86,6 @@ public class ApiResponse {
         this.data = object;
         return this;
     }
-
 
     // Generic Response
 

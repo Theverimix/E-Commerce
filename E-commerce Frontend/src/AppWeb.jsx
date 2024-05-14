@@ -3,6 +3,7 @@ import Header from "./components/header/Header.jsx";
 import Footer from "./components/footer/Footer.jsx";
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { ProgressSpinner } from "primereact/progressspinner";
 
 import "/node_modules/primeflex/primeflex.css";
 import "../src/styles/appWeb.css";
@@ -31,7 +32,7 @@ function AppWeb() {
       <BrowserRouter>
         <Header />
         <div className="main">
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense>
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/home" element={<Home />} />

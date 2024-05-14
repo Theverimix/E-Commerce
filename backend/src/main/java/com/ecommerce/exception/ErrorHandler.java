@@ -15,6 +15,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
+
+import java.security.SignatureException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +27,18 @@ import static org.springframework.http.HttpStatus.*;
 
 @RestControllerAdvice
 public class ErrorHandler {
+
+    @ExceptionHandler({ MalformedJwtException.class, SignatureException.class })
+    @ResponseStatus(BAD_REQUEST)
+    ApiResponse malformedJwtException(MalformedJwtException e) {
+        return ApiResponse.badRequest("El token JWT está malformado.").data(e.getMessage());
+    }
+
+    @ExceptionHandler(ExpiredJwtException.class)
+    @ResponseStatus(UNAUTHORIZED)
+    ApiResponse expiredJwtException(ExpiredJwtException e) {
+        return ApiResponse.unauthorized("El token JWT ha expirado.").data(e.getMessage());
+    }
 
     @ExceptionHandler(ObjectNotFoundException.class)
     @ResponseStatus(NOT_FOUND)
@@ -36,9 +52,9 @@ public class ErrorHandler {
         return ApiResponse.notFound(e.getMessage());
     }
 
-    @ExceptionHandler({ UsernameNotFoundException.class, BadCredentialsException.class })
+    @ExceptionHandler(UsernameNotFoundException.class)
     @ResponseStatus(UNAUTHORIZED)
-    ApiResponse authenticationException(Exception e) {
+    public ApiResponse tokenErrorException(Exception e) {
         return ApiResponse.unauthorized(e.getMessage());
     }
 
