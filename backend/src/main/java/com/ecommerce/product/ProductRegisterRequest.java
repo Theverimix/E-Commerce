@@ -15,6 +15,5 @@ public record ProductRegisterRequest(
                 @NotNull Long idState,
                 boolean visible,
                 Set<String> images,
-                List<Category> productCategories) {
-
-}
+                List<Category> productCategories
+) {}

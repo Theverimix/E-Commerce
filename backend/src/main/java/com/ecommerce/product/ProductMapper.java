@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -29,11 +28,8 @@ public class ProductMapper implements Function<Product, ProductResponse> {
                 stateMapper.apply(product.getState()),
                 product.isVisible(),
                 product.getImages(),
-                product.getCategories().stream()
-                        .map(categoryMapper)
-                        .collect(Collectors.toList()),
-                product.getSales().stream()
-                        .map(saleMapper)
-                        .collect(Collectors.toList()));
+                product.getCategories().stream().map(categoryMapper).toList(),
+                saleMapper.apply(product.getSale())
+        );
     }
 }

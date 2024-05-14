@@ -19,5 +19,5 @@ public record ProductResponse(
                 boolean visible,
                 Set<String> images,
                 List<CategoryResponse> categories,
-                List<SaleResponse> sales) {
-}
+                SaleResponse sales
+) {}

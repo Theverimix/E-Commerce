@@ -1,17 +1,10 @@
 package com.ecommerce.sale;
 
 import java.util.Date;
-import java.util.Set;
+import java.util.List;
 
 import com.ecommerce.product.Product;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import lombok.*;
 
@@ -38,6 +31,6 @@ public class Sale {
 
     private int discountValue;
 
-    @ManyToMany(mappedBy = "sales")
-    Set<Product> products;
+    @OneToMany(mappedBy = "sale")
+    private List<Product> products;
 }

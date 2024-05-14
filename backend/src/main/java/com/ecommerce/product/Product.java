@@ -45,7 +45,7 @@ public class Product {
         @JoinTable(name = "product_categories", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
         private List<Category> categories;
 
-        @ManyToMany
-        @JoinTable(name = "product_sales", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "sale_id"))
-        private List<Sale> sales;
+        @ManyToOne
+        @JoinColumn(name = "sale_id", nullable = true)
+        private Sale sale;
 }
