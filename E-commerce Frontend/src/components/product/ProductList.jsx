@@ -15,6 +15,9 @@ export default function ProductList({
   isLoading = false,
   linkeable = false,
   paginator = false,
+  categories = false,
+  quantity = false,
+  addToCartButton = false,
   height = "auto",
   onPageChange,
 }) {
@@ -58,35 +61,55 @@ export default function ProductList({
     }
 
     return (
-      <div
-        onClick={() => {
-          if (linkeable) {
-            navigate(`/products/${product.id}`);
-          }
-        }}
-        className={`col-12 ${linkeable ? "cursor-pointer" : ""}`}
-        key={product.id}
-      >
+      <div key={product.id} className="col-12">
         <div
-          className={classNames(
-            "flex flex-column xl:flex-row xl:align-items-start p-4 gap-4",
-            { "border-top-1 surface-border": index !== 0 }
-          )}
+          className={classNames("flex flex-column xl:flex-row p-4 gap-4", {
+            "border-top-1 surface-border": index !== 0,
+          })}
         >
           <img
-            className="w-9 sm:w-16rem xl:w-10rem shadow-2 block xl:block mx-auto border-round"
+            onClick={() => {
+              if (linkeable) {
+                navigate(`/products/${product.id}`);
+              }
+            }}
+            className={`w-9 sm:w-16rem xl:w-10rem shadow-2 block xl:block mx-auto border-round ${
+              linkeable ? "cursor-pointer" : ""
+            }`}
             src={product.images}
             alt={product.name}
           />
           <div className="flex flex-column sm:flex-row justify-content-between align-items-center xl:align-items-start flex-1 gap-4">
-            <div className="flex flex-column align-items-center sm:align-items-start gap-3">
-              <div className="text-2xl font-bold text-900 hover:text-primary">
+            <div className="flex flex-column sm:align-items-start gap-3">
+              <div
+                className={`text-2xl font-bold text-900 hover:text-primary ${
+                  linkeable ? "cursor-pointer" : ""
+                }`}
+                onClick={() => {
+                  if (linkeable) {
+                    navigate(`/products/${product.id}`);
+                  }
+                }}
+              >
                 {product.name}
               </div>
-              <div className="flex align-items-center gap-3">
-                <span className="font-semibold">
-                  Quantity: {product.amount}
-                </span>
+              <div className="flex align-items-center">
+                {quantity && (
+                  <span className="font-semibold">
+                    Quantity: {product.amount}
+                  </span>
+                )}
+                {product.categories && (
+                  <span className="font-semibold ">
+                    <i className="pi pi-tag mr-2"></i>
+                    {product.categories.map((category, index) => (
+                      <span key={index}>
+                        {category.name}
+                        {index !== product.categories.length - 1 && ", "}
+                      </span>
+                    ))}
+                  </span>
+                )}
               </div>
             </div>
             <div className="flex sm:flex-column align-items-center sm:align-items-end gap-3 sm:gap-2">
@@ -99,6 +122,13 @@ export default function ProductList({
                 onClick={() => console.log("holi")}
                 unstyled
                 label="Remove"
+              />
+              <Button
+                visible={addToCartButton}
+                className="z-5"
+                icon="pi pi-shopping-cart"
+                onClick={() => console.log("holi")}
+                label="Add to cart"
               />
             </div>
           </div>

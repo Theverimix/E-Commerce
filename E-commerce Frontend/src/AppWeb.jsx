@@ -1,4 +1,4 @@
-import React, { Suspense, useState, lazy } from "react";
+import React, { Suspense, useState, useRef, lazy } from "react";
 import Header from "./components/header/Header.jsx";
 import Footer from "./components/footer/Footer.jsx";
 
@@ -7,6 +7,8 @@ import { ProgressSpinner } from "primereact/progressspinner";
 
 import "/node_modules/primeflex/primeflex.css";
 import "../src/styles/appWeb.css";
+
+import { ToastProvider } from "./providers/ToastProvider.jsx";
 
 const Home = lazy(() => import("./pages/home/Home.jsx"));
 const OrderPage = lazy(() => import("./pages/order/OrderPage.jsx"));
@@ -27,33 +29,40 @@ const Catalog = lazy(() => import("./pages/productsPage/ProductCatalog.jsx"));
 // import Profile from "./pages/profile/Profile.jsx";
 
 function AppWeb() {
+  const toastRef = useRef(null);
+
+  const showToast = (severity, summary, detail) => {
+    toastRef.current.show({ severity, summary, detail });
+  };
   return (
     <>
-      <BrowserRouter>
-        <Header />
-        <div className="main">
-          <Suspense>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/home" element={<Home />} />
-              <Route path="/products" element={<Catalog />} />
-              <Route path="/products/:id" element={<ProductPage />} />
-              <Route path="/cart" element={<ShopCart />} />
-              <Route path="/checkout" element={<ProductPage />} />
-              <Route path="/confirmation" element={<ProductPage />} />
-              <Route path="/orders" element={<OrderPage />} />
-              <Route path="/login" element={<LoginRegister />} />
-              <Route path="/signup" element={<Register />} />
-              <Route path="/profile" element={<Profile />} />
-              <Route path="/search" element={<ProductPage />} />
-              <Route path="/terms" element={<ProductPage />} />
-              <Route path="/contact" element={<ProductPage />} />
-              <Route path="/pruebas" element={<Welcome />} />
-            </Routes>
-          </Suspense>
-        </div>
-        <Footer />
-      </BrowserRouter>
+      <ToastProvider>
+        <BrowserRouter>
+          <Header />
+          <div className="main">
+            <Suspense>
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/home" element={<Home />} />
+                <Route path="/products" element={<Catalog />} />
+                <Route path="/products/:id" element={<ProductPage />} />
+                <Route path="/cart" element={<ShopCart />} />
+                <Route path="/checkout" element={<ProductPage />} />
+                <Route path="/confirmation" element={<ProductPage />} />
+                <Route path="/orders" element={<OrderPage />} />
+                <Route path="/login" element={<LoginRegister />} />
+                <Route path="/signup" element={<Register />} />
+                <Route path="/profile" element={<Profile />} />
+                <Route path="/search" element={<ProductPage />} />
+                <Route path="/terms" element={<ProductPage />} />
+                <Route path="/contact" element={<ProductPage />} />
+                <Route path="/pruebas" element={<Welcome />} />
+              </Routes>
+            </Suspense>
+          </div>
+          <Footer />
+        </BrowserRouter>
+      </ToastProvider>
     </>
   );
 }

@@ -70,7 +70,7 @@ function ProductCatalog() {
           <ProductList
             products={mapProducts()}
             isLoading={isLoading}
-            removeButton
+            addToCartButton
             linkeable
             paginator
             totalElements={totalElements}
