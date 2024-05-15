@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table(name = "Orders")
@@ -34,6 +34,7 @@ public class Order {
 
     private Date date;
 
-    @OneToMany(mappedBy = "order")
-    private Set<OrderDetail> details;
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    private List<OrderDetail> details;
+
 }

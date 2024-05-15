@@ -6,6 +6,9 @@ import java.util.stream.Collectors;
 
 import com.ecommerce.customer.Customer;
 import com.ecommerce.customer.CustomerRepository;
+import com.ecommerce.order.detail.OrderDetail;
+import com.ecommerce.order.detail.OrderDetailKey;
+import com.ecommerce.product.ProductRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
@@ -19,6 +22,7 @@ public class OrderService {
         private final OrderRepository orderRepository;
         private final OrderMapper dtoMapper;
         private final CustomerRepository customerRepository;
+        private final ProductRepository productRepository;
 
         public OrderResponse getOrderById(@NonNull Long id) {
                 return orderRepository.findById(id)
@@ -44,15 +48,26 @@ public class OrderService {
 
         public void saveOrder(OrderRegistrationRequest dto) {
                 Customer customer = customerRepository.findById(dto.customerId())
-                                .orElseThrow(() -> new EntityNotFoundException(
-                                                "Customer with id [%s] not found.".formatted(dto.customerId())));
+                        .orElseThrow(() -> new EntityNotFoundException(
+                                "Customer with id [%s] not found.".formatted(dto.customerId())));
 
                 Order order = new Order();
                 order.setAddress(dto.address());
                 order.setCustomer(customer);
                 order.setDate(new Date());
-                order.setDetails(dto.details());
                 order.setStatus(OrderStatus.IN_PROCESS);
+
+                List<OrderDetail> details = dto.details().stream()
+                        .map(detail -> OrderDetail.builder()
+                                .id(new OrderDetailKey(detail.productId(), order.getId()))
+                                .order(order)
+                                .product(productRepository.findById(detail.productId()).orElseThrow(() -> new EntityNotFoundException("Product not found")))
+                                .price(detail.price())
+                                .amount(detail.amount())
+                                .build())
+                        .toList();
+                order.setDetails(details);
+
                 orderRepository.save(order);
         }
 
@@ -61,7 +76,17 @@ public class OrderService {
                                 .orElseThrow(() -> new EntityNotFoundException(
                                                 "Order with id [%s] not found.".formatted(id)));
                 order.setAddress(dto.address());
-                order.setDetails(dto.details());
+
+                List<OrderDetail> details = dto.details().stream()
+                        .map(detail -> OrderDetail.builder()
+                                .order(order)
+                                .product(productRepository.findById(detail.productId()).orElseThrow(() -> new EntityNotFoundException("Product not found")))
+                                .price(detail.price())
+                                .amount(detail.amount())
+                                .build())
+                        .toList();
+                order.setDetails(details);
+
                 orderRepository.save(order);
         }
 

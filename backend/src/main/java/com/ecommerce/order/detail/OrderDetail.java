@@ -3,14 +3,12 @@ package com.ecommerce.order.detail;
 import com.ecommerce.order.Order;
 import com.ecommerce.product.Product;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Table(name = "OrderDetails")
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
+@Builder
 public class OrderDetail {
 
     @EmbeddedId
