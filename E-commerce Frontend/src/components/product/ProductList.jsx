@@ -7,6 +7,7 @@ import { ScrollPanel } from "primereact/scrollpanel";
 import { Panel } from "primereact/panel";
 import { Paginator } from "primereact/paginator";
 import { Link, useNavigate } from "react-router-dom";
+import { Chip } from "primereact/chip";
 
 export default function ProductList({
   products,
@@ -106,15 +107,18 @@ export default function ProductList({
                   </span>
                 )}
                 {product.categories && (
-                  <span className="font-semibold ">
-                    <i className="pi pi-tag mr-2"></i>
+                  <div className="font-semibold mb-4">
+                    {/* <i className="pi pi-tag mr-2"></i> */}
                     {product.categories.map((category, index) => (
-                      <span key={index}>
-                        {category.name}
-                        {index !== product.categories.length - 1 && ", "}
-                      </span>
+                      <div key={index}>
+                        <Chip
+                          className="text-primary font-medium text-sm bg-secondary hover:bg-primary"
+                          label={category.name}
+                        />
+                        {index !== product.categories.length - 1 && " "}
+                      </div>
                     ))}
-                  </span>
+                  </div>
                 )}
               </div>
             </div>

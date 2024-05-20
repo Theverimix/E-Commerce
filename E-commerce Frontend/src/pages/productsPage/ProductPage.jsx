@@ -6,6 +6,7 @@ import ProductGallery from "../../components/product/ProductGallery";
 import { Card } from "primereact/card";
 import { Button } from "primereact/button";
 import { Skeleton } from "primereact/skeleton";
+import { Chip } from "primereact/chip";
 import "../../styles/appWeb.css";
 
 export default function ProductPage() {
@@ -28,11 +29,11 @@ export default function ProductPage() {
     };
 
     if (history.state.usr?.product) {
-      console.log("cache");
+      // console.log("cache");
       setProduct(history.state.usr.product);
       setIsLoading(false);
     } else {
-      console.log("fetch");
+      // console.log("fetch");
       fetchData();
     }
   }, [id]);
@@ -65,7 +66,7 @@ export default function ProductPage() {
   );
 
   const cardFooter = (
-    <div className="flex justify-content-between px-4 pb-3 mt-5">
+    <div className="flex justify-content-between px-4 pb-3">
       {isLoading ? (
         <Skeleton className="w-20rem h-2rem" />
       ) : (
@@ -82,6 +83,7 @@ export default function ProductPage() {
         <Skeleton className="w-6rem h-2rem" />
       ) : (
         <InputNumber
+          inputClassName="text-center"
           size={1}
           value={quantity}
           onValueChange={(e) => changeQuantity(e.value)}
@@ -114,9 +116,26 @@ export default function ProductPage() {
             <Skeleton width="100%" height="20rem" />
           ) : (
             <div className="px-4">
-              <h4 className="my-2">Descripción</h4>
-              <div style={{ whiteSpace: "pre-wrap" }} className="m-0">
+              <div className="font-semibold mb-4">
+                {/* <i className="pi pi-tag mr-2"></i> */}
+                {product.categories.map((category, index) => (
+                  <div key={index}>
+                    <Chip
+                      className="text-primary font-medium text-sm bg-secondary hover:bg-primary"
+                      label={category.name}
+                    />
+                    {index !== product.categories.length - 1 && " "}
+                  </div>
+                ))}
+              </div>
+
+              <h4 className="mb-2">Descripción</h4>
+              <div style={{ whiteSpace: "pre-wrap" }} className="m-0 text-600">
                 {product.description}
+              </div>
+
+              <div className="mt-3">
+                <b>Available stock:</b> {product.stock}
               </div>
             </div>
           )}
