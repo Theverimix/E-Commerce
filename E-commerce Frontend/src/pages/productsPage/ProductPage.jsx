@@ -13,6 +13,7 @@ export default function ProductPage() {
   const [product, setProduct] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const { id } = useParams();
+  // const { productCache } = history.state.usr;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -26,7 +27,14 @@ export default function ProductPage() {
       }
     };
 
-    fetchData();
+    if (history.state.usr?.product) {
+      console.log("cache");
+      setProduct(history.state.usr.product);
+      setIsLoading(false);
+    } else {
+      console.log("fetch");
+      fetchData();
+    }
   }, [id]);
 
   const changeQuantity = (newValue) => {

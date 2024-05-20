@@ -31,6 +31,12 @@ export default function ProductList({
     }
   };
 
+  const redirectToProductDetail = (product) => {
+    navigate(`/products/${product.id}`, {
+      state: { product },
+    });
+  };
+
   const itemTemplate = (product, index) => {
     if (isLoading) {
       return (
@@ -70,7 +76,7 @@ export default function ProductList({
           <img
             onClick={() => {
               if (linkeable) {
-                navigate(`/products/${product.id}`);
+                redirectToProductDetail(product);
               }
             }}
             className={`w-9 sm:w-16rem xl:w-10rem shadow-2 block xl:block mx-auto border-round ${
@@ -87,7 +93,7 @@ export default function ProductList({
                 }`}
                 onClick={() => {
                   if (linkeable) {
-                    navigate(`/products/${product.id}`);
+                    redirectToProductDetail(product);
                   }
                 }}
               >
