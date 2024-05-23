@@ -39,26 +39,28 @@ function AppWeb() {
       <ToastProvider>
         <BrowserRouter>
           <Header />
-          <div className="main">
-            <Suspense>
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/home" element={<Home />} />
-                <Route path="/products" element={<Catalog />} />
-                <Route path="/products/:id" element={<ProductPage />} />
-                <Route path="/cart" element={<ShopCart />} />
-                <Route path="/checkout" element={<ProductPage />} />
-                <Route path="/confirmation" element={<ProductPage />} />
-                <Route path="/orders" element={<OrderPage />} />
-                <Route path="/login" element={<LoginRegister />} />
-                <Route path="/signup" element={<Register />} />
-                <Route path="/profile" element={<Profile />} />
-                <Route path="/search" element={<ProductPage />} />
-                <Route path="/terms" element={<ProductPage />} />
-                <Route path="/contact" element={<ProductPage />} />
-                <Route path="/pruebas" element={<Welcome />} />
-              </Routes>
-            </Suspense>
+          <div id="content" className="flex justify-content-center w-full">
+            <div className="sm:w-full md:w-10 lg:w-9">
+              <Suspense>
+                <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/home" element={<Home />} />
+                  <Route path="/products" element={<Catalog />} />
+                  <Route path="/products/:id" element={<ProductPage />} />
+                  <Route path="/cart" element={<ShopCart />} />
+                  <Route path="/checkout" element={<ProductPage />} />
+                  <Route path="/confirmation" element={<ProductPage />} />
+                  <Route path="/orders" element={<OrderPage />} />
+                  <Route path="/login" element={<LoginRegister />} />
+                  <Route path="/signup" element={<Register />} />
+                  <Route path="/profile" element={<Profile />} />
+                  <Route path="/search" element={<ProductPage />} />
+                  <Route path="/terms" element={<ProductPage />} />
+                  <Route path="/contact" element={<ProductPage />} />
+                  <Route path="/pruebas" element={<Welcome />} />
+                </Routes>
+              </Suspense>
+            </div>
           </div>
           <Footer />
         </BrowserRouter>
