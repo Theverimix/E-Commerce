@@ -19,6 +19,7 @@ const ShopCart = lazy(() => import("./pages/shopCart/ShopCart.jsx"));
 const ProductPage = lazy(() => import("./pages/productsPage/ProductPage.jsx"));
 const Profile = lazy(() => import("./pages/profile/Profile.jsx"));
 const Catalog = lazy(() => import("./pages/productsPage/ProductCatalog.jsx"));
+const ErrorPage = lazy(() => import("./pages/Error/ErrorPage.jsx"));
 // import OrderPage from "./pages/order/OrderPage.jsx";
 // import Welcome from "./pages/welcome/Welcome.jsx";
 // import LoginRegister from "./pages/login/Login.jsx";
@@ -58,6 +59,7 @@ function AppWeb() {
                   <Route path="/terms" element={<ProductPage />} />
                   <Route path="/contact" element={<ProductPage />} />
                   <Route path="/pruebas" element={<Welcome />} />
+                  <Route path="/error" element={<ErrorPage />} />
                 </Routes>
               </Suspense>
             </div>

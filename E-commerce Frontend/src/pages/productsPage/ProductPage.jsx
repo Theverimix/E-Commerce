@@ -7,9 +7,10 @@ import { Card } from "primereact/card";
 import { Button } from "primereact/button";
 import { Skeleton } from "primereact/skeleton";
 import { Chip } from "primereact/chip";
-import "../../styles/appWeb.css";
+import { useNavigate } from "react-router-dom";
 
 export default function ProductPage() {
+  const navigate = useNavigate();
   const [quantity, setQuantity] = useState(1);
   const [product, setProduct] = useState({});
   const [isLoading, setIsLoading] = useState(true);
@@ -23,20 +24,17 @@ export default function ProductPage() {
         setProduct(response.data.data);
       } catch (error) {
         console.error("Error al obtener producto:", error);
-      } finally {
-        setIsLoading(false);
+        navigate("/error");
       }
     };
 
     if (history.state.usr?.product) {
-      // console.log("cache");
       setProduct(history.state.usr.product);
       setIsLoading(false);
     } else {
-      // console.log("fetch");
       fetchData();
     }
-  }, [id]);
+  }, [id, navigate, product.name]);
 
   const changeQuantity = (newValue) => {
     const newQuantity = Math.max(1, Math.min(newValue, product.stock));
@@ -116,18 +114,19 @@ export default function ProductPage() {
             <Skeleton width="100%" height="20rem" />
           ) : (
             <div className="px-4">
-              <div className="font-semibold mb-4">
-                {/* <i className="pi pi-tag mr-2"></i> */}
-                {product.categories.map((category, index) => (
-                  <div key={index}>
-                    <Chip
-                      className="text-primary font-medium text-sm bg-secondary hover:bg-primary"
-                      label={category.name}
-                    />
-                    {index !== product.categories.length - 1 && " "}
-                  </div>
-                ))}
-              </div>
+              {product.categories > 0 && (
+                <div className="font-semibold mb-4">
+                  {product.categories.map((category, index) => (
+                    <div key={index}>
+                      <Chip
+                        className="text-primary font-medium text-sm bg-secondary hover:bg-primary"
+                        label={category.name}
+                      />
+                      {index !== product.categories.length - 1 && " "}
+                    </div>
+                  ))}
+                </div>
+              )}
 
               <h4 className="mb-2">Descripción</h4>
               <div style={{ whiteSpace: "pre-wrap" }} className="m-0 text-600">
