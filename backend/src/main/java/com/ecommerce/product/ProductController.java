@@ -28,8 +28,13 @@ public class ProductController {
     }
 
     @GetMapping("/search")
-    ApiResponse getProductsByCategory(@RequestParam("category") Long categoryId) {
-        List<ProductResponse> products = service.getProductsByCategory(categoryId);
+    ApiResponse searchProducts(
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(value = "name", required = false) String name,
+            @RequestParam(value = "low-price", required = false) Double minPrice,
+            @RequestParam(value = "high-price", required = false) Double maxPrice
+    ) {
+        ProductPageResponse products = service.searchProduct(page, name, minPrice, maxPrice);
         return ApiResponse.ok(products);
     }
 
@@ -43,7 +48,8 @@ public class ProductController {
     @PutMapping("/{productId}")
     ApiResponse updateProduct(
             @PathVariable Long productId,
-            @Valid @RequestBody ProductUpdateRequest request) {
+            @Valid @RequestBody ProductUpdateRequest request
+    ) {
         service.updateProduct(productId, request);
         return ApiResponse.updated();
     }

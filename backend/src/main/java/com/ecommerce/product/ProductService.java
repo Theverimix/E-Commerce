@@ -1,19 +1,26 @@
 package com.ecommerce.product;
 
+import com.ecommerce.product.category.CategoryRepository;
 import com.ecommerce.product.state.ProductState;
 import com.ecommerce.product.state.ProductStateRepository;
 
+import com.ecommerce.sale.SaleRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.ecommerce.product.ProductRepository.*;
+import static org.springframework.data.jpa.domain.Specification.where;
 
 @Service
 @RequiredArgsConstructor
@@ -82,5 +89,42 @@ public class ProductService {
                 .orElseThrow(() -> new EntityNotFoundException("Product with id [%s] not found.".formatted(id)));
         productRepository.delete(product);
     }
+
+    public ProductPageResponse searchProduct(int page, String name, Double minPrice, Double maxPrice) {
+        // SPECIFICATION CREATION
+
+        List<Specification<Product>> specs = new ArrayList<>();
+
+        specs.add(hasVisibleTrue());
+
+        boolean validMinPrice = minPrice != null && minPrice >= 0;
+        boolean validMaxPrice = maxPrice != null && maxPrice > 0;
+
+        if (name != null && !name.isEmpty()) specs.add(nameContainingIgnoreCase(name));
+
+        if (validMinPrice && validMaxPrice) {
+            specs.add(hasPriceBetween(minPrice, maxPrice));
+        } else if (validMinPrice) {
+            specs.add(hasPriceGreaterThanEqual(minPrice));
+        } else if (validMaxPrice) {
+            specs.add(hasPriceLessThanEqual(maxPrice));
+        }
+
+        Specification<Product> finalSpecifications = specs.stream().reduce(Specification::and).orElse(null);
+
+        // PAGE CREATION
+
+        PageRequest pageRequest = PageRequest.of(page, 9, Sort.by("id"));
+
+        Page<Product> pageProducts = productRepository.findAll(finalSpecifications, pageRequest);
+
+        int totalPages = pageProducts.getTotalPages();
+        long totalElements = pageProducts.getTotalElements();
+
+        List<ProductResponse> productListMap = pageProducts.map(mapper).getContent();
+
+        return new ProductPageResponse(productListMap, totalPages, totalElements);
+    }
+
 
 }
