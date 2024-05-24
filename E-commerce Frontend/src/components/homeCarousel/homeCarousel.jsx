@@ -3,12 +3,14 @@ import { Skeleton } from "primereact/skeleton";
 import { Carousel } from "primereact/carousel";
 import { Button } from "primereact/button";
 import { PrimeIcons } from "primereact/api";
+import { useNavigate } from "react-router-dom";
 
 import { getProducts } from "../../controller/productController";
 
 export default function HomeCarousel() {
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -26,20 +28,55 @@ export default function HomeCarousel() {
     fetchData();
   }, []);
 
+  const responsiveOptions = [
+    {
+      breakpoint: "1280px",
+      numVisible: 4,
+      numScroll: 4,
+    },
+    {
+      breakpoint: "1024px",
+      numVisible: 3,
+      numScroll: 3,
+    },
+    {
+      breakpoint: "768px",
+      numVisible: 2,
+      numScroll: 2,
+    },
+    {
+      breakpoint: "560px",
+      numVisible: 1,
+      numScroll: 1,
+    },
+  ];
+
+  const redirectToProductDetail = (product) => {
+    navigate(`/products/${product.id}`, {
+      state: { product },
+    });
+  };
+
   const itemTemplate = (item) => {
     return (
       <div className="p-4 fadein animation-duration-500">
         <div className="surface-card mb-4 w-full text-center">
           <img
             src={item.images}
-            style={{ width: "100%", display: "block" }}
+            className="w-full block cursor-pointer hover:shadow-4"
             alt={item.name}
+            onClick={() => redirectToProductDetail(item)}
           />
         </div>
 
         <div className="flex align-items-center mb-4">
           <div className="w-full">
-            <span className="block font-semibold mb-1">{item.name}</span>
+            <span
+              className="block font-semibold mb-1 cursor-pointer hover:text-primary"
+              onClick={() => redirectToProductDetail(item)}
+            >
+              {item.name}
+            </span>
             <span className="block font-semibold mb-1 ml-auto">
               ${item.price}
             </span>
@@ -56,34 +93,55 @@ export default function HomeCarousel() {
     );
   };
 
-  // Si está cargando, muestra esqueletos; si no, muestra el carrusel con productos
+  const calculateSkeletonCount = () => {
+    const screenWidth = window.innerWidth;
+    let skeletonCount = 4; // Valor por defecto
+
+    if (screenWidth < 560) {
+      skeletonCount = 1;
+    } else if (screenWidth < 768) {
+      skeletonCount = 2;
+    } else if (screenWidth < 1024) {
+      skeletonCount = 3;
+    }
+
+    return skeletonCount;
+  };
+
+  const renderSkeletonItems = (skeletonCount) => {
+    return [...Array(skeletonCount)].map((_, skeletonIndex) => (
+      <div key={skeletonIndex} className="box w-full px-3">
+        <div className="w-full text-center py-3">
+          <Skeleton shape="rectangle" height="16rem" />
+        </div>
+        <div className="flex align-items-center mb-3">
+          <div className="flex w-full">
+            <Skeleton width="60%" />
+          </div>
+        </div>
+        <Skeleton width="20%" className="mr-auto mb-3" />
+        <Skeleton height="40px" />
+      </div>
+    ));
+  };
+
   return (
     <div className="m-0">
       {isLoading ? (
         <div className="flex justify-content-center align-items-center">
-          {/* Estructura de carga para el carrusel */}
-          {[...Array(4)].map((_, index) => (
-            <div key={index} className="box w-full">
-              <div className="mb-4 w-full text-center p-5">
-                <Skeleton shape="rectangle" height="20rem" />
-              </div>
-              <div className="flex align-items-center mb-4">
-                <div className="flex w-full">
-                  <Skeleton width="40%" />
-                  <Skeleton width="20%" className="ml-auto" />
-                </div>
-              </div>
-              <Skeleton height="40px" />
-            </div>
-          ))}
+          {renderSkeletonItems(calculateSkeletonCount())}
         </div>
       ) : (
         <Carousel
           value={products}
-          numVisible={4}
+          responsiveOptions={responsiveOptions}
           circular
+          numVisible={4}
+          numScroll={1}
           autoplayInterval={5000}
           itemTemplate={itemTemplate}
+          itemClassName="p-4 fadein animation-duration-500"
+          itemStyle={{ width: "100%" }}
         />
       )}
     </div>

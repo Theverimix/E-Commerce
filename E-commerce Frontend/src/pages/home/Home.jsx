@@ -21,16 +21,9 @@ export default function Home() {
           <Gallery />
         </div>
 
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            flexDirection: "column",
-          }}
-        >
-          <h1 style={{ marginBottom: "2.5px" }}>CATEGORIES</h1>
-          <p style={{ textAlign: "center", maxWidth: "600px" }}>
+        <div className="flex justify-content-center align-items-center flex-column">
+          <h1 className="mb-1">CATEGORIES</h1>
+          <p className="text-center max-w-30rem">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit,
             consectetur non fugiat dicta ab nulla commodi quas voluptatibus cum
             sint accusantium soluta, tenetur officia delectus accusamus dolore
@@ -38,7 +31,7 @@ export default function Home() {
           </p>
           <Button
             label="All Products"
-            style={{ marginTop: "10px" }}
+            className="mt-2 font-semibold"
             onClick={() => {
               navigate(`/products`);
             }}
@@ -79,16 +72,9 @@ export default function Home() {
 
         {/* products */}
 
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            flexDirection: "column",
-          }}
-        >
-          <h1 style={{ marginBottom: "2.5px" }}>BEST PRODUCTS</h1>
-          <p style={{ textAlign: "center", maxWidth: "600px" }}>
+        <div className="flex justify-content-center align-items-center flex-column">
+          <h1 className="mb-1">BEST PRODUCTS</h1>
+          <p className="text-center max-w-30rem">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit,
             consectetur non fugiat dicta ab nulla commodi quas voluptatibus cum
             sint accusantium soluta, tenetur officia delectus accusamus dolore
@@ -96,7 +82,7 @@ export default function Home() {
           </p>
           <Button
             label="All Products"
-            style={{ marginTop: "10px" }}
+            className="mt-2 font-semibold"
             onClick={() => {
               navigate(`/products`);
             }}

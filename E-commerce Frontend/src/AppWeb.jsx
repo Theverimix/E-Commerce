@@ -22,6 +22,7 @@ const OrderPage = lazy(() => import("./pages/order/OrderPage.jsx"));
 const ShopCart = lazy(() => import("./pages/shopCart/ShopCart.jsx"));
 const Catalog = lazy(() => import("./pages/productsPage/ProductCatalog.jsx"));
 const Profile = lazy(() => import("./pages/profile/Profile.jsx"));
+const CheckoutPage = lazy(() => import("./pages/checkout/CheckoutPage.jsx"));
 
 function AppWeb() {
   const toastRef = useRef(null);
@@ -43,7 +44,7 @@ function AppWeb() {
                   <Route path="/products" element={<Catalog />} />
                   <Route path="/products/:id" element={<ProductPage />} />
                   <Route path="/cart" element={<ShopCart />} />
-                  <Route path="/checkout" element={<ProductPage />} />
+                  <Route path="/checkout" element={<CheckoutPage />} />
                   <Route path="/confirmation" element={<ProductPage />} />
                   <Route path="/orders" element={<OrderPage />} />
                   <Route path="/profile" element={<Profile />} />
