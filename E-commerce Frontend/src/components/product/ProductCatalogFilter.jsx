@@ -6,7 +6,7 @@ import { Panel } from "primereact/panel";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 
-export default function ProductCatalogFilter() {
+export default function ProductCatalogFilter({ onSubmitPrice }) {
   const [price, setPrice] = useState([0, 5000]);
   const [expandedKeys, setExpandedKeys] = useState({
     0: true,
@@ -177,7 +177,7 @@ export default function ProductCatalogFilter() {
             Price: <InputText value={price[0]} /> -{" "}
             <InputText value={price[1]} onChange={handleChangePrice} />
           </p> */}
-          <Button className="w-auto h-2rem" label="Filter" />
+          <Button className="w-auto h-2rem" label="Filter" onClick={() => onSubmitPrice(price[0], price[1]) } />
         </p>
       </Panel>
       <Tree

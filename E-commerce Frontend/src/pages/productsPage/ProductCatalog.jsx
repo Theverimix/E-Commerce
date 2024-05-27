@@ -1,9 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import ProductList from "../../components/product/ProductList";
-import { getProducts } from "../../controller/productController";
+import { getProducts, searchProducts } from "../../controller/productController";
 
 import "./ProductCatalog.css";
 import ProductCatalogFilter from "../../components/product/ProductCatalogFilter";
+import { useSearchParams } from "react-router-dom";
 
 function ProductCatalog() {
   const [products, setProducts] = useState([]);
@@ -11,6 +12,8 @@ function ProductCatalog() {
   const [isLoading, setIsLoading] = useState(true);
   const [page, setPage] = useState(0);
   const [cache, setCache] = useState({});
+
+  const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -39,7 +42,7 @@ function ProductCatalog() {
     };
 
     fetchData();
-  }, [page]);
+  }, [searchParams, page]);
 
   const handlePageChange = (newPage) => {
     setPage(newPage); // Cambia la página para actualizar los datos
@@ -53,6 +56,12 @@ function ProductCatalog() {
       };
     });
 
+  const filterPrice = async (lowPrice, highPrice) => {
+    setSearchParams({ "low-price": lowPrice, "high-price": highPrice })
+    const response = await searchProducts({ "low-price": lowPrice, "high-price": highPrice })
+    setProducts(response.products)
+  }
+
   return (
     <div>
       <h1 className="catalog-title">Shop</h1>
@@ -64,7 +73,7 @@ function ProductCatalog() {
       </p>
       <div className="grid m-auto mb-6">
         <div className="col-3">
-          <ProductCatalogFilter />
+          <ProductCatalogFilter onSubmitPrice={filterPrice} />
         </div>
         <div className="col">
           <ProductList

@@ -4,6 +4,16 @@ import axiosInstance from "./axiosInstance";
 
 import Cookies from "js-cookie";
 
+export async function searchProducts(params) {
+  try {
+    const response = await axiosInstance.get("/products/search", {params});
+    return response.data.data;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    return [];
+  }
+}
+
 export async function getProducts(page) {
   try {
     const response = await axiosInstance.get(`/products?page=${page}`);
