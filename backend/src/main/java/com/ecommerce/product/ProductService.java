@@ -4,7 +4,6 @@ import com.ecommerce.product.category.CategoryRepository;
 import com.ecommerce.product.state.ProductState;
 import com.ecommerce.product.state.ProductStateRepository;
 
-import com.ecommerce.sale.SaleRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
@@ -90,7 +89,8 @@ public class ProductService {
         productRepository.delete(product);
     }
 
-    public ProductPageResponse searchProduct(int page, String name, Double minPrice, Double maxPrice, String categoryName, boolean sale) {
+    public ProductPageResponse searchProduct(int page, String name, Double minPrice, Double maxPrice,
+            String categoryName, boolean booleanSale) {
         // SPECIFICATION CREATION
 
         List<Specification<Product>> specs = new ArrayList<>();
@@ -100,7 +100,8 @@ public class ProductService {
         boolean validMinPrice = minPrice != null && minPrice >= 0;
         boolean validMaxPrice = maxPrice != null && maxPrice > 0;
 
-        if (name != null && !name.isEmpty()) specs.add(nameContainingIgnoreCase(name));
+        if (name != null && !name.isEmpty())
+            specs.add(nameContainingIgnoreCase(name));
 
         if (validMinPrice && validMaxPrice) {
             specs.add(hasPriceBetween(minPrice, maxPrice));
@@ -110,8 +111,11 @@ public class ProductService {
             specs.add(hasPriceLessThanEqual(maxPrice));
         }
 
-        categoryRepository.findByNameIgnoreCase(categoryName.toLowerCase()).ifPresent(category -> specs.add(hasCategory(category)));
-        if (sale) specs.add(hasSale());
+        if (categoryName != null && !categoryName.isEmpty())
+            categoryRepository.findByNameIgnoreCase(categoryName.toLowerCase())
+                    .ifPresent(category -> specs.add(hasCategory(category)));
+        if (booleanSale)
+            specs.add(hasSale());
 
         Specification<Product> finalSpecifications = specs.stream().reduce(Specification::and).orElse(null);
 
@@ -128,6 +132,5 @@ public class ProductService {
 
         return new ProductPageResponse(productListMap, totalPages, totalElements);
     }
-
 
 }

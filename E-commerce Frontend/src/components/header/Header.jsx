@@ -8,7 +8,7 @@ import { InputIcon } from "primereact/inputicon";
 import brutalLogo from "../../assets/icons/Brutal_black_bottomless.png";
 import { Toolbar } from "primereact/toolbar";
 import { Button } from "primereact/button";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 import "./header.css";
 import { Divider } from "primereact/divider";
@@ -18,13 +18,32 @@ import { extractEmailfromToken, isLogedIn } from "../../utils/JwtUtils";
 export default function Header() {
   const menuRight = useRef(null);
   const [tokenEmail, setTokenEmail] = useState(null);
+  const [searchText, setSearchText] = useState("");
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const nameParam = searchParams.get("name");
 
   useEffect(() => {
     if (isLogedIn()) {
       const email = extractEmailfromToken();
       setTokenEmail(email);
     }
+    if (nameParam) {
+      setSearchText(nameParam);
+    }
   }, []);
+
+  const handleSearch = () => {
+    if (searchText.trim() !== "") {
+      window.location.href = `/products?name=${encodeURIComponent(searchText)}`;
+    }
+  };
+
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      handleSearch();
+    }
+  };
 
   const itemRenderer = (item) => (
     <Link to={item.href} className="flex align-items-center p-menuitem-link">
@@ -147,8 +166,10 @@ export default function Header() {
         <IconField iconPosition="left">
           <InputIcon className="pi pi-search" />
           <InputText
-            v-model="value1"
-            placeholder="Search"
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+            onKeyPress={handleKeyPress}
+            placeholder={searchText ? "" : "Search..."}
             style={{ borderRadius: "10px" }}
           />
         </IconField>

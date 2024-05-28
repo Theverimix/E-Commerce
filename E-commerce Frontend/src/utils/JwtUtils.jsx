@@ -26,7 +26,7 @@ export const getToken = () => {
 };
 
 export const extractEmailfromToken = () => {
-  const token = getToken;
+  const token = Cookies.get("token");
   if (token) {
     const decodedToken = jwtDecode(token);
 

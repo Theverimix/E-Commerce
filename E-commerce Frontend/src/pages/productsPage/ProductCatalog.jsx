@@ -1,9 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import ProductList from "../../components/product/ProductList";
-import {
-  getProducts,
-  searchProducts,
-} from "../../controller/productController";
+import { searchProducts } from "../../controller/productController";
 
 import "./ProductCatalog.css";
 import ProductCatalogFilter from "../../components/product/ProductCatalogFilter";
@@ -19,6 +16,7 @@ function ProductCatalog() {
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
+
       try {
         let response;
         const cacheKey = JSON.stringify(Object.fromEntries(searchParams));
@@ -42,13 +40,15 @@ function ProductCatalog() {
     fetchData();
   }, [searchParams]);
 
-  const mapProducts = () =>
-    products.map((product) => {
-      return {
+  const mapProducts = () => {
+    if (products) {
+      return products.map((product) => ({
         ...product,
         amount: 1,
-      };
-    });
+      }));
+    }
+    return [];
+  };
 
   const handlePageChange = (newPage) => {
     setSearchParams({

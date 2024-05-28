@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { classNames } from "primereact/utils";
 import { Tree } from "primereact/tree";
 import { Slider } from "primereact/slider";
@@ -177,7 +177,11 @@ export default function ProductCatalogFilter({ onSubmitPrice }) {
             Price: <InputText value={price[0]} /> -{" "}
             <InputText value={price[1]} onChange={handleChangePrice} />
           </p> */}
-          <Button className="w-auto h-2rem" label="Filter" onClick={() => onSubmitPrice(price[0], price[1]) } />
+          <Button
+            className="w-auto h-2rem font-semibold"
+            label="Filter"
+            onClick={() => onSubmitPrice(price[0], price[1])}
+          />
         </p>
       </Panel>
       <Tree
