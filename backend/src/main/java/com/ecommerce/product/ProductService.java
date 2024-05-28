@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.ecommerce.product.ProductRepository.*;
-import static org.springframework.data.jpa.domain.Specification.where;
 
 @Service
 @RequiredArgsConstructor
@@ -29,6 +28,7 @@ public class ProductService {
     private final ProductMapper mapper;
     private final ProductRepository productRepository;
     private final ProductStateRepository productStateRepository;
+    private final CategoryRepository categoryRepository;
 
     public ProductResponse getProductById(Long productId) {
         return productRepository.findByIdAndVisibleTrue(productId)
@@ -90,7 +90,7 @@ public class ProductService {
         productRepository.delete(product);
     }
 
-    public ProductPageResponse searchProduct(int page, String name, Double minPrice, Double maxPrice) {
+    public ProductPageResponse searchProduct(int page, String name, Double minPrice, Double maxPrice, String categoryName, boolean sale) {
         // SPECIFICATION CREATION
 
         List<Specification<Product>> specs = new ArrayList<>();
@@ -109,6 +109,9 @@ public class ProductService {
         } else if (validMaxPrice) {
             specs.add(hasPriceLessThanEqual(maxPrice));
         }
+
+        categoryRepository.findByNameIgnoreCase(categoryName.toLowerCase()).ifPresent(category -> specs.add(hasCategory(category)));
+        if (sale) specs.add(hasSale());
 
         Specification<Product> finalSpecifications = specs.stream().reduce(Specification::and).orElse(null);
 

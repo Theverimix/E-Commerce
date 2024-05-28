@@ -1,5 +1,6 @@
 package com.ecommerce.config;
 
+import com.ecommerce.user.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -50,13 +51,18 @@ public class JwtService {
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
-    public String generateToken(UserDetails userDetails) {
-        return generateToken(new HashMap<>(), userDetails);
+    public String generateToken(User user) {
+        HashMap<String, Object> claims = new HashMap<>();
+        claims.put("id", user.getId());
+        claims.put("role", user.getAuthorities());
+        claims.put("name", user.getFirstname() + " " + user.getLastname());
+        return generateToken(claims, user);
     }
 
     public String generateToken(
             Map<String, Object> extraClaims,
-            UserDetails userDetails) {
+            UserDetails userDetails
+    ) {
         return Jwts
                 .builder()
                 .setClaims(extraClaims)

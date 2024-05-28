@@ -30,11 +30,13 @@ public class ProductController {
     @GetMapping("/search")
     ApiResponse searchProducts(
             @RequestParam(name = "page", defaultValue = "0") int page,
-            @RequestParam(value = "name", required = false) String name,
-            @RequestParam(value = "low-price", required = false) Double minPrice,
-            @RequestParam(value = "high-price", required = false) Double maxPrice
+            @RequestParam(name = "name", required = false) String name,
+            @RequestParam(name = "low-price", required = false) Double minPrice,
+            @RequestParam(name = "high-price", required = false) Double maxPrice,
+            @RequestParam(name = "category", required = false) String category,
+            @RequestParam(name = "sale", defaultValue = "false") boolean sale
     ) {
-        ProductPageResponse products = service.searchProduct(page, name, minPrice, maxPrice);
+        ProductPageResponse products = service.searchProduct(page, name, minPrice, maxPrice, category, sale);
         return ApiResponse.ok(products);
     }
 

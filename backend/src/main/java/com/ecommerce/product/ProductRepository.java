@@ -1,7 +1,7 @@
 package com.ecommerce.product;
 
 import com.ecommerce.product.category.Category;
-import com.ecommerce.sale.Sale;
+import jakarta.persistence.criteria.JoinType;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.domain.Specification;
@@ -42,5 +42,13 @@ public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpec
 
     static Specification<Product> hasPriceGreaterThanEqual(Double price) {
         return (root, query, cb) -> cb.greaterThanOrEqualTo(root.get("price"), price);
+    }
+
+    static Specification<Product> hasCategory(Category category) {
+        return (root, query, cb) -> cb.isTrue(root.join("categories", JoinType.INNER).in(category));
+    }
+
+    static Specification<Product> hasSale() {
+        return (root, query, cb) -> cb.isNotNull(root.get("sale"));
     }
 }
