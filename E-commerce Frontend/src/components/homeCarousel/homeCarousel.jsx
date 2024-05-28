@@ -30,19 +30,19 @@ export default function HomeCarousel() {
 
   const responsiveOptions = [
     {
-      breakpoint: "1280px",
+      breakpoint: "1600px",
       numVisible: 4,
-      numScroll: 4,
+      numScroll: 1,
     },
     {
-      breakpoint: "1024px",
+      breakpoint: "1400px",
       numVisible: 3,
-      numScroll: 3,
+      numScroll: 1,
     },
     {
-      breakpoint: "768px",
+      breakpoint: "1000px",
       numVisible: 2,
-      numScroll: 2,
+      numScroll: 1,
     },
     {
       breakpoint: "560px",

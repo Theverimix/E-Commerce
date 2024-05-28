@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { MegaMenu } from "primereact/megamenu";
 import { Menu } from "primereact/menu";
 import { Badge } from "primereact/badge";
@@ -13,8 +13,18 @@ import { Link } from "react-router-dom";
 import "./header.css";
 import { Divider } from "primereact/divider";
 
+import { extractEmailfromToken, isLogedIn } from "../../utils/JwtUtils";
+
 export default function Header() {
   const menuRight = useRef(null);
+  const [tokenEmail, setTokenEmail] = useState(null);
+
+  useEffect(() => {
+    if (isLogedIn()) {
+      const email = extractEmailfromToken();
+      setTokenEmail(email);
+    }
+  }, []);
 
   const itemRenderer = (item) => (
     <Link to={item.href} className="flex align-items-center p-menuitem-link">
@@ -100,12 +110,12 @@ export default function Header() {
         {
           label: "Login",
           icon: "pi pi-sign-in",
-          url: "/login",
+          url: "/auth/login",
         },
         {
           label: "Signup",
           icon: "pi pi-user-plus",
-          url: "/signup",
+          url: "/auth/signup",
         },
       ],
     },
@@ -158,6 +168,7 @@ export default function Header() {
         />
         <Button
           icon="pi pi-user"
+          label={tokenEmail}
           rounded
           text
           raised
