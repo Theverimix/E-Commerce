@@ -1,6 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import ProductList from "../../components/product/ProductList";
-import { getProducts, searchProducts } from "../../controller/productController";
+import {
+  getProducts,
+  searchProducts,
+} from "../../controller/productController";
 
 import "./ProductCatalog.css";
 import ProductCatalogFilter from "../../components/product/ProductCatalogFilter";
@@ -10,43 +13,34 @@ function ProductCatalog() {
   const [products, setProducts] = useState([]);
   const [totalElements, setTotalElements] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
-  const [page, setPage] = useState(0);
-  const [cache, setCache] = useState({});
-
   const [searchParams, setSearchParams] = useSearchParams();
+  const cache = useMemo(() => ({}), []);
 
   useEffect(() => {
     const fetchData = async () => {
-      if (!(page in cache)) {
-        setIsLoading(true);
-        console.log("Fetching data for page:", page);
-        try {
-          const data = await getProducts(page);
-          setProducts(data.products);
+      setIsLoading(true);
+      try {
+        let response;
+        const cacheKey = JSON.stringify(Object.fromEntries(searchParams));
 
-          setCache((prev) => ({
-            ...prev,
-            [page]: data.products,
-          }));
-
-          setTotalElements(data.totalElements);
-          // console.log("Fetched products:", data.products);
-        } catch (error) {
-          console.error("Error al obtener productos:", error);
-        } finally {
-          setIsLoading(false);
+        if (cache[cacheKey]) {
+          response = cache[cacheKey];
+        } else {
+          response = await searchProducts(searchParams);
+          cache[cacheKey] = response;
         }
-      } else {
-        setProducts(cache[page]);
+
+        setProducts(response.products);
+        setTotalElements(response.totalElements);
+        setIsLoading(false);
+      } catch (error) {
+        console.error("Error al filtrar productos:", error);
+        setIsLoading(false);
       }
     };
 
     fetchData();
-  }, [searchParams, page]);
-
-  const handlePageChange = (newPage) => {
-    setPage(newPage); // Cambia la página para actualizar los datos
-  };
+  }, [searchParams]);
 
   const mapProducts = () =>
     products.map((product) => {
@@ -56,11 +50,25 @@ function ProductCatalog() {
       };
     });
 
+  const handlePageChange = (newPage) => {
+    setSearchParams({
+      ...Object.fromEntries(searchParams),
+      page: newPage,
+    });
+  };
+
   const filterPrice = async (lowPrice, highPrice) => {
-    setSearchParams({ "low-price": lowPrice, "high-price": highPrice })
-    const response = await searchProducts({ "low-price": lowPrice, "high-price": highPrice })
-    setProducts(response.products)
-  }
+    setSearchParams({
+      ...Object.fromEntries(searchParams),
+      page: 0,
+      "low-price": lowPrice,
+      "high-price": highPrice,
+    });
+  };
+
+  const filterCategory = async (category) => {
+    setSearchParams({ category });
+  };
 
   return (
     <div>
@@ -73,7 +81,10 @@ function ProductCatalog() {
       </p>
       <div className="grid m-auto mb-6">
         <div className="col-3">
-          <ProductCatalogFilter onSubmitPrice={filterPrice} />
+          <ProductCatalogFilter
+            onSubmitPrice={filterPrice}
+            onSubmitCategory={filterCategory}
+          />
         </div>
         <div className="col">
           <ProductList
