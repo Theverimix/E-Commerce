@@ -10,6 +10,6 @@ public record SaleRequest(
                 @NotBlank @Size(min = 3) String name,
                 @NotNull Date startAt,
                 @NotNull Date endAt,
-                DiscountsTypes discountType,
-                int discountValue) {
-}
+                @NotNull DiscountsTypes discountType,
+                int discountValue
+) {}
