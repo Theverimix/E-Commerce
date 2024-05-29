@@ -123,14 +123,14 @@ export default function ProductCatalogFilter({
       <Tree
         value={nodes}
         nodeTemplate={nodeTemplate}
+        selectionMode="single"
         togglerTemplate={togglerTemplate}
         // className="w-full md:w-30rem"
         expandedKeys={expandedKeys}
+        className="hover:cursor-pointer"
         onNodeClick={(node) => {
           if (node.node.label !== "Categories") {
             onSubmitCategory(node.node.label);
-          } else {
-            onSubmitCategory(null);
           }
         }}
       />

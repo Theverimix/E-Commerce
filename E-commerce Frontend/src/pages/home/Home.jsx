@@ -6,6 +6,7 @@ import Carousel from "../../components/homeCarousel/homeCarousel";
 
 import "./HomeStyle.css";
 import "../../styles/appWeb.css";
+import "../welcome/welcome.css";
 
 import categoria1 from "../../assets/img/products/bcaa-12000.png";
 import categoria2 from "../../assets/img/products/mancuerna_35_kg.png";
@@ -39,33 +40,83 @@ export default function Home() {
         </div>
 
         <div className="grid-container">
-          <div className="box p-4 fadein animation-duration-500">
+          <div
+            className="box p-4 fadein animation-duration-500 cursor-pointer"
+            onClick={() => navigate("/products?category=supplements")}
+          >
             <div className="surface-card mb-4 w-full text-center p-5">
-              <img src={categoria1} className="w-10 shadow-2" />
+              <img src={categoria1} className="w-10 shadow-2 " />
             </div>
 
             <div className="flex align-items-center mb-4 justify-content-center">
-              <span className="block font-semibold mb-1">SUPLEMENTOS</span>
+              <div
+                className="block font-semibold mb-1 "
+                onClick={() => {
+                  window.location.href = "/products?category=supplements";
+                }}
+              >
+                SUPPLEMENTS
+              </div>
             </div>
           </div>
 
-          <div className="box p-4 fadein animation-duration-500">
+          <div
+            className="box p-4 fadein animation-duration-500 cursor-pointer"
+            onClick={() => navigate("/products?category=equipment")}
+          >
             <div className="surface-card mb-4 w-full text-center p-5">
               <img src={categoria2} className="w-10 shadow-2" />
             </div>
 
             <div className="flex align-items-center mb-4 justify-content-center">
-              <span className="block font-semibold mb-1">EQUIPAMIENTO</span>
+              <div
+                className="block font-semibold mb-1 "
+                onClick={() => {
+                  window.location.href = "/products?category=equipment";
+                }}
+              >
+                EQUIPMENT
+              </div>
             </div>
           </div>
 
-          <div className="box p-4 fadein animation-duration-500">
+          <div
+            className="p-4 box fadein animation-duration-500 cursor-pointer"
+            onClick={() => navigate("/products?category=accessories")}
+          >
+            <div className="surface-card mb-4 w-full text-center p-5">
+              <img src={categoria3} className="w-10 shadow-2 cursor-pointer" />
+            </div>
+
+            <div className="flex align-items-center mb-4 justify-content-center">
+              <div
+                className="block font-semibold mb-1"
+                onClick={() => {
+                  window.location.href = "/products?category=accessories";
+                }}
+              >
+                ACCESSORIES
+              </div>
+            </div>
+          </div>
+
+          <div
+            className="box p-4 fadein animation-duration-500 cursor-pointer"
+            onClick={() => navigate("/products?category=clothes")}
+          >
             <div className="surface-card mb-4 w-full text-center p-5">
               <img src={categoria3} className="w-10 shadow-2" />
             </div>
 
             <div className="flex align-items-center mb-4 justify-content-center">
-              <span className="block font-semibold mb-1">ACCESORIOS</span>
+              <div
+                className="block font-semibold mb-1 "
+                onClick={() => {
+                  window.location.href = "/products?category=clothes";
+                }}
+              >
+                CLOTHES
+              </div>
             </div>
           </div>
         </div>

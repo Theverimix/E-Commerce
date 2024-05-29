@@ -97,6 +97,7 @@ function ProductCatalog() {
             addToCartButton
             linkeable
             paginator
+            onSubmitCategory={filterCategory}
             totalElements={totalElements}
             onPageChange={handlePageChange}
           />

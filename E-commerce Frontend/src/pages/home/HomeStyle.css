@@ -14,7 +14,7 @@
   max-width: 70%;
   margin-top: 2%;
   margin-bottom: 2%;
-  grid-template-columns: repeat(3, 1fr); /* Tres columnas de igual ancho */
+  grid-template-columns: repeat(4, 2fr); /* Tres columnas de igual ancho */
   gap: 20px; /* Espacio entre las imágenes */
 }
 

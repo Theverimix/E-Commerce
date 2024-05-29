@@ -16,8 +16,8 @@ export default function ProductList({
   isLoading = false,
   linkeable = false,
   paginator = false,
-  categories = false,
   quantity = false,
+  onSubmitCategory,
   addToCartButton = false,
   height = "auto",
   onPageChange,
@@ -107,13 +107,14 @@ export default function ProductList({
                   </span>
                 )}
                 {product.categories && (
-                  <div className="font-semibold mb-4">
+                  <div className="font-semibold mb-4 flex">
                     {/* <i className="pi pi-tag mr-2"></i> */}
                     {product.categories.map((category, index) => (
-                      <div key={index}>
+                      <div id="categorie-chip" className="m-1" key={index}>
                         <Chip
-                          className="text-primary font-medium text-sm bg-secondary hover:bg-primary"
+                          className="text-primary font-medium text-sm bg-secondary hover:bg-primary cursor-pointer"
                           label={category.name}
+                          onClick={() => onSubmitCategory(category.name)}
                         />
                         {index !== product.categories.length - 1 && " "}
                       </div>
