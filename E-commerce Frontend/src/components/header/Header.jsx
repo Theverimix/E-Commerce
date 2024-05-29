@@ -55,52 +55,36 @@ export default function Header() {
 
   const items = [
     {
-      label: "Productos",
+      label: "Products",
       icon: "pi pi-box",
+      command: () => (window.location.href = "/products"),
+    },
+    {
       items: [
         [
           {
-            label: "Computer",
+            label: "Categories",
             items: [
-              { label: "Monitor" },
-              { label: "Mouse" },
-              { label: "Notebook" },
-              { label: "Keyboard" },
-              { label: "Printer" },
-              { label: "Storage" },
-            ],
-          },
-        ],
-        [
-          {
-            label: "Home Theather",
-            items: [
-              { label: "Projector" },
-              { label: "Speakers" },
-              { label: "TVs" },
-            ],
-          },
-        ],
-        [
-          {
-            label: "Gaming",
-            items: [
-              { label: "Accessories" },
-              { label: "Console" },
-              { label: "PC" },
-              { label: "Video Games" },
-            ],
-          },
-        ],
-        [
-          {
-            label: "Appliances",
-            items: [
-              { label: "Coffee Machine" },
-              { label: "Fridge" },
-              { label: "Oven" },
-              { label: "Vaccum Cleaner" },
-              { label: "Washing Machine" },
+              {
+                label: "Supplements",
+                command: () =>
+                  (window.location.href = "/products?category=supplements"),
+              },
+              {
+                label: "Accessories",
+                command: () =>
+                  (window.location.href = "/products?category=accessories"),
+              },
+              {
+                label: "Clothes",
+                command: () =>
+                  (window.location.href = "/products?category=clothes"),
+              },
+              {
+                label: "Equipment",
+                command: () =>
+                  (window.location.href = "/products?category=equipment"),
+              },
             ],
           },
         ],
@@ -147,7 +131,7 @@ export default function Header() {
       </Link>
       <MegaMenu
         model={items}
-        className="flex mx-3 justify-content-between align-items-center p-0 sticky-toolbar"
+        className="flex mx-3 justify-content-between align-items-center p-0 sticky-toolbar font-semibold"
         breakpoint="960px"
         style={{ border: "none" }}
       />

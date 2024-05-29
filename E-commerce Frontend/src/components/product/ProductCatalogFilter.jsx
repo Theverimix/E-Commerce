@@ -6,7 +6,10 @@ import { Panel } from "primereact/panel";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 
-export default function ProductCatalogFilter({ onSubmitPrice }) {
+export default function ProductCatalogFilter({
+  onSubmitPrice,
+  onSubmitCategory,
+}) {
   const [price, setPrice] = useState([0, 5000]);
   const [expandedKeys, setExpandedKeys] = useState({
     0: true,
@@ -18,91 +21,24 @@ export default function ProductCatalogFilter({ onSubmitPrice }) {
   const nodes = [
     {
       key: "0",
-      label: "Equipamiento de Gimnasio",
+      label: "Categories",
       expandedKeys: true,
       children: [
         {
           key: "0-0",
-          label: "Máquinas de cardio",
-          url: "https://reactjs.org/docs/getting-started.html",
+          label: "Supplements",
         },
         {
           key: "0-1",
-          label: "Equipos de entrenamiento de fuerza",
-          url: "https://reactjs.org/docs/getting-started.html",
+          label: "Accessories",
         },
         {
           key: "0-2",
-          label: "Accesorios de entrenamiento",
-          url: "https://reactjs.org/docs/getting-started.html",
-        },
-      ],
-    },
-    {
-      key: "1",
-      label: "Ropa y Accesorios Deportivos",
-      children: [
-        {
-          key: "1-0",
-          label: "Ropa deportiva",
-          url: "https://reactjs.org/docs/hello-world.html",
+          label: "Clothes",
         },
         {
-          key: "1-1",
-          label: "Calzado deportivo",
-          url: "https://reactjs.org/docs/hello-world.html",
-        },
-        {
-          key: "1-2",
-          label: "Accesorios",
-          url: "https://reactjs.org/docs/hello-world.html",
-        },
-      ],
-    },
-    {
-      key: "2",
-      label: "Suplementos y Nutrición",
-      children: [
-        {
-          key: "2-0",
-          label: "Proteínas en polvo",
-          url: "https://reactjs.org/docs/hello-world.html",
-        },
-        {
-          key: "2-1",
-          label: "Suplementos pre-entrenamiento y post-entrenamiento",
-          url: "https://reactjs.org/docs/hello-world.html",
-        },
-        {
-          key: "2-2",
-          label: "Vitaminas y minerales",
-          url: "https://reactjs.org/docs/hello-world.html",
-        },
-        {
-          key: "2-3",
-          label: "Barras energéticas y snacks saludables",
-          url: "https://reactjs.org/docs/hello-world.html",
-        },
-      ],
-    },
-    {
-      key: "3",
-      label: "Tecnología y Electrónicos",
-      children: [
-        {
-          key: "3-0",
-          label: "Dispositivos de seguimiento de actividad",
-          url: "https://reactjs.org/docs/hello-world.html",
-        },
-        {
-          key: "3-1",
-          label: "Electroestimuladores musculares",
-          url: "https://reactjs.org/docs/hello-world.html",
-        },
-        {
-          key: "3-2",
-          label: "Equipos de entretenimiento",
-          url: "https://reactjs.org/docs/hello-world.html",
+          key: "0-2",
+          label: "Equipment",
         },
       ],
     },
@@ -190,6 +126,13 @@ export default function ProductCatalogFilter({ onSubmitPrice }) {
         togglerTemplate={togglerTemplate}
         // className="w-full md:w-30rem"
         expandedKeys={expandedKeys}
+        onNodeClick={(node) => {
+          if (node.node.label !== "Categories") {
+            onSubmitCategory(node.node.label);
+          } else {
+            onSubmitCategory(null);
+          }
+        }}
       />
     </div>
   );

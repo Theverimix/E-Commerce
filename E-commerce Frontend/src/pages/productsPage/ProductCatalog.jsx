@@ -67,7 +67,11 @@ function ProductCatalog() {
   };
 
   const filterCategory = async (category) => {
-    setSearchParams({ category });
+    setSearchParams({
+      ...Object.fromEntries(searchParams),
+      page: 0,
+      category: category,
+    });
   };
 
   return (
