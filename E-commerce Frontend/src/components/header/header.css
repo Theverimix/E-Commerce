@@ -40,3 +40,17 @@
   z-index: 1000;
   /* Ajusta el valor del índice z según sea necesario */
 }
+
+.p-megamenu.p-megamenu-horizontal .p-megamenu-root-list > .custom-product-item > .p-menuitem-content .p-menuitem-link .p-submenu-icon  {
+  margin-left: 0;
+}
+
+.p-megamenu.p-megamenu-horizontal .p-megamenu-root-list > .custom-product-item > .p-menuitem-content .p-menuitem-link {
+  padding: 0.75rem 0.10rem;
+}
+
+.p-badge{
+  min-width: 1rem;
+  height: 1rem;
+  line-height: 1rem;
+}

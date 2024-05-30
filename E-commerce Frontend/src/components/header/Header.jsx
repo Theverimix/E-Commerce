@@ -57,13 +57,17 @@ export default function Header() {
     {
       label: "Products",
       icon: "pi pi-box",
+      className: "font-semibold",
       command: () => (window.location.href = "/products"),
     },
+
     {
+      className: "custom-product-item",
       items: [
         [
           {
             label: "Categories",
+            className: "font-bold",
             items: [
               {
                 label: "Supplements",
@@ -88,8 +92,9 @@ export default function Header() {
             ],
           },
         ],
-      ],
+      ]
     },
+
   ];
 
   const endItemRenderer = (item) => (
@@ -131,7 +136,7 @@ export default function Header() {
       </Link>
       <MegaMenu
         model={items}
-        className="flex mx-3 justify-content-between align-items-center p-0 sticky-toolbar font-semibold"
+        className="flex mx-3 justify-content-between align-items-center p-0 sticky-toolbar "
         breakpoint="960px"
         style={{ border: "none" }}
       />
@@ -171,7 +176,7 @@ export default function Header() {
           id="popup_menu_right"
           popupAlignment="right"
         />
-        <Button
+        {/* <Button
           icon="pi pi-user"
           label={tokenEmail}
           rounded
@@ -181,10 +186,13 @@ export default function Header() {
           onClick={(event) => menuRight.current.toggle(event)}
           aria-controls="popup_menu_right"
           aria-haspopup
-        />
+        /> */}
 
-        {endItemRenderer(cartItem)}
+        <i className="pi pi-shopping-cart p-overlay-badge cursor-pointer" style={{ fontSize: '1.4rem' }}>
+          <Badge value="4"></Badge>
+        </i>
       </div>
+
     </div>
   );
 
