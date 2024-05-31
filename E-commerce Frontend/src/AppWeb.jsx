@@ -3,7 +3,10 @@ import Header from './components/header/Header.jsx'
 import Footer from './components/footer/Footer.jsx'
 
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
+import '/node_modules/primeflex/primeflex.css'
+import '../src/styles/appWeb.css'
 import '/node_modules/primeflex/primeflex.css'
 import '../src/styles/appWeb.css'
 
@@ -13,7 +16,12 @@ import { AddProduct } from './pages/admin/product/AddProduct.jsx'
 
 const Login = lazy(() => import('./pages/auth/Login.jsx'))
 const Register = lazy(() => import('./pages/auth/Register.jsx'))
+const Login = lazy(() => import('./pages/auth/Login.jsx'))
+const Register = lazy(() => import('./pages/auth/Register.jsx'))
 
+const Home = lazy(() => import('./pages/home/Home.jsx'))
+const Welcome = lazy(() => import('./pages/welcome/Welcome.jsx'))
+const ErrorPage = lazy(() => import('./pages/Error/ErrorPage.jsx'))
 const Home = lazy(() => import('./pages/home/Home.jsx'))
 const Welcome = lazy(() => import('./pages/welcome/Welcome.jsx'))
 const ErrorPage = lazy(() => import('./pages/Error/ErrorPage.jsx'))
@@ -24,8 +32,15 @@ const ShopCart = lazy(() => import('./pages/shopCart/ShopCart.jsx'))
 const Catalog = lazy(() => import('./pages/productsPage/ProductCatalog.jsx'))
 const Profile = lazy(() => import('./pages/profile/Profile.jsx'))
 const CheckoutPage = lazy(() => import('./pages/checkout/CheckoutPage.jsx'))
+const ProductPage = lazy(() => import('./pages/productsPage/ProductPage.jsx'))
+const OrderPage = lazy(() => import('./pages/order/OrderPage.jsx'))
+const ShopCart = lazy(() => import('./pages/shopCart/ShopCart.jsx'))
+const Catalog = lazy(() => import('./pages/productsPage/ProductCatalog.jsx'))
+const Profile = lazy(() => import('./pages/profile/Profile.jsx'))
+const CheckoutPage = lazy(() => import('./pages/checkout/CheckoutPage.jsx'))
 
 function AppWeb() {
+    const toastRef = useRef(null)
     const toastRef = useRef(null)
 
     const showToast = (severity, summary, detail) => {
@@ -71,4 +86,5 @@ function AppWeb() {
     )
 }
 
+export default AppWeb
 export default AppWeb

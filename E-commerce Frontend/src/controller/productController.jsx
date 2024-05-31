@@ -1,11 +1,14 @@
+import axios from 'axios'
 import axiosInstance from './axiosInstance'
+
+import axiosInstanceNoToken from './axiosInstanceNoToken'
 
 //import axios from 'axios'
 //import Cookies from 'js-cookie'
 
 export async function searchProducts(params) {
     try {
-        const response = await axiosInstance.get('/products/search', { params })
+        const response = await axiosInstanceNoToken.get('/products/search', { params })
         return response.data.data
     } catch (error) {
         console.error('Error fetching data:', error)
@@ -15,7 +18,7 @@ export async function searchProducts(params) {
 
 export async function getProducts(page) {
     try {
-        const response = await axiosInstance.get(`/products?page=${page}`)
+        const response = await axiosInstanceNoToken.get(`/products?page=${page}`)
         // Hacer algo con la respuesta
 
         // Logging para verificar la respuesta del servidor
@@ -50,7 +53,7 @@ export async function getProducts(page) {
 
 export async function getProductById(id) {
     try {
-        const response = await axiosInstance.get(`/products/${id}`)
+        const response = await axiosInstanceNoToken.get(`/products/${id}`)
 
         return response
     } catch (error) {
