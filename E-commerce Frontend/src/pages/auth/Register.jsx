@@ -40,6 +40,14 @@ export default function Register() {
 
     return (
         <>
+
+        {/* Remove when primereact fixes the problem */}
+            <style jsx>{`
+                .p-input-icon-right > svg{
+                right: 10px;
+                }
+            `}</style>
+
             <div className="p-inputgroup flex-1">
                 <span className="p-inputgroup-addon">
                     <i className="pi pi-user"></i>

@@ -8,6 +8,7 @@ import { InputIcon } from "primereact/inputicon";
 import brutalLogo from "../../assets/icons/Brutal_black_bottomless.png";
 import { Toolbar } from "primereact/toolbar";
 import { Button } from "primereact/button";
+import { Tooltip } from 'primereact/tooltip';
 import { Link, useLocation } from "react-router-dom";
 
 import "./header.css";
@@ -92,8 +93,9 @@ export default function Header() {
             ],
           },
         ],
-      ],
+      ]
     },
+
   ];
 
   const endItemRenderer = (item) => (
@@ -159,6 +161,7 @@ export default function Header() {
             onKeyPress={handleKeyPress}
             placeholder={searchText ? "" : "Search..."}
             style={{ borderRadius: "10px" }}
+
           />
         </IconField>
       </div>
@@ -166,47 +169,63 @@ export default function Header() {
   );
 
   const end = (
-    <div>
-      <div className="p-d-flex p-jc-center p-ai-center">
-        <Menu
-          model={options}
-          popup
-          ref={menuRight}
-          id="popup_menu_right"
-          popupAlignment="right"
-        />
-        {/* <Button
-          icon="pi pi-user"
-          label={tokenEmail}
-          rounded
-          text
-          raised
-          className="mr-1"
-          onClick={(event) => menuRight.current.toggle(event)}
-          aria-controls="popup_menu_right"
-          aria-haspopup
-        /> */}
+    <div className=" p-jc-center p-ai-center">
 
-        <i
-          className="pi pi-shopping-cart p-overlay-badge cursor-pointer"
-          style={{ fontSize: "1.4rem" }}
-        >
-          <Badge value="4"></Badge>
+      <Menu
+        model={options}
+        popup
+        ref={menuRight}
+        id="popup_menu_right"
+        popupAlignment="right"
+      />
+      <i className="pi pi-user 
+            p-overlay-badge 
+            cursor-pointer 
+            transition-colors 
+            text-500 
+            transition-duration-600 
+            hover:text-color 
+            border-circle
+            mr-3"
+          style={{ fontSize: '1.5rem' }} 
+          label={tokenEmail}
+          onClick={(event) => menuRight.current.toggle(event)}
+        aria-controls="popup_menu_right"
+        aria-haspopup>
+            
         </i>
-      </div>
+      {/* <Button
+        icon="pi pi-user"
+        label={tokenEmail}
+        className="mr-2 "
+        onClick={(event) => menuRight.current.toggle(event)}
+        aria-controls="popup_menu_right"
+        aria-haspopup
+      /> */}
+
+      <Link to={"/cart"} >
+        <i className="pi pi-shopping-cart 
+            p-overlay-badge 
+            cursor-pointer 
+            transition-colors 
+            text-500 
+            transition-duration-600 
+            hover:text-color 
+            border-circle
+            mr-2"
+          style={{ fontSize: '1.5rem' }} title="Go to cart">
+
+          <Badge value="4" ></Badge>
+        </i>
+      </Link>
+
     </div>
   );
 
   return (
     <div
-      // className="bg-surface-e"
       style={{
         background: "var(--surface-e)",
-        // position: "fixed",
-        // top: "0",
-        // left: "1px",
-        // right: "1px",
-        // zIndex: "1000",
       }}
     >
       <div style={{ marginLeft: "10%", marginRight: "10%" }}>
