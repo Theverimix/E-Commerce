@@ -15,6 +15,30 @@ import { useNavigate } from "react-router-dom";
 
 export default function Home() {
   const navigate = useNavigate();
+
+  const categories = [
+    {
+      name: "SUPPLEMENTS",
+      url: "/products?category=supplements",
+      image: categoria1,
+    },
+    {
+      name: "EQUIPMENT",
+      url: "/products?category=equipment",
+      image: categoria2,
+    },
+    {
+      name: "ACCESSORIES",
+      url: "/products?category=accessories",
+      image: categoria3,
+    },
+    {
+      name: "CLOTHES",
+      url: "/products?category=clothes",
+      image: categoria3,
+    },
+  ];
+
   return (
     <>
       <div>
@@ -40,85 +64,30 @@ export default function Home() {
         </div>
 
         <div className="grid-container">
-          <div
-            className="box p-4 fadein animation-duration-500 cursor-pointer"
-            onClick={() => navigate("/products?category=supplements")}
-          >
-            <div className="surface-card mb-4 w-full text-center p-5">
-              <img src={categoria1} className="w-10 shadow-2 " />
-            </div>
+          {categories.map((category, index) => (
+            <div
+              key={index}
+              className="box p-4 fadein animation-duration-500 cursor-pointer surface-hover border-round-md"
+              onClick={() => navigate(category.url)}
+            >
+              <div className="surface-card mb-4 w-full text-center p-5">
+                <img
+                  src={category.image}
+                  className="w-10"
+                  alt={category.name}
+                />
+              </div>
 
-            <div className="flex align-items-center mb-4 justify-content-center">
-              <div
-                className="block font-semibold mb-1 "
-                onClick={() => {
-                  window.location.href = "/products?category=supplements";
-                }}
-              >
-                SUPPLEMENTS
+              <div className="flex align-items-center mb-4 justify-content-center">
+                <div
+                  className="block font-semibold mb-1"
+                  onClick={() => navigate(category.url)}
+                >
+                  {category.name}
+                </div>
               </div>
             </div>
-          </div>
-
-          <div
-            className="box p-4 fadein animation-duration-500 cursor-pointer"
-            onClick={() => navigate("/products?category=equipment")}
-          >
-            <div className="surface-card mb-4 w-full text-center p-5">
-              <img src={categoria2} className="w-10 shadow-2" />
-            </div>
-
-            <div className="flex align-items-center mb-4 justify-content-center">
-              <div
-                className="block font-semibold mb-1 "
-                onClick={() => {
-                  window.location.href = "/products?category=equipment";
-                }}
-              >
-                EQUIPMENT
-              </div>
-            </div>
-          </div>
-
-          <div
-            className="p-4 box fadein animation-duration-500 cursor-pointer"
-            onClick={() => navigate("/products?category=accessories")}
-          >
-            <div className="surface-card mb-4 w-full text-center p-5">
-              <img src={categoria3} className="w-10 shadow-2 cursor-pointer" />
-            </div>
-
-            <div className="flex align-items-center mb-4 justify-content-center">
-              <div
-                className="block font-semibold mb-1"
-                onClick={() => {
-                  window.location.href = "/products?category=accessories";
-                }}
-              >
-                ACCESSORIES
-              </div>
-            </div>
-          </div>
-
-          <div
-            className="box p-4 fadein animation-duration-500 cursor-pointer"
-            onClick={() => navigate("/products?category=clothes")}
-          >
-            <div className="surface-card mb-4 w-full text-center p-5">
-              <img src={categoria3} className="w-10 shadow-2" />
-            </div>
-
-            <div className="flex align-items-center mb-4 justify-content-center">
-              <div
-                className="block font-semibold mb-1 "
-                onClick={() => {
-                  window.location.href = "/products?category=clothes";
-                }}
-              >
-                CLOTHES
-              </div>
-            </div>
-          </div>
+          ))}
         </div>
 
         {/* products */}

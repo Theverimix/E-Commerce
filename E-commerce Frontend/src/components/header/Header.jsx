@@ -92,9 +92,8 @@ export default function Header() {
             ],
           },
         ],
-      ]
+      ],
     },
-
   ];
 
   const endItemRenderer = (item) => (
@@ -188,18 +187,21 @@ export default function Header() {
           aria-haspopup
         /> */}
 
-        <i className="pi pi-shopping-cart p-overlay-badge cursor-pointer" style={{ fontSize: '1.4rem' }}>
+        <i
+          className="pi pi-shopping-cart p-overlay-badge cursor-pointer"
+          style={{ fontSize: "1.4rem" }}
+        >
           <Badge value="4"></Badge>
         </i>
       </div>
-
     </div>
   );
 
   return (
     <div
+      // className="bg-surface-e"
       style={{
-        background: "#1e1e1e",
+        background: "var(--surface-e)",
         // position: "fixed",
         // top: "0",
         // left: "1px",

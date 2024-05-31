@@ -4,8 +4,10 @@ import { Carousel } from "primereact/carousel";
 import { Button } from "primereact/button";
 import { PrimeIcons } from "primereact/api";
 import { useNavigate } from "react-router-dom";
+// import "./homeCarousel.css";
 
 import { getProducts } from "../../controller/productController";
+import { calculateDiscountedPrice } from "../../utils/ProductUtils";
 
 export default function HomeCarousel() {
   const [products, setProducts] = useState([]);
@@ -59,8 +61,8 @@ export default function HomeCarousel() {
 
   const itemTemplate = (item) => {
     return (
-      <div className="p-4 fadein animation-duration-500">
-        <div className="surface-card mb-4 w-full text-center">
+      <div className="p-4">
+        <div className=" box surface-card mb-4 w-full text-center">
           <img
             src={item.images}
             className="w-full block cursor-pointer hover:shadow-4"
@@ -77,9 +79,20 @@ export default function HomeCarousel() {
             >
               {item.name}
             </span>
-            <span className="block font-semibold mb-1 ml-auto">
-              ${item.price}
-            </span>
+            {item.sales ? (
+              <div>
+                <span className="text-xl font-semibold text-primary">
+                  ${calculateDiscountedPrice(item.price, item.sales)}
+                </span>
+                <span className="text-md font-light text-500 line-through ml-1">
+                  ${item.price}
+                </span>
+              </div>
+            ) : (
+              <span className="text-xl font-semibold text-primary">
+                ${item.price}
+              </span>
+            )}
           </div>
         </div>
         <div>
@@ -110,7 +123,7 @@ export default function HomeCarousel() {
 
   const renderSkeletonItems = (skeletonCount) => {
     return [...Array(skeletonCount)].map((_, skeletonIndex) => (
-      <div key={skeletonIndex} className="box w-full px-3">
+      <div key={skeletonIndex} className="w-full px-3">
         <div className="w-full text-center py-3">
           <Skeleton shape="rectangle" height="16rem" />
         </div>
@@ -140,7 +153,7 @@ export default function HomeCarousel() {
           numScroll={1}
           autoplayInterval={5000}
           itemTemplate={itemTemplate}
-          itemClassName="p-4 fadein animation-duration-500"
+          itemClassName="p-4"
           itemStyle={{ width: "100%" }}
         />
       )}

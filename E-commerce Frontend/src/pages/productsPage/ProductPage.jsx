@@ -8,6 +8,7 @@ import { Button } from "primereact/button";
 import { Skeleton } from "primereact/skeleton";
 import { Chip } from "primereact/chip";
 import { useNavigate } from "react-router-dom";
+import { calculateDiscountedPrice } from "../../utils/ProductUtils";
 
 export default function ProductPage() {
   const navigate = useNavigate();
@@ -49,14 +50,25 @@ export default function ProductPage() {
   const cardHeader = (
     <div>
       <div className="mx-5 flex justify-content-between px-2 align-items-center">
-        <h2 className="mb-0 text-primary">
+        <h2 className="mb-0">
           {isLoading ? <Skeleton width="12rem" height="2rem" /> : product.name}
         </h2>
         <h3 className="mb-0 text-secondary">
           {isLoading ? (
             <Skeleton width="4rem" height="2rem" />
+          ) : product.sales ? (
+            <div>
+              <span className="text-xl font-light text-500 line-through mr-1">
+                ${product.price}
+              </span>
+              <span className="text-2xl font-semibold text-primary">
+                ${calculateDiscountedPrice(product.price, product.sales)}
+              </span>
+            </div>
           ) : (
-            `$ ${product.price}`
+            <span className="text-2xl font-semibold text-primary">
+              ${product.price}
+            </span>
           )}
         </h3>
       </div>

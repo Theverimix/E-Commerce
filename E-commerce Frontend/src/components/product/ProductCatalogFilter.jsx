@@ -37,7 +37,7 @@ export default function ProductCatalogFilter({
           label: "Clothes",
         },
         {
-          key: "0-2",
+          key: "0-3",
           label: "Equipment",
         },
       ],
@@ -107,7 +107,7 @@ export default function ProductCatalogFilter({
           step={50}
           range
         />
-        <p className="text-sm text-500 flex justify-content-between ">
+        <p className="text-sm text-500 flex justify-content-between">
           {"US$ " + price[0]} - {"US$ " + price[1]}
           {/* <p>
             Price: <InputText value={price[0]} /> -{" "}

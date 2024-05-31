@@ -8,6 +8,7 @@ import { Panel } from "primereact/panel";
 import { Paginator } from "primereact/paginator";
 import { Link, useNavigate } from "react-router-dom";
 import { Chip } from "primereact/chip";
+import { calculateDiscountedPrice } from "../../utils/ProductUtils";
 
 export default function ProductList({
   products,
@@ -124,9 +125,21 @@ export default function ProductList({
               </div>
             </div>
             <div className="flex sm:flex-column align-items-center sm:align-items-end gap-3 sm:gap-2">
-              <span className="text-2xl font-semibold text-primary">
-                ${product.price}
-              </span>
+              {product.sales ? (
+                <div>
+                  <span className="text-xl font-light text-500 line-through mr-1">
+                    ${product.price}
+                  </span>
+                  <span className="text-2xl font-semibold text-primary">
+                    ${calculateDiscountedPrice(product.price, product.sales)}
+                  </span>
+                </div>
+              ) : (
+                <span className="text-2xl font-semibold text-primary">
+                  ${product.price}
+                </span>
+              )}
+
               <Button
                 visible={removeButton}
                 className="product-list-button no-underline hover:underline hover:text-yellow-300 cursor-pointer"

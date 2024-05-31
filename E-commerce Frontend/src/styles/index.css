@@ -1,10 +1,10 @@
-body{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #1f2937;
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--surface-hover);
 }
 
-#root{
-    z-index: 99;
+#root {
+  z-index: 99;
 }
