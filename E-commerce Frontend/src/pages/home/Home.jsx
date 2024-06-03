@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from 'react'
 import Gallery from '../../components/Galleria/Galleria'
 import { Button } from 'primereact/button'
 

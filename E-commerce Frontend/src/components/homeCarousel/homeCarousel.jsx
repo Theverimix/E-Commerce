@@ -1,20 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { Skeleton } from 'primereact/skeleton'
 import { Carousel } from 'primereact/carousel'
 import { Button } from 'primereact/button'
 import { PrimeIcons } from 'primereact/api'
 import { useNavigate } from 'react-router-dom'
-import React, { useState, useEffect } from 'react'
-import { Skeleton } from 'primereact/skeleton'
-import { Carousel } from 'primereact/carousel'
-import { Button } from 'primereact/button'
-import { PrimeIcons } from 'primereact/api'
-import { useNavigate } from 'react-router-dom'
-// import "./homeCarousel.css";
 
 import { getProducts } from '../../controller/ProductController'
-import { calculateDiscountedPrice } from '../../utils/ProductUtils'
-import { getProducts } from '../../controller/productController'
 import { calculateDiscountedPrice } from '../../utils/ProductUtils'
 
 export default function HomeCarousel() {
