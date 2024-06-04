@@ -17,25 +17,25 @@ import { userLogout } from '../../controller/logoutController'
 import './header.css'
 import { Divider } from 'primereact/divider'
 
-import { extractEmailfromToken, isLogedIn } from '../../utils/JwtUtils'
+import { extractEmailfromToken, extractNamefromToken, isLogedIn } from '../../utils/JwtUtils'
 
 export default function Header() {
     const menuRight = useRef(null)
-    const [tokenEmail, setTokenEmail] = useState(null)
     const [searchText, setSearchText] = useState('')
     const location = useLocation()
     const searchParams = new URLSearchParams(location.search)
     const nameParam = searchParams.get('name')
 
     useEffect(() => {
-        if (isLogedIn()) {
-            const email = extractEmailfromToken()
-            setTokenEmail(email)
-        }
         if (nameParam) {
             setSearchText(nameParam)
         }
     }, [])
+
+    const searchTokenName = () => {
+        const name = extractNamefromToken()
+        return name
+    }
 
     const handleSearch = () => {
         if (searchText.trim() !== '') {
@@ -181,7 +181,7 @@ export default function Header() {
             {/* {tokenEmail} */}
             {isLogedIn() ? (
                 <Chip
-                    label={tokenEmail}
+                    label={searchTokenName()}
                     onClick={(event) => menuRight.current.toggle(event)}
                     aria-controls='popup_menu_right'
                     aria-haspopup

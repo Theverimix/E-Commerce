@@ -35,3 +35,25 @@ export const extractEmailfromToken = () => {
         return null
     }
 }
+
+export const extractNamefromToken = () => {
+    const token = Cookies.get('token')
+    if (token) {
+        const decodedToken = jwtDecode(token)
+
+        return decodedToken.name
+    } else {
+        return null
+    }
+}
+
+export const extractIdfromToken = () => {
+    const token = Cookies.get('token')
+    if (token) {
+        const decodedToken = jwtDecode(token)
+
+        return decodedToken.id
+    } else {
+        return null
+    }
+}
