@@ -1,20 +1,20 @@
-import axios from 'axios';
-import axiosInstance from './axiosInstance';
+import axios from 'axios'
+import axiosInstance from './axiosInstance'
 
-export async function userRegister (name,lastname,username,password){
+export async function userRegister(name, lastname, username, password) {
     try {
         const response = await axiosInstance.post('/auth/register', {
-            name: name+" "+lastname,
+            firstname: name,
+            lastname: lastname,
             email: username,
-            password: password
-        });
-        
-        console.log('Register successful:', response.data);
-        alert("Register successful")
+            password: password,
+        })
+
+        return true
         // Aquí podrías redirigir al usuario a otra página después de iniciar sesión correctamente
     } catch (error) {
-        console.error('Register failed:', error);
-        alert("Register failed")
+        console.error('Register failed:', error)
+        return false
         // Aquí podrías mostrar un mensaje de error al usuario
     }
 }
