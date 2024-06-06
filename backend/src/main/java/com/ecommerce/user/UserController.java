@@ -1,8 +1,10 @@
 package com.ecommerce.user;
 
 import com.ecommerce.exception.ApiResponse;
+import jakarta.annotation.security.RolesAllowed;
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,6 +26,7 @@ public class UserController {
 
     private final UserService userService;
 
+    @Secured("ADMINISTRATOR")
     @GetMapping
     public ApiResponse getAllUsers() {
         List<UserResponse> users = userService.getAllUsers();
@@ -36,6 +39,7 @@ public class UserController {
         return ApiResponse.ok(user);
     }
 
+    @Secured({"ADMINISTRATOR", "CUSTOMER"})
     @PutMapping("/{userId}")
     public ApiResponse updateUser(
             @PathVariable Long userId,
@@ -44,29 +48,10 @@ public class UserController {
         return ApiResponse.updated();
     }
 
+    @Secured("ADMINISTRATOR")
     @DeleteMapping("/{userId}")
     public ApiResponse deleteUser(@PathVariable Long userId) {
         userService.deleteUser(userId);
         return ApiResponse.deleted();
-    }
-
-    @GetMapping("/userinfo")
-    public String getUserInfo() {
-        // Obtener el objeto Authentication del contexto de seguridad
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        // Verificar si el usuario está autenticado
-        if (authentication != null && authentication.isAuthenticated()) {
-            // Obtener el nombre de usuario
-            String username = authentication.getName();
-
-            // Obtener los roles/autoridades del usuario
-            String roles = authentication.getAuthorities().toString();
-
-            // Construir una respuesta con la información del usuario
-            return "Usuario autenticado: " + username + ", Roles: " + roles;
-        } else {
-            return "No hay usuario autenticado";
-        }
     }
 }

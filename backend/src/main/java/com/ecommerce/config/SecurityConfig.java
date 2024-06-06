@@ -26,18 +26,17 @@ public class SecurityConfig {
         @Bean
         public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
                 return http
-                                .csrf(csrf -> csrf.disable())
-                                .authorizeHttpRequests(authorize -> authorize
-                                        .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                                        .requestMatchers(RequestMatcherUtil::isApiAuthRequest).permitAll()
-                                        .requestMatchers("/users/**").hasAuthority("ADMINISTRATOR")
-                                        .requestMatchers("/products/**").permitAll()
-                                        .requestMatchers("/swagger-ui/**", "/swagger-resources/**", "/api-docs/**").permitAll()
-                                        .anyRequest().authenticated())
-                                .exceptionHandling(ex -> ex.accessDeniedHandler(customAccessDeniedHandler))
-                                .authenticationProvider(authProvider)
-                                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                                .build();
+                        .csrf(csrf -> csrf.disable())
+                        .authorizeHttpRequests(authorize -> authorize
+                                .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
+                                .requestMatchers(RequestMatcherUtil::isApiAuthRequest).permitAll()
+                                .requestMatchers("/products/**").permitAll()
+                                .requestMatchers("/swagger-ui/**", "/swagger-resources/**", "/api-docs/**").permitAll()
+                                .anyRequest().authenticated())
+                        .exceptionHandling(ex -> ex.accessDeniedHandler(customAccessDeniedHandler))
+                        .authenticationProvider(authProvider)
+                        .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                        .build();
         }
 }
 

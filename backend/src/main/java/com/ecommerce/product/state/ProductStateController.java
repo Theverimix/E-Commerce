@@ -10,7 +10,7 @@ import jakarta.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/product/states")
+@RequestMapping("/products/states")
 @RequiredArgsConstructor
 public class ProductStateController {
 
