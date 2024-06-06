@@ -5,7 +5,7 @@ export async function getUserById(id) {
         const response = await axiosInstance.get(`/users/${id}`)
         return response
     } catch (error) {
-        console.error('Error fetching data:', error)
+        console.error('Error fetching user data:', error)
         return {}
     }
 }

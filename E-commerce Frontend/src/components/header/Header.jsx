@@ -18,6 +18,7 @@ import './header.css'
 import { Divider } from 'primereact/divider'
 
 import { extractEmailfromToken, extractNamefromToken, isLogedIn } from '../../utils/JwtUtils'
+import { classNames } from 'primereact/utils'
 
 export default function Header() {
     const menuRight = useRef(null)
@@ -121,14 +122,26 @@ export default function Header() {
 
     const optionsLogin = [
         {
-            label: 'Options',
+            label: 'PROFILE',
             items: [
                 {
-                    label: 'Logout',
-                    icon: 'pi pi-sign-out',
-                    command: handleLogout,
+                    label: 'My profile',
+                    icon: 'pi pi-user',
+                    url: '/profile',
+                },
+                {
+                    label: 'Settings',
+                    icon: 'pi pi-cog',
                 },
             ],
+        },
+        {
+            separator: true,
+        },
+        {
+            label: 'Logout',
+            icon: 'pi pi-sign-out',
+            command: handleLogout,
         },
     ]
 
@@ -170,7 +183,7 @@ export default function Header() {
     )
 
     const end = (
-        <div className=' p-jc-center p-ai-center'>
+        <div className=' flex align-items-center'>
             <Menu
                 model={isLogedIn() ? optionsLogin : optionsLogout}
                 popup
@@ -180,20 +193,42 @@ export default function Header() {
             />
             {/* {tokenEmail} */}
             {isLogedIn() ? (
-                <Chip
-                    label={searchTokenName()}
-                    onClick={(event) => menuRight.current.toggle(event)}
-                    aria-controls='popup_menu_right'
-                    aria-haspopup
-                    icon='pi pi-user'
-                    className='
-            cursor-pointer 
-            transition-colors 
-            text-500 
-            transition-duration-600 
-            hover:text-color 
-            mr-3'
-                />
+                <div className='flex align-items-center '>
+                    <Chip
+                        label={searchTokenName()}
+                        className='border-noround 
+                        border-round-left-2xl 
+                        pr-1
+                        bg-primary
+                        font-semibold
+                        border-1
+                        border-primary'
+                        aria-haspopup
+                        aria-controls='popup_menu_right'
+                    />
+                    <Chip
+                        className='h-chip-user-options pi pi-angle-down
+                        border-round-right-2xl
+                        border-noround
+                        cursor-pointer 
+                        p-2 pl-1 mr-3
+                        transition-color 
+                        transition-duration-600 
+                        text-color-secondary
+                        border-1
+                        border-primary
+                        hover:text-primary
+                        bg-primary-reverse
+                        hover:bg-primary'
+                        onClick={(event) => menuRight.current.toggle(event)}
+                    />
+                    <style jsx>{`
+                        .h-chip-user-options {
+                            border-top-right-radius: 1rem !important;
+                            border-bottom-right-radius: 0rem !important;
+                        }
+                    `}</style>
+                </div>
             ) : (
                 <i
                     className='pi pi-user 
@@ -221,7 +256,8 @@ export default function Header() {
             transition-duration-600 
             hover:text-color 
             border-circle
-            mr-2'
+            mr-2 border-1
+            border-transparent'
                     style={{ fontSize: '1.5rem' }}
                     title='Go to cart'
                 >
