@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { InputNumber } from 'primereact/inputnumber'
 import { getProductById } from '../../controller/ProductController'
@@ -34,6 +34,7 @@ export default function ProductPage() {
             setIsLoading(false)
         } else {
             fetchData()
+            setIsLoading(false)
         }
     }, [id, navigate, product.name])
 

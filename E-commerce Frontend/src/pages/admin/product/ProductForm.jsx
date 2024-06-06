@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react'
 import { Button } from 'primereact/button'
 import { Card } from 'primereact/card'
 import { Dropdown } from 'primereact/dropdown'
@@ -7,53 +8,46 @@ import { InputText } from 'primereact/inputtext'
 import { InputTextarea } from 'primereact/inputtextarea'
 import { MultiSelect } from 'primereact/multiselect'
 import { Toast } from 'primereact/toast'
-import { useEffect, useRef, useState } from 'react'
-import { getCategories } from '../../../controller/CategoryController'
-import { getStates } from '../../../controller/StateController'
-import { saveProduct } from '../../../controller/ProductController'
-import { useToast } from '../../../providers/ToastProvider'
 
-export const AddProduct = () => {
+export const ProductForm = ({ productData, onSubmit, categorieList, stateList }) => {
     const toastBottomCenter = useRef(null)
-    const showToast = useToast()
 
     const [name, setName] = useState('')
     const [description, setDescription] = useState('')
     const [price, setPrice] = useState(0)
     const [stock, setStock] = useState(0)
-    const [visibile, setVisible] = useState(true)
+    const [visible, setVisible] = useState(true)
     const [state, setState] = useState(null)
-    const [categories, setCategories] = useState(null)
-
-    const [stateList, setStateList] = useState([])
-
-    const [categorieList, setCategorieList] = useState([])
-
-    const handleSubmit = async () => {
-        const product = { name, description, price, stock, visibile, idState: state, categories }
-        const response = await saveProduct(product)
-        const { message, success } = response
-        showToast(success ? 'success' : 'error', 'Product creation result', message)
-    }
+    const [categories, setCategories] = useState([])
 
     useEffect(() => {
-        const fetchData = async () => {
-            const categories = await getCategories()
-            const states = await getStates()
-            setCategorieList(categories)
-            setStateList(states)
+        if (productData) {
+            setName(productData.name)
+            setDescription(productData.description)
+            setPrice(productData.price)
+            setStock(productData.stock)
+            setVisible(productData.visible)
+            setState(productData.state ? productData.state.id : null)
+            setCategories(productData.categories)
         }
-        fetchData()
-    }, [])
+    }, [productData])
+
+    const handleSubmit = () => {
+        const product = { name, description, price, stock, visible, idState: state, categories }
+        onSubmit(product)
+    }
+
+    const cardTitle = <h2 className='text-center'>{productData ? 'Edit Product' : 'Product Creator'}</h2>
+
+    const cardSubtitle = (
+        <div className='text-center'>{productData ? 'Edit the product details' : 'Add a new product to catalog'}</div>
+    )
 
     return (
         <div>
             <div className='card flex justify-content-center align-items-center'>
                 <Toast ref={toastBottomCenter} position='bottom-center' />
-                <Card
-                    title={<h2 className='text-center'>Product Creator</h2>}
-                    subTitle={<div className='text-center'>Add a new product to catalog</div>}
-                >
+                <Card title={cardTitle} subTitle={cardSubtitle}>
                     <div className='flex justify-content-center align-items-center w-full p-5'>
                         <div className='flex flex-column gap-5 w-30rem'>
                             <span className='p-float-label'>
@@ -125,7 +119,7 @@ export const AddProduct = () => {
                                 <label htmlFor='categories'>Product categories</label>
                             </span>
                             <span className='p-float-label flex align-items-center'>
-                                <InputSwitch id='visible' checked={visibile} onChange={(e) => setVisible(e.value)} />
+                                <InputSwitch id='visible' checked={visible} onChange={(e) => setVisible(e.value)} />
                                 <p className='ml-3'>Product visibility</p>
                             </span>
                             {/* TODO add images */}
@@ -136,8 +130,8 @@ export const AddProduct = () => {
                             <Button
                                 onClick={handleSubmit}
                                 className='w-full'
-                                label='Create product'
-                                icon='pi pi-plus'
+                                label={productData ? 'Update product' : 'Create product'}
+                                icon={productData ? 'pi pi-pencil' : 'pi pi-plus'}
                             />
                         </div>
                     </div>

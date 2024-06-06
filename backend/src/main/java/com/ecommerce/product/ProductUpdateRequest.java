@@ -9,5 +9,5 @@ public record ProductUpdateRequest(
                 @NotBlank @Size(min = 3) String description,
                 @PositiveOrZero double price,
                 @PositiveOrZero int stock,
-                boolean visible) {
-}
+                boolean visible
+) {}

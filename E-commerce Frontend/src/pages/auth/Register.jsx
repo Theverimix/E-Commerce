@@ -1,11 +1,11 @@
-import React, { useState, useRef } from 'react'
+import { useState, useRef } from 'react'
 
 import { Divider } from 'primereact/divider'
 import { InputText } from 'primereact/inputtext'
 import { Button } from 'primereact/button'
 import { Password } from 'primereact/password'
 import { useToast } from '../../providers/ToastProvider'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { userRegister } from '../../controller/registerController'
 
 export default function Register() {
@@ -18,8 +18,6 @@ export default function Register() {
     const [passwordsMatch, setPasswordsMatch] = useState(true)
 
     const showToast = useToast()
-
-    const location = useLocation()
 
     const nameRef = useRef(null)
     const lastnameRef = useRef(null)
@@ -81,7 +79,7 @@ export default function Register() {
     return (
         <>
             {/* Remove when primereact fixes the problem */}
-            <style jsx>{`
+            <style>{`
                 .p-input-icon-right > svg {
                     right: 10px;
                 }
@@ -165,7 +163,7 @@ export default function Register() {
                     <label htmlFor='passwordConfirm'>Confirm password</label>
                 </span>
             </div>
-            {!passwordsMatch && <small className='p-error'>Passwords doesn't match</small>}
+            {!passwordsMatch && <small className='p-error'>Passwords doesn&apos;t match</small>}
             <Button className='w-full' label='Create your Account' onClick={handleRegister} />
             <div className='block text-center'>
                 <span className='text-color mr-1'>Already have an account?</span>

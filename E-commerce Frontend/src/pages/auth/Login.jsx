@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import { useState, useRef } from 'react'
 
 import { InputText } from 'primereact/inputtext'
 import { Button } from 'primereact/button'
@@ -7,14 +7,13 @@ import { userLogin } from '../../controller/loginController'
 import { Dialog } from 'primereact/dialog'
 import { useNavigate } from 'react-router-dom'
 import { useToast } from '../../providers/ToastProvider'
-import { Link, useLocation } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 export default function Login() {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const navigate = useNavigate()
     const showToast = useToast()
-    const location = useLocation()
     const inputRef = useRef(null)
     const [visible, setVisible] = useState(false)
 
@@ -42,7 +41,7 @@ export default function Login() {
     return (
         <>
             {/* Remove when primereact fixes the problem */}
-            <style jsx>{`
+            <style>{`
                 .p-input-icon-right > svg {
                     right: 10px;
                 }
@@ -79,7 +78,6 @@ export default function Login() {
                             className='p-pass-field'
                             ref={inputRef}
                         />
-
                         <label htmlFor='password'>Password</label>
                     </span>
                 </div>
@@ -119,12 +117,12 @@ export default function Login() {
 
             <Button label='Log in' onClick={handleLogin} />
             <div className='block text-center'>
-                <span className='text-color mr-1'>Don't have an account?</span>
+                <span className='text-color mr-1'>Don&apos;t have an account?</span>
                 <Link
                     to={'/auth/signup'}
                     className='text-color-secondary no-underline hover:text-primary hover:underline'
                 >
-                    Singup
+                    Signup
                 </Link>
             </div>
         </>
