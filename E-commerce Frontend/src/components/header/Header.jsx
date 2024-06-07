@@ -22,6 +22,8 @@ import { classNames } from 'primereact/utils'
 
 export default function Header() {
     const menuRight = useRef(null)
+    const chipRef = useRef(null)
+    const [active, setActive] = useState(false)
     const [searchText, setSearchText] = useState('')
     const location = useLocation()
     const searchParams = new URLSearchParams(location.search)
@@ -30,6 +32,17 @@ export default function Header() {
     useEffect(() => {
         if (nameParam) {
             setSearchText(nameParam)
+        }
+    }, [])
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            setActive(false)
+        }
+
+        document.addEventListener('mousedown', handleClickOutside)
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside)
         }
     }, [])
 
@@ -53,6 +66,11 @@ export default function Header() {
     const handleLogout = () => {
         userLogout()
         window.location.href = '/'
+    }
+
+    const handleChipClick = (event) => {
+        setActive(!active)
+        menuRight.current.toggle(event)
     }
 
     const itemRenderer = (item) => (
@@ -194,38 +212,74 @@ export default function Header() {
             {/* {tokenEmail} */}
             {isLogedIn() ? (
                 <div className='flex align-items-center '>
-                    <Chip
+                    <Button
                         label={searchTokenName()}
-                        className='border-noround 
-                        border-round-left-2xl 
-                        pr-1
-                        bg-primary
-                        font-semibold
-                        border-1
-                        border-primary'
+                        icon='pi pi-angle-down'
+                        iconPos='right'
+                        ref={chipRef}
+                        className={`border-noround 
+                                border-round-left-3xl 
+                                cursor-pointer 
+                                mr-3
+                                font-semibold
+                                transition-color 
+                                transition-duration-100
+                                hover:bg-primary
+                                border-200
+                                ${active ? 'active' : 'inactive'}`}
                         aria-haspopup
                         aria-controls='popup_menu_right'
+                        onClick={handleChipClick}
                     />
-                    <Chip
-                        className='h-chip-user-options pi pi-angle-down
-                        border-round-right-2xl
-                        border-noround
-                        cursor-pointer 
-                        p-2 pl-1 mr-3
-                        transition-color 
-                        transition-duration-600 
-                        text-color-secondary
-                        border-1
-                        border-primary
-                        hover:text-primary
-                        bg-primary-reverse
-                        hover:bg-primary'
-                        onClick={(event) => menuRight.current.toggle(event)}
+                    {/*<Chip
+                        ref={chipRef}
+                        label={searchTokenName()}
+                        icon='pi pi-angle-down '
+                        className={`border-noround 
+                                    border-round-left-2xl 
+                                    cursor-pointer 
+                                    mr-3
+                                   
+                                    font-semibold
+                                    transition-color 
+                                    transition-duration-600
+                                    border-1
+                                    border-primary
+                                    hover:text-primary
+                                    hover:bg-primary'
+                                    ${active ? 'active' : 'inactive'}`}
+                        aria-haspopup
+                        aria-controls='popup_menu_right'
+                        onClick={handleChipClick}
                     />
+                     <Chip
+                        ref={chipRef}
+                        className={` pi pi-angle-down
+                            border-noround
+                            cursor-pointer 
+                            p-2 pl-1 
+                            transition-color 
+                            transition-duration-600
+                            border-1
+                            border-primary
+                            hover:text-primary
+                            hover:bg-primary
+                            ${active ? 'active' : 'inactive'}`}
+                        onClick={handleChipClick}
+                    /> */}
                     <style jsx>{`
-                        .h-chip-user-options {
-                            border-top-right-radius: 1rem !important;
+                        .active {
+                            border-top-right-radius: 1.5rem !important;
                             border-bottom-right-radius: 0rem !important;
+                            background-color: var(--primary-color);
+                            color: var(--primary-color-text);
+                        }
+
+                        .inactive {
+                            border-top-right-radius: 1.5rem !important;
+                            border-bottom-right-radius: 1.5rem !important;
+                            background-color: var(--primary-color-text);
+                            color: var(--primary-color);
                         }
                     `}</style>
                 </div>
@@ -272,6 +326,7 @@ export default function Header() {
             style={{
                 background: 'var(--surface-e)',
             }}
+            className='sticky-toolbar'
         >
             <div style={{ marginLeft: '10%', marginRight: '10%' }}>
                 <Toolbar

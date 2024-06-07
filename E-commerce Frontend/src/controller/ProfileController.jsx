@@ -7,8 +7,9 @@ import axiosInstance from './axiosInstance'
 // Función para obtener el perfil de usuario
 export async function getUserById(id) {
     try {
-        const response = await axiosInstance.get(`/users/${id}`)
-        return response
+        const response = await axiosInstance.get(`/customers/${id}`)
+        console.log(response)
+        return response.data.data
     } catch (error) {
         console.error('Error fetching user data:', error)
         return {}

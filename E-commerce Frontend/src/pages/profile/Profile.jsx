@@ -7,7 +7,6 @@ import { InputMask } from 'primereact/inputmask'
 
 import { extractIdfromToken } from '../../utils/JwtUtils'
 import { getUserById } from '../../controller/ProfileController'
-// import { updateProfile } from '../../controller/ProfileController'
 
 export default function Profile() {
     const userId = extractIdfromToken()
@@ -28,11 +27,12 @@ export default function Profile() {
         }
 
         fetchUserData()
+        console.log(userData)
     }, [userId])
 
     const handleChange = (event) => {
         const { name, value } = event.target
-        setData({
+        setUserData({
             ...userData,
             [name]: value,
         })
