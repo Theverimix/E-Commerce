@@ -1,58 +1,35 @@
 import React, { useEffect, useRef, useState } from 'react'
 import ProductList from '../product/ProductList'
-import { getProducts } from '../../controller/ProductController'
+import { useProducts } from '../../providers/ProductsProvider'
 
 import './cart.css'
 import { Link } from 'react-router-dom'
 import CartSummary from './cartSummary'
+import { all } from 'axios'
 
 export default function cart() {
+    const { allProducts, removeProduct } = useProducts()
     const [products, setProducts] = useState([])
-    const [totalElements, setTotalElements] = useState(1)
     const [isLoading, setIsLoading] = useState(true)
-    const [page, setPage] = useState(0)
     const [cache, setCache] = useState({})
 
     useEffect(() => {
         const fetchData = async () => {
-            if (!(page in cache)) {
-                setIsLoading(true)
-                console.log('Fetching data for page:', page)
-                try {
-                    const data = await getProducts(page)
-                    setProducts(data.products)
-
-                    setCache((prev) => ({
-                        ...prev,
-                        [page]: data.products,
-                    }))
-
-                    setTotalElements(data.totalElements)
-                    // console.log("Fetched products:", data.products);
-                } catch (error) {
-                    console.error('Error al obtener productos:', error)
-                } finally {
-                    setIsLoading(false)
-                }
-            } else {
-                setProducts(cache[page])
+            setIsLoading(true)
+            try {
+                setProducts(allProducts)
+            } catch (error) {
+            } finally {
+                setIsLoading(false)
             }
         }
 
         fetchData()
-    }, [page])
+    }, [allProducts])
 
-    const handlePageChange = (newPage) => {
-        setPage(newPage) // Cambia la página para actualizar los datos
+    const handleRemoveProduct = (product) => {
+        removeProduct(product.id)
     }
-
-    const mapProducts = () =>
-        products.map((product) => {
-            return {
-                ...product,
-                amount: 1,
-            }
-        })
 
     return (
         <div>
@@ -66,14 +43,12 @@ export default function cart() {
             <div className='grid m-auto mb-6'>
                 <div className='col'>
                     <ProductList
-                        products={mapProducts()}
+                        handleRemoveProduct={handleRemoveProduct}
+                        products={products}
                         isLoading={isLoading}
                         removeButton
                         linkeable
-                        paginator
                         height='30rem'
-                        totalElements={totalElements}
-                        onPageChange={handlePageChange}
                     />
                 </div>
                 <div className='col-4 justify-content-center text'>

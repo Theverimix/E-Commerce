@@ -11,6 +11,8 @@ import { Chip } from 'primereact/chip'
 import { calculateDiscountedPrice } from '../../utils/ProductUtils'
 
 export default function ProductList({
+    handleRemoveProduct,
+    handleAddProduct,
     products,
     totalElements,
     removeButton = false,
@@ -132,11 +134,10 @@ export default function ProductList({
                             ) : (
                                 <span className='text-2xl font-semibold text-primary'>${product.price}</span>
                             )}
-
                             <Button
                                 visible={removeButton}
                                 className='product-list-button no-underline hover:underline hover:text-yellow-300 cursor-pointer'
-                                onClick={() => console.log('holi')}
+                                onClick={() => handleRemoveProduct(product)}
                                 unstyled
                                 label='Remove'
                             />
@@ -145,7 +146,7 @@ export default function ProductList({
                                 className='z-5 mt-3 w-auto'
                                 style={{ alignSelf: 'center' }}
                                 icon='pi pi-shopping-cart'
-                                onClick={() => console.log('holi')}
+                                onClick={() => handleAddProduct(product)}
                                 label='Add to cart'
                             />
                         </div>

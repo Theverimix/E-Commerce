@@ -5,8 +5,10 @@ import { searchProducts } from '../../controller/ProductController'
 import './ProductCatalog.css'
 import ProductCatalogFilter from '../../components/product/ProductCatalogFilter'
 import { useSearchParams } from 'react-router-dom'
+import { useProducts } from '../../providers/ProductsProvider'
 
 function ProductCatalog() {
+    const { addProduct } = useProducts()
     const [products, setProducts] = useState([])
     const [totalElements, setTotalElements] = useState(1)
     const [isLoading, setIsLoading] = useState(true)
@@ -40,6 +42,10 @@ function ProductCatalog() {
 
         fetchData()
     }, [searchParams])
+
+    const handleAddProduct = (product) => {
+        addProduct(product)
+    }
 
     const mapProducts = () => {
         if (products) {
@@ -89,6 +95,7 @@ function ProductCatalog() {
                 </div>
                 <div className='col'>
                     <ProductList
+                        handleAddProduct={handleAddProduct}
                         products={mapProducts()}
                         isLoading={isLoading}
                         addToCartButton
