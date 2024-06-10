@@ -217,8 +217,8 @@ export default function Header() {
                         icon='pi pi-angle-down'
                         iconPos='right'
                         ref={chipRef}
-                        className={`border-noround 
-                                border-round-left-3xl 
+                        className={`
+                                border-round-3xl 
                                 cursor-pointer 
                                 mr-3
                                 font-semibold
@@ -231,42 +231,6 @@ export default function Header() {
                         aria-controls='popup_menu_right'
                         onClick={handleChipClick}
                     />
-                    {/*<Chip
-                        ref={chipRef}
-                        label={searchTokenName()}
-                        icon='pi pi-angle-down '
-                        className={`border-noround 
-                                    border-round-left-2xl 
-                                    cursor-pointer 
-                                    mr-3
-                                   
-                                    font-semibold
-                                    transition-color 
-                                    transition-duration-600
-                                    border-1
-                                    border-primary
-                                    hover:text-primary
-                                    hover:bg-primary'
-                                    ${active ? 'active' : 'inactive'}`}
-                        aria-haspopup
-                        aria-controls='popup_menu_right'
-                        onClick={handleChipClick}
-                    />
-                     <Chip
-                        ref={chipRef}
-                        className={` pi pi-angle-down
-                            border-noround
-                            cursor-pointer 
-                            p-2 pl-1 
-                            transition-color 
-                            transition-duration-600
-                            border-1
-                            border-primary
-                            hover:text-primary
-                            hover:bg-primary
-                            ${active ? 'active' : 'inactive'}`}
-                        onClick={handleChipClick}
-                    /> */}
                     <style jsx>{`
                         .active {
                             border-top-right-radius: 1.5rem !important;
@@ -326,14 +290,14 @@ export default function Header() {
             style={{
                 background: 'var(--surface-e)',
             }}
-            className='sticky-toolbar'
+            className='sticky-toolbar flex justify-content-center w-full'
         >
-            <div style={{ marginLeft: '10%', marginRight: '10%' }}>
+            <div className='sm:w-full md:w-10 lg:w-9'>
                 <Toolbar
                     start={start}
                     center={center}
                     end={end}
-                    className='flex justify-content-between align-items-center p-2'
+                    className='flex justify-content-between align-items-center px-0 py-1'
                     style={{ border: 'none' }}
                 ></Toolbar>
                 {/* <Divider className="my-0"></Divider> */}

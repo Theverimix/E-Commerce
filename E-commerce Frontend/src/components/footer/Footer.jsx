@@ -22,58 +22,65 @@ export default function Footer() {
     )
 
     return (
-        <div>
-            <hr style={{ borderBottom: '2px solid #e69b0c', margin: '0' }} />
-            <div className='grid neted-grid' style={{ marginRight: '10%', marginLeft: '10%' }}>
-                <div className='col-4'>
-                    <h2>CONTACT</h2>
-                    <p>
-                        <b>BRANCHES</b>
-                        <br />
-                        21 de Setiembre 2866, Punta Carretas
-                        <br />
-                        <br />
-                        <b>PHONE</b>
-                        <br />
-                        123389223
-                        <br />
-                        <br />
-                        <b>EMAIL</b>
-                        <br />
-                        contact@brutal.uy
-                    </p>
-                </div>
-                <div className='col-8'>
-                    <div className='grid'>
-                        <div className='col-12'>
-                            <h2>BENEFITS</h2>
-                            <div className='p-d-flex'>
-                                <p className='mr-1 p-be-margin'>
-                                    Leave us your email to receive news and preferential offers of our products.
-                                </p>
-
-                                <div className='p-inputgroup flex-2'>
-                                    <InputText placeholder='Enter your email' />
-                                    <Button label='SUBSCRIBE' />
+        <>
+            <hr className='border-bottom-2 border-solid border-primary m-0' />
+            <div className='flex justify-content-center w-full '>
+                <div className='sm:w-full md:w-10 lg:w-9'>
+                    <div className='grid neted-grid '>
+                        <div className='col-4'>
+                            <h2>CONTACT</h2>
+                            <p>
+                                <b>BRANCHES</b>
+                                <br />
+                                21 de Setiembre 2866, Punta Carretas
+                                <br />
+                                <br />
+                                <b>PHONE</b>
+                                <br />
+                                123389223
+                                <br />
+                                <br />
+                                <b>EMAIL</b>
+                                <br />
+                                contact@brutal.uy
+                            </p>
+                        </div>
+                        <div className='col-8'>
+                            <div className='grid'>
+                                <div className='col-6'>
+                                    <h2>BENEFITS</h2>
+                                    <div className='p-d-flex'>
+                                        <p className='mr-1 p-be-margin'>
+                                            Leave us your email to receive news and preferential offers of our products.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div className='flex lg:col-6 md:col-12 sm:col-12'>
+                                    <div className='p-inputgroup'>
+                                        <InputText placeholder='Enter your email' />
+                                        <Button label='SUBSCRIBE' />
+                                    </div>
+                                </div>
+                                <div className='col-6'>
+                                    <h2>SUPPORT</h2>
+                                    <p className='m-0'>Lorem ipsum dolor sit a</p>
+                                </div>
+                                <div className='col-6'>
+                                    <h2>COMPANY</h2>
+                                    <p className='m-0'>
+                                        is, culpa ratione quam perferendis esse, cupiditate neque quas!
+                                    </p>
                                 </div>
                             </div>
                         </div>
-                        <div className='col-6'>
-                            <h2>SUPPORT</h2>
-                            <p className='m-0'>Lorem ipsum dolor sit a</p>
-                        </div>
-                        <div className='col-6'>
-                            <h2>COMPANY</h2>
-                            <p className='m-0'>is, culpa ratione quam perferendis esse, cupiditate neque quas!</p>
-                        </div>
+                    </div>
+                    <div clssName='flex flex-column'>
+                        <p className='flex align-items-center justify-content-center'>
+                            <b>©2024 BRUTAL | All rights reserved.</b>
+                        </p>
                     </div>
                 </div>
             </div>
-            <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <p>
-                    <b>©2024 BRUTAL | All rights reserved.</b>
-                </p>
-            </div>
-        </div>
+        </>
     )
 }
