@@ -24,6 +24,7 @@ export default function Header() {
     const menuRight = useRef(null)
     const chipRef = useRef(null)
     const [active, setActive] = useState(false)
+    const [isMenuVisible, setIsMenuVisible] = useState(true)
     const [searchText, setSearchText] = useState('')
     const location = useLocation()
     const searchParams = new URLSearchParams(location.search)
@@ -45,6 +46,24 @@ export default function Header() {
             document.removeEventListener('mousedown', handleClickOutside)
         }
     }, [])
+
+    useEffect(() => {
+        const handleScroll = () => {
+            setIsMenuVisible(false)
+            setActive(false)
+        }
+
+        window.addEventListener('scroll', handleScroll)
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll)
+        }
+    }, [])
+
+    const handleClickMenuUser = (event) => {
+        setIsMenuVisible(true)
+        menuRight.current.toggle(event)
+    }
 
     const searchTokenName = () => {
         const name = extractNamefromToken()
@@ -70,6 +89,7 @@ export default function Header() {
 
     const handleChipClick = (event) => {
         setActive(!active)
+        setIsMenuVisible(true)
         menuRight.current.toggle(event)
     }
 
@@ -208,6 +228,8 @@ export default function Header() {
                 ref={menuRight}
                 id='popup_menu_right'
                 popupAlignment='right'
+                className={`${isMenuVisible ? ' ' : 'hidden'}`}
+                onClick={handleClickMenuUser}
             />
             {/* {tokenEmail} */}
             {isLogedIn() ? (
@@ -258,7 +280,7 @@ export default function Header() {
             border-circle
             mr-3'
                     style={{ fontSize: '1.5rem' }}
-                    onClick={(event) => menuRight.current.toggle(event)}
+                    onClick={handleClickMenuUser}
                     aria-controls='popup_menu_right'
                     aria-haspopup
                 />
