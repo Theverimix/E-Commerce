@@ -6,6 +6,7 @@ import './ProductCatalog.css'
 import ProductCatalogFilter from '../../components/product/ProductCatalogFilter'
 import { useSearchParams } from 'react-router-dom'
 import { useProducts } from '../../providers/ProductsProvider'
+import { useToast } from '../../providers/ToastProvider'
 
 function ProductCatalog() {
     const { addProduct } = useProducts()
@@ -14,6 +15,7 @@ function ProductCatalog() {
     const [isLoading, setIsLoading] = useState(true)
     const [searchParams, setSearchParams] = useSearchParams()
     const cache = useMemo(() => ({}), [])
+    const showToast = useToast()
 
     useEffect(() => {
         const fetchData = async () => {
@@ -45,6 +47,7 @@ function ProductCatalog() {
 
     const handleAddProduct = (product) => {
         addProduct(product)
+        showToast('success', 'Product operation result', 'Product added to cart')
     }
 
     const mapProducts = () => {

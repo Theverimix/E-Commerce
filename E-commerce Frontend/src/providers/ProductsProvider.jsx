@@ -9,17 +9,30 @@ export const ProductsProvider = ({ children }) => {
     })
 
     useEffect(() => {
-        localStorage.setItem('allProducts', JSON.stringify(allProducts.map((p) => ({ id: p.id }))))
+        localStorage.setItem('allProducts', JSON.stringify(allProducts))
     }, [allProducts])
 
     const addProduct = (product) => {
-        setAllProducts((prevProducts) => [...prevProducts, product])
+        setAllProducts((prevProducts) => {
+            const existingProduct = prevProducts.find((p) => p.id === product.id)
+            if (existingProduct) {
+                return prevProducts.map((p) =>
+                    p.id === product.id ? { id: p.id, amount: (p.amount || 1) + 1 } : { ...p },
+                )
+            } else {
+                return [...prevProducts, { id: product.id, amount: 1 }]
+            }
+        })
     }
 
     const removeProduct = (productId) => {
         const productToRemove = allProducts.find((p) => p.id === productId)
         if (!productToRemove) return
         setAllProducts((prevProducts) => prevProducts.filter((p) => p.id !== productId))
+    }
+
+    const totalProducts = () => {
+        return allProducts.reduce((total, product) => total + product.amount, 0)
     }
 
     return (
@@ -29,6 +42,7 @@ export const ProductsProvider = ({ children }) => {
                 setAllProducts,
                 addProduct,
                 removeProduct,
+                totalProducts,
             }}
         >
             {children}

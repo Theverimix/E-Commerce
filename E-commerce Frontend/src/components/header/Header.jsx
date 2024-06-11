@@ -31,7 +31,7 @@ export default function Header() {
     const location = useLocation()
     const searchParams = new URLSearchParams(location.search)
     const nameParam = searchParams.get('name')
-    const { allProducts, setAllProducts } = useProducts()
+    const { totalProducts } = useProducts()
 
     useEffect(() => {
         if (nameParam) {
@@ -305,8 +305,8 @@ export default function Header() {
                     title='Go to cart'
                 >
                     <Badge
-                        value={allProducts.length}
-                        className={!allProducts || allProducts.length === 0 ? 'hidden' : ''}
+                        value={totalProducts()}
+                        className={!totalProducts() || totalProducts() === 0 ? 'hidden' : ''}
                     ></Badge>
                 </i>
             </Link>
