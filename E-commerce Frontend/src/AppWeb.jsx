@@ -1,4 +1,4 @@
-import { Suspense, useRef, lazy } from 'react'
+import { Suspense, useRef, lazy, useState } from 'react'
 import Header from './components/header/Header.jsx'
 import Footer from './components/footer/Footer.jsx'
 
@@ -10,6 +10,7 @@ import '/node_modules/primeflex/primeflex.css'
 import '../src/styles/appWeb.css'
 
 import { ToastProvider } from './providers/ToastProvider.jsx'
+import { ProductsProvider } from './providers/ProductsProvider.jsx'
 import { AuthPage } from './pages/auth/AuthPage.jsx'
 import { ProductPanel } from './pages/admin/product/ProductPanel.jsx'
 import { ProductTable } from './pages/admin/product/ProductTable.jsx'
@@ -38,39 +39,41 @@ function AppWeb() {
     return (
         <>
             <ToastProvider>
-                <BrowserRouter>
-                    <Header />
-                    <div id='content' className='flex justify-content-center w-full'>
-                        <div className='sm:w-full md:w-10 lg:w-9'>
-                            <Suspense>
-                                <Routes>
-                                    <Route path='/' element={<Home />} />
-                                    <Route path='/home' element={<Home />} />
-                                    <Route path='/products' element={<Catalog />} />
-                                    <Route path='/products/list' element={<ProductTable />} />
-                                    <Route path='/products/:id' element={<ProductPage />} />
-                                    <Route path='/products/new' element={<ProductPanel />} />
-                                    <Route path='/products/:id/update' element={<ProductPanel />} />
-                                    <Route path='/cart' element={<ShopCart />} />
-                                    <Route path='/checkout' element={<CheckoutPage />} />
-                                    <Route path='/confirmation' element={<ProductPage />} />
-                                    <Route path='/orders' element={<OrderPage />} />
-                                    <Route path='/profile' element={<Profile />} />
-                                    <Route path='/search' element={<ProductPage />} />
-                                    <Route path='/terms' element={<ProductPage />} />
-                                    <Route path='/contact' element={<ProductPage />} />
-                                    <Route path='/pruebas' element={<Welcome />} />
-                                    <Route path='/auth' element={<AuthPage />}>
-                                        <Route path='login' element={<Login />} />
-                                        <Route path='signup' element={<Register />} />
-                                    </Route>
-                                    <Route path='/error' element={<ErrorPage />} />
-                                </Routes>
-                            </Suspense>
+                <ProductsProvider>
+                    <BrowserRouter>
+                        <Header />
+                        <div id='content' className='flex justify-content-center w-full'>
+                            <div className='sm:w-full md:w-10 lg:w-9'>
+                                <Suspense>
+                                    <Routes>
+                                        <Route path='/' element={<Home />} />
+                                        <Route path='/home' element={<Home />} />
+                                        <Route path='/products' element={<Catalog />} />
+                                        <Route path='/products/list' element={<ProductTable />} />
+                                        <Route path='/products/:id' element={<ProductPage />} />
+                                        <Route path='/products/new' element={<ProductPanel />} />
+                                        <Route path='/products/:id/update' element={<ProductPanel />} />
+                                        <Route path='/cart' element={<ShopCart />} />
+                                        <Route path='/checkout' element={<CheckoutPage />} />
+                                        <Route path='/confirmation' element={<ProductPage />} />
+                                        <Route path='/orders' element={<OrderPage />} />
+                                        <Route path='/profile' element={<Profile />} />
+                                        <Route path='/search' element={<ProductPage />} />
+                                        <Route path='/terms' element={<ProductPage />} />
+                                        <Route path='/contact' element={<ProductPage />} />
+                                        <Route path='/pruebas' element={<Welcome />} />
+                                        <Route path='/auth' element={<AuthPage />}>
+                                            <Route path='login' element={<Login />} />
+                                            <Route path='signup' element={<Register />} />
+                                        </Route>
+                                        <Route path='/error' element={<ErrorPage />} />
+                                    </Routes>
+                                </Suspense>
+                            </div>
                         </div>
-                    </div>
-                    <Footer />
-                </BrowserRouter>
+                        <Footer />
+                    </BrowserRouter>
+                </ProductsProvider>
             </ToastProvider>
         </>
     )

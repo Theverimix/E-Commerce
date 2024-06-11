@@ -20,6 +20,8 @@ import { Divider } from 'primereact/divider'
 import { extractEmailfromToken, extractNamefromToken, isLogedIn } from '../../utils/JwtUtils'
 import { classNames } from 'primereact/utils'
 
+import { useProducts } from '../../providers/ProductsProvider'
+
 export default function Header() {
     const menuRight = useRef(null)
     const chipRef = useRef(null)
@@ -29,6 +31,7 @@ export default function Header() {
     const location = useLocation()
     const searchParams = new URLSearchParams(location.search)
     const nameParam = searchParams.get('name')
+    const { allProducts, setAllProducts } = useProducts()
 
     useEffect(() => {
         if (nameParam) {
@@ -289,19 +292,22 @@ export default function Header() {
             <Link to={'/cart'}>
                 <i
                     className='pi pi-shopping-cart 
-            p-overlay-badge 
-            cursor-pointer 
-            transition-colors 
-            text-500 
-            transition-duration-600 
-            hover:text-color 
-            border-circle
-            mr-2 border-1
-            border-transparent'
+                                p-overlay-badge 
+                                cursor-pointer 
+                                transition-colors 
+                                text-500 
+                                transition-duration-600 
+                                hover:text-color 
+                                border-circle
+                                mr-2 border-1
+                                border-transparent'
                     style={{ fontSize: '1.5rem' }}
                     title='Go to cart'
                 >
-                    <Badge value='4'></Badge>
+                    <Badge
+                        value={allProducts.length}
+                        className={!allProducts || allProducts.length === 0 ? 'hidden' : ''}
+                    ></Badge>
                 </i>
             </Link>
         </div>
@@ -324,13 +330,13 @@ export default function Header() {
                 ></Toolbar>
                 {/* <Divider className="my-0"></Divider> */}
                 {/* <MegaMenu
-          start={start}
-          model={items}
-          end={end}
-          className="flex justify-content-between align-items-center p-0 sticky-toolbar"
-          breakpoint="960px"
-          style={{ border: "none" }}
-        /> */}
+                    start={start}
+                    model={items}
+                    end={end}
+                    className="flex justify-content-between align-items-center p-0 sticky-toolbar"
+                    breakpoint="960px"
+                    style={{ border: "none" }}
+                /> */}
             </div>
         </div>
     )
