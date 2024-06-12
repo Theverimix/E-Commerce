@@ -6,7 +6,7 @@ import { Card } from 'primereact/card'
 import { InputMask } from 'primereact/inputmask'
 
 import { extractIdfromToken } from '../../utils/JwtUtils'
-import { getUserById } from '../../controller/ProfileController'
+import { getCustomerById, updateProfile } from '../../controller/ProfileController'
 
 export default function Profile() {
     const userId = extractIdfromToken()
@@ -22,7 +22,7 @@ export default function Profile() {
 
     useEffect(() => {
         const fetchUserData = async () => {
-            const user = await getUserById(userId)
+            const user = await getCustomerById(userId)
             setUserData(user)
         }
 
@@ -38,15 +38,16 @@ export default function Profile() {
         })
     }
 
-    // const handleSubmit = async (event) => {
-    //     event.preventDefault()
-    //     try {
-    //         await updateProfile(1, data)
-    //         console.log('Perfil actualizado correctamente')
-    //     } catch (error) {
-    //         console.error('Error al actualizar el perfil:', error)
-    //     }
-    // }
+    const handleSubmit = async (event) => {
+        event.preventDefault()
+        try {
+            await updateProfile(userId, userData)
+            console.log('Perfil actualizado correctamente')
+            console.log('user data:', userData)
+        } catch (error) {
+            console.error('Error al actualizar el perfil:' + error)
+        }
+    }
 
     return (
         <div className='w-full'>
@@ -74,9 +75,16 @@ export default function Profile() {
                     </div>
                     <div className='flex flex-column gap-2 mb-3'>
                         <label htmlFor='phone'>Phone</label>
-                        <InputMask id='phone' mask='999 999 999' placeholder='XXX XXX XXX'></InputMask>
+                        <InputMask
+                            id='phone'
+                            mask='999 999 999'
+                            name='phone'
+                            value={userData.phone}
+                            onChange={handleChange}
+                            placeholder='XXX XXX XXX'
+                        ></InputMask>
                     </div>
-                    <Button label='Save changes' type='submit' className='w-12 mt-3' />
+                    <Button label='Save changes' type='submit' onClick={handleSubmit} className='w-12 mt-3' />
                 </form>
             </Card>
         </div>

@@ -5,7 +5,7 @@
 import axiosInstance from './axiosInstance'
 
 // Función para obtener el perfil de usuario
-export async function getUserById(id) {
+export async function getCustomerById(id) {
     try {
         const response = await axiosInstance.get(`/customers/${id}`)
         console.log(response)
@@ -27,15 +27,15 @@ export async function getUserById(id) {
 // };
 
 // Función para actualizar el perfil de usuario
-// export const updateProfile = async (userId, profileUpdates) => {
-//     try {
-//         const response = await axios.put(`${BASE_URL}/${userId}`, profileUpdates);
-//         return response.data;
-//     } catch (error) {
-//         console.error('Error al actualizar el perfil:', error);
-//         throw error;
-//     }
-// };
+export const updateProfile = async (userId, profileUpdates) => {
+    try {
+        const response = await axiosInstance.put(`/customers/${userId}`, profileUpdates)
+        // return response.data;
+    } catch (error) {
+        console.error('Error al actualizar el perfil:', error)
+        throw error
+    }
+}
 
 // Función para eliminar el perfil de usuario
 /*
