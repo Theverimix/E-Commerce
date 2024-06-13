@@ -1,4 +1,4 @@
-import { Suspense, useRef, lazy, useState } from 'react'
+import { Suspense, useRef, lazy } from 'react'
 import Header from './components/header/Header.jsx'
 import Footer from './components/footer/Footer.jsx'
 
@@ -14,6 +14,7 @@ import { ProductsProvider } from './providers/ProductsProvider.jsx'
 import { AuthPage } from './pages/auth/AuthPage.jsx'
 import { ProductPanel } from './pages/admin/product/ProductPanel.jsx'
 import { ProductTable } from './pages/admin/product/ProductTable.jsx'
+import { ProductAdminPage } from './pages/admin/product/ProductAdminPage.jsx'
 
 const Login = lazy(() => import('./pages/auth/Login.jsx'))
 const Register = lazy(() => import('./pages/auth/Register.jsx'))
@@ -49,10 +50,7 @@ function AppWeb() {
                                         <Route path='/' element={<Home />} />
                                         <Route path='/home' element={<Home />} />
                                         <Route path='/products' element={<Catalog />} />
-                                        <Route path='/products/list' element={<ProductTable />} />
                                         <Route path='/products/:id' element={<ProductPage />} />
-                                        <Route path='/products/new' element={<ProductPanel />} />
-                                        <Route path='/products/:id/update' element={<ProductPanel />} />
                                         <Route path='/cart' element={<ShopCart />} />
                                         <Route path='/checkout' element={<CheckoutPage />} />
                                         <Route path='/confirmation' element={<ProductPage />} />
@@ -62,6 +60,11 @@ function AppWeb() {
                                         <Route path='/terms' element={<ProductPage />} />
                                         <Route path='/contact' element={<ProductPage />} />
                                         <Route path='/pruebas' element={<Welcome />} />
+                                        <Route path='/admin/products' element={<ProductAdminPage />}>
+                                            <Route path='list' element={<ProductTable />} />
+                                            <Route path='new' element={<ProductPanel />} />
+                                            <Route path=':id' element={<ProductPanel />} />
+                                        </Route>
                                         <Route path='/auth' element={<AuthPage />}>
                                             <Route path='login' element={<Login />} />
                                             <Route path='signup' element={<Register />} />

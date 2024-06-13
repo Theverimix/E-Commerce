@@ -256,7 +256,7 @@ export default function Header() {
                         aria-controls='popup_menu_right'
                         onClick={handleChipClick}
                     />
-                    <style jsx>{`
+                    <style>{`
                         .active {
                             border-top-right-radius: 1.5rem !important;
                             border-bottom-right-radius: 0rem !important;

@@ -1,13 +1,6 @@
-import React from 'react'
-import { Card } from 'primereact/card'
 import { Button } from 'primereact/button'
-
 import { Divider } from 'primereact/divider'
-
-import { Link } from 'react-router-dom'
 import { InputText } from 'primereact/inputtext'
-import headerImg from '../../assets/img/ec_texture_definitive.jpg'
-
 import footerImgDevs from '../../assets/img/DAGA_devs_poweredBy_light.png'
 import './footer.css'
 
@@ -74,7 +67,7 @@ export default function Footer() {
                             </div>
                         </div>
                     </div>
-                    <div clssName='flex flex-column'>
+                    <div className='flex flex-column'>
                         <p className='flex align-items-center justify-content-center'>
                             <b>©2024 BRUTAL | All rights reserved.</b>
                         </p>

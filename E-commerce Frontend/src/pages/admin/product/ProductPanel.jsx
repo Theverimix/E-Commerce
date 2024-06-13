@@ -3,11 +3,13 @@ import { getCategories } from '../../../controller/CategoryController'
 import { getStates } from '../../../controller/StateController'
 import { ProductForm } from './ProductForm'
 import { getProductById, saveProduct, updateProduct } from '../../../controller/ProductController'
-import { useParams } from 'react-router-dom'
+import { useLocation, useParams } from 'react-router-dom'
 import { useToast } from '../../../providers/ToastProvider'
 
 export const ProductPanel = () => {
     const { id } = useParams()
+    const { state } = useLocation()
+
     const editMode = id != null
     const showToast = useToast()
 
@@ -24,8 +26,10 @@ export const ProductPanel = () => {
                 setProductData(data.data)
             }
         }
-        fetchData()
-    }, [editMode, id])
+
+        if (state?.product) setProductData(state.product)
+        else fetchData()
+    }, [editMode, id, state])
 
     const handleSubmit = async (product) => {
         const response = editMode ? await updateProduct(id, product) : await saveProduct(product)
@@ -35,6 +39,7 @@ export const ProductPanel = () => {
 
     return (
         <ProductForm
+            editMode={editMode}
             productData={productData}
             categorieList={categoriesList}
             stateList={stateList}

@@ -9,7 +9,7 @@ import { InputTextarea } from 'primereact/inputtextarea'
 import { MultiSelect } from 'primereact/multiselect'
 import { Toast } from 'primereact/toast'
 
-export const ProductForm = ({ productData, onSubmit, categorieList, stateList }) => {
+export const ProductForm = ({ editMode = true, productData, onSubmit, categorieList, stateList }) => {
     const toastBottomCenter = useRef(null)
 
     const [name, setName] = useState('')
@@ -37,10 +37,10 @@ export const ProductForm = ({ productData, onSubmit, categorieList, stateList })
         onSubmit(product)
     }
 
-    const cardTitle = <h2 className='text-center'>{productData ? 'Edit Product' : 'Product Creator'}</h2>
+    const cardTitle = <h2 className='text-center'>{editMode ? 'Edit Product' : 'Product Creator'}</h2>
 
     const cardSubtitle = (
-        <div className='text-center'>{productData ? 'Edit the product details' : 'Add a new product to catalog'}</div>
+        <div className='text-center'>{editMode ? 'Edit the product details' : 'Add a new product to catalog'}</div>
     )
 
     return (
@@ -130,8 +130,8 @@ export const ProductForm = ({ productData, onSubmit, categorieList, stateList })
                             <Button
                                 onClick={handleSubmit}
                                 className='w-full'
-                                label={productData ? 'Update product' : 'Create product'}
-                                icon={productData ? 'pi pi-pencil' : 'pi pi-plus'}
+                                label={editMode ? 'Update product' : 'Create product'}
+                                icon={editMode ? 'pi pi-pencil' : 'pi pi-plus'}
                             />
                         </div>
                     </div>
