@@ -1,5 +1,6 @@
 package com.ecommerce.customer;
 
+import com.ecommerce.address.Address;
 import com.ecommerce.order.Order;
 import com.ecommerce.user.User;
 import jakarta.persistence.Column;
@@ -26,8 +27,6 @@ import java.util.List;
 @PrimaryKeyJoinColumn(name = "customerId")
 public class Customer extends User {
 
-    private String address;
-
     private Date registerDate;
 
     private String country;
@@ -37,4 +36,7 @@ public class Customer extends User {
 
     @OneToMany(mappedBy = "customer")
     private List<Order> orders;
+
+    @OneToMany(mappedBy = "customer")
+    private List<Address> addresses;
 }

@@ -1,9 +1,11 @@
 package com.ecommerce.customer;
 
+import com.ecommerce.address.Address;
 import com.ecommerce.user.UserRole;
 import com.ecommerce.user.UserState;
 
 import java.util.Date;
+import java.util.List;
 
 public record CustomerResponse(
                 Long id,
@@ -12,9 +14,8 @@ public record CustomerResponse(
                 String email,
                 UserState state,
                 UserRole role,
-                String address,
+                List<Address> addresses,
                 Date registerDate,
                 String country,
-                String phone
-) {
+                String phone) {
 }

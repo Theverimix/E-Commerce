@@ -15,11 +15,10 @@ public class CustomerMapper implements Function<Customer, CustomerResponse> {
                 customer.getEmail(),
                 customer.getState(),
                 customer.getRole(),
-                customer.getAddress(),
+                customer.getAddresses(),
                 customer.getRegisterDate(),
                 customer.getCountry(),
-                customer.getPhone()
-        );
+                customer.getPhone());
     }
 
     public Customer buildCustomer(CustomerResponse dto) {
@@ -30,7 +29,7 @@ public class CustomerMapper implements Function<Customer, CustomerResponse> {
                 .email(dto.email())
                 .state(dto.state())
                 .role(dto.role())
-                .address(dto.address())
+                .addresses(dto.addresses())
                 .registerDate(dto.registerDate())
                 .country(dto.country())
                 .phone(dto.phone())
