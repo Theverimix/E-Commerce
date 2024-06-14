@@ -1,9 +1,9 @@
 import axios from 'axios'
-import axiosInstance from './axiosInstance'
+import AxiosInstance from './AxiosInstance'
 
 export async function userRegister(name, lastname, username, password) {
     try {
-        const response = await axiosInstance.post('/auth/register', {
+        const response = await AxiosInstance.post('/auth/register', {
             firstname: name,
             lastname: lastname,
             email: username,

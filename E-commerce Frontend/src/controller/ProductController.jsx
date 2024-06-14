@@ -1,13 +1,13 @@
-import axiosInstance from './axiosInstance'
+import AxiosInstance from './AxiosInstance'
 
-import axiosInstanceNoToken from './axiosInstanceNoToken'
+import AxiosInstanceNoToken from './AxiosInstanceNoToken'
 
 //import axios from 'axios'
 //import Cookies from 'js-cookie'
 
 export async function searchProducts(params) {
     try {
-        const response = await axiosInstanceNoToken.get('/products/search', { params })
+        const response = await AxiosInstanceNoToken.get('/products/search', { params })
         return response.data.data
     } catch (error) {
         console.error('Error fetching data:', error)
@@ -17,7 +17,7 @@ export async function searchProducts(params) {
 
 export async function getProducts(page) {
     try {
-        const response = await axiosInstanceNoToken.get(`/products?page=${page}`)
+        const response = await AxiosInstanceNoToken.get(`/products?page=${page}`)
         const list = response.data.data
         if (!list.products || list.products.length === 0) {
             console.error('Error fetching data: Product list is empty')
@@ -32,7 +32,7 @@ export async function getProducts(page) {
 
 export async function getProductById(id) {
     try {
-        const response = await axiosInstanceNoToken.get(`/products/${id}`)
+        const response = await AxiosInstanceNoToken.get(`/products/${id}`)
         return response
     } catch (error) {
         console.error('Error fetching data:', error)
@@ -42,7 +42,7 @@ export async function getProductById(id) {
 
 export const saveProduct = async (product) => {
     try {
-        const response = await axiosInstance.post(`/products`, product)
+        const response = await AxiosInstance.post(`/products`, product)
         return response.data
     } catch (error) {
         console.error('Error fetching data:', error)
@@ -52,7 +52,7 @@ export const saveProduct = async (product) => {
 
 export const updateProduct = async (id, product) => {
     try {
-        const response = await axiosInstance.put(`/products/${id}`, product)
+        const response = await AxiosInstance.put(`/products/${id}`, product)
         return response.data
     } catch (error) {
         console.error('Error fetching data:', error)
@@ -62,7 +62,7 @@ export const updateProduct = async (id, product) => {
 
 export const deleteProduct = async (id) => {
     try {
-        const response = await axiosInstance.delete(`/products/${id}`)
+        const response = await AxiosInstance.delete(`/products/${id}`)
         return response.data
     } catch (error) {
         console.error('Error fetching data:', error)

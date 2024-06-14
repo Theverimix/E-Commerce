@@ -1,12 +1,12 @@
 import axios from 'axios'
 import Cookies from 'js-cookie'
 
-const axiosInstance = axios.create({
+const AxiosInstance = axios.create({
     baseURL: 'http://localhost:8080/api', // URL base de tu API
 })
 
 // Configurar un interceptor para agregar el token a todas las solicitudes
-axiosInstance.interceptors.request.use(
+AxiosInstance.interceptors.request.use(
     (config) => {
         const token = Cookies.get('token')
         if (token) {
@@ -19,4 +19,4 @@ axiosInstance.interceptors.request.use(
     },
 )
 
-export default axiosInstance
+export default AxiosInstance

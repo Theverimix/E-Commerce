@@ -1,8 +1,8 @@
-import axiosInstance from './axiosInstance'
+import AxiosInstance from './AxiosInstance'
 
 export async function getUserById(id) {
     try {
-        const response = await axiosInstance.get(`/users/${id}`)
+        const response = await AxiosInstance.get(`/users/${id}`)
         return response
     } catch (error) {
         console.error('Error fetching user data:', error)

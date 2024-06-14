@@ -1,10 +1,10 @@
-import axiosInstance from './axiosInstance'
+import AxiosInstance from './AxiosInstance'
 
 import Cookies from 'js-cookie'
 
 export async function userLogin(username, password) {
     try {
-        const response = await axiosInstance.post('/auth/login', {
+        const response = await AxiosInstance.post('/auth/login', {
             email: username,
             password: password,
         })

@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { MegaMenu } from 'primereact/megamenu'
 import { Menu } from 'primereact/menu'
 import { Badge } from 'primereact/badge'
@@ -12,7 +12,7 @@ import { Tooltip } from 'primereact/tooltip'
 import { Link, useLocation } from 'react-router-dom'
 import { Chip } from 'primereact/chip'
 
-import { userLogout } from '../../controller/logoutController'
+import { userLogout } from '../../controller/LogoutController'
 
 import './header.css'
 import { Divider } from 'primereact/divider'

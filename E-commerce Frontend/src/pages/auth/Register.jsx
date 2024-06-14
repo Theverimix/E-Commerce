@@ -6,7 +6,7 @@ import { Button } from 'primereact/button'
 import { Password } from 'primereact/password'
 import { useToast } from '../../providers/ToastProvider'
 import { Link, useNavigate } from 'react-router-dom'
-import { userRegister } from '../../controller/registerController'
+import { userRegister } from '../../controller/RegisterController'
 
 export default function Register() {
     const [name, setName] = useState('')

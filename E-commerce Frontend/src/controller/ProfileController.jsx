@@ -2,12 +2,12 @@
 
 // const BASE_URL = 'http://localhost:8080/api/customers'
 
-import axiosInstance from './axiosInstance'
+import AxiosInstance from './AxiosInstance'
 
 // Función para obtener el perfil de usuario
 export async function getCustomerById(id) {
     try {
-        const response = await axiosInstance.get(`/customers/${id}`)
+        const response = await AxiosInstance.get(`/customers/${id}`)
         console.log(response)
         return response.data.data
     } catch (error) {
@@ -29,7 +29,7 @@ export async function getCustomerById(id) {
 // Función para actualizar el perfil de usuario
 export const updateProfile = async (userId, profileUpdates) => {
     try {
-        const response = await axiosInstance.put(`/customers/${userId}`, profileUpdates)
+        const response = await AxiosInstance.put(`/customers/${userId}`, profileUpdates)
         // return response.data;
     } catch (error) {
         console.error('Error al actualizar el perfil:', error)

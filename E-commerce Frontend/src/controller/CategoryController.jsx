@@ -1,8 +1,8 @@
-import axiosInstance from './axiosInstance'
+import AxiosInstance from './AxiosInstance'
 
 export const getCategories = async () => {
     try {
-        const response = await axiosInstance.get(`/categories`)
+        const response = await AxiosInstance.get(`/categories`)
         const categories = response.data.data
         return categories
     } catch (error) {
@@ -13,7 +13,7 @@ export const getCategories = async () => {
 
 export const saveCategory = async (category) => {
     try {
-        const response = await axiosInstance.post(`/categories`, category)
+        const response = await AxiosInstance.post(`/categories`, category)
         return response.data
     } catch (error) {
         console.error('Error fetching data:', error)
