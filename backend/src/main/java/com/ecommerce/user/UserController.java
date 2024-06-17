@@ -1,12 +1,9 @@
 package com.ecommerce.user;
 
 import com.ecommerce.exception.ApiResponse;
-import jakarta.annotation.security.RolesAllowed;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,7 +36,7 @@ public class UserController {
         return ApiResponse.ok(user);
     }
 
-    @Secured({"ADMINISTRATOR", "CUSTOMER"})
+    @Secured({ "ADMINISTRATOR", "CUSTOMER" })
     @PutMapping("/{userId}")
     public ApiResponse updateUser(
             @PathVariable Long userId,

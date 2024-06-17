@@ -19,6 +19,12 @@
 	<dependencies>
 
 		<dependency>
+			<groupId>com.cloudinary</groupId>
+			<artifactId>cloudinary-http45</artifactId>
+			<version>1.38.0</version>
+		</dependency>
+
+		<dependency>
 			<groupId>com.fasterxml.jackson.datatype</groupId>
 			<artifactId>jackson-datatype-jsr310</artifactId>
 		</dependency>

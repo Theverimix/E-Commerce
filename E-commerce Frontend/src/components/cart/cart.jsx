@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import ProductList from '../product/ProductList'
 import { useProducts } from '../../providers/ProductsProvider'
 
@@ -18,7 +18,6 @@ export default function cart() {
             setIsLoading(true)
             try {
                 setProducts(allProducts)
-            } catch (error) {
             } finally {
                 setIsLoading(false)
             }
