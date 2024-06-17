@@ -34,20 +34,13 @@ export default function Header() {
     const { totalProducts } = useProducts()
 
     useEffect(() => {
-        if (nameParam) {
-            setSearchText(nameParam)
-        }
-    }, [])
+        if (nameParam) setSearchText(nameParam)
+    }, [nameParam])
 
     useEffect(() => {
-        const handleClickOutside = (event) => {
-            setActive(false)
-        }
-
+        const handleClickOutside = () => setActive(false)
         document.addEventListener('mousedown', handleClickOutside)
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside)
-        }
+        return () => document.removeEventListener('mousedown', handleClickOutside)
     }, [])
 
     useEffect(() => {
@@ -55,12 +48,8 @@ export default function Header() {
             setIsMenuVisible(false)
             setActive(false)
         }
-
         window.addEventListener('scroll', handleScroll)
-
-        return () => {
-            window.removeEventListener('scroll', handleScroll)
-        }
+        return () => window.removeEventListener('scroll', handleScroll)
     }, [])
 
     const handleClickMenuUser = (event) => {
@@ -68,21 +57,14 @@ export default function Header() {
         menuRight.current.toggle(event)
     }
 
-    const searchTokenName = () => {
-        const name = extractNamefromToken()
-        return name
-    }
-
     const handleSearch = () => {
-        if (searchText.trim() !== '') {
+        if (searchText.trim()) {
             window.location.href = `/products?name=${encodeURIComponent(searchText)}`
         }
     }
 
     const handleKeyPress = (event) => {
-        if (event.key === 'Enter') {
-            handleSearch()
-        }
+        if (event.key === 'Enter') handleSearch()
     }
 
     const handleLogout = () => {
@@ -104,14 +86,13 @@ export default function Header() {
         </Link>
     )
 
-    const items = [
+    const menuItems = [
         {
             label: 'Products',
             icon: 'pi pi-box',
             className: 'font-semibold',
             command: () => (window.location.href = '/products'),
         },
-
         {
             className: 'custom-product-item',
             items: [
@@ -128,10 +109,7 @@ export default function Header() {
                                 label: 'Accessories',
                                 command: () => (window.location.href = '/products?category=accessories'),
                             },
-                            {
-                                label: 'Clothes',
-                                command: () => (window.location.href = '/products?category=clothes'),
-                            },
+                            { label: 'Clothes', command: () => (window.location.href = '/products?category=clothes') },
                             {
                                 label: 'Equipment',
                                 command: () => (window.location.href = '/products?category=equipment'),
@@ -143,47 +121,26 @@ export default function Header() {
         },
     ]
 
-    const optionsLogout = [
+    const logoutOptions = [
         {
             label: 'Options',
             items: [
-                {
-                    label: 'Login',
-                    icon: 'pi pi-sign-in',
-                    url: '/auth/login',
-                },
-                {
-                    label: 'Signup',
-                    icon: 'pi pi-user-plus',
-                    url: '/auth/signup',
-                },
+                { label: 'Login', icon: 'pi pi-sign-in', url: '/auth/login' },
+                { label: 'Signup', icon: 'pi pi-user-plus', url: '/auth/signup' },
             ],
         },
     ]
 
-    const optionsLogin = [
+    const loginOptions = [
         {
             label: 'PROFILE',
             items: [
-                {
-                    label: 'My profile',
-                    icon: 'pi pi-user',
-                    url: '/profile',
-                },
-                {
-                    label: 'Settings',
-                    icon: 'pi pi-cog',
-                },
+                { label: 'My profile', icon: 'pi pi-user', url: '/profile' },
+                { label: 'Settings', icon: 'pi pi-cog' },
             ],
         },
-        {
-            separator: true,
-        },
-        {
-            label: 'Logout',
-            icon: 'pi pi-sign-out',
-            command: handleLogout,
-        },
+        { separator: true },
+        { label: 'Logout', icon: 'pi pi-sign-out', command: handleLogout },
     ]
 
     const start = (
@@ -192,8 +149,8 @@ export default function Header() {
                 <img alt='logo' src={brutalLogo} height='50' />
             </Link>
             <MegaMenu
-                model={items}
-                className='flex mx-3 justify-content-between align-items-center p-0 sticky-toolbar '
+                model={menuItems}
+                className='flex mx-3 justify-content-between align-items-center p-0 sticky-toolbar'
                 breakpoint='960px'
                 style={{ border: 'none' }}
             />
@@ -201,13 +158,7 @@ export default function Header() {
     )
 
     const center = (
-        <div
-            style={{
-                position: 'absolute',
-                left: '50%',
-                transform: 'translate(-50%, 0)',
-            }}
-        >
+        <div style={{ position: 'absolute', left: '50%', transform: 'translate(-50%, 0)' }}>
             <div className='h-input-search'>
                 <IconField iconPosition='left'>
                     <InputIcon className='pi pi-search' />
@@ -224,34 +175,26 @@ export default function Header() {
     )
 
     const end = (
-        <div className=' flex align-items-center'>
+        <div className='flex align-items-center'>
             <Menu
-                model={isLogedIn() ? optionsLogin : optionsLogout}
+                model={isLogedIn() ? loginOptions : logoutOptions}
                 popup
                 ref={menuRight}
                 id='popup_menu_right'
                 popupAlignment='right'
-                className={`${isMenuVisible ? ' ' : 'hidden'}`}
+                className={`${isMenuVisible ? '' : 'hidden'}`}
                 onClick={handleClickMenuUser}
             />
-            {/* {tokenEmail} */}
             {isLogedIn() ? (
-                <div className='flex align-items-center '>
+                <div className='flex align-items-center'>
                     <Button
-                        label={searchTokenName()}
+                        label={extractNamefromToken()}
                         icon='pi pi-angle-down'
                         iconPos='right'
                         ref={chipRef}
-                        className={`
-                                border-round-3xl 
-                                cursor-pointer 
-                                mr-3
-                                font-semibold
-                                transition-color 
-                                transition-duration-100
-                                hover:bg-primary
-                                border-200
-                                ${active ? 'active' : 'inactive'}`}
+                        className={`border-round-3xl cursor-pointer mr-3 font-semibold transition-color transition-duration-100 hover:bg-primary border-200 ${
+                            active ? 'active' : 'inactive'
+                        }`}
                         aria-haspopup
                         aria-controls='popup_menu_right'
                         onClick={handleChipClick}
@@ -274,52 +217,30 @@ export default function Header() {
                 </div>
             ) : (
                 <i
-                    className='pi pi-user 
-            cursor-pointer 
-            transition-colors 
-            text-500 
-            transition-duration-600 
-            hover:text-color 
-            border-circle
-            mr-3'
+                    className='pi pi-user cursor-pointer transition-colors text-500 transition-duration-600 hover:text-color border-circle mr-3'
                     style={{ fontSize: '1.5rem' }}
                     onClick={handleClickMenuUser}
                     aria-controls='popup_menu_right'
                     aria-haspopup
                 />
             )}
-
             <Link to={'/cart'}>
                 <i
-                    className='pi pi-shopping-cart 
-                                p-overlay-badge 
-                                cursor-pointer 
-                                transition-colors 
-                                text-500 
-                                transition-duration-600 
-                                hover:text-color 
-                                border-circle
-                                mr-2 border-1
-                                border-transparent'
+                    className='pi pi-shopping-cart p-overlay-badge cursor-pointer transition-colors text-500 transition-duration-600 hover:text-color border-circle mr-2 border-1 border-transparent'
                     style={{ fontSize: '1.5rem' }}
                     title='Go to cart'
                 >
                     <Badge
                         value={totalProducts()}
                         className={!totalProducts() || totalProducts() === 0 ? 'hidden' : ''}
-                    ></Badge>
+                    />
                 </i>
             </Link>
         </div>
     )
 
     return (
-        <div
-            style={{
-                background: 'var(--surface-e)',
-            }}
-            className='sticky-toolbar flex justify-content-center w-full'
-        >
+        <div style={{ background: 'var(--surface-e)' }} className='sticky-toolbar flex justify-content-center w-full'>
             <div className='sm:w-full md:w-10 lg:w-9'>
                 <Toolbar
                     start={start}
@@ -327,16 +248,7 @@ export default function Header() {
                     end={end}
                     className='flex justify-content-between align-items-center px-0 py-1'
                     style={{ border: 'none' }}
-                ></Toolbar>
-                {/* <Divider className="my-0"></Divider> */}
-                {/* <MegaMenu
-                    start={start}
-                    model={items}
-                    end={end}
-                    className="flex justify-content-between align-items-center p-0 sticky-toolbar"
-                    breakpoint="960px"
-                    style={{ border: "none" }}
-                /> */}
+                />
             </div>
         </div>
     )

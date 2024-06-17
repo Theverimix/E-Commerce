@@ -29,6 +29,9 @@ const ShopCart = lazy(() => import('./pages/shopCart/ShopCart.jsx'))
 const Catalog = lazy(() => import('./pages/productsPage/ProductCatalog.jsx'))
 const Profile = lazy(() => import('./pages/profile/Profile.jsx'))
 const CheckoutPage = lazy(() => import('./pages/checkout/CheckoutPage.jsx'))
+const Account = lazy(() => import('./pages/account/Account.jsx'))
+const PersonalData = lazy(() => import('./pages/account/PersonalData.jsx'))
+const ProfileCard = lazy(() => import('./pages/account/ProfileCard.jsx'))
 
 function AppWeb() {
     const toastRef = useRef(null)
@@ -54,8 +57,13 @@ function AppWeb() {
                                         <Route path='/cart' element={<ShopCart />} />
                                         <Route path='/checkout' element={<CheckoutPage />} />
                                         <Route path='/confirmation' element={<ProductPage />} />
-                                        <Route path='/orders' element={<OrderPage />} />
-                                        <Route path='/profile' element={<Profile />} />
+                                        <Route path='/account' element={<Account />}>
+                                            <Route path='profile' element={<ProfileCard />}>
+                                                <Route path='' element={<Profile />} />
+                                                <Route path='data' element={<PersonalData />} />
+                                            </Route>
+                                            <Route path='orders' element={<OrderPage />} />
+                                        </Route>
                                         <Route path='/search' element={<ProductPage />} />
                                         <Route path='/terms' element={<ProductPage />} />
                                         <Route path='/contact' element={<ProductPage />} />
