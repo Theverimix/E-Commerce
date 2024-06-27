@@ -4,6 +4,8 @@ import com.ecommerce.exception.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
+
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -25,6 +27,12 @@ public class ProductController {
         return ApiResponse.ok(product);
     }
 
+    @GetMapping("/ids")
+    ApiResponse getProductsByIds(@RequestParam List<Long> ids) {
+        List<ProductResponse> products = service.getProductsByIds(ids);
+        return ApiResponse.ok(products);
+    }
+
     @GetMapping("/search")
     ApiResponse searchProducts(
             @RequestParam(name = "page", defaultValue = "0") int page,
@@ -32,8 +40,7 @@ public class ProductController {
             @RequestParam(name = "low-price", required = false) Double minPrice,
             @RequestParam(name = "high-price", required = false) Double maxPrice,
             @RequestParam(name = "category", required = false) String category,
-            @RequestParam(name = "sale", defaultValue = "false") boolean sale
-    ) {
+            @RequestParam(name = "sale", defaultValue = "false") boolean sale) {
         ProductPageResponse products = service.searchProduct(page, name, minPrice, maxPrice, category, sale);
         return ApiResponse.ok(products);
     }
@@ -48,8 +55,7 @@ public class ProductController {
     @PutMapping("/{productId}")
     ApiResponse updateProduct(
             @PathVariable Long productId,
-            @Valid @RequestBody ProductUpdateRequest request
-    ) {
+            @Valid @RequestBody ProductUpdateRequest request) {
         service.updateProduct(productId, request);
         return ApiResponse.updated();
     }
@@ -59,4 +65,5 @@ public class ProductController {
         service.deleteProduct(productId);
         return ApiResponse.deleted(productId);
     }
+
 }

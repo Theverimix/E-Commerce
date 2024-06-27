@@ -144,8 +144,8 @@ export default function HomeCarousel() {
                     numScroll={1}
                     autoplayInterval={5000}
                     itemTemplate={itemTemplate}
-                    itemClassName='p-4'
-                    itemStyle={{ width: '100%' }}
+                    // itemClassName='p-4'
+                    // itemStyle={{ width: '100%' }}
                 />
             )}
         </div>

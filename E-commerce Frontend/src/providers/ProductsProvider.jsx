@@ -26,9 +26,26 @@ export const ProductsProvider = ({ children }) => {
     }
 
     const removeProduct = (productId) => {
-        const productToRemove = allProducts.find((p) => p.id === productId)
-        if (!productToRemove) return
-        setAllProducts((prevProducts) => prevProducts.filter((p) => p.id !== productId))
+        const productIndex = allProducts.findIndex((p) => p.id === productId)
+        if (productIndex === -1) return // Producto no encontrado
+
+        const productToRemove = allProducts[productIndex]
+
+        if (productToRemove.amount > 1) {
+            // Si el amount es mayor que 1, reducir en uno el amount
+            setAllProducts((prevProducts) =>
+                prevProducts.map((p, index) => (index === productIndex ? { ...p, amount: p.amount - 1 } : p)),
+            )
+        } else {
+            // Si el amount es 1 o menos, eliminar el producto
+            setAllProducts((prevProducts) => prevProducts.filter((p) => p.id !== productId))
+        }
+    }
+
+    const updateProductAmount = (productId, newAmount) => {
+        setAllProducts((prevProducts) =>
+            prevProducts.map((p) => (p.id === productId ? { ...p, amount: newAmount } : p)),
+        )
     }
 
     const totalProducts = () => {
@@ -43,6 +60,7 @@ export const ProductsProvider = ({ children }) => {
                 addProduct,
                 removeProduct,
                 totalProducts,
+                updateProductAmount,
             }}
         >
             {children}

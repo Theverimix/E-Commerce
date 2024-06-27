@@ -13,6 +13,7 @@ import { calculateDiscountedPrice } from '../../utils/ProductUtils'
 export default function ProductList({
     handleRemoveProduct,
     handleAddProduct,
+    handleUpdateProductAmount,
     products,
     totalElements,
     removeButton = false,
@@ -103,7 +104,6 @@ export default function ProductList({
                                 {product.name}
                             </div>
                             <div className='flex align-items-center'>
-                                {quantity && <span className='font-semibold'>Quantity: {product.amount}</span>}
                                 {product.categories && (
                                     <div className='font-semibold mb-4 flex'>
                                         {/* <i className="pi pi-tag mr-2"></i> */}
@@ -120,6 +120,7 @@ export default function ProductList({
                                     </div>
                                 )}
                             </div>
+                            {quantity && <span className='font-semibold'>Quantity: {product.quantity}</span>}
                         </div>
                         <div className='flex sm:flex-column align-items-center sm:align-items-end gap-3 sm:gap-2'>
                             {product.sales ? (

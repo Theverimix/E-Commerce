@@ -133,4 +133,10 @@ public class ProductService {
         return new ProductPageResponse(productListMap, totalPages, totalElements);
     }
 
+    public List<ProductResponse> getProductsByIds(List<Long> ids) {
+        return productRepository.findAllById(ids).stream()
+                .map(mapper)
+                .collect(Collectors.toList());
+    }
+
 }

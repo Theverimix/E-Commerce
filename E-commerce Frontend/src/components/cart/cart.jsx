@@ -7,8 +7,11 @@ import { Link } from 'react-router-dom'
 import CartSummary from './cartSummary'
 import { all } from 'axios'
 
+import { getProductsByIds } from '../../controller/ProductController'
+import { Button } from 'primereact/button'
+
 export default function cart() {
-    const { allProducts, removeProduct } = useProducts()
+    const { allProducts, removeProduct, updateProductAmount } = useProducts()
     const [products, setProducts] = useState([])
     const [isLoading, setIsLoading] = useState(true)
     const [cache, setCache] = useState({})
@@ -17,7 +20,17 @@ export default function cart() {
         const fetchData = async () => {
             setIsLoading(true)
             try {
-                setProducts(allProducts)
+                const productsIds = allProducts.map((product) => product.id)
+                const response = await getProductsByIds(productsIds)
+                const productsWithQuantity = response.map((product) => {
+                    const matchedProduct = allProducts.find((p) => p.id === product.id)
+                    return {
+                        ...product,
+                        quantity: matchedProduct ? matchedProduct.amount : 0,
+                    }
+                })
+                setProducts(productsWithQuantity)
+                console.log('products: ', products)
             } finally {
                 setIsLoading(false)
             }
@@ -28,6 +41,10 @@ export default function cart() {
 
     const handleRemoveProduct = (product) => {
         removeProduct(product.id)
+    }
+
+    const handleUpdateProductAmount = (productId, newAmount) => {
+        updateProductAmount(productId, newAmount)
     }
 
     return (
@@ -43,10 +60,12 @@ export default function cart() {
                 <div className='col'>
                     <ProductList
                         handleRemoveProduct={handleRemoveProduct}
+                        handleUpdateProductAmount={handleUpdateProductAmount}
                         products={products}
                         isLoading={isLoading}
                         removeButton
                         linkeable
+                        quantity
                         height='30rem'
                     />
                 </div>
