@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, useCallback, useMemo } from 'react'
 import ProductList from '../product/ProductList'
 import { useProducts } from '../../providers/ProductsProvider'
 
@@ -10,27 +10,33 @@ import { all } from 'axios'
 import { getProductsByIds } from '../../controller/ProductController'
 import { Button } from 'primereact/button'
 
-export default function cart() {
+export default function Cart() {
     const { allProducts, removeProduct, updateProductAmount } = useProducts()
     const [products, setProducts] = useState([])
     const [isLoading, setIsLoading] = useState(true)
-    const [cache, setCache] = useState({})
+
+    const productsWithQuantity = useMemo(() => {
+        return products.map((product) => {
+            const matchedProduct = allProducts.find((p) => p.id === product.id)
+            return {
+                ...product,
+                quantity: matchedProduct ? matchedProduct.amount : 0,
+            }
+        })
+    }, [products, allProducts])
 
     useEffect(() => {
         const fetchData = async () => {
-            setIsLoading(true)
             try {
                 const productsIds = allProducts.map((product) => product.id)
                 const response = await getProductsByIds(productsIds)
-                const productsWithQuantity = response.map((product) => {
-                    const matchedProduct = allProducts.find((p) => p.id === product.id)
-                    return {
-                        ...product,
-                        quantity: matchedProduct ? matchedProduct.amount : 0,
-                    }
-                })
-                setProducts(productsWithQuantity)
-                console.log('products: ', products)
+
+                // Compara si los productos han cambiado realmente
+                const productsHaveChanged = JSON.stringify(response) !== JSON.stringify(products)
+
+                if (productsHaveChanged) {
+                    setProducts(response)
+                }
             } finally {
                 setIsLoading(false)
             }
@@ -39,13 +45,19 @@ export default function cart() {
         fetchData()
     }, [allProducts])
 
-    const handleRemoveProduct = (product) => {
-        removeProduct(product.id)
-    }
+    const handleRemoveProduct = useCallback(
+        (product) => {
+            removeProduct(product.id)
+        },
+        [removeProduct],
+    )
 
-    const handleUpdateProductAmount = (productId, newAmount) => {
-        updateProductAmount(productId, newAmount)
-    }
+    const handleUpdateProductAmount = useCallback(
+        (productId, newAmount) => {
+            updateProductAmount(productId, newAmount)
+        },
+        [updateProductAmount],
+    )
 
     return (
         <div>
@@ -61,7 +73,7 @@ export default function cart() {
                     <ProductList
                         handleRemoveProduct={handleRemoveProduct}
                         handleUpdateProductAmount={handleUpdateProductAmount}
-                        products={products}
+                        products={productsWithQuantity}
                         isLoading={isLoading}
                         removeButton
                         linkeable

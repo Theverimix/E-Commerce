@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
 import { Skeleton } from 'primereact/skeleton'
 import { Button } from 'primereact/button'
 import { DataView } from 'primereact/dataview'
@@ -9,6 +9,8 @@ import { Paginator } from 'primereact/paginator'
 import { useNavigate } from 'react-router-dom'
 import { Chip } from 'primereact/chip'
 import { calculateDiscountedPrice } from '../../utils/ProductUtils'
+import { InputNumber } from 'primereact/inputnumber'
+import { debounce } from 'lodash'
 
 export default function ProductList({
     handleRemoveProduct,
@@ -28,12 +30,25 @@ export default function ProductList({
 }) {
     const navigate = useNavigate()
     const [first, setFirst] = useState(0)
+    const [localQuantities, setLocalQuantities] = useState({})
 
     const handlePageChange = (event) => {
-        setFirst(event.first) // Actualiza el estado local
+        setFirst(event.first)
         if (onPageChange) {
-            onPageChange(event.first / 9) // Llama a la prop para indicar la nueva página
+            onPageChange(event.first / 9)
         }
+    }
+
+    const debouncedUpdateAmount = useCallback(
+        debounce((id, value) => {
+            handleUpdateProductAmount(id, value)
+        }, 300),
+        [handleUpdateProductAmount],
+    )
+
+    const handleQuantityChange = (id, value) => {
+        setLocalQuantities((prev) => ({ ...prev, [id]: value }))
+        debouncedUpdateAmount(id, value)
     }
 
     const redirectToProductDetail = (product) => {
@@ -120,7 +135,25 @@ export default function ProductList({
                                     </div>
                                 )}
                             </div>
-                            {quantity && <span className='font-semibold'>Quantity: {product.quantity}</span>}
+                            {quantity && (
+                                <span className='font-semibold'>
+                                    <InputNumber
+                                        inputClassName='text-center'
+                                        size={1}
+                                        value={localQuantities[product.id] || product.quantity}
+                                        onValueChange={(e) => handleQuantityChange(product.id, e.value)}
+                                        showButtons
+                                        mode='decimal'
+                                        min={1}
+                                        max={product.stock}
+                                        buttonLayout='horizontal'
+                                        incrementButtonIcon='pi pi-plus'
+                                        decrementButtonIcon='pi pi-minus'
+                                        step={1}
+                                        disabled={isLoading}
+                                    />
+                                </span>
+                            )}
                         </div>
                         <div className='flex sm:flex-column align-items-center sm:align-items-end gap-3 sm:gap-2'>
                             {product.sales ? (
