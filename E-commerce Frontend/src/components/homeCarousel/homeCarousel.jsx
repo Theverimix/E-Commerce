@@ -1,12 +1,13 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { Skeleton } from 'primereact/skeleton'
 import { Carousel } from 'primereact/carousel'
 import { Button } from 'primereact/button'
 import { PrimeIcons } from 'primereact/api'
 import { useNavigate } from 'react-router-dom'
-
 import { getProducts } from '../../controller/ProductController'
 import { calculateDiscountedPrice } from '../../utils/ProductUtils'
+
+import AddToCartBtn from '../cart/AddToCartBtn'
 
 export default function HomeCarousel() {
     const [products, setProducts] = useState([])
@@ -17,12 +18,11 @@ export default function HomeCarousel() {
         const fetchData = async () => {
             try {
                 const productList = await getProducts(0)
-                console.log('Productos recibidos:', productList)
                 setProducts(productList.products)
-                setIsLoading(false) // Ya no está cargando
+                setIsLoading(false)
             } catch (error) {
                 console.error('Error al obtener productos:', error)
-                setIsLoading(false) // En caso de error, también dejar de cargar
+                setIsLoading(false)
             }
         }
 
@@ -91,7 +91,7 @@ export default function HomeCarousel() {
                     </div>
                 </div>
                 <div>
-                    <Button className='w-full' label='Add to Cart' icon={PrimeIcons.SHOPPING_CART} />
+                    <AddToCartBtn product={item} visible={true}></AddToCartBtn>
                 </div>
             </div>
         )
@@ -99,7 +99,7 @@ export default function HomeCarousel() {
 
     const calculateSkeletonCount = () => {
         const screenWidth = window.innerWidth
-        let skeletonCount = 4 // Valor por defecto
+        let skeletonCount = 4
 
         if (screenWidth < 560) {
             skeletonCount = 1

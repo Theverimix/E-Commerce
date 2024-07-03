@@ -12,12 +12,13 @@ export const ProductsProvider = ({ children }) => {
         localStorage.setItem('allProducts', JSON.stringify(allProducts))
     }, [allProducts])
 
-    const addProduct = (product) => {
+    const addProduct = (product, ammount = 1) => {
+        if (!product) return null
         setAllProducts((prevProducts) => {
             const existingProduct = prevProducts.find((p) => p.id === product.id)
             if (existingProduct) {
                 return prevProducts.map((p) =>
-                    p.id === product.id ? { id: p.id, amount: (p.amount || 1) + 1 } : { ...p },
+                    p.id === product.id ? { id: p.id, amount: (p.amount || 1) + ammount } : { ...p },
                 )
             } else {
                 return [...prevProducts, { id: product.id, amount: 1 }]
@@ -26,20 +27,7 @@ export const ProductsProvider = ({ children }) => {
     }
 
     const removeProduct = (productId) => {
-        const productIndex = allProducts.findIndex((p) => p.id === productId)
-        if (productIndex === -1) return // Producto no encontrado
-
-        const productToRemove = allProducts[productIndex]
-
-        if (productToRemove.amount > 1) {
-            // Si el amount es mayor que 1, reducir en uno el amount
-            setAllProducts((prevProducts) =>
-                prevProducts.map((p, index) => (index === productIndex ? { ...p, amount: p.amount - 1 } : p)),
-            )
-        } else {
-            // Si el amount es 1 o menos, eliminar el producto
-            setAllProducts((prevProducts) => prevProducts.filter((p) => p.id !== productId))
-        }
+        setAllProducts((prevProducts) => prevProducts.filter((p) => p.id !== productId))
     }
 
     const updateProductAmount = (productId, newAmount) => {

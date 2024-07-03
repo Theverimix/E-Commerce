@@ -1,5 +1,6 @@
 import { createContext, useContext, useRef } from 'react'
 import { Toast } from 'primereact/toast'
+import { PrimeIcons } from 'primereact/api'
 
 // Creamos el contexto
 const ToastContext = createContext()
@@ -17,7 +18,7 @@ export const ToastProvider = ({ children }) => {
     return (
         <ToastContext.Provider value={showToast}>
             {children}
-            <Toast ref={toastRef} position='top-right' />
+            <Toast ref={toastRef} position='bottom-left' />
         </ToastContext.Provider>
     )
 }

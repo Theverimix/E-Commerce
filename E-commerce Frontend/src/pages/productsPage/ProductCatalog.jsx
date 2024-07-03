@@ -6,7 +6,6 @@ import './ProductCatalog.css'
 import ProductCatalogFilter from '../../components/product/ProductCatalogFilter'
 import { useSearchParams } from 'react-router-dom'
 import { useProducts } from '../../providers/ProductsProvider'
-import { useToast } from '../../providers/ToastProvider'
 
 function ProductCatalog() {
     const { addProduct } = useProducts()
@@ -15,7 +14,6 @@ function ProductCatalog() {
     const [isLoading, setIsLoading] = useState(true)
     const [searchParams, setSearchParams] = useSearchParams()
     const cache = useMemo(() => ({}), [])
-    const showToast = useToast()
 
     useEffect(() => {
         const fetchData = async () => {
@@ -44,11 +42,6 @@ function ProductCatalog() {
 
         fetchData()
     }, [searchParams])
-
-    const handleAddProduct = (product) => {
-        addProduct(product)
-        showToast('success', 'Product operation result', 'Product added to cart')
-    }
 
     const mapProducts = () => {
         if (products) {
@@ -86,19 +79,18 @@ function ProductCatalog() {
 
     return (
         <div>
-            <h1 className='catalog-title'>Shop</h1>
-            <p className='catalog-subtitle w-5'>
+            {/* <h1 className='catalog-title'>Shop</h1> */}
+            {/* <p className='catalog-subtitle w-5'>
                 Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nobis fugit veniam alias incidunt distinctio
                 harum aut nam dolor ratione quibusdam deserunt, excepturi sint sequi blanditiis labore. Debitis ipsa
                 amet provident.
-            </p>
-            <div className='grid m-auto mb-6'>
+            </p> */}
+            <div className='grid m-auto my-4'>
                 <div className='col-3'>
                     <ProductCatalogFilter onSubmitPrice={filterPrice} onSubmitCategory={filterCategory} />
                 </div>
                 <div className='col'>
                     <ProductList
-                        handleAddProduct={handleAddProduct}
                         products={mapProducts()}
                         isLoading={isLoading}
                         addToCartButton

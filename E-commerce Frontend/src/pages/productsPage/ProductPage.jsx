@@ -9,6 +9,7 @@ import { Skeleton } from 'primereact/skeleton'
 import { Chip } from 'primereact/chip'
 import { useNavigate } from 'react-router-dom'
 import { calculateDiscountedPrice } from '../../utils/ProductUtils'
+import AddToCartBtn from '../../components/cart/AddToCartBtn'
 
 export default function ProductPage() {
     const navigate = useNavigate()
@@ -75,13 +76,7 @@ export default function ProductPage() {
             {isLoading ? (
                 <Skeleton className='w-20rem h-2rem' />
             ) : (
-                <Button
-                    className='w-full mr-5 font-bold'
-                    icon='pi pi-shopping-cart'
-                    label={`Add to cart - $${(product.price * quantity).toFixed(2)}`}
-                    onClick={handleAddToCart}
-                    disabled={isLoading}
-                ></Button>
+                <AddToCartBtn product={product} visible={true} ammount={quantity}></AddToCartBtn>
             )}
 
             {isLoading ? (
