@@ -11,10 +11,10 @@ import { Chip } from 'primereact/chip'
 import { calculateDiscountedPrice } from '../../utils/ProductUtils'
 import { InputNumber } from 'primereact/inputnumber'
 import { debounce } from 'lodash'
+import AddToCartBtn from '../cart/AddToCartBtn'
 
 export default function ProductList({
     handleRemoveProduct,
-    handleAddProduct,
     handleUpdateProductAmount,
     products,
     totalElements,
@@ -170,19 +170,12 @@ export default function ProductList({
                             )}
                             <Button
                                 visible={removeButton}
-                                className='product-list-button no-underline hover:underline hover:text-yellow-300 cursor-pointer'
+                                className='product-list-button hover:text-yellow-300 cursor-pointer p-2'
                                 onClick={() => handleRemoveProduct(product)}
-                                unstyled
+                                text
                                 label='Remove'
                             />
-                            <Button
-                                visible={addToCartButton}
-                                className='z-5 mt-3 w-auto'
-                                style={{ alignSelf: 'center' }}
-                                icon='pi pi-shopping-cart'
-                                onClick={() => handleAddProduct(product)}
-                                label='Add to cart'
-                            />
+                            <AddToCartBtn product={product} visible={addToCartButton} />
                         </div>
                     </div>
                 </div>

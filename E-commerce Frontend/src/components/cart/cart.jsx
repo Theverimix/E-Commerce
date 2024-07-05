@@ -5,10 +5,8 @@ import { useProducts } from '../../providers/ProductsProvider'
 import './cart.css'
 import { Link } from 'react-router-dom'
 import CartSummary from './cartSummary'
-import { all } from 'axios'
 
 import { getProductsByIds } from '../../controller/ProductController'
-import { Button } from 'primereact/button'
 
 export default function Cart() {
     const { allProducts, removeProduct, updateProductAmount } = useProducts()
@@ -29,9 +27,13 @@ export default function Cart() {
         const fetchData = async () => {
             try {
                 const productsIds = allProducts.map((product) => product.id)
+
+                if (productsIds.length === 0) {
+                    setProducts([])
+                    return
+                }
                 const response = await getProductsByIds(productsIds)
 
-                // Compara si los productos han cambiado realmente
                 const productsHaveChanged = JSON.stringify(response) !== JSON.stringify(products)
 
                 if (productsHaveChanged) {
@@ -83,7 +85,7 @@ export default function Cart() {
                 </div>
                 <div className='col-4 justify-content-center text'>
                     <h2 className='text-center'>Order Summary</h2>
-                    <CartSummary />
+                    <CartSummary products={productsWithQuantity} isLoading={isLoading} />
                 </div>
             </div>
         </div>
