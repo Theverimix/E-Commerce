@@ -33,8 +33,10 @@ public class OrderController {
     }
 
     @PutMapping("/{orderId}")
-    public ApiResponse updateOrder(@PathVariable Long orderId,
-                                   @RequestBody @Valid OrderRegistrationRequest newOrder) {
+    public ApiResponse updateOrder(
+            @PathVariable Long orderId,
+            @RequestBody @Valid OrderRegistrationRequest newOrder
+    ) {
         orderService.updateOrder(orderId, newOrder);
         return ApiResponse.updated();
     }

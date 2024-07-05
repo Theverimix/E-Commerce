@@ -8,9 +8,14 @@ import java.util.Set;
 
 public record OrderResponse(
         Long id,
+        String fullname,
         CustomerResponse customer,
         String address,
+        String addressDetail,
+        String addressState,
+        String addressCity,
+        int zipCode,
+        String optionalComment,
         String status,
-        Date date,
         Set<OrderDetailResponse> details
 ) {}

@@ -1,6 +1,6 @@
 package com.ecommerce.order;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -53,10 +53,13 @@ public class OrderService {
 
                 Order order = new Order();
                 order.setAddress(dto.address());
+                order.setAddressDetail(dto.addressDetail());
+                order.setAddressState(dto.addressState());
+                order.setAddressCity(dto.addressCity());
+                order.setZipCode(dto.zipCode());
+                order.setOptionalComment(dto.optionalComment());
                 order.setCustomer(customer);
-                order.setDate(new Date());
                 order.setStatus(OrderStatus.IN_PROCESS);
-
                 List<OrderDetail> details = dto.details().stream()
                         .map(detail -> OrderDetail.builder()
                                 .id(new OrderDetailKey(detail.productId(), order.getId()))
@@ -67,10 +70,12 @@ public class OrderService {
                                 .build())
                         .toList();
                 order.setDetails(details);
+                order.setCreatedAt(LocalDateTime.now());
 
                 orderRepository.save(order);
         }
 
+        // TODO
         public void updateOrder(Long id, OrderRegistrationRequest dto) {
                 Order order = orderRepository.findById(id)
                                 .orElseThrow(() -> new EntityNotFoundException(
