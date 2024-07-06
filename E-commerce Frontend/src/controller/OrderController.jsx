@@ -30,9 +30,21 @@ export async function createOrder(order) {
 
 export async function updateOrderStatus(orderId, status) {
     try {
-        const response = await AxiosInstance.patch(`/orders/${orderId}`, { status: 'Approved' })
+        // console.log('orderId:', orderId, 'status:', status)
+        const response = await AxiosInstance.patch(`/orders/${orderId}`, { status })
+        // return response.data.data
     } catch (error) {
         console.error('Error in updateOrderStatus:', error)
+        return {}
+    }
+}
+
+export async function deleteOrder(orderId) {
+    try {
+        const response = await AxiosInstance.delete(`/orders/${orderId}`)
+        return response.data.data
+    } catch (error) {
+        console.error('Error in deleteOrder:', error)
         return {}
     }
 }

@@ -3,11 +3,13 @@ import { PayPalButtons } from '@paypal/react-paypal-js'
 import { updateOrderStatus } from '../../../controller/OrderController'
 import { useNavigate } from 'react-router-dom'
 import { useToast } from '../../../providers/ToastProvider'
+import { useProducts } from '../../../providers/ProductsProvider'
 
 const PaypalButton = ({ items, invoice, shippingCost, createOrder }) => {
     const [invoiceId, setInvoiceId] = useState(null)
     const navigate = useNavigate()
     const showToast = useToast()
+    const { clearAllProducts } = useProducts()
 
     // Calcula el subtotal sumando el precio * cantidad de cada item
     const calculateSubtotal = () => {
@@ -69,15 +71,38 @@ const PaypalButton = ({ items, invoice, shippingCost, createOrder }) => {
                 })
             }}
             onApprove={async (data, actions) => {
-                const order = await actions.order.capture()
-                setInvoiceId((currentInvoiceId) => {
-                    updateOrderStatus(currentInvoiceId, 'Approved')
-                    return currentInvoiceId
-                })
-                showToast('success', 'Purchase Operation Result', 'Purchase approved successfully')
-                navigate('/')
+                try {
+                    const order = await actions.order.capture()
+                    console.log(order)
+
+                    await new Promise((resolve) => {
+                        setInvoiceId((currentInvoiceId) => {
+                            updateOrderStatus(currentInvoiceId, 'Approved')
+                                .then(() => {
+                                    console.log('Orden actualizada exitosamente')
+                                    resolve()
+                                })
+                                .catch((error) => {
+                                    console.error('Error al actualizar la orden:', error)
+                                    resolve()
+                                })
+                            return currentInvoiceId
+                        })
+                    })
+
+                    showToast('success', 'Purchase Operation Result', 'Purchase approved successfully')
+                    clearAllProducts()
+                    navigate('/')
+                } catch (error) {
+                    console.error('Error en onApprove:', error)
+                    showToast('error', 'Purchase Operation Error', 'There was an error processing your purchase')
+                }
             }}
             onCancel={() => {
+                setInvoiceId((currentInvoiceId) => {
+                    deleteOrder(currentInvoiceId)
+                    return currentInvoiceId
+                })
                 showToast('error', 'Purchase Operation Result', 'Purchase canceled')
             }}
         />

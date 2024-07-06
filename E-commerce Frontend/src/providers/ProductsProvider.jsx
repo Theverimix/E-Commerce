@@ -26,6 +26,10 @@ export const ProductsProvider = ({ children }) => {
         })
     }
 
+    const clearAllProducts = () => {
+        setAllProducts([])
+    }
+
     const removeProduct = (productId) => {
         setAllProducts((prevProducts) => prevProducts.filter((p) => p.id !== productId))
     }
@@ -50,6 +54,7 @@ export const ProductsProvider = ({ children }) => {
                 removeProduct,
                 totalProducts,
                 updateProductAmount,
+                clearAllProducts,
             }}
         >
             {children}
