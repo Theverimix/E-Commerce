@@ -36,6 +36,7 @@ export const ProductsProvider = ({ children }) => {
         )
     }
 
+    //Products count
     const totalProducts = () => {
         return allProducts.reduce((total, product) => total + product.amount, 0)
     }

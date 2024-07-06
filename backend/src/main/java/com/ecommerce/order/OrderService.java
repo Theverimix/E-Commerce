@@ -46,7 +46,7 @@ public class OrderService {
                                 .collect(Collectors.toList());
         }
 
-        public void saveOrder(OrderRegistrationRequest dto) {
+        public Long saveOrder(OrderRegistrationRequest dto) {
                 Customer customer = customerRepository.findById(dto.customerId())
                         .orElseThrow(() -> new EntityNotFoundException(
                                 "Customer with id [%s] not found.".formatted(dto.customerId())));
@@ -56,10 +56,11 @@ public class OrderService {
                 order.setAddressDetail(dto.addressDetail());
                 order.setAddressState(dto.addressState());
                 order.setAddressCity(dto.addressCity());
+                order.setFullname(dto.fullname());
                 order.setZipCode(dto.zipCode());
                 order.setOptionalComment(dto.optionalComment());
                 order.setCustomer(customer);
-                order.setStatus(OrderStatus.IN_PROCESS);
+                order.setStatus(OrderStatus.PENDING);
                 List<OrderDetail> details = dto.details().stream()
                         .map(detail -> OrderDetail.builder()
                                 .id(new OrderDetailKey(detail.productId(), order.getId()))
@@ -73,7 +74,24 @@ public class OrderService {
                 order.setCreatedAt(LocalDateTime.now());
 
                 orderRepository.save(order);
+                return order.getId();
         }
+
+        public Order updateOrderStatus(Long orderId, String newStatus) {
+                Order order = orderRepository.findById(orderId)
+                        .orElseThrow(() -> new EntityNotFoundException("Order not found with id: " + orderId));
+            
+                try {
+                    // Convierte el String a OrderStatus
+                    OrderStatus status = OrderStatus.valueOf(newStatus.toUpperCase());
+                    order.setStatus(status);
+                } catch (IllegalArgumentException e) {
+                    // Manejo del caso en que el nuevo estado no es válido
+                    throw new IllegalArgumentException("Invalid status: " + newStatus.toUpperCase());
+                }
+            
+                return orderRepository.save(order);
+            }
 
         // TODO
         public void updateOrder(Long id, OrderRegistrationRequest dto) {

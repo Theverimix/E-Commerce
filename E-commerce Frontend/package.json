@@ -11,6 +11,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@paypal/react-paypal-js": "^8.5.0",
     "@tabler/icons-react": "^2.47.0",
     "@tiptap/extension-link": "^2.2.4",
     "@tiptap/react": "^2.2.4",

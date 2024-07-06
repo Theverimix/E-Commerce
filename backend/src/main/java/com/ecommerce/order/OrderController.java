@@ -3,8 +3,16 @@ package com.ecommerce.order;
 import java.util.List;
 
 import com.ecommerce.exception.ApiResponse;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
@@ -28,8 +36,19 @@ public class OrderController {
 
     @PostMapping
     public ApiResponse saveOrder(@RequestBody @Valid OrderRegistrationRequest order) {
-        orderService.saveOrder(order);
-        return ApiResponse.created();
+        Long id = orderService.saveOrder(order);
+        return ApiResponse.created().data(id);
+    }
+
+    @PatchMapping("/{orderId}")
+    public ApiResponse updateOrderStatus(
+        @PathVariable Long orderId,
+        @RequestBody String statusJson) throws JsonMappingException, JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode jsonNode = mapper.readTree(statusJson);
+        String status = jsonNode.get("status").asText();
+        Order updatedOrder = orderService.updateOrderStatus(orderId, status);
+        return ApiResponse.updated().data(updatedOrder);
     }
 
     @PutMapping("/{orderId}")

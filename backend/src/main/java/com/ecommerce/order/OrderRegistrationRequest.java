@@ -12,6 +12,7 @@ public record OrderRegistrationRequest(
                 @NotNull @PositiveOrZero Long customerId,
                 @NotBlank @Size(min = 3) String address,
                 String addressDetail,
+                @NotBlank String fullname,
                 @NotBlank String addressState,
                 @NotBlank String addressCity,
                 @NotNull @PositiveOrZero Integer zipCode,

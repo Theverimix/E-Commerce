@@ -8,7 +8,7 @@ import { Skeleton } from 'primereact/skeleton'
 export default function cartSummary({ products, isLoading }) {
     const navigate = useNavigate()
 
-    const shippingCost = 134 // Asumiendo que el costo de envío es fijo
+    const shippingCost = 10 // Asumiendo que el costo de envío es fijo
 
     const { subtotal, total } = useMemo(() => {
         const subtotal = products.reduce((acc, product) => {
@@ -50,7 +50,9 @@ export default function cartSummary({ products, isLoading }) {
                     <Button
                         className='w-full mt-4'
                         label='Continue to Shipping'
-                        onClick={() => navigate('/checkout')}
+                        onClick={() =>
+                            navigate('/checkout', { state: { shippingCost: shippingCost, products: products } })
+                        }
                     ></Button>
                 </>
             )}

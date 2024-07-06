@@ -17,3 +17,22 @@ export async function getOrdersByCustomer(id) {
         return []
     }
 }
+
+export async function createOrder(order) {
+    try {
+        const response = await AxiosInstance.post('/orders', order)
+        return response.data.data
+    } catch (error) {
+        console.error('Error fetching data:', error)
+        return {}
+    }
+}
+
+export async function updateOrderStatus(orderId, status) {
+    try {
+        const response = await AxiosInstance.patch(`/orders/${orderId}`, { status: 'Approved' })
+    } catch (error) {
+        console.error('Error in updateOrderStatus:', error)
+        return {}
+    }
+}

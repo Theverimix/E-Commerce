@@ -4,6 +4,8 @@ import Footer from './components/footer/Footer.jsx'
 
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
+import { PayPalScriptProvider } from '@paypal/react-paypal-js'
+
 import '/node_modules/primeflex/primeflex.css'
 import '../src/styles/appWeb.css'
 import '/node_modules/primeflex/primeflex.css'
@@ -42,50 +44,56 @@ function AppWeb() {
 
     return (
         <>
-            <ToastProvider>
-                <ProductsProvider>
-                    <BrowserRouter>
-                        <Header />
-                        <div id='content' className='flex justify-content-center w-full'>
-                            <div className='sm:w-full md:w-10 lg:w-9'>
-                                <Suspense>
-                                    <Routes>
-                                        <Route path='/' element={<Home />} />
-                                        <Route path='/home' element={<Home />} />
-                                        <Route path='/products' element={<Catalog />} />
-                                        <Route path='/products/:id' element={<ProductPage />} />
-                                        <Route path='/cart' element={<ShopCart />} />
-                                        <Route path='/checkout' element={<CheckoutPage />} />
-                                        <Route path='/confirmation' element={<ProductPage />} />
-                                        <Route path='/account' element={<Account />}>
-                                            <Route path='profile' element={<ProfileCard />}>
-                                                <Route path='' element={<Profile />} />
-                                                <Route path='data' element={<PersonalData />} />
+            <PayPalScriptProvider
+                options={{
+                    'client-id': 'AXB9apXFIcKwWuxuX54S4zJf9-gmQI-_NQP-ILj-cpvgqMbkCSuTprZPma7f-HLVcSnzbYa-buaBebHK',
+                }}
+            >
+                <ToastProvider>
+                    <ProductsProvider>
+                        <BrowserRouter>
+                            <Header />
+                            <div id='content' className='flex justify-content-center w-full'>
+                                <div className='sm:w-full md:w-10 lg:w-9'>
+                                    <Suspense>
+                                        <Routes>
+                                            <Route path='/' element={<Home />} />
+                                            <Route path='/home' element={<Home />} />
+                                            <Route path='/products' element={<Catalog />} />
+                                            <Route path='/products/:id' element={<ProductPage />} />
+                                            <Route path='/cart' element={<ShopCart />} />
+                                            <Route path='/checkout' element={<CheckoutPage />} />
+                                            <Route path='/confirmation' element={<ProductPage />} />
+                                            <Route path='/account' element={<Account />}>
+                                                <Route path='profile' element={<ProfileCard />}>
+                                                    <Route path='' element={<Profile />} />
+                                                    <Route path='data' element={<PersonalData />} />
+                                                </Route>
+                                                <Route path='orders' element={<OrderPage />} />
                                             </Route>
-                                            <Route path='orders' element={<OrderPage />} />
-                                        </Route>
-                                        <Route path='/search' element={<ProductPage />} />
-                                        <Route path='/terms' element={<ProductPage />} />
-                                        <Route path='/contact' element={<ProductPage />} />
-                                        <Route path='/pruebas' element={<Welcome />} />
-                                        <Route path='/admin/products' element={<ProductAdminPage />}>
-                                            <Route path='list' element={<ProductTable />} />
-                                            <Route path='new' element={<ProductPanel />} />
-                                            <Route path=':id' element={<ProductPanel />} />
-                                        </Route>
-                                        <Route path='/auth' element={<AuthPage />}>
-                                            <Route path='login' element={<Login />} />
-                                            <Route path='signup' element={<Register />} />
-                                        </Route>
-                                        <Route path='/error' element={<ErrorPage />} />
-                                    </Routes>
-                                </Suspense>
+                                            <Route path='/search' element={<ProductPage />} />
+                                            <Route path='/terms' element={<ProductPage />} />
+                                            <Route path='/contact' element={<ProductPage />} />
+                                            <Route path='/pruebas' element={<Welcome />} />
+                                            <Route path='/admin/products' element={<ProductAdminPage />}>
+                                                <Route path='list' element={<ProductTable />} />
+                                                <Route path='new' element={<ProductPanel />} />
+                                                <Route path=':id' element={<ProductPanel />} />
+                                            </Route>
+                                            <Route path='/auth' element={<AuthPage />}>
+                                                <Route path='login' element={<Login />} />
+                                                <Route path='signup' element={<Register />} />
+                                            </Route>
+                                            <Route path='/error' element={<ErrorPage />} />
+                                        </Routes>
+                                    </Suspense>
+                                </div>
                             </div>
-                        </div>
-                        <Footer />
-                    </BrowserRouter>
-                </ProductsProvider>
-            </ToastProvider>
+                            <Footer />
+                        </BrowserRouter>
+                    </ProductsProvider>
+                </ToastProvider>
+            </PayPalScriptProvider>
         </>
     )
 }
