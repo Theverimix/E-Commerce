@@ -3,7 +3,7 @@ package com.ecommerce.order;
 import com.ecommerce.customer.CustomerResponse;
 import com.ecommerce.order.detail.OrderDetailResponse;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 public record OrderResponse(
@@ -17,5 +17,6 @@ public record OrderResponse(
         int zipCode,
         String optionalComment,
         String status,
+        LocalDateTime createdAt,
         Set<OrderDetailResponse> details
 ) {}

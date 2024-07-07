@@ -9,8 +9,12 @@ services:
           path: ./E-commerce Frontend/
           target: /app
   backend:
-    build:
+    build: 
       context: ./backend/
       dockerfile: Dockerfile
     ports:
       - "8080:8080"
+    volumes:
+      - ./backend:/app
+    command: ./mvnw spring-boot:run
+

@@ -4,18 +4,13 @@ import java.util.List;
 
 import com.ecommerce.address.AddressRequest;
 import com.ecommerce.exception.ApiResponse;
+import com.ecommerce.order.OrderLastTime;
 import com.ecommerce.order.OrderResponse;
 import com.ecommerce.order.OrderService;
 
 import jakarta.validation.Valid;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import lombok.RequiredArgsConstructor;
 
@@ -40,15 +35,19 @@ public class CustomerController {
     }
 
     @GetMapping("/{customerId}/orders")
-    public ApiResponse getOrdersByCustomer(@PathVariable Long customerId) {
-        List<OrderResponse> orders = orderService.getOrdersByCustomer(customerId);
+    public ApiResponse getOrdersByCustomer(
+            @PathVariable Long customerId,
+            @RequestParam(name = "filter", required = false, defaultValue = "ALL_TIME") String filter
+    ) {
+        List<OrderResponse> orders = orderService.getOrdersByCustomer(customerId, filter);
         return ApiResponse.ok(orders);
     }
 
     @PutMapping("/{customerId}")
     public ApiResponse updateCustomer(
             @PathVariable Long customerId,
-            @RequestBody @Valid CustomerUpdateRequest request) {
+            @RequestBody @Valid CustomerUpdateRequest request
+    ) {
         service.updateCustomer(customerId, request);
         return ApiResponse.updated();
     }
@@ -56,14 +55,16 @@ public class CustomerController {
     @PutMapping("/{customerId}/address")
     public ApiResponse updateCustomerAddress(
             @PathVariable Long customerId,
-            @RequestBody @Valid AddressRequest request) {
+            @RequestBody @Valid AddressRequest request
+    ) {
         service.updateCustomerAddress(customerId, request);
         return ApiResponse.updated();
     }
 
     @PostMapping("/{customerId}/address")
     public ApiResponse saveCustomerAddress(
-            @RequestBody @Valid AddressRequest request) {
+            @RequestBody @Valid AddressRequest request
+    ) {
         service.saveCustomerAddress(request);
         return ApiResponse.created();
     }

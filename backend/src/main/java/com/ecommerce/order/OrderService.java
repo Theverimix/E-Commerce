@@ -1,7 +1,10 @@
 package com.ecommerce.order;
 
 import java.time.LocalDateTime;
+import java.util.EnumMap;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import com.ecommerce.customer.Customer;
@@ -37,13 +40,27 @@ public class OrderService {
                                 .collect(Collectors.toList());
         }
 
-        public List<OrderResponse> getOrdersByCustomer(Long idCustomer) {
+        public List<OrderResponse> getOrdersByCustomer(Long idCustomer, String filter) {
                 Customer customer = customerRepository.findById(idCustomer)
-                                .orElseThrow(() -> new EntityNotFoundException(
-                                                "Customer with id [%s] not found.".formatted(idCustomer)));
-                return orderRepository.findByCustomer(customer).stream()
-                                .map(dtoMapper)
-                                .collect(Collectors.toList());
+                        .orElseThrow(() -> new EntityNotFoundException("Customer with id [%s] not found.".formatted(idCustomer)));
+
+                Map<OrderLastTime, Supplier<List<Order>>> actions = new EnumMap<>(OrderLastTime.class);
+                actions.put(OrderLastTime.ALL_TIME, () -> orderRepository.findByCustomer(customer));
+                actions.put(OrderLastTime.LAST_YEAR, () -> orderRepository.findByCustomerAndCreatedAtAfter(customer, LocalDateTime.now().minusYears(1)));
+                actions.put(OrderLastTime.LAST_MONTH, () -> orderRepository.findByCustomerAndCreatedAtAfter(customer, LocalDateTime.now().minusMonths(1)));
+                actions.put(OrderLastTime.LAST_WEEK, () -> orderRepository.findByCustomerAndCreatedAtAfter(customer, LocalDateTime.now().minusDays(7)));
+
+                OrderLastTime type = OrderLastTime.ALL_TIME;
+                for (OrderLastTime x : OrderLastTime.values()){
+                        if (x.name().equals(filter)) {
+                                type = x;
+                        }
+                }
+
+                return actions.get(type).get()
+                        .stream()
+                        .map(dtoMapper)
+                        .collect(Collectors.toList());
         }
 
         public Long saveOrder(OrderRegistrationRequest dto) {

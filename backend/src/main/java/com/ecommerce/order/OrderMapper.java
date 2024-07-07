@@ -27,6 +27,7 @@ public class OrderMapper implements Function<Order, OrderResponse> {
                 order.getZipCode(),
                 order.getOptionalComment(),
                 order.getStatus().getName(),
+                order.getCreatedAt(),
                 order.getDetails().stream()
                         .map(detailMapper)
                         .collect(Collectors.toSet())

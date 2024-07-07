@@ -1,5 +1,14 @@
 FROM openjdk:17-jdk-alpine
-ARG JAR_FILE=target/*.jar
-COPY ${JAR_FILE} app.jar
+WORKDIR /app
+
+COPY mvnw .
+COPY .mvn .mvn
+
+COPY pom.xml ./
+COPY src ./src
+
+RUN chmod +x ./mvnw
+RUN ./mvnw package -DskipTests
+
 EXPOSE 8080
-ENTRYPOINT ["java","-jar","/app.jar"]
+CMD ["./mvnw", "spring-boot:run"]
