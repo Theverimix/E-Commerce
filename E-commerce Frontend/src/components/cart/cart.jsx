@@ -63,13 +63,15 @@ export default function Cart() {
 
     return (
         <div>
-            <h1 className='cart-title'>Your Cart</h1>
-            <p className='cart-subtitle'>
-                Not ready to checkout?{' '}
-                <Link style={{ textDecoration: 'none' }} to='/'>
-                    Continue Shopping
-                </Link>
-            </p>
+            <div className='ml-3'>
+                <h1 className='mb-0'>Your Cart</h1>
+                <p className='mt-0'>
+                    Not ready to checkout?{' '}
+                    <Link style={{ textDecoration: 'none' }} to='/'>
+                        Continue Shopping
+                    </Link>
+                </p>
+            </div>
             <div className='grid m-auto mb-6'>
                 <div className='col'>
                     <ProductList
@@ -85,7 +87,12 @@ export default function Cart() {
                 </div>
                 <div className='col-4 justify-content-center text'>
                     <h2 className='text-center'>Order Summary</h2>
-                    <CartSummary products={productsWithQuantity} isLoading={isLoading} />
+                    <CartSummary
+                        products={productsWithQuantity}
+                        isLoading={isLoading}
+                        continueBtn={true}
+                        cupon={true}
+                    />
                 </div>
             </div>
         </div>

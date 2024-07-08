@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { InputText } from 'primereact/inputtext'
 import { Button } from 'primereact/button'
 import { Stepper } from 'primereact/stepper'
@@ -11,20 +11,85 @@ import { useLocation } from 'react-router-dom'
 import { extractIdfromToken } from '../../utils/JwtUtils'
 import { createOrder } from '../../controller/OrderController'
 
+import CartSummary from '../../components/cart/cartSummary'
+import AxiosInstanceNoToken from '../../controller/AxiosInstanceNoToken'
+import { getProductsByIds } from '../../controller/ProductController'
+import { useProducts } from '../../providers/ProductsProvider'
+import LocationForm from '../../components/LocationForm/LocationForm'
 export default function CheckoutPage() {
     const stepperRef = useRef(null)
     const location = useLocation()
     const shippingCost = location.state?.shippingCost
-    const products = location.state?.products
+    const [products, setProducts] = useState([])
+    const { allProducts } = useProducts()
+    const [isLoading, setIsLoading] = useState(true)
 
     const [Firstname, setFirstname] = useState('')
     const [Lastname, setLastname] = useState('')
     const [Address, setAddress] = useState('')
     const [AddressDetail, setAddressDetail] = useState('')
-    const [AddressState, setAddressState] = useState('')
-    const [AddressCity, setAddressCity] = useState('')
+    const [selectedCountry, setSelectedCountry] = useState(null)
+    const [selectedState, setSelectedState] = useState(null)
+    const [selectedCity, setSelectedCity] = useState(null)
     const [ZipCode, setZipCode] = useState('')
     const [OptionalComment, setOptionalComment] = useState('')
+
+    const productsWithQuantity = useMemo(() => {
+        return products.map((product) => {
+            const matchedProduct = allProducts.find((p) => p.id === product.id)
+            return {
+                ...product,
+                quantity: matchedProduct ? matchedProduct.amount : 0,
+            }
+        })
+    }, [products, allProducts])
+
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                if (!location.state?.products) {
+                    // Si no hay productos en location.state, hacer llamada al backend
+                    const productsIds = allProducts.map((product) => product.id)
+
+                    if (productsIds.length === 0) {
+                        setProducts([])
+                        return
+                    }
+
+                    const response = await getProductsByIds(productsIds)
+
+                    setProducts(response)
+                } else {
+                    // Si hay productos en location.state, usarlos
+                    setProducts(location.state.products)
+                }
+            } catch (error) {
+                console.error('Error fetching products:', error)
+                // Manejar el error aquí (por ejemplo, mostrar un mensaje al usuario)
+            } finally {
+                setIsLoading(false)
+            }
+        }
+
+        fetchProducts()
+    }, [allProducts])
+
+    const handleCountryChange = (country) => {
+        setSelectedCountry(country)
+        // Reset state and city if necessary
+        setSelectedState(null)
+        setSelectedCity(null)
+    }
+
+    const handleStateChange = (state) => {
+        setSelectedState(state)
+        // Reset city if necessary
+        setSelectedCity(null)
+    }
+
+    const handleCityChange = (city) => {
+        setSelectedCity(city)
+    }
 
     const handleCreateOrder = async () => {
         const order = {
@@ -32,10 +97,9 @@ export default function CheckoutPage() {
             address: Address,
             addressDetail: AddressDetail,
             fullname: Firstname + ' ' + Lastname,
-            // addressState: AddressState,
-            addressState: 'AddressState',
-            // addressCity: AddressCity,
-            addressCity: 'AddressCity',
+            // addressCountry: selectedCountry,
+            addressState: selectedState,
+            addressCity: selectedCity,
             zipCode: ZipCode,
             optionalComment: OptionalComment,
             details: products.map((product) => ({
@@ -49,83 +113,10 @@ export default function CheckoutPage() {
         return response
     }
 
-    // TODO : Solucionar los cascade de city y state ademas de agregar el de country
-
-    // const cities = [
-    //     {
-    //         label: 'USA',
-    //         code: 'USA',
-    //         items: [
-    //             { label: 'New York', code: 'NY' },
-    //             { label: 'Los Angeles', code: 'LA' },
-    //         ],
-    //     },
-    //     {
-    //         label: 'Germany',
-    //         code: 'DE',
-    //         items: [
-    //             { label: 'Berlin', code: 'BE' },
-    //             { label: 'Munich', code: 'MU' },
-    //         ],
-    //     },
-    // ]
-
-    // const handleCityChange = (e) => {
-    //     setAddressCity(e.value)
-    // }
-
-    // const countries = [
-    //     {
-    //         label: 'USA',
-    //         code: 'USA',
-    //         items: [
-    //             {
-    //                 label: 'California',
-    //                 code: 'CA',
-    //                 items: [
-    //                     { label: 'Los Angeles', code: 'LA' },
-    //                     { label: 'San Francisco', code: 'SF' },
-    //                 ],
-    //             },
-    //             {
-    //                 label: 'New York',
-    //                 code: 'NY',
-    //                 items: [
-    //                     { label: 'New York City', code: 'NYC' },
-    //                     { label: 'Buffalo', code: 'BF' },
-    //                 ],
-    //             },
-    //         ],
-    //     },
-    //     {
-    //         label: 'Germany',
-    //         code: 'DE',
-    //         items: [
-    //             {
-    //                 label: 'Bavaria',
-    //                 code: 'BY',
-    //                 items: [
-    //                     { label: 'Munich', code: 'MU' },
-    //                     { label: 'Nuremberg', code: 'NU' },
-    //                 ],
-    //             },
-    //             {
-    //                 label: 'Berlin',
-    //                 code: 'BE',
-    //                 items: [{ label: 'Berlin', code: 'BL' }],
-    //             },
-    //         ],
-    //     },
-    // ]
-
-    // const handleStateChange = (e) => {
-    //     setAddressState(e.value)
-    // }
-
     return (
         <div>
-            <h1>Checkout</h1>
-            <div className='w-full h-screen grid '>
+            <h1 className='ml-3'>Checkout</h1>
+            <div className='w-full h-screen grid gap-3'>
                 <div className='col'>
                     <Stepper ref={stepperRef} style={{ flexBasis: '50rem' }}>
                         <StepperPanel header='Address'>
@@ -156,28 +147,17 @@ export default function CheckoutPage() {
                                 value={AddressDetail}
                                 onChange={(e) => setAddressDetail(e.target.value)}
                             ></InputText>
-                            <div className='flex mb-3 gap-3'>
-                                <CascadeSelect
-                                    className='w-full'
-                                    placeholder='State'
-                                    value={AddressState}
-                                    // options={countries}
-                                    // onChange={handleStateChange}
-                                ></CascadeSelect>
-                                <CascadeSelect
-                                    className='w-full'
-                                    placeholder='City'
-                                    value={AddressCity}
-                                    // options={cities}
-                                    // onChange={handleCityChange}
-                                ></CascadeSelect>
-                                <InputText
-                                    className='w-full'
-                                    placeholder='Zipcode'
-                                    value={ZipCode}
-                                    onChange={(e) => setZipCode(e.target.value)}
-                                ></InputText>
-                            </div>
+                            <LocationForm
+                                onCountryChange={handleCountryChange}
+                                onStateChange={handleStateChange}
+                                onCityChange={handleCityChange}
+                            ></LocationForm>
+                            <InputText
+                                className='w-full my-3 '
+                                placeholder='Zipcode'
+                                value={ZipCode}
+                                onChange={(e) => setZipCode(e.target.value)}
+                            ></InputText>
                             <InputText
                                 className='w-full'
                                 placeholder='Optional'
@@ -191,6 +171,12 @@ export default function CheckoutPage() {
                                 iconPos='right'
                                 onClick={() => stepperRef.current.nextCallback()}
                             ></Button>
+                            <div>
+                                <h3>Datos Seleccionados</h3>
+                                <p>País: {selectedCountry ? selectedCountry.name : '-'}</p>
+                                <p>Estado: {selectedState ? selectedState.name : '-'}</p>
+                                <p>Ciudad: {selectedCity ? selectedCity.name : '-'}</p>
+                            </div>
                         </StepperPanel>
                         <StepperPanel header='Payment'>
                             <div className='flex gap-3'>
@@ -226,8 +212,10 @@ export default function CheckoutPage() {
                         </StepperPanel>
                     </Stepper>
                 </div>
-                <div className='col'></div>
-                <h1>Shipping information</h1>
+                <div className='col-4 justify-content-center text'>
+                    <h2 className='text-center'>Order Summary</h2>
+                    <CartSummary products={productsWithQuantity} isLoading={isLoading} />
+                </div>
             </div>
         </div>
     )

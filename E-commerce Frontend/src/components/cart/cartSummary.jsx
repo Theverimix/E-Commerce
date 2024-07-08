@@ -5,7 +5,7 @@ import { InputText } from 'primereact/inputtext'
 import { useNavigate } from 'react-router-dom'
 import { Skeleton } from 'primereact/skeleton'
 
-export default function cartSummary({ products, isLoading }) {
+export default function cartSummary({ products, isLoading, cupon = false, continueBtn = false }) {
     const navigate = useNavigate()
 
     const shippingCost = 10 // Asumiendo que el costo de envío es fijo
@@ -33,27 +33,40 @@ export default function cartSummary({ products, isLoading }) {
                 </>
             ) : (
                 <>
-                    <InputText className='w-full mb-3' placeholder='Enter coupon code here'></InputText>
-                    <div className='flex justify-content-between flex-wrap'>
-                        <span>Subtotal</span>
-                        <span>${subtotal.toFixed(2)}</span>
-                    </div>
-                    <div className='flex justify-content-between flex-wrap mt-2'>
+                    {cupon && <InputText className='w-full mb-3' placeholder='Enter coupon code here'></InputText>}
+
+                    {products.map((product, index) => (
+                        <div key={index} className='flex justify-content-between flex-wrap mb-2 text-600'>
+                            <span>
+                                {product.name} x {product.quantity}
+                            </span>
+                            <span>${(product.price * product.quantity).toFixed(2)}</span>
+                        </div>
+                    ))}
+                    <Divider></Divider>
+                    <div className='flex justify-content-between flex-wrap mb-2 text-600'>
                         <span>Shipping</span>
                         <span>${shippingCost.toFixed(2)}</span>
                     </div>
+                    <div className='flex justify-content-between flex-wrap text-600'>
+                        <span>Subtotal</span>
+                        <span>${subtotal.toFixed(2)}</span>
+                    </div>
+
                     <Divider></Divider>
                     <div className='flex justify-content-between flex-wrap'>
                         <span>Total</span>
                         <span>${total.toFixed(2)}</span>
                     </div>
-                    <Button
-                        className='w-full mt-4'
-                        label='Continue to Shipping'
-                        onClick={() =>
-                            navigate('/checkout', { state: { shippingCost: shippingCost, products: products } })
-                        }
-                    ></Button>
+                    {continueBtn && (
+                        <Button
+                            className='w-full mt-4'
+                            label='Continue to Shipping'
+                            onClick={() =>
+                                navigate('/checkout', { state: { shippingCost: shippingCost, products: products } })
+                            }
+                        ></Button>
+                    )}
                 </>
             )}
         </div>
