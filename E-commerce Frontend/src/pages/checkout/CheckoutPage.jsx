@@ -73,6 +73,13 @@ export default function CheckoutPage() {
             showToast('error', 'Error', 'Please fill in all required fields')
         }
     }
+    const handleContinueToPayment2 = () => {
+        if (validateForm()) {
+            stepperRef.current.nextCallback()
+        } else {
+            showToast('error', 'Error', 'NASHE')
+        }
+    }
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -200,6 +207,13 @@ export default function CheckoutPage() {
                                 icon='pi pi-arrow-right'
                                 iconPos='right'
                                 onClick={handleContinueToPayment}
+                            />
+                            <Button
+                                className='w-full font-semibold mt-3'
+                                label='Continue to Payment'
+                                icon='pi pi-arrow-right'
+                                iconPos='right'
+                                onClick={handleContinueToPayment2}
                             />
                         </StepperPanel>
                         <StepperPanel header='Payment'>

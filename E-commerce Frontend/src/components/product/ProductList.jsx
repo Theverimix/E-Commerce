@@ -12,6 +12,7 @@ import { calculateDiscountedPrice } from '../../utils/ProductUtils'
 import { InputNumber } from 'primereact/inputnumber'
 import { debounce } from 'lodash'
 import AddToCartBtn from '../cart/AddToCartBtn'
+import CooldownBtn from '../CooldownBtn/CooldownBtn'
 
 export default function ProductList({
     handleRemoveProduct,
@@ -168,13 +169,14 @@ export default function ProductList({
                             ) : (
                                 <span className='text-2xl font-semibold text-primary'>${product.price}</span>
                             )}
-                            <Button
+                            <CooldownBtn
                                 visible={removeButton}
                                 className='product-list-button hover:text-yellow-300 cursor-pointer p-2'
                                 onClick={() => handleRemoveProduct(product)}
-                                text
+                                isText={true}
+                                isRemove={true}
                                 label='Remove'
-                            />
+                            ></CooldownBtn>
                             <AddToCartBtn product={product} visible={addToCartButton} />
                         </div>
                     </div>
