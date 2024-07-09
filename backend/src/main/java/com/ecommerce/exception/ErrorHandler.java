@@ -4,7 +4,6 @@ import jakarta.persistence.EntityNotFoundException;
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AccountStatusException;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.FieldError;
@@ -38,6 +37,12 @@ public class ErrorHandler {
     @ResponseStatus(UNAUTHORIZED)
     ApiResponse expiredJwtException(ExpiredJwtException e) {
         return ApiResponse.unauthorized("El token JWT ha expirado.").data(e.getMessage());
+    }
+
+    @ExceptionHandler(PageNotFoundException.class)
+    @ResponseStatus(NOT_FOUND)
+    ApiResponse pageNotFoundException(PageNotFoundException e) {
+        return ApiResponse.notFound("Page not found with id: " + e.getId());
     }
 
     @ExceptionHandler(ObjectNotFoundException.class)

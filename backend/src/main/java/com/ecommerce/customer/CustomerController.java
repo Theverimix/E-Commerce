@@ -4,10 +4,11 @@ import java.util.List;
 
 import com.ecommerce.address.AddressRequest;
 import com.ecommerce.exception.ApiResponse;
-import com.ecommerce.order.OrderLastTime;
+import com.ecommerce.exception.PageNotFoundException;
 import com.ecommerce.order.OrderResponse;
 import com.ecommerce.order.OrderService;
 
+import com.ecommerce.utils.PageResponse;
 import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.*;
@@ -37,9 +38,10 @@ public class CustomerController {
     @GetMapping("/{customerId}/orders")
     public ApiResponse getOrdersByCustomer(
             @PathVariable Long customerId,
+            @RequestParam(name = "page", defaultValue = "0") int page,
             @RequestParam(name = "filter", required = false, defaultValue = "ALL_TIME") String filter
-    ) {
-        List<OrderResponse> orders = orderService.getOrdersByCustomer(customerId, filter);
+    ) throws PageNotFoundException {
+        PageResponse<OrderResponse> orders = orderService.getOrdersByCustomer(page, 10, customerId, filter);
         return ApiResponse.ok(orders);
     }
 

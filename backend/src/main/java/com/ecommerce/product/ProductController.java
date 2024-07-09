@@ -16,7 +16,9 @@ public class ProductController {
     private final ProductService service;
 
     @GetMapping
-    ApiResponse getAllProducts(@RequestParam(name = "page", defaultValue = "0") int page) {
+    ApiResponse getAllProducts(
+            @RequestParam(name = "page", defaultValue = "0") int page
+    ) {
         ProductPageResponse products = service.getAllProducts(page);
         return ApiResponse.ok(products);
     }

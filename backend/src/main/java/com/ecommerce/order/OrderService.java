@@ -5,18 +5,26 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
 
 import com.ecommerce.customer.Customer;
 import com.ecommerce.customer.CustomerRepository;
+import com.ecommerce.exception.PageNotFoundException;
 import com.ecommerce.order.detail.OrderDetail;
 import com.ecommerce.order.detail.OrderDetailKey;
 import com.ecommerce.product.ProductRepository;
+import com.ecommerce.utils.PageResponse;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
+
+import static com.ecommerce.order.OrderSpecification.hasCreatedAfter;
+import static com.ecommerce.order.OrderSpecification.hasCustomer;
 
 @Service
 @RequiredArgsConstructor
@@ -34,33 +42,47 @@ public class OrderService {
                                                 "Order with id [%s] not found.".formatted(id)));
         }
 
-        public List<OrderResponse> getAllOrders() {
-                return orderRepository.findAll().stream()
-                                .map(dtoMapper)
-                                .collect(Collectors.toList());
+        public PageResponse<OrderResponse> getAllOrders(int pageNumber, int size) throws PageNotFoundException {
+                PageRequest pageRequest = PageRequest.of(pageNumber, size, Sort.by("id").ascending());
+                Page<Order> page = orderRepository.findAll(pageRequest);
+
+                if (pageNumber >= page.getTotalPages()) {
+                        throw new PageNotFoundException(pageNumber);
+                }
+
+                List<OrderResponse> pageContent = page.getContent().stream()
+                        .map(dtoMapper)
+                        .toList();
+
+                return new PageResponse<>(
+                        pageContent,
+                        page.getTotalPages(),
+                        page.getTotalElements()
+                );
         }
 
-        public List<OrderResponse> getOrdersByCustomer(Long idCustomer, String filter) {
+        public PageResponse<OrderResponse> getOrdersByCustomer(int pageNumber, int size, Long idCustomer, String filter) throws PageNotFoundException {
                 Customer customer = customerRepository.findById(idCustomer)
                         .orElseThrow(() -> new EntityNotFoundException("Customer with id [%s] not found.".formatted(idCustomer)));
 
-                Map<OrderLastTime, Supplier<List<Order>>> actions = new EnumMap<>(OrderLastTime.class);
-                actions.put(OrderLastTime.ALL_TIME, () -> orderRepository.findByCustomer(customer));
-                actions.put(OrderLastTime.LAST_YEAR, () -> orderRepository.findByCustomerAndCreatedAtAfter(customer, LocalDateTime.now().minusYears(1)));
-                actions.put(OrderLastTime.LAST_MONTH, () -> orderRepository.findByCustomerAndCreatedAtAfter(customer, LocalDateTime.now().minusMonths(1)));
-                actions.put(OrderLastTime.LAST_WEEK, () -> orderRepository.findByCustomerAndCreatedAtAfter(customer, LocalDateTime.now().minusDays(7)));
+                PageRequest pageRequest = PageRequest.of(pageNumber, size, Sort.Direction.ASC);
+                Specification<Order> specs = getSpecsByFilter(filter, customer);
 
-                OrderLastTime type = OrderLastTime.ALL_TIME;
-                for (OrderLastTime x : OrderLastTime.values()){
-                        if (x.name().equals(filter)) {
-                                type = x;
-                        }
+                Page<Order> page = orderRepository.findAll(specs, pageRequest);
+
+                if (pageNumber >= page.getTotalPages()) {
+                        throw new PageNotFoundException(pageNumber);
                 }
 
-                return actions.get(type).get()
-                        .stream()
+                List<OrderResponse> pageContent = page.getContent().stream()
                         .map(dtoMapper)
-                        .collect(Collectors.toList());
+                        .toList();
+                
+                return new PageResponse<>(
+                        pageContent,
+                        page.getTotalPages(),
+                        page.getTotalElements()
+                );
         }
 
         public Long saveOrder(OrderRegistrationRequest dto) {
@@ -130,5 +152,26 @@ public class OrderService {
                                 .orElseThrow(() -> new EntityNotFoundException(
                                                 "Order with id [%s] not found.".formatted(id)));
                 orderRepository.delete(order);
+        }
+
+        private Specification<Order> getSpecsByFilter(String filter, Customer customer) {
+                Specification<Order> specs = hasCustomer(customer);
+
+                Map<OrderLastTime, Supplier<Specification<Order>>> actions = new EnumMap<>(OrderLastTime.class);
+                actions.put(OrderLastTime.LAST_YEAR, () -> hasCreatedAfter(LocalDateTime.now().minusYears(1)));
+                actions.put(OrderLastTime.LAST_MONTH, () -> hasCreatedAfter(LocalDateTime.now().minusMonths(1)));
+                actions.put(OrderLastTime.LAST_WEEK, () -> hasCreatedAfter(LocalDateTime.now().minusWeeks(1)));
+
+                OrderLastTime type = OrderLastTime.ALL_TIME;
+                for (OrderLastTime x : OrderLastTime.values()) {
+                        if (x.name().equals(filter)) {
+                                type = x;
+                                break;
+                        }
+                }
+                Specification<Order> spec = actions.get(type).get();
+                specs.and(spec);
+
+                return specs;
         }
 }

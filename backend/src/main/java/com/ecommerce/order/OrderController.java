@@ -1,18 +1,14 @@
 package com.ecommerce.order;
 
-import java.util.List;
-
 import com.ecommerce.exception.ApiResponse;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.ecommerce.exception.PageNotFoundException;
+import com.ecommerce.utils.PageResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
@@ -23,8 +19,10 @@ public class OrderController {
     private final OrderService orderService;
 
     @GetMapping
-    public ApiResponse getAllOrders() {
-        List<OrderResponse> orders = orderService.getAllOrders();
+    public ApiResponse getAllOrders(
+            @RequestParam(name = "page", defaultValue = "0") int page
+    ) throws PageNotFoundException {
+        PageResponse<OrderResponse> orders = orderService.getAllOrders(page, 2);
         return ApiResponse.ok(orders);
     }
 
@@ -43,7 +41,8 @@ public class OrderController {
     @PatchMapping("/{orderId}")
     public ApiResponse updateOrderStatus(
         @PathVariable Long orderId,
-        @RequestBody String statusJson) throws JsonMappingException, JsonProcessingException {
+        @RequestBody String statusJson
+    ) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         JsonNode jsonNode = mapper.readTree(statusJson);
         String status = jsonNode.get("status").asText();

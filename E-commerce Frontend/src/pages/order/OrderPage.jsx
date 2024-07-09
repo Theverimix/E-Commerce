@@ -22,7 +22,7 @@ export default function OrderPage() {
             try {
                 const customerId = extractIdfromToken()
                 const response = await getOrdersByCustomer(customerId)
-                setOrders(response)
+                setOrders(response.reverse())
                 setIsLoading(false)
             } catch (error) {
                 console.error('Error:', error)
