@@ -49,7 +49,7 @@ function AppWeb() {
                     'client-id': 'AXB9apXFIcKwWuxuX54S4zJf9-gmQI-_NQP-ILj-cpvgqMbkCSuTprZPma7f-HLVcSnzbYa-buaBebHK',
                 }}
             >
-                <ToastProvider>
+                <ToastProvider maxToasts={3}>
                     <ProductsProvider>
                         <BrowserRouter>
                             <Header />

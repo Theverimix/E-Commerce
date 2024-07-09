@@ -3,19 +3,17 @@ import { InputText } from 'primereact/inputtext'
 import { Button } from 'primereact/button'
 import { Stepper } from 'primereact/stepper'
 import { StepperPanel } from 'primereact/stepperpanel'
-import { CascadeSelect } from 'primereact/cascadeselect'
 import CreditCardForm from '../../components/CreditCardForm/CreditCardForm'
 import PaypalButton from '../../components/Paypal/PaypalButton/PaypalButton'
 import { useLocation } from 'react-router-dom'
-
 import { extractIdfromToken } from '../../utils/JwtUtils'
 import { createOrder } from '../../controller/OrderController'
-
 import CartSummary from '../../components/cart/cartSummary'
-import AxiosInstanceNoToken from '../../controller/AxiosInstanceNoToken'
 import { getProductsByIds } from '../../controller/ProductController'
 import { useProducts } from '../../providers/ProductsProvider'
 import LocationForm from '../../components/LocationForm/LocationForm'
+import { useToast } from '../../providers/ToastProvider'
+
 export default function CheckoutPage() {
     const stepperRef = useRef(null)
     const location = useLocation()
@@ -23,7 +21,7 @@ export default function CheckoutPage() {
     const [products, setProducts] = useState([])
     const { allProducts } = useProducts()
     const [isLoading, setIsLoading] = useState(true)
-
+    const showToast = useToast()
     const [Firstname, setFirstname] = useState('')
     const [Lastname, setLastname] = useState('')
     const [Address, setAddress] = useState('')
@@ -44,11 +42,42 @@ export default function CheckoutPage() {
         })
     }, [products, allProducts])
 
+    const [validationErrors, setValidationErrors] = useState({
+        Firstname: false,
+        Lastname: false,
+        Address: false,
+        ZipCode: false,
+        selectedCountry: false,
+        selectedState: false,
+        selectedCity: false,
+    })
+
+    const validateForm = () => {
+        const errors = {
+            Firstname: Firstname.trim() === '',
+            Lastname: Lastname.trim() === '',
+            Address: Address.trim() === '',
+            ZipCode: ZipCode.trim() === '',
+            selectedCountry: selectedCountry === null,
+            selectedState: selectedState === null,
+            selectedCity: selectedCity === null,
+        }
+        setValidationErrors(errors)
+        return !Object.values(errors).some((error) => error === true)
+    }
+
+    const handleContinueToPayment = () => {
+        if (validateForm()) {
+            stepperRef.current.nextCallback()
+        } else {
+            showToast('error', 'Error', 'Please fill in all required fields')
+        }
+    }
+
     useEffect(() => {
         const fetchProducts = async () => {
             try {
                 if (!location.state?.products) {
-                    // Si no hay productos en location.state, hacer llamada al backend
                     const productsIds = allProducts.map((product) => product.id)
 
                     if (productsIds.length === 0) {
@@ -60,12 +89,10 @@ export default function CheckoutPage() {
 
                     setProducts(response)
                 } else {
-                    // Si hay productos en location.state, usarlos
                     setProducts(location.state.products)
                 }
             } catch (error) {
                 console.error('Error fetching products:', error)
-                // Manejar el error aquí (por ejemplo, mostrar un mensaje al usuario)
             } finally {
                 setIsLoading(false)
             }
@@ -76,14 +103,12 @@ export default function CheckoutPage() {
 
     const handleCountryChange = (country) => {
         setSelectedCountry(country)
-        // Reset state and city if necessary
         setSelectedState(null)
         setSelectedCity(null)
     }
 
     const handleStateChange = (state) => {
         setSelectedState(state)
-        // Reset city if necessary
         setSelectedCity(null)
     }
 
@@ -118,65 +143,64 @@ export default function CheckoutPage() {
             <h1 className='ml-3'>Checkout</h1>
             <div className='w-full h-screen grid gap-3'>
                 <div className='col'>
-                    <Stepper ref={stepperRef} style={{ flexBasis: '50rem' }}>
+                    <Stepper ref={stepperRef} style={{ flexBasis: '50rem' }} linear>
                         <StepperPanel header='Address'>
                             <h2>Shipping information</h2>
                             <div className='flex mb-3 gap-3'>
                                 <InputText
                                     className='w-full'
-                                    placeholder='Firstname'
+                                    placeholder='Firstname*'
                                     value={Firstname}
                                     onChange={(e) => setFirstname(e.target.value)}
-                                ></InputText>
+                                    invalid={validationErrors.Firstname}
+                                />
                                 <InputText
                                     className='w-full'
-                                    placeholder='Lastname'
+                                    placeholder='Lastname*'
                                     value={Lastname}
                                     onChange={(e) => setLastname(e.target.value)}
-                                ></InputText>
+                                    invalid={validationErrors.Lastname}
+                                />
                             </div>
                             <InputText
                                 className='w-full mb-3'
-                                placeholder='Address'
+                                placeholder='Address*'
                                 value={Address}
                                 onChange={(e) => setAddress(e.target.value)}
-                            ></InputText>
+                                invalid={validationErrors.Address}
+                            />
                             <InputText
                                 className='w-full mb-3'
                                 placeholder='Apartment, suite, etc. (optional)'
                                 value={AddressDetail}
                                 onChange={(e) => setAddressDetail(e.target.value)}
-                            ></InputText>
+                            />
                             <LocationForm
                                 onCountryChange={handleCountryChange}
                                 onStateChange={handleStateChange}
                                 onCityChange={handleCityChange}
-                            ></LocationForm>
+                                validationErrors={validationErrors}
+                            />
                             <InputText
-                                className='w-full my-3 '
-                                placeholder='Zipcode'
+                                className='w-full my-3'
+                                placeholder='Zipcode*'
                                 value={ZipCode}
                                 onChange={(e) => setZipCode(e.target.value)}
-                            ></InputText>
+                                invalid={validationErrors.ZipCode}
+                            />
                             <InputText
                                 className='w-full'
-                                placeholder='Optional'
+                                placeholder='Optional comment'
                                 value={OptionalComment}
                                 onChange={(e) => setOptionalComment(e.target.value)}
-                            ></InputText>
+                            />
                             <Button
                                 className='w-full font-semibold mt-3'
                                 label='Continue to Payment'
                                 icon='pi pi-arrow-right'
                                 iconPos='right'
-                                onClick={() => stepperRef.current.nextCallback()}
-                            ></Button>
-                            <div>
-                                <h3>Datos Seleccionados</h3>
-                                <p>País: {selectedCountry ? selectedCountry.name : '-'}</p>
-                                <p>Estado: {selectedState ? selectedState.name : '-'}</p>
-                                <p>Ciudad: {selectedCity ? selectedCity.name : '-'}</p>
-                            </div>
+                                onClick={handleContinueToPayment}
+                            />
                         </StepperPanel>
                         <StepperPanel header='Payment'>
                             <div className='flex gap-3'>
@@ -185,15 +209,11 @@ export default function CheckoutPage() {
                                     shippingCost={shippingCost}
                                     items={products}
                                     invoice='Factura #61372'
-                                ></PaypalButton>
-                                <Button
-                                    className='w-full font-semibold'
-                                    label='Credit card'
-                                    icon='pi pi-credit-card'
-                                ></Button>
+                                />
+                                <Button className='w-full font-semibold' label='Credit card' icon='pi pi-credit-card' />
                             </div>
                             <h2>Payment details</h2>
-                            <CreditCardForm></CreditCardForm>
+                            <CreditCardForm />
                             <div className='flex gap-3'>
                                 <Button
                                     className='w-full font-semibold'
@@ -201,13 +221,13 @@ export default function CheckoutPage() {
                                     icon='pi pi-arrow-left'
                                     outlined
                                     onClick={() => stepperRef.current.prevCallback()}
-                                ></Button>
+                                />
                                 <Button
                                     className='w-full font-semibold'
                                     label='Finish order'
                                     icon='pi pi-check'
                                     onClick={() => alert('Order placed')}
-                                ></Button>
+                                />
                             </div>
                         </StepperPanel>
                     </Stepper>

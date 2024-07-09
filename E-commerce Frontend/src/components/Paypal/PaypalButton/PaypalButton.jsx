@@ -37,7 +37,14 @@ const PaypalButton = ({ items, invoice, shippingCost, createOrder }) => {
     return (
         <PayPalButtons
             className='w-full flex justify-content-center align-items-center mx-2'
-            style={{ layout: 'horizontal', color: 'silver', label: 'pay', height: 40 }}
+            style={{
+                layout: 'horizontal',
+                color: 'silver',
+                label: 'paypal',
+                tagline: false,
+                shape: 'rect',
+                height: 40,
+            }}
             createOrder={async (data, actions) => {
                 await handleCreateOrder()
                 return actions.order.create({

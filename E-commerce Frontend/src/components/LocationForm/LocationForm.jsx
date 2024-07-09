@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Dropdown } from 'primereact/dropdown'
 import axios from 'axios' // Iconos de PrimeReact
 
-const LocationForm = ({ onCountryChange, onStateChange, onCityChange }) => {
+const LocationForm = ({ onCountryChange, onStateChange, onCityChange, validationErrors }) => {
     const [countries, setCountries] = useState([])
     const [selectedCountry, setSelectedCountry] = useState(null)
     const [states, setStates] = useState([])
@@ -11,7 +11,6 @@ const LocationForm = ({ onCountryChange, onStateChange, onCityChange }) => {
     const [selectedCity, setSelectedCity] = useState(null)
 
     useEffect(() => {
-        // Fetch countries from GeoNames API
         axios
             .get('http://api.geonames.org/countryInfoJSON', {
                 params: {
@@ -56,7 +55,6 @@ const LocationForm = ({ onCountryChange, onStateChange, onCityChange }) => {
     }
 
     const fetchCities = (countryCode, stateCode) => {
-        // Fetch cities based on selected state
         axios
             .get('http://api.geonames.org/searchJSON', {
                 params: {
@@ -83,12 +81,14 @@ const LocationForm = ({ onCountryChange, onStateChange, onCityChange }) => {
         <div className='grid grid-nogutter gap-3'>
             <Dropdown
                 className='col'
+                invalid={validationErrors.selectedCountry}
+                filter
                 value={selectedCountry}
                 options={countries}
                 optionLabel='name'
                 onChange={(e) => {
                     setSelectedCountry(e.value)
-                    setSelectedState(null) // Reset state and city on country change
+                    setSelectedState(null)
                     setSelectedCity(null)
                     if (onCountryChange) {
                         onCountryChange(e.value)
@@ -99,12 +99,14 @@ const LocationForm = ({ onCountryChange, onStateChange, onCityChange }) => {
             />
             <Dropdown
                 className='col'
+                invalid={validationErrors.selectedState}
+                filter
                 value={selectedState}
                 options={states}
                 optionLabel='name'
                 onChange={(e) => {
                     setSelectedState(e.value)
-                    setSelectedCity(null) // Reset city on state change
+                    setSelectedCity(null)
                     if (onStateChange) {
                         onStateChange(e.value)
                     }
@@ -115,6 +117,8 @@ const LocationForm = ({ onCountryChange, onStateChange, onCityChange }) => {
             />
             <Dropdown
                 className='col'
+                invalid={validationErrors.selectedCity}
+                filter
                 value={selectedCity}
                 options={cities}
                 optionLabel='name'
