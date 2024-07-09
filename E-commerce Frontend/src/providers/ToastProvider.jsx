@@ -6,24 +6,22 @@ const ToastContext = createContext()
 
 export const useToast = () => useContext(ToastContext)
 
-export const ToastProvider = ({ children, maxToasts = 3 }) => {
+export const ToastProvider = ({ children, maxToasts = 1 }) => {
     const toastRef = useRef(null)
     const [toastMessages, setToastMessages] = useState([])
 
     const showToast = (severity, summary, detail) => {
-        if (toastMessages.length < maxToasts) {
-            const newMessage = { severity, summary, detail }
-            setToastMessages((prev) => {
-                const updatedMessages = [...prev, newMessage]
-                toastRef.current.show(newMessage)
-                return updatedMessages
-            })
-        } else {
-            console.log('Máximo número de toasts alcanzado')
-        }
+        const newMessage = { severity, summary, detail }
+        setToastMessages((prev) => {
+            let updatedMessages = [...prev, newMessage]
+            if (updatedMessages.length > maxToasts) {
+                toastRef.current.clear()
+            }
+            toastRef.current.show(newMessage)
+            return updatedMessages
+        })
     }
 
-    // Remover un toast cuando se cierra
     const onHideToast = (index) => {
         setToastMessages((prev) => prev.filter((_, i) => i !== index))
     }

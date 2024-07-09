@@ -50,6 +50,7 @@ export default function Cart() {
     const handleRemoveProduct = useCallback(
         (product) => {
             removeProduct(product.id)
+            console.log('removed')
         },
         [removeProduct],
     )

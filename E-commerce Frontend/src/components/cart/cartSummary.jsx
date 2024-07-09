@@ -45,12 +45,12 @@ export default function cartSummary({ products, isLoading, cupon = false, contin
                     ))}
                     <Divider></Divider>
                     <div className='flex justify-content-between flex-wrap mb-2 text-600'>
-                        <span>Shipping</span>
-                        <span>${shippingCost.toFixed(2)}</span>
-                    </div>
-                    <div className='flex justify-content-between flex-wrap text-600'>
                         <span>Subtotal</span>
                         <span>${subtotal.toFixed(2)}</span>
+                    </div>
+                    <div className='flex justify-content-between flex-wrap text-600'>
+                        <span>Shipping</span>
+                        <span>${shippingCost.toFixed(2)}</span>
                     </div>
 
                     <Divider></Divider>
