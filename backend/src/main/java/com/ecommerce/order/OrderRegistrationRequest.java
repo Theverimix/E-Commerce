@@ -11,6 +11,7 @@ import jakarta.validation.constraints.Size;
 public record OrderRegistrationRequest(
                 @NotNull @PositiveOrZero Long customerId,
                 @NotBlank @Size(min = 3) String address,
+                @NotBlank String addressCountry,
                 String addressDetail,
                 @NotBlank String fullname,
                 @NotBlank String addressState,

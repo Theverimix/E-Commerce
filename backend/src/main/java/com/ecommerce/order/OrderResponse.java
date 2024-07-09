@@ -11,6 +11,7 @@ public record OrderResponse(
         String fullname,
         CustomerResponse customer,
         String address,
+        String addressCountry,
         String addressDetail,
         String addressState,
         String addressCity,

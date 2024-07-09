@@ -37,6 +37,9 @@ public class Order {
     @Column(nullable = false)
     private String address;
 
+    @Column(name = "address_country", nullable = true)
+    private String addressCountry;
+
     @Column(name = "address_detail")
     private String addressDetail;
 

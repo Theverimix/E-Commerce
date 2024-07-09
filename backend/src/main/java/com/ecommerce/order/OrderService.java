@@ -70,6 +70,7 @@ public class OrderService {
 
                 Order order = new Order();
                 order.setAddress(dto.address());
+                order.setAddressCountry(dto.addressCountry());
                 order.setAddressDetail(dto.addressDetail());
                 order.setAddressState(dto.addressState());
                 order.setAddressCity(dto.addressCity());
@@ -97,18 +98,12 @@ public class OrderService {
         public Order updateOrderStatus(Long orderId, String newStatus) {
                 Order order = orderRepository.findById(orderId)
                         .orElseThrow(() -> new EntityNotFoundException("Order not found with id: " + orderId));
-            
-                try {
-                    // Convierte el String a OrderStatus
-                    OrderStatus status = OrderStatus.valueOf(newStatus.toUpperCase());
-                    order.setStatus(status);
-                } catch (IllegalArgumentException e) {
-                    // Manejo del caso en que el nuevo estado no es válido
-                    throw new IllegalArgumentException("Invalid status: " + newStatus.toUpperCase());
-                }
-            
+
+                OrderStatus status = OrderStatus.valueOf(newStatus.toUpperCase());
+                order.setStatus(status);
+
                 return orderRepository.save(order);
-            }
+        }
 
         // TODO
         public void updateOrder(Long id, OrderRegistrationRequest dto) {

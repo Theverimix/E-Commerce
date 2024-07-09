@@ -21,6 +21,7 @@ public class OrderMapper implements Function<Order, OrderResponse> {
                 order.getFullname(),
                 dtoMapper.apply(order.getCustomer()),
                 order.getAddress(),
+                order.getAddressCountry(),
                 order.getAddressDetail(),
                 order.getAddressState(),
                 order.getAddressCity(),
