@@ -7,9 +7,6 @@ import './HomeStyle.css'
 import '../../styles/appWeb.css'
 import '../welcome/welcome.css'
 
-import categoria1 from '../../assets/img/products/bcaa-12000.png'
-import categoria2 from '../../assets/img/products/mancuerna_35_kg.png'
-import categoria3 from '../../assets/img/products/muscle-builder-7lb-gn.png'
 import { useNavigate } from 'react-router-dom'
 
 export default function Home() {
@@ -19,22 +16,22 @@ export default function Home() {
         {
             name: 'SUPPLEMENTS',
             url: '/products?category=supplements',
-            image: categoria1,
+            image: '/img/categories/supplements_portrait.png',
         },
         {
             name: 'EQUIPMENT',
             url: '/products?category=equipment',
-            image: categoria2,
+            image: '/img/categories/equipment_portrait.png',
         },
         {
             name: 'ACCESSORIES',
             url: '/products?category=accessories',
-            image: categoria3,
+            image: '/img/categories/accessories_portrait.png',
         },
         {
             name: 'CLOTHES',
             url: '/products?category=clothes',
-            image: categoria3,
+            image: '/img/categories/clothes_portrait.png',
         },
     ]
 

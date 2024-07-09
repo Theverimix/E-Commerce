@@ -5,21 +5,15 @@ import { Badge } from 'primereact/badge'
 import { InputText } from 'primereact/inputtext'
 import { IconField } from 'primereact/iconfield'
 import { InputIcon } from 'primereact/inputicon'
-import brutalLogo from '../../assets/icons/Brutal_black_bottomless.png'
 import { Toolbar } from 'primereact/toolbar'
 import { Button } from 'primereact/button'
-import { Tooltip } from 'primereact/tooltip'
 import { Link, useLocation } from 'react-router-dom'
-import { Chip } from 'primereact/chip'
 
 import { userLogout } from '../../controller/LogoutController'
 
 import './header.css'
-import { Divider } from 'primereact/divider'
 
-import { extractEmailfromToken, extractNamefromToken, isLogedIn } from '../../utils/JwtUtils'
-import { classNames } from 'primereact/utils'
-
+import { extractNamefromToken, isLogedIn } from '../../utils/JwtUtils'
 import { useProducts } from '../../providers/ProductsProvider'
 
 export default function Header() {
@@ -78,13 +72,13 @@ export default function Header() {
         menuRight.current.toggle(event)
     }
 
-    const itemRenderer = (item) => (
-        <Link to={item.href} className='flex align-items-center p-menuitem-link'>
-            <span className={item.icon} style={{ marginRight: '0.5rem' }} />
-            <span className='mx-2'>{item.label}</span>
-            {item.badge && <Badge className='ml-auto' value={item.badge} />}
-        </Link>
-    )
+    // const itemRenderer = (item) => (
+    //     <Link to={item.href} className='flex align-items-center p-menuitem-link'>
+    //         <span className={item.icon} style={{ marginRight: '0.5rem' }} />
+    //         <span className='mx-2'>{item.label}</span>
+    //         {item.badge && <Badge className='ml-auto' value={item.badge} />}
+    //     </Link>
+    // )
 
     const menuItems = [
         {
@@ -146,7 +140,7 @@ export default function Header() {
     const start = (
         <div className='flex'>
             <Link to='/'>
-                <img alt='logo' src={brutalLogo} height='50' />
+                <img alt='logo' src='/icons/Brutal_black_bottomless.png' height='50' />
             </Link>
             <MegaMenu
                 model={menuItems}

@@ -1,19 +1,8 @@
 import { Button } from 'primereact/button'
-import { Divider } from 'primereact/divider'
 import { InputText } from 'primereact/inputtext'
-import footerImgDevs from '../../assets/img/DAGA_devs_poweredBy_light.png'
 import './footer.css'
 
 export default function Footer() {
-    const footer = (
-        <>
-            <Divider />
-            <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <img alt='Card' src={footerImgDevs} style={{ width: '180px' }} />
-            </div>
-        </>
-    )
-
     return (
         <>
             <hr className='border-bottom-2 border-solid border-primary m-0' />
