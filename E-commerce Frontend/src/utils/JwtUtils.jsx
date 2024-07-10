@@ -10,6 +10,27 @@ export const isLogedIn = () => {
     }
 }
 
+export const verifyToken = (token) => {
+    if (!token) {
+        return false
+    }
+
+    try {
+        const decoded = jwtDecode(token)
+        const currentTime = Date.now() / 1000 // en segundos
+
+        // Verifica si el token ha expirado
+        if (decoded.exp < currentTime) {
+            return false
+        }
+
+        return true
+    } catch (error) {
+        console.error('Invalid token:', error)
+        return false
+    }
+}
+
 export const getToken = () => {
     const token = Cookies.get('token')
     if (token) {

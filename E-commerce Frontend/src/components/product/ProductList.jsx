@@ -213,14 +213,18 @@ export default function ProductList({
 
         // Si no hay productos y no está cargando, muestra un mensaje apropiado
         if (!items || items.length === 0) {
-            return <div>No hay productos disponibles</div>
+            return (
+                <div className='flex justify-content-center '>
+                    <img src='/icons/empty_cart.png' />
+                </div>
+            )
         }
 
         return <div className='grid grid-nogutter'>{items.map((product, index) => itemTemplate(product, index))}</div>
     }
 
     return (
-        <Panel header='Products'>
+        <Panel header='Cart'>
             <ScrollPanel style={{ height: height }}>
                 <DataView value={products} listTemplate={listTemplate} rows={9} />
             </ScrollPanel>

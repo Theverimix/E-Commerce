@@ -63,16 +63,7 @@ export default function Cart() {
     )
 
     return (
-        <div>
-            <div className='ml-3'>
-                <h1 className='mb-0'>Your Cart</h1>
-                <p className='mt-0'>
-                    Not ready to checkout?{' '}
-                    <Link style={{ textDecoration: 'none' }} to='/'>
-                        Continue Shopping
-                    </Link>
-                </p>
-            </div>
+        <div className='mt-4'>
             <div className='grid m-auto mb-6'>
                 <div className='col'>
                     <ProductList
