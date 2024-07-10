@@ -22,7 +22,7 @@ public class OrderController {
     public ApiResponse getAllOrders(
             @RequestParam(name = "page", defaultValue = "0") int page
     ) throws PageNotFoundException {
-        PageResponse<OrderResponse> orders = orderService.getAllOrders(page, 2);
+        PageResponse<OrderResponse> orders = orderService.getAllOrders(page, 10);
         return ApiResponse.ok(orders);
     }
 

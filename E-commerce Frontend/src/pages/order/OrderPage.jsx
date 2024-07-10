@@ -21,8 +21,8 @@ export default function OrderPage() {
         const fetchData = async () => {
             try {
                 const customerId = extractIdfromToken()
-                const response = await getOrdersByCustomer(customerId)
-                setOrders(response.reverse())
+                const { content } = await getOrdersByCustomer(customerId) // response.content
+                setOrders(content.reverse())
                 setIsLoading(false)
             } catch (error) {
                 console.error('Error:', error)

@@ -61,11 +61,13 @@ public class OrderService {
                 );
         }
 
-        public PageResponse<OrderResponse> getOrdersByCustomer(int pageNumber, int size, Long idCustomer, String filter) throws PageNotFoundException {
+        public PageResponse<OrderResponse> getOrdersByCustomer(
+                int pageNumber, int size, Long idCustomer, String filter
+        )throws PageNotFoundException {
                 Customer customer = customerRepository.findById(idCustomer)
                         .orElseThrow(() -> new EntityNotFoundException("Customer with id [%s] not found.".formatted(idCustomer)));
 
-                PageRequest pageRequest = PageRequest.of(pageNumber, size, Sort.Direction.ASC);
+                PageRequest pageRequest = PageRequest.of(pageNumber, size, Sort.by("id").ascending());
                 Specification<Order> specs = getSpecsByFilter(filter, customer);
 
                 Page<Order> page = orderRepository.findAll(specs, pageRequest);
@@ -158,6 +160,7 @@ public class OrderService {
                 Specification<Order> specs = hasCustomer(customer);
 
                 Map<OrderLastTime, Supplier<Specification<Order>>> actions = new EnumMap<>(OrderLastTime.class);
+                actions.put(OrderLastTime.ALL_TIME, () -> Specification.where(specs));
                 actions.put(OrderLastTime.LAST_YEAR, () -> hasCreatedAfter(LocalDateTime.now().minusYears(1)));
                 actions.put(OrderLastTime.LAST_MONTH, () -> hasCreatedAfter(LocalDateTime.now().minusMonths(1)));
                 actions.put(OrderLastTime.LAST_WEEK, () -> hasCreatedAfter(LocalDateTime.now().minusWeeks(1)));
