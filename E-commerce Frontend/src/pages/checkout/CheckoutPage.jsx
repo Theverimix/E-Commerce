@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { InputText } from 'primereact/inputtext'
 import { Button } from 'primereact/button'
 import { Stepper } from 'primereact/stepper'
@@ -13,6 +13,8 @@ import { getProductsByIds } from '../../controller/ProductController'
 import { useProducts } from '../../providers/ProductsProvider'
 import LocationForm from '../../components/LocationForm/LocationForm'
 import { useToast } from '../../providers/ToastProvider'
+
+import { PayPalScriptProvider } from '@paypal/react-paypal-js'
 
 export default function CheckoutPage() {
     const stepperRef = useRef(null)
@@ -146,111 +148,121 @@ export default function CheckoutPage() {
     }
 
     return (
-        <div>
-            <h1 className='ml-3'>Checkout</h1>
-            <div className='w-full h-screen grid gap-3'>
-                <div className='col'>
-                    <Stepper ref={stepperRef} style={{ flexBasis: '50rem' }} linear>
-                        <StepperPanel header='Address'>
-                            <h2>Shipping information</h2>
-                            <div className='flex mb-3 gap-3'>
+        <PayPalScriptProvider
+            options={{
+                'client-id': 'AXB9apXFIcKwWuxuX54S4zJf9-gmQI-_NQP-ILj-cpvgqMbkCSuTprZPma7f-HLVcSnzbYa-buaBebHK',
+            }}
+        >
+            <div>
+                <h1 className='ml-3'>Checkout</h1>
+                <div className='w-full h-screen grid gap-3'>
+                    <div className='col'>
+                        <Stepper ref={stepperRef} style={{ flexBasis: '50rem' }} linear>
+                            <StepperPanel header='Address'>
+                                <h2>Shipping information</h2>
+                                <div className='flex mb-3 gap-3'>
+                                    <InputText
+                                        className='w-full'
+                                        placeholder='Firstname*'
+                                        value={Firstname}
+                                        onChange={(e) => setFirstname(e.target.value)}
+                                        invalid={validationErrors.Firstname}
+                                    />
+                                    <InputText
+                                        className='w-full'
+                                        placeholder='Lastname*'
+                                        value={Lastname}
+                                        onChange={(e) => setLastname(e.target.value)}
+                                        invalid={validationErrors.Lastname}
+                                    />
+                                </div>
+                                <InputText
+                                    className='w-full mb-3'
+                                    placeholder='Address*'
+                                    value={Address}
+                                    onChange={(e) => setAddress(e.target.value)}
+                                    invalid={validationErrors.Address}
+                                />
+                                <InputText
+                                    className='w-full mb-3'
+                                    placeholder='Apartment, suite, etc. (optional)'
+                                    value={AddressDetail}
+                                    onChange={(e) => setAddressDetail(e.target.value)}
+                                />
+                                <LocationForm
+                                    onCountryChange={handleCountryChange}
+                                    onStateChange={handleStateChange}
+                                    onCityChange={handleCityChange}
+                                    validationErrors={validationErrors}
+                                />
+                                <InputText
+                                    className='w-full my-3'
+                                    placeholder='Zipcode*'
+                                    value={ZipCode}
+                                    onChange={(e) => setZipCode(e.target.value)}
+                                    invalid={validationErrors.ZipCode}
+                                />
                                 <InputText
                                     className='w-full'
-                                    placeholder='Firstname*'
-                                    value={Firstname}
-                                    onChange={(e) => setFirstname(e.target.value)}
-                                    invalid={validationErrors.Firstname}
-                                />
-                                <InputText
-                                    className='w-full'
-                                    placeholder='Lastname*'
-                                    value={Lastname}
-                                    onChange={(e) => setLastname(e.target.value)}
-                                    invalid={validationErrors.Lastname}
-                                />
-                            </div>
-                            <InputText
-                                className='w-full mb-3'
-                                placeholder='Address*'
-                                value={Address}
-                                onChange={(e) => setAddress(e.target.value)}
-                                invalid={validationErrors.Address}
-                            />
-                            <InputText
-                                className='w-full mb-3'
-                                placeholder='Apartment, suite, etc. (optional)'
-                                value={AddressDetail}
-                                onChange={(e) => setAddressDetail(e.target.value)}
-                            />
-                            <LocationForm
-                                onCountryChange={handleCountryChange}
-                                onStateChange={handleStateChange}
-                                onCityChange={handleCityChange}
-                                validationErrors={validationErrors}
-                            />
-                            <InputText
-                                className='w-full my-3'
-                                placeholder='Zipcode*'
-                                value={ZipCode}
-                                onChange={(e) => setZipCode(e.target.value)}
-                                invalid={validationErrors.ZipCode}
-                            />
-                            <InputText
-                                className='w-full'
-                                placeholder='Optional comment'
-                                value={OptionalComment}
-                                onChange={(e) => setOptionalComment(e.target.value)}
-                            />
-                            <Button
-                                className='w-full font-semibold mt-3'
-                                label='Continue to Payment'
-                                icon='pi pi-arrow-right'
-                                iconPos='right'
-                                onClick={handleContinueToPayment}
-                            />
-                            <Button
-                                className='w-full font-semibold mt-3'
-                                label='Continue to Payment'
-                                icon='pi pi-arrow-right'
-                                iconPos='right'
-                                onClick={handleContinueToPayment2}
-                            />
-                        </StepperPanel>
-                        <StepperPanel header='Payment'>
-                            <div className='flex gap-3'>
-                                <PaypalButton
-                                    createOrder={handleCreateOrder}
-                                    shippingCost={shippingCost}
-                                    items={products}
-                                    invoice='Factura #61372'
-                                />
-                                <Button className='w-full font-semibold' label='Credit card' icon='pi pi-credit-card' />
-                            </div>
-                            <h2>Payment details</h2>
-                            <CreditCardForm />
-                            <div className='flex gap-3'>
-                                <Button
-                                    className='w-full font-semibold'
-                                    label='Back to Address'
-                                    icon='pi pi-arrow-left'
-                                    outlined
-                                    onClick={() => stepperRef.current.prevCallback()}
+                                    placeholder='Optional comment'
+                                    value={OptionalComment}
+                                    onChange={(e) => setOptionalComment(e.target.value)}
                                 />
                                 <Button
-                                    className='w-full font-semibold'
-                                    label='Finish order'
-                                    icon='pi pi-check'
-                                    onClick={() => alert('Order placed')}
+                                    className='w-full font-semibold mt-3'
+                                    label='Continue to Payment'
+                                    icon='pi pi-arrow-right'
+                                    iconPos='right'
+                                    onClick={handleContinueToPayment}
                                 />
-                            </div>
-                        </StepperPanel>
-                    </Stepper>
-                </div>
-                <div className='col-4 justify-content-center text'>
-                    <h2 className='text-center'>Order Summary</h2>
-                    <CartSummary products={productsWithQuantity} isLoading={isLoading} />
+                                <Button
+                                    className='w-full font-semibold mt-3'
+                                    label='Continue to Payment'
+                                    icon='pi pi-arrow-right'
+                                    iconPos='right'
+                                    onClick={handleContinueToPayment2}
+                                />
+                            </StepperPanel>
+                            <StepperPanel header='Payment'>
+                                <div className='flex gap-3'>
+                                    <PaypalButton
+                                        createOrder={handleCreateOrder}
+                                        shippingCost={shippingCost}
+                                        items={products}
+                                        invoice='Factura #61372'
+                                    />
+                                    <Button
+                                        className='w-full font-semibold'
+                                        label='Credit card'
+                                        icon='pi pi-credit-card'
+                                    />
+                                </div>
+                                <h2>Payment details</h2>
+                                <CreditCardForm />
+                                <div className='flex gap-3'>
+                                    <Button
+                                        className='w-full font-semibold'
+                                        label='Back to Address'
+                                        icon='pi pi-arrow-left'
+                                        outlined
+                                        onClick={() => stepperRef.current.prevCallback()}
+                                    />
+                                    <Button
+                                        className='w-full font-semibold'
+                                        label='Finish order'
+                                        icon='pi pi-check'
+                                        onClick={() => alert('Order placed')}
+                                    />
+                                </div>
+                            </StepperPanel>
+                        </Stepper>
+                    </div>
+                    <div className='col-4 justify-content-center text'>
+                        <h2 className='text-center'>Order Summary</h2>
+                        <CartSummary products={productsWithQuantity} isLoading={isLoading} />
+                    </div>
                 </div>
             </div>
-        </div>
+        </PayPalScriptProvider>
     )
 }

@@ -1,6 +1,5 @@
 import { useState, useCallback } from 'react'
 import { Skeleton } from 'primereact/skeleton'
-import { Button } from 'primereact/button'
 import { DataView } from 'primereact/dataview'
 import { classNames } from 'primereact/utils'
 import { ScrollPanel } from 'primereact/scrollpanel'
@@ -32,6 +31,7 @@ export default function ProductList({
     const navigate = useNavigate()
     const [first, setFirst] = useState(0)
     const [localQuantities, setLocalQuantities] = useState({})
+    const [isCooldown, setIsCooldown] = useState(false)
 
     const handlePageChange = (event) => {
         setFirst(event.first)
@@ -172,17 +172,33 @@ export default function ProductList({
                             <CooldownBtn
                                 visible={removeButton}
                                 className='product-list-button hover:text-yellow-300 cursor-pointer p-2'
-                                onClick={() => handleRemoveProduct(product)}
+                                onClick={() => {
+                                    handleCooldown()
+                                    handleRemoveProduct(product)
+                                }}
                                 isText={true}
                                 isRemove={true}
+                                isCooldown={isCooldown}
                                 label='Remove'
-                            ></CooldownBtn>
-                            <AddToCartBtn product={product} visible={addToCartButton} />
+                            />
+                            <AddToCartBtn
+                                product={product}
+                                visible={addToCartButton}
+                                isCooldown={isCooldown}
+                                handleCooldown={handleCooldown}
+                            />
                         </div>
                     </div>
                 </div>
             </div>
         )
+    }
+
+    const handleCooldown = () => {
+        setIsCooldown(true)
+        setTimeout(() => {
+            setIsCooldown(false)
+        }, 2000)
     }
 
     const listTemplate = (items) => {
