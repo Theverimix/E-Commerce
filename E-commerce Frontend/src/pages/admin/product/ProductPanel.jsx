@@ -6,7 +6,7 @@ import { getProductById, saveProduct, updateProduct } from '../../../controller/
 import { useLocation, useParams } from 'react-router-dom'
 import { useToast } from '../../../providers/ToastProvider'
 
-export const ProductPanel = () => {
+const ProductPanel = () => {
     const { id } = useParams()
     const { state } = useLocation()
 
@@ -47,3 +47,5 @@ export const ProductPanel = () => {
         />
     )
 }
+
+export default ProductPanel

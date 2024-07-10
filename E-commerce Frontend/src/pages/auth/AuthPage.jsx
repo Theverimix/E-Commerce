@@ -4,7 +4,7 @@ import { Card } from 'primereact/card'
 import { Outlet, useLocation } from 'react-router-dom'
 import { Toast } from 'primereact/toast'
 
-export const AuthPage = () => {
+const AuthPage = () => {
     const location = useLocation()
 
     const toastBottomCenter = useRef(null)
@@ -33,3 +33,5 @@ export const AuthPage = () => {
         </div>
     )
 }
+
+export default AuthPage

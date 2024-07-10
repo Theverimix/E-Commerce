@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Outlet } from 'react-router-dom'
 import { getProducts } from '../../../controller/ProductController'
 
-export const ProductAdminPage = () => {
+const ProductAdminPage = () => {
     const [products, setProducts] = useState([])
 
     useEffect(() => {
@@ -19,3 +19,5 @@ export const ProductAdminPage = () => {
         </div>
     )
 }
+
+export default ProductAdminPage

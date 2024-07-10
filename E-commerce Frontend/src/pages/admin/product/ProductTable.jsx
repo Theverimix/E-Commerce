@@ -4,7 +4,7 @@ import { Link, useOutletContext } from 'react-router-dom'
 import { deleteProduct } from '../../../controller/ProductController'
 import { useToast } from '../../../providers/ToastProvider'
 
-export const ProductTable = () => {
+const ProductTable = () => {
     const products = useOutletContext()
 
     const showToast = useToast()
@@ -39,3 +39,5 @@ export const ProductTable = () => {
         </DataTable>
     )
 }
+
+export default ProductTable

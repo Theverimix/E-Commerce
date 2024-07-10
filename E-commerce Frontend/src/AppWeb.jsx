@@ -1,87 +1,61 @@
-import { Suspense, lazy } from 'react'
-import Header from './components/header/Header.jsx'
-import Footer from './components/footer/Footer.jsx'
-
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
-import '/node_modules/primeflex/primeflex.css'
-import '../src/styles/appWeb.css'
-import '/node_modules/primeflex/primeflex.css'
 import '../src/styles/appWeb.css'
 
-import { ToastProvider } from './providers/ToastProvider.jsx'
-import { ProductsProvider } from './providers/ProductsProvider.jsx'
-import { AuthPage } from './pages/auth/AuthPage.jsx'
-import { ProductPanel } from './pages/admin/product/ProductPanel.jsx'
-import { ProductTable } from './pages/admin/product/ProductTable.jsx'
-import { ProductAdminPage } from './pages/admin/product/ProductAdminPage.jsx'
+import Root from './Root.jsx'
+import AuthPage from './pages/auth/AuthPage.jsx'
+import Login from './pages/auth/Login.jsx'
+import Register from './pages/auth/Register.jsx'
+import Home from './pages/home/Home.jsx'
+import ErrorPage from './pages/Error/ErrorPage.jsx'
+import ProductPage from './pages/productsPage/ProductPage.jsx'
+import OrderPage from './pages/order/OrderPage.jsx'
+import ShopCart from './pages/shopCart/ShopCart.jsx'
+import Catalog from './pages/productsPage/ProductCatalog.jsx'
+import Profile from './pages/profile/Profile.jsx'
+import CheckoutPage from './pages/checkout/CheckoutPage.jsx'
+import Account from './pages/account/Account.jsx'
+import PersonalData from './pages/account/PersonalData.jsx'
+import ProfileCard from './pages/account/ProfileCard.jsx'
+import AdminPage from './pages/admin/AdminPage.jsx'
+import ProductAdminPage from './pages/admin/product/ProductAdminPage.jsx'
+import ProductPanel from './pages/admin/product/ProductPanel.jsx'
+import ProductTable from './pages/admin/product/ProductTable.jsx'
 
-const Login = lazy(() => import('./pages/auth/Login.jsx'))
-const Register = lazy(() => import('./pages/auth/Register.jsx'))
-
-const Home = lazy(() => import('./pages/home/Home.jsx'))
-const Welcome = lazy(() => import('./pages/welcome/Welcome.jsx'))
-const ErrorPage = lazy(() => import('./pages/Error/ErrorPage.jsx'))
-
-const ProductPage = lazy(() => import('./pages/productsPage/ProductPage.jsx'))
-const OrderPage = lazy(() => import('./pages/order/OrderPage.jsx'))
-const ShopCart = lazy(() => import('./pages/shopCart/ShopCart.jsx'))
-const Catalog = lazy(() => import('./pages/productsPage/ProductCatalog.jsx'))
-const Profile = lazy(() => import('./pages/profile/Profile.jsx'))
-const CheckoutPage = lazy(() => import('./pages/checkout/CheckoutPage.jsx'))
-const Account = lazy(() => import('./pages/account/Account.jsx'))
-const PersonalData = lazy(() => import('./pages/account/PersonalData.jsx'))
-const ProfileCard = lazy(() => import('./pages/account/ProfileCard.jsx'))
-
-function AppWeb() {
-    return (
-        <>
-            <ToastProvider maxToasts={1}>
-                <ProductsProvider>
-                    <BrowserRouter>
-                        <Header />
-                        <div id='content' className='flex justify-content-center w-full'>
-                            <div className='sm:w-full md:w-10 lg:w-9'>
-                                <Suspense>
-                                    <Routes>
-                                        <Route path='/' element={<Home />} />
-                                        <Route path='/home' element={<Home />} />
-                                        <Route path='/products' element={<Catalog />} />
-                                        <Route path='/products/:id' element={<ProductPage />} />
-                                        <Route path='/cart' element={<ShopCart />} />
-                                        <Route path='/checkout' element={<CheckoutPage />} />
-                                        <Route path='/confirmation' element={<ProductPage />} />
-                                        <Route path='/account' element={<Account />}>
-                                            <Route path='profile' element={<ProfileCard />}>
-                                                <Route path='' element={<Profile />} />
-                                                <Route path='data' element={<PersonalData />} />
-                                            </Route>
-                                            <Route path='orders' element={<OrderPage />} />
-                                        </Route>
-                                        <Route path='/search' element={<ProductPage />} />
-                                        <Route path='/terms' element={<ProductPage />} />
-                                        <Route path='/contact' element={<ProductPage />} />
-                                        <Route path='/pruebas' element={<Welcome />} />
-                                        <Route path='/admin/products' element={<ProductAdminPage />}>
-                                            <Route path='list' element={<ProductTable />} />
-                                            <Route path='new' element={<ProductPanel />} />
-                                            <Route path=':id' element={<ProductPanel />} />
-                                        </Route>
-                                        <Route path='/auth' element={<AuthPage />}>
-                                            <Route path='login' element={<Login />} />
-                                            <Route path='signup' element={<Register />} />
-                                        </Route>
-                                        <Route path='*' element={<ErrorPage />} />
-                                    </Routes>
-                                </Suspense>
-                            </div>
-                        </div>
-                        <Footer />
-                    </BrowserRouter>
-                </ProductsProvider>
-            </ToastProvider>
-        </>
-    )
-}
+const AppWeb = () => (
+    <BrowserRouter>
+        <Routes>
+            <Route path='/' element={<Root />}>
+                <Route path='' element={<Home />} />
+                <Route path='products' element={<Catalog />} />
+                <Route path='products/:id' element={<ProductPage />} />
+                <Route path='cart' element={<ShopCart />} />
+                <Route path='checkout' element={<CheckoutPage />} />
+                <Route path='search' element={<ProductPage />} />
+                <Route path='terms' element={<></>} />
+                <Route path='contact' element={<></>} />
+                <Route path='account' element={<Account />}>
+                    <Route element={<ProfileCard />}>
+                        <Route path='profile' element={<Profile />} />
+                        <Route path='data' element={<PersonalData />} />
+                    </Route>
+                    <Route path='orders' element={<OrderPage />} />
+                </Route>
+                <Route element={<AuthPage />}>
+                    <Route path='auth/login' element={<Login />} />
+                    <Route path='auth/signup' element={<Register />} />
+                </Route>
+                <Route element={<AdminPage />}>
+                    <Route path='admin/products' element={<ProductAdminPage />}>
+                        <Route path='list' element={<ProductTable />} />
+                        <Route path='new' element={<ProductPanel />} />
+                        <Route path=':id' element={<ProductPanel />} />
+                    </Route>
+                </Route>
+            </Route>
+            <Route path='*' element={<ErrorPage />} />
+        </Routes>
+    </BrowserRouter>
+)
 
 export default AppWeb
