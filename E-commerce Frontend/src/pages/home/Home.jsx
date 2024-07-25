@@ -41,41 +41,9 @@ export default function Home() {
                     <Gallery />
                 </div>
 
-                <div className='flex justify-content-center align-items-center flex-column'>
-                    <h1 className='mb-1'>CATEGORIES</h1>
-                    <p className='text-center max-w-30rem'>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit, consectetur non fugiat dicta ab
-                        nulla commodi quas voluptatibus cum sint accusantium soluta, tenetur officia delectus accusamus
-                        dolore expedita eum aliquam.
-                    </p>
-                    <Button
-                        label='All Products'
-                        className='my-3 font-semibold'
-                        onClick={() => {
-                            navigate(`/products`)
-                        }}
-                    ></Button>
+                <div className='flex justify-content-center align-items-center flex-column mt-5'>
+                    <p className='pt-6 text-6xl'>CATEGORIES</p>
                 </div>
-
-                {/* <div className='grid m-auto max-w-15rem my-3 gap-3'>
-                    {categories.map((category, index) => (
-                        <div
-                            key={index}
-                            className='box col p-4 fadein animation-duration-500 cursor-pointer surface-hover border-round-md'
-                            onClick={() => navigate(category.url)}
-                        >
-                            <div className='surface-card mb-4 w-full text-center p-5'>
-                                <img src={category.image} className='w-10' alt={category.name} />
-                            </div>
-
-                            <div className='flex align-items-center mb-4 justify-content-center'>
-                                <div className='block font-semibold mb-1' onClick={() => navigate(category.url)}>
-                                    {category.name}
-                                </div>
-                            </div>
-                        </div>
-                    ))}
-                </div> */}
 
                 <div className='grid justify-content-center m-auto my-3 gap-3'>
                     {categories.map((category, index) => (
@@ -100,19 +68,7 @@ export default function Home() {
                 {/* products */}
 
                 <div className='flex justify-content-center align-items-center flex-column'>
-                    <h1 className='mb-1'>BEST PRODUCTS</h1>
-                    <p className='text-center max-w-30rem'>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit, consectetur non fugiat dicta ab
-                        nulla commodi quas voluptatibus cum sint accusantium soluta, tenetur officia delectus accusamus
-                        dolore expedita eum aliquam.
-                    </p>
-                    <Button
-                        label='All Products'
-                        className='mt-2 font-semibold'
-                        onClick={() => {
-                            navigate(`/products`)
-                        }}
-                    ></Button>
+                    <p className='text-6xl mb-0 pt-6'>SALE PRODUCTS</p>
                 </div>
 
                 <div className='carousel'>

@@ -20,6 +20,8 @@ import ProductAdminPage from './pages/admin/product/ProductAdminPage.jsx'
 import ProductPanel from './pages/admin/product/ProductPanel.jsx'
 import ProductTable from './pages/admin/product/ProductTable.jsx'
 
+import PrivateRoutes from './apis/PrivateRoutes.jsx'
+
 import '../src/styles/appWeb.css'
 
 const AppWeb = () => (
@@ -30,27 +32,37 @@ const AppWeb = () => (
                 <Route path='products' element={<Catalog />} />
                 <Route path='products/:id' element={<ProductPage />} />
                 <Route path='cart' element={<ShopCart />} />
-                <Route path='checkout' element={<CheckoutPage />} />
                 <Route path='search' element={<ProductPage />} />
                 <Route path='terms' element={<></>} />
                 <Route path='contact' element={<></>} />
-                <Route element={<Account />}>
-                    <Route element={<ProfileCard />}>
-                        <Route path='account/profile' element={<Profile />} />
-                        <Route path='account/data' element={<PersonalData />} />
+
+                {/* Private Routes */}
+                <Route element={<PrivateRoutes />}>
+                    <Route path='checkout' element={<CheckoutPage />} />
+                    <Route element={<Account />}>
+                        <Route element={<ProfileCard />}>
+                            <Route path='account/profile' element={<Profile />} />
+                            <Route path='account/data' element={<PersonalData />} />
+                        </Route>
+                        <Route path='account/orders' element={<OrderPage />} />
                     </Route>
-                    <Route path='account/orders' element={<OrderPage />} />
                 </Route>
+
+                {/* Admin Routes */}
+                <Route element={<PrivateRoutes isAdmin />}>
+                    <Route element={<AdminPage />}>
+                        <Route path='admin/products' element={<ProductAdminPage />}>
+                            <Route path='list' element={<ProductTable />} />
+                            <Route path='new' element={<ProductPanel />} />
+                            <Route path=':id' element={<ProductPanel />} />
+                        </Route>
+                    </Route>
+                </Route>
+
+                {/* Auth Routes */}
                 <Route element={<AuthPage />}>
                     <Route path='auth/login' element={<Login />} />
                     <Route path='auth/signup' element={<Register />} />
-                </Route>
-                <Route element={<AdminPage />}>
-                    <Route path='admin/products' element={<ProductAdminPage />}>
-                        <Route path='list' element={<ProductTable />} />
-                        <Route path='new' element={<ProductPanel />} />
-                        <Route path=':id' element={<ProductPanel />} />
-                    </Route>
                 </Route>
             </Route>
             <Route path='*' element={<ErrorPage />} />
