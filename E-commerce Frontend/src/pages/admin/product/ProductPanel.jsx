@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
-import { getCategories } from '../../../controller/CategoryController'
-import { getStates } from '../../../controller/StateController'
+import { getCategories } from '../../../apis/category-api'
+import { getStates } from '../../../apis/state-api'
+import { getProductById, saveProduct, updateProduct } from '../../../apis/product-api'
+
 import { ProductForm } from './ProductForm'
-import { getProductById, saveProduct, updateProduct } from '../../../controller/ProductController'
 import { useLocation, useParams } from 'react-router-dom'
 import { useToast } from '../../../providers/ToastProvider'
 

@@ -7,11 +7,11 @@ import { Panel } from 'primereact/panel'
 import { Paginator } from 'primereact/paginator'
 import { useNavigate } from 'react-router-dom'
 import { Chip } from 'primereact/chip'
-import { calculateDiscountedPrice } from '../../utils/ProductUtils'
+import { calculateDiscountedPrice } from '../../utils/product-utils'
 import { InputNumber } from 'primereact/inputnumber'
 import { debounce } from 'lodash'
 import AddToCartBtn from '../cart/AddToCartBtn'
-import CooldownBtn from '../CooldownBtn/CooldownBtn'
+import CooldownBtn from '../cooldown-button/CooldownBtn'
 
 export default function ProductList({
     handleRemoveProduct,

@@ -3,11 +3,12 @@ import { useState, useRef } from 'react'
 import { InputText } from 'primereact/inputtext'
 import { Button } from 'primereact/button'
 import { Password } from 'primereact/password'
-import { userLogin } from '../../controller/LoginController'
 import { Dialog } from 'primereact/dialog'
 import { useNavigate } from 'react-router-dom'
 import { useToast } from '../../providers/ToastProvider'
 import { Link } from 'react-router-dom'
+
+import { userLogin } from '../../apis/auth-api'
 
 export default function Login() {
     const [username, setUsername] = useState('')

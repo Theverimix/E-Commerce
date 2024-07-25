@@ -1,3 +1,4 @@
+import { Rating } from 'primereact/rating'
 import { Outlet } from 'react-router-dom'
 
 const AdminPage = () => {

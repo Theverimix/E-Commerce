@@ -1,13 +1,11 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect } from 'react'
 import { Skeleton } from 'primereact/skeleton'
 import { Carousel } from 'primereact/carousel'
-import { Button } from 'primereact/button'
-import { PrimeIcons } from 'primereact/api'
 import { useNavigate } from 'react-router-dom'
-import { getProducts } from '../../controller/ProductController'
-import { calculateDiscountedPrice } from '../../utils/ProductUtils'
-
+import { calculateDiscountedPrice } from '../../utils/product-utils'
 import AddToCartBtn from '../cart/AddToCartBtn'
+
+import { getProducts } from '../../apis/product-api'
 
 export default function HomeCarousel() {
     const [products, setProducts] = useState([])

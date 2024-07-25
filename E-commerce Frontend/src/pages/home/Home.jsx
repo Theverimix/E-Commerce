@@ -1,11 +1,10 @@
-import Gallery from '../../components/Galleria/Galleria'
+import Gallery from '../../components/gallery/Galleria'
 import { Button } from 'primereact/button'
 
-import Carousel from '../../components/homeCarousel/homeCarousel'
+import Carousel from '../../components/carousel/homeCarousel'
 
 import './HomeStyle.css'
 import '../../styles/appWeb.css'
-import '../welcome/welcome.css'
 
 import { useNavigate } from 'react-router-dom'
 

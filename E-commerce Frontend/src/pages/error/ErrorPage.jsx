@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 import { Button } from 'primereact/button'
 
-function ErrorPage() {
+const ErrorPage = () => {
     const navigate = useNavigate()
 
     return (

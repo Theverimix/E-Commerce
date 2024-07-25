@@ -1,12 +1,11 @@
-import { useEffect, useRef, useState, useCallback, useMemo } from 'react'
+import './cart.css'
+
+import { useEffect, useState, useCallback, useMemo } from 'react'
 import ProductList from '../product/ProductList'
 import { useProducts } from '../../providers/ProductsProvider'
-
-import './cart.css'
-import { Link } from 'react-router-dom'
 import CartSummary from './cartSummary'
 
-import { getProductsByIds } from '../../controller/ProductController'
+import { getProductsByIds } from '../../apis/product-api'
 
 export default function Cart() {
     const { allProducts, removeProduct, updateProductAmount } = useProducts()

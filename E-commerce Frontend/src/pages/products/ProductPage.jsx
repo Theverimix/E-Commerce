@@ -1,15 +1,15 @@
 import { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
-import { InputNumber } from 'primereact/inputnumber'
-import { getProductById } from '../../controller/ProductController'
-import ProductGallery from '../../components/product/ProductGallery'
-import { Card } from 'primereact/card'
-import { Button } from 'primereact/button'
-import { Skeleton } from 'primereact/skeleton'
+
+import { useParams, useNavigate } from 'react-router-dom'
 import { Chip } from 'primereact/chip'
-import { useNavigate } from 'react-router-dom'
-import { calculateDiscountedPrice } from '../../utils/ProductUtils'
+import { Card } from 'primereact/card'
+import { Skeleton } from 'primereact/skeleton'
+import { InputNumber } from 'primereact/inputnumber'
+import ProductGallery from '../../components/product/ProductGallery'
 import AddToCartBtn from '../../components/cart/AddToCartBtn'
+import { calculateDiscountedPrice } from '../../utils/product-utils'
+
+import { getProductById } from '../../apis/product-api'
 
 export default function ProductPage() {
     const navigate = useNavigate()

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Outlet } from 'react-router-dom'
-import { getProducts } from '../../../controller/ProductController'
+import { getProducts } from '../../../apis/product-api'
 
 const ProductAdminPage = () => {
     const [products, setProducts] = useState([])

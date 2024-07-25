@@ -4,7 +4,7 @@ import { Button } from 'primereact/button'
 import { InputText } from 'primereact/inputtext'
 import { useNavigate } from 'react-router-dom'
 import { Skeleton } from 'primereact/skeleton'
-import { calculateDiscountedPrice } from '../../utils/ProductUtils'
+import { calculateDiscountedPrice } from '../../utils/product-utils'
 
 export default function cartSummary({ products, isLoading, cupon = false, continueBtn = false }) {
     const navigate = useNavigate()

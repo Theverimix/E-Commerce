@@ -1,11 +1,13 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react'
-import ProductList from '../../components/product/ProductList'
-import { searchProducts } from '../../controller/ProductController'
-
 import './ProductCatalog.css'
-import ProductCatalogFilter from '../../components/product/ProductCatalogFilter'
+
+import { useEffect, useMemo, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
+
+import ProductList from '../../components/product/ProductList'
+import ProductCatalogFilter from '../../components/product/ProductCatalogFilter'
 import { useProducts } from '../../providers/ProductsProvider'
+
+import { searchProducts } from '../../apis/product-api'
 
 function ProductCatalog() {
     const { addProduct } = useProducts()
@@ -79,12 +81,6 @@ function ProductCatalog() {
 
     return (
         <div>
-            {/* <h1 className='catalog-title'>Shop</h1> */}
-            {/* <p className='catalog-subtitle w-5'>
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nobis fugit veniam alias incidunt distinctio
-                harum aut nam dolor ratione quibusdam deserunt, excepturi sint sequi blanditiis labore. Debitis ipsa
-                amet provident.
-            </p> */}
             <div className='grid m-auto my-4'>
                 <div className='col-3'>
                     <ProductCatalogFilter onSubmitPrice={filterPrice} onSubmitCategory={filterCategory} />

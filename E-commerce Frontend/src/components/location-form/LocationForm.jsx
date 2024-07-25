@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { Dropdown } from 'primereact/dropdown'
 import axios from 'axios' // Iconos de PrimeReact
 

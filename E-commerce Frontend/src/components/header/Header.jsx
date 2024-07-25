@@ -9,11 +9,11 @@ import { Toolbar } from 'primereact/toolbar'
 import { Button } from 'primereact/button'
 import { Link, useLocation } from 'react-router-dom'
 
-import { userLogout } from '../../controller/LogoutController'
+import { userLogout } from '../../apis/auth-api'
 
 import './header.css'
 
-import { extractNamefromToken, isLogedIn } from '../../utils/JwtUtils'
+import { extractNamefromToken, isLogedIn } from '../../utils/jwt-utils'
 import { useProducts } from '../../providers/ProductsProvider'
 
 export default function Header() {

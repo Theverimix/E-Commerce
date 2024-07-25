@@ -29,7 +29,7 @@ export async function updateOrderStatus(orderId, status) {
     try {
         // console.log('orderId:', orderId, 'status:', status)
         const response = await AxiosInstance.patch(`/orders/${orderId}`, { status })
-        // return response.data.data
+        return response.data
     } catch (error) {
         console.error('Error in updateOrderStatus:', error)
         return {}

@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react'
 import OrderList from './OrderList'
-import { getOrdersByCustomer } from '../../controller/OrderController'
 import { Dropdown } from 'primereact/dropdown'
-import { isWithinLast30Days, isWithinLast7Days, isWithinLastYear } from '../../utils/DateUtils'
 import { Skeleton } from 'primereact/skeleton'
-import { extractIdfromToken } from '../../utils/JwtUtils'
+
+import { isWithinLast30Days, isWithinLast7Days, isWithinLastYear } from '../../utils/date-utils'
+import { extractIdfromToken } from '../../utils/jwt-utils'
+
+import { getOrdersByCustomer } from '../../apis/order-api'
 
 export default function OrderPage() {
     const [orders, setOrders] = useState([])

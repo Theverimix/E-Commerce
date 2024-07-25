@@ -1,17 +1,15 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
-import '../src/styles/appWeb.css'
-
 import Root from './Root.jsx'
 import AuthPage from './pages/auth/AuthPage.jsx'
 import Login from './pages/auth/Login.jsx'
 import Register from './pages/auth/Register.jsx'
 import Home from './pages/home/Home.jsx'
-import ErrorPage from './pages/Error/ErrorPage.jsx'
-import ProductPage from './pages/productsPage/ProductPage.jsx'
+import ErrorPage from './pages/error/ErrorPage.jsx'
+import ProductPage from './pages/products/ProductPage.jsx'
 import OrderPage from './pages/order/OrderPage.jsx'
-import ShopCart from './pages/shopCart/ShopCart.jsx'
-import Catalog from './pages/productsPage/ProductCatalog.jsx'
+import ShopCart from './pages/cart/ShopCart.jsx'
+import Catalog from './pages/products/ProductCatalog.jsx'
 import Profile from './pages/profile/Profile.jsx'
 import CheckoutPage from './pages/checkout/CheckoutPage.jsx'
 import Account from './pages/account/Account.jsx'
@@ -21,6 +19,8 @@ import AdminPage from './pages/admin/AdminPage.jsx'
 import ProductAdminPage from './pages/admin/product/ProductAdminPage.jsx'
 import ProductPanel from './pages/admin/product/ProductPanel.jsx'
 import ProductTable from './pages/admin/product/ProductTable.jsx'
+
+import '../src/styles/appWeb.css'
 
 const AppWeb = () => (
     <BrowserRouter>

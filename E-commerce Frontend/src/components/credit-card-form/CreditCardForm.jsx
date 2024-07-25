@@ -1,13 +1,9 @@
-// src/components/CreditCardForm/CreditCardForm.jsx
 import { useState } from 'react'
 import { IconField } from 'primereact/iconfield'
 import { InputIcon } from 'primereact/inputicon'
 import { usePaymentInputs } from 'react-payment-inputs'
 import images from 'react-payment-inputs/images'
-// import valid from 'card-validator'
 import { InputText } from 'primereact/inputtext'
-// import { Button } from 'primereact/button'
-// import 'react-payment-inputs/es/styles.css'
 
 const CreditCardForm = () => {
     const [number, setNumber] = useState('')

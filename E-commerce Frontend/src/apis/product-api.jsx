@@ -2,9 +2,6 @@ import AxiosInstance from './AxiosInstance'
 
 import AxiosInstanceNoToken from './AxiosInstanceNoToken'
 
-//import axios from 'axios'
-//import Cookies from 'js-cookie'
-
 export async function searchProducts(params) {
     try {
         const response = await AxiosInstanceNoToken.get('/products/search', { params })

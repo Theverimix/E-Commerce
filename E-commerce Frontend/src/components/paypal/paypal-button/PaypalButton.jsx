@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { PayPalButtons } from '@paypal/react-paypal-js'
-import { updateOrderStatus } from '../../../controller/OrderController'
 import { useNavigate } from 'react-router-dom'
 import { useToast } from '../../../providers/ToastProvider'
 import { useProducts } from '../../../providers/ProductsProvider'
+
+import { updateOrderStatus } from '../../../apis/order-api'
 
 const PaypalButton = ({ items, invoice, shippingCost, createOrder }) => {
     const [invoiceId, setInvoiceId] = useState(null)

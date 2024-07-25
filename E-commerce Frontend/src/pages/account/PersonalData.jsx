@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 
 import { InputText } from 'primereact/inputtext'
 import { Button } from 'primereact/button'
@@ -6,8 +6,8 @@ import { Card } from 'primereact/card'
 import { InputMask } from 'primereact/inputmask'
 import { BreadCrumb } from 'primereact/breadcrumb'
 
-import { extractIdfromToken } from '../../utils/JwtUtils'
-import { getCustomerById, updateProfile } from '../../controller/ProfileController'
+import { extractIdfromToken } from '../../utils/jwt-utils'
+import { getCustomerById, updateProfile } from '../../apis/profile-api'
 import { useNavigate } from 'react-router-dom'
 
 export default function PersonalData() {

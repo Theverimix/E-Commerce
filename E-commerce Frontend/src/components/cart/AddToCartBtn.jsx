@@ -1,6 +1,6 @@
 import { useToast } from '../../providers/ToastProvider'
 import { useProducts } from '../../providers/ProductsProvider'
-import CooldownBtn from '../CooldownBtn/CooldownBtn'
+import CooldownBtn from '../cooldown-button/CooldownBtn'
 
 export default function AddToCartBtn({ product, visible, ammount = 1, isCooldown, handleCooldown }) {
     const showToast = useToast()

@@ -1,8 +1,8 @@
 import { Column } from 'primereact/column'
 import { DataTable } from 'primereact/datatable'
 import { Link, useOutletContext } from 'react-router-dom'
-import { deleteProduct } from '../../../controller/ProductController'
 import { useToast } from '../../../providers/ToastProvider'
+import { deleteProduct } from '../../../apis/product-api'
 
 const ProductTable = () => {
     const products = useOutletContext()
