@@ -214,8 +214,8 @@ export default function ProductList({
         // Si no hay productos y no está cargando, muestra un mensaje apropiado
         if (!items || items.length === 0) {
             return (
-                <div className='flex justify-content-center '>
-                    <img src='/icons/empty_cart.png' />
+                <div className='w-full flex justify-content-center'>
+                    <img src='/icons/empty_cart.png' className='w-8 flex justify-content-center' />
                 </div>
             )
         }

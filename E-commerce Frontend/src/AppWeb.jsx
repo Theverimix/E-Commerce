@@ -34,12 +34,12 @@ const AppWeb = () => (
                 <Route path='search' element={<ProductPage />} />
                 <Route path='terms' element={<></>} />
                 <Route path='contact' element={<></>} />
-                <Route path='account' element={<Account />}>
+                <Route element={<Account />}>
                     <Route element={<ProfileCard />}>
-                        <Route path='profile' element={<Profile />} />
-                        <Route path='data' element={<PersonalData />} />
+                        <Route path='account/profile' element={<Profile />} />
+                        <Route path='account/data' element={<PersonalData />} />
                     </Route>
-                    <Route path='orders' element={<OrderPage />} />
+                    <Route path='account/orders' element={<OrderPage />} />
                 </Route>
                 <Route element={<AuthPage />}>
                     <Route path='auth/login' element={<Login />} />
