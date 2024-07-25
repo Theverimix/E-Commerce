@@ -10,6 +10,7 @@ import { getProducts } from '../../apis/product-api'
 export default function HomeCarousel() {
     const [products, setProducts] = useState([])
     const [isLoading, setIsLoading] = useState(true)
+    const [isCooldown, setIsCooldown] = useState(false)
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -56,6 +57,13 @@ export default function HomeCarousel() {
         })
     }
 
+    const handleCooldown = () => {
+        setIsCooldown(true)
+        setTimeout(() => {
+            setIsCooldown(false)
+        }, 2000)
+    }
+
     const itemTemplate = (item) => {
         return (
             <div className='p-4'>
@@ -89,7 +97,12 @@ export default function HomeCarousel() {
                     </div>
                 </div>
                 <div>
-                    <AddToCartBtn product={item} visible={true}></AddToCartBtn>
+                    <AddToCartBtn
+                        isCooldown={isCooldown}
+                        handleCooldown={handleCooldown}
+                        product={item}
+                        visible={true}
+                    ></AddToCartBtn>
                 </div>
             </div>
         )
