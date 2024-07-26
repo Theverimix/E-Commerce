@@ -3,6 +3,7 @@ package com.ecommerce.customer;
 import java.util.List;
 
 import com.ecommerce.address.AddressRequest;
+import com.ecommerce.address.AddressResponse;
 import com.ecommerce.exception.ApiResponse;
 import com.ecommerce.exception.PageNotFoundException;
 import com.ecommerce.order.OrderResponse;
@@ -43,6 +44,15 @@ public class CustomerController {
     ) throws PageNotFoundException {
         PageResponse<OrderResponse> orders = orderService.getOrdersByCustomer(page, 10, customerId, filter);
         return ApiResponse.ok(orders);
+    }
+
+    @GetMapping("/{customerId}/addresses")
+    public ApiResponse getAddressesByCustomer (
+        @PathVariable Long customerId,
+        @RequestParam(name = "page", defaultValue = "0") int page
+    ) throws PageNotFoundException {
+        PageResponse<AddressResponse> addresses = service.getAddressesByCustomer(customerId, page, 10);
+        return ApiResponse.ok(addresses);
     }
 
     @PutMapping("/{customerId}")
