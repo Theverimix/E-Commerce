@@ -129,7 +129,7 @@ export default function Header() {
         {
             label: 'PROFILE',
             items: [
-                { label: 'My profile', icon: 'pi pi-user', url: '/profile' },
+                { label: 'My profile', icon: 'pi pi-user', url: '/account/profile' },
                 { label: 'Settings', icon: 'pi pi-cog' },
             ],
         },

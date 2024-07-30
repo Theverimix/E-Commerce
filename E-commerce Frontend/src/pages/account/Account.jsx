@@ -6,6 +6,7 @@ import { Avatar } from 'primereact/avatar'
 import { Outlet } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
+import SideMenu from '../../components/side-menu/SideMenu'
 
 export default function Account() {
     const toast = useRef(null)
@@ -14,48 +15,35 @@ export default function Account() {
     const items = [
         {
             template: () => {
-                return <span className='mx-2 font-medium text-2xl font-semibold'>My account</span>
+                return <span className='mx-2 font-medium text-3xl font-semibold'>My Account</span>
             },
         },
         {
             separator: true,
         },
         {
-            label: 'Shop',
-            items: [
-                {
-                    label: 'Orders',
-                    icon: 'pi pi-shopping-bag',
-                    command: () => navegate('/account/orders'),
-                },
-            ],
+            label: 'Profile',
+            icon: 'pi pi-user',
+            command: () => navegate('/account/profile'),
         },
         {
-            label: 'User',
-            items: [
-                {
-                    label: 'Profile',
-                    icon: 'pi pi-user',
-                    command: () => navegate('/account/profile'),
-                },
-            ],
+            label: 'Orders',
+            icon: 'pi pi-shopping-bag',
+            command: () => navegate('/account/orders'),
         },
     ]
 
     return (
-        <div className='flex  w-full '>
-            <div className='align-items-top '>
-                <Toast ref={toast} />
-                <Menu
-                    model={items}
-                    className='py-8 w-full md:w-15rem border-none border-noround'
-                    style={{ minHeight: '900px', maxHeight: '300px' }}
-                />
+        <>
+            <Toast ref={toast} />
+            <div className='grid align-items-top'>
+                <div id='sidemenu' className='col-3'>
+                    <SideMenu itemsList={items}></SideMenu>
+                </div>
+                <div className='col'>
+                    <Outlet />
+                </div>
             </div>
-
-            <div className='mx-8 my-8 w-full'>
-                <Outlet />
-            </div>
-        </div>
+        </>
     )
 }

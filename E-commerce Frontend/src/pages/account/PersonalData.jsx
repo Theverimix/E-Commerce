@@ -26,7 +26,7 @@ export default function PersonalData() {
     useEffect(() => {
         const fetchUserData = async () => {
             const user = await getCustomerById(userId)
-            setUserData(user)
+            await setUserData(user)
         }
 
         fetchUserData()

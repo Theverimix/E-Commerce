@@ -27,6 +27,7 @@ export default function ProductList({
     addToCartButton = false,
     height = 'auto',
     onPageChange,
+    isCart = false,
 }) {
     const navigate = useNavigate()
     const [first, setFirst] = useState(0)
@@ -211,11 +212,18 @@ export default function ProductList({
             )
         }
 
-        // Si no hay productos y no está cargando, muestra un mensaje apropiado
+        if (!items || (items.length === 0 && isCart)) {
+            return (
+                <div className='w-full flex justify-content-center'>
+                    <img src='/icons/empty_cart.png' className='w-auto flex justify-content-center' />
+                </div>
+            )
+        }
+
         if (!items || items.length === 0) {
             return (
                 <div className='w-full flex justify-content-center'>
-                    <img src='/icons/empty_cart.png' className='w-8 flex justify-content-center' />
+                    <h1 className='text-center text-500'>No products found.</h1>
                 </div>
             )
         }

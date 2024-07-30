@@ -74,6 +74,7 @@ export default function Cart() {
                         linkeable
                         quantity
                         height='30rem'
+                        isCart
                     />
                 </div>
                 <div className='col-4 justify-content-center text'>

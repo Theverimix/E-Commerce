@@ -50,9 +50,28 @@ const AppWeb = () => (
 
                 {/* Admin Routes */}
                 <Route element={<PrivateRoutes isAdmin />}>
-                    <Route element={<AdminPage />}>
-                        <Route path='admin/products' element={<ProductAdminPage />}>
-                            <Route path='list' element={<ProductTable />} />
+                    <Route path='admin' element={<AdminPage />}>
+                        <Route path='products' element={<ProductAdminPage />}>
+                            <Route path='' element={<ProductTable />} />
+                            <Route path='new' element={<ProductPanel />} />
+                            <Route path=':id' element={<ProductPanel />} />
+                        </Route>
+                        <Route path='customers' element={<ProductAdminPage />}>
+                            <Route path='' element={<ProductTable />} />
+                            <Route path='new' element={<ProductPanel />} />
+                            <Route path=':id' element={<ProductPanel />} />
+                        </Route>
+                        <Route path='orders' element={<ProductAdminPage />}>
+                            <Route path='' element={<ProductTable />} />
+                            <Route path=':id' element={<ProductPanel />} />
+                        </Route>
+                        <Route path='sales' element={<ProductAdminPage />}>
+                            <Route path='' element={<ProductTable />} />
+                            <Route path='new' element={<ProductPanel />} />
+                            <Route path=':id' element={<ProductPanel />} />
+                        </Route>
+                        <Route path='categories' element={<ProductAdminPage />}>
+                            <Route path='' element={<ProductTable />} />
                             <Route path='new' element={<ProductPanel />} />
                             <Route path=':id' element={<ProductPanel />} />
                         </Route>

@@ -21,7 +21,7 @@ export default function Profile() {
             <Card className='w-full'>
                 <div
                     className='flex px-5 justify-content-between cursor-pointer no-underline text-color mb-4'
-                    onClick={() => navigate('/account/profile/data')}
+                    onClick={() => navigate('/account/data')}
                 >
                     <div className='flex gap-2'>
                         <Avatar icon='pi pi-id-card' size='large' shape='circle' />
