@@ -9,7 +9,7 @@ import { InputTextarea } from 'primereact/inputtextarea'
 import { MultiSelect } from 'primereact/multiselect'
 import { Toast } from 'primereact/toast'
 
-export const ProductForm = ({ editMode = true, productData, onSubmit, categorieList, stateList }) => {
+export const ProductForm = ({ editMode = true, product, onSubmit, categorieList, stateList }) => {
     const toastBottomCenter = useRef(null)
 
     const [name, setName] = useState('')
@@ -21,16 +21,16 @@ export const ProductForm = ({ editMode = true, productData, onSubmit, categorieL
     const [categories, setCategories] = useState([])
 
     useEffect(() => {
-        if (productData) {
-            setName(productData.name)
-            setDescription(productData.description)
-            setPrice(productData.price)
-            setStock(productData.stock)
-            setVisible(productData.visible)
-            setState(productData.state ? productData.state.id : null)
-            setCategories(productData.categories)
+        if (product) {
+            setName(product.name)
+            setDescription(product.description)
+            setPrice(product.price)
+            setStock(product.stock)
+            setVisible(product.visible)
+            setState(product.state ? product.state.id : null)
+            setCategories(product.categories)
         }
-    }, [productData])
+    }, [product])
 
     const handleSubmit = () => {
         const product = { name, description, price, stock, visible, idState: state, categories }

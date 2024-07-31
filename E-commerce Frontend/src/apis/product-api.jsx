@@ -28,13 +28,13 @@ export async function getProducts(page) {
 }
 
 export async function getProductById(id) {
-    try {
-        const response = await AxiosInstanceNoToken.get(`/products/${id}`)
-        return response.data.data
-    } catch (error) {
-        console.error('Error fetching data:', error)
-        return []
-    }
+    return await AxiosInstanceNoToken.get(`/products/${id}`)
+        .then(({ data }) => {
+            return data
+        })
+        .catch(({ response }) => {
+            return response.data
+        })
 }
 
 export async function getProductsByIds(productIds) {

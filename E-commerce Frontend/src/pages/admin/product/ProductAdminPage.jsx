@@ -7,17 +7,13 @@ const ProductAdminPage = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const { products } = await getProducts(1)
+            const { products } = await getProducts(2)
             setProducts(products)
         }
         fetchData()
     }, [])
 
-    return (
-        <div>
-            <Outlet context={products} />
-        </div>
-    )
+    return <Outlet context={products} />
 }
 
 export default ProductAdminPage

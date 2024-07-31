@@ -55,8 +55,8 @@ const AppWeb = () => (
                     <Route path='admin' element={<AdminPage />}>
                         <Route path='products' element={<ProductAdminPage />}>
                             <Route path='' element={<ProductTable />} />
-                            <Route path='new' element={<ProductPanel />} />
-                            <Route path=':id' element={<ProductPanel />} />
+                            <Route path='new' element={<ProductPanel editMode={false} />} />
+                            <Route path=':id' element={<ProductPanel editMode={true} />} />
                         </Route>
                         <Route path='customers' element={<CustomerAdminPage />}>
                             <Route path='' element={<CustomerTable />} />
