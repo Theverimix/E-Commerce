@@ -6,13 +6,16 @@ import { deleteProduct } from '../../../apis/product-api'
 
 const ProductTable = () => {
     const products = useOutletContext()
-
     const showToast = useToast()
 
     const handleDelete = async (id) => {
         const response = await deleteProduct(id)
         const { success } = response
-        showToast(success ? 'success' : 'error', 'Product operation result', 'Product deleted successfully')
+        showToast(
+            success ? 'success' : 'error',
+            'Product operation result',
+            success ? 'Product deleted successfully' : 'Error deleting product',
+        )
     }
 
     const actionBodyTemplate = (rowData) => {

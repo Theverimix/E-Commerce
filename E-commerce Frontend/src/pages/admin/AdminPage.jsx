@@ -53,7 +53,7 @@ const AdminPage = () => {
                 <div id='sidemenu' className='col-3'>
                     <SideMenu itemsList={items}></SideMenu>
                 </div>
-                <div className='col'>
+                <div className='col sm:w-4'>
                     <Outlet />
                 </div>
             </div>

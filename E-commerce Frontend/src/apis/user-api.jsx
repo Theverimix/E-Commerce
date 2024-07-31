@@ -9,3 +9,13 @@ export async function getUserById(id) {
         return {}
     }
 }
+
+export async function deleteUser(id) {
+    try {
+        const response = await AxiosInstance.delete(`/users/${id}`)
+        return response
+    } catch (error) {
+        console.error('Error deleting user data:', error)
+        return {}
+    }
+}
