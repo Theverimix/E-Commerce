@@ -1,5 +1,4 @@
 import AxiosInstance from './AxiosInstance'
-import AxiosInstanceNoToken from './AxiosInstanceNoToken'
 
 export async function getCustomers() {
     try {
@@ -28,6 +27,26 @@ export async function getCustomerAddresses(id) {
         return response.data.data
     } catch (error) {
         console.error('Error fetching user data:', error)
+        return {}
+    }
+}
+
+export async function saveCustomer(customer) {
+    try {
+        const response = await AxiosInstance.post(`/customers`, customer)
+        return response.data
+    } catch (error) {
+        console.error('Error saving user data:', error)
+        return {}
+    }
+}
+
+export async function updateCustomer(id, customer) {
+    try {
+        const response = await AxiosInstance.put(`/customers/${id}`, customer)
+        return response.data
+    } catch (error) {
+        console.error('Error updating user data:', error)
         return {}
     }
 }
