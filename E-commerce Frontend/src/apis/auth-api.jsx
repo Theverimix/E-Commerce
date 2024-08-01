@@ -3,6 +3,8 @@ import Cookies from 'js-cookie'
 
 export async function userLogin(username, password) {
     try {
+        Cookies.remove('token')
+
         const response = await AxiosInstance.post('/auth/login', {
             email: username,
             password: password,
