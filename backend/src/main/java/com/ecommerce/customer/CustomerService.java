@@ -45,42 +45,8 @@ public class CustomerService {
                 .collect(Collectors.toList());
     }
 
-    public void updateCustomerAddress(Long id, AddressRequest request) {
-        Customer customer = repository.findById(request.customerId())
-                .orElseThrow(() -> new EntityNotFoundException(
-                        "Customer with id [%s] not found.".formatted(request.customerId())));
-
-        Address address = addressRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(
-                "Address with id [%s] not found.".formatted(id)));
-
-        address.setCustomer(customer);
-        address.setFullName(request.fullName());
-        address.setAddressLine(request.addressLine());
-        address.setCity(request.city());
-        address.setRegion(request.region());
-        address.setCountry(request.country());
-        address.setPhone(request.phone());
-        address.setZip(request.zip());
-        address.setDeliveryInstructions(request.deliveryInstructions());
-
-        addressRepository.save(address);
-    }
-
-    public void saveCustomerAddress(AddressRequest request) {
-        Customer customer = repository.findById(request.customerId())
-                .orElseThrow(() -> new EntityNotFoundException(
-                        "Customer with id [%s] not found.".formatted(request.customerId())));
-        addressRepository.save(Address.builder()
-                .customer(customer)
-                .fullName(request.fullName())
-                .addressLine(request.addressLine())
-                .city(request.city())
-                .region(request.region())
-                .country(request.country())
-                .phone(request.phone())
-                .zip(request.zip())
-                .deliveryInstructions(request.deliveryInstructions())
-                .build());
+    public void saveCustomer(@NonNull CustomerRequest request) {
+        
     }
 
     public void updateCustomer(Long customerId, CustomerUpdateRequest request) {
@@ -119,5 +85,49 @@ public class CustomerService {
                 page.getTotalPages(),
                 page.getTotalElements()
         );
+    }
+
+    // Customer Address Service
+
+    public void saveCustomerAddress(AddressRequest request) {
+        Customer customer = repository.findById(request.customerId())
+                .orElseThrow(() -> new EntityNotFoundException(
+                        "Customer with id [%s] not found.".formatted(request.customerId())));
+        addressRepository.save(Address.builder()
+                .customer(customer)
+                .fullName(request.fullName())
+                .addressLine(request.addressLine())
+                .city(request.city())
+                .region(request.region())
+                .country(request.country())
+                .phone(request.phone())
+                .zip(request.zip())
+                .deliveryInstructions(request.deliveryInstructions())
+                .build());
+    }
+
+    public void updateCustomerAddress(Long id, AddressRequest request) {
+        Customer customer = repository.findById(request.customerId())
+                .orElseThrow(() -> new EntityNotFoundException(
+                        "Customer with id [%s] not found.".formatted(request.customerId())));
+
+        Address address = addressRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(
+                "Address with id [%s] not found.".formatted(id)));
+
+        address.setCustomer(customer);
+        address.setFullName(request.fullName());
+        address.setAddressLine(request.addressLine());
+        address.setCity(request.city());
+        address.setRegion(request.region());
+        address.setCountry(request.country());
+        address.setPhone(request.phone());
+        address.setZip(request.zip());
+        address.setDeliveryInstructions(request.deliveryInstructions());
+
+        addressRepository.save(address);
+    }
+
+    public void deleteCustomerAddress(Long id) {
+        addressRepository.deleteById(id);
     }
 }

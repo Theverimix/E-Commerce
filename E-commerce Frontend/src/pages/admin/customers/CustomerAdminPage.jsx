@@ -9,7 +9,6 @@ const CustomerAdminPage = () => {
         const fetchData = async () => {
             const customers = await getCustomers()
             setCustomers(customers)
-            console.log(customers)
         }
         fetchData()
     }, [])

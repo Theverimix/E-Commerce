@@ -24,10 +24,18 @@ public class CustomerController {
     private final CustomerService service;
     private final OrderService orderService;
 
+    // Customer API
+
     @GetMapping
     public ApiResponse getAllCustomers() {
         List<CustomerResponse> customers = service.getAllCustomers();
         return ApiResponse.ok(customers);
+    }
+
+    @PostMapping
+    public ApiResponse saveCustomer(@RequestBody @Valid CustomerRequest request) {
+        CustomerResponse customer = service.saveCustomer(request);
+        return ApiResponse.created(customer);
     }
 
     @GetMapping("/{customerId}")
@@ -64,6 +72,17 @@ public class CustomerController {
         return ApiResponse.updated();
     }
 
+
+    // Customer Address API
+
+    @PostMapping("/{customerId}/address")
+    public ApiResponse saveCustomerAddress(
+            @RequestBody @Valid AddressRequest request
+    ) {
+        service.saveCustomerAddress(request);
+        return ApiResponse.created();
+    }
+
     @PutMapping("/{customerId}/address")
     public ApiResponse updateCustomerAddress(
             @PathVariable Long customerId,
@@ -73,11 +92,12 @@ public class CustomerController {
         return ApiResponse.updated();
     }
 
-    @PostMapping("/{customerId}/address")
-    public ApiResponse saveCustomerAddress(
-            @RequestBody @Valid AddressRequest request
+    @DeleteMapping("/{customerId}/address/{addressId}")
+    public ApiResponse deleteCustomerAddress(
+            @PathVariable Long customerId,
+            @PathVariable Long addressId
     ) {
-        service.saveCustomerAddress(request);
-        return ApiResponse.created();
+        service.deleteCustomerAddress(addressId);
+        return ApiResponse.deleted();
     }
 }

@@ -14,6 +14,7 @@ import Profile from './pages/profile/Profile.jsx'
 import CheckoutPage from './pages/checkout/CheckoutPage.jsx'
 import Account from './pages/account/Account.jsx'
 import PersonalData from './pages/account/PersonalData.jsx'
+import CustomerAddresses from './pages/account/CustomerAddresses.jsx'
 import ProfileCard from './pages/account/ProfileCard.jsx'
 import AdminPage from './pages/admin/AdminPage.jsx'
 import ProductAdminPage from './pages/admin/product/ProductAdminPage.jsx'
@@ -25,6 +26,7 @@ import PrivateRoutes from './apis/PrivateRoutes.jsx'
 import '../src/styles/appWeb.css'
 import CustomerAdminPage from './pages/admin/customers/CustomerAdminPage.jsx'
 import CustomerTable from './pages/admin/customers/CustomerTable.jsx'
+import CustomerPanel from './pages/admin/customers/CustomerPanel.jsx'
 
 const AppWeb = () => (
     <BrowserRouter>
@@ -45,6 +47,7 @@ const AppWeb = () => (
                         <Route element={<ProfileCard />}>
                             <Route path='account/profile' element={<Profile />} />
                             <Route path='account/data' element={<PersonalData />} />
+                            <Route path='account/addresses' element={<CustomerAddresses />} />
                         </Route>
                         <Route path='account/orders' element={<OrderPage />} />
                     </Route>
@@ -55,13 +58,13 @@ const AppWeb = () => (
                     <Route path='admin' element={<AdminPage />}>
                         <Route path='products' element={<ProductAdminPage />}>
                             <Route path='' element={<ProductTable />} />
-                            <Route path='new' element={<ProductPanel editMode={false} />} />
-                            <Route path=':id' element={<ProductPanel editMode={true} />} />
+                            <Route path='new' element={<ProductPanel />} />
+                            <Route path=':id' element={<ProductPanel editMode />} />
                         </Route>
                         <Route path='customers' element={<CustomerAdminPage />}>
                             <Route path='' element={<CustomerTable />} />
-                            <Route path='new' element={<ProductPanel />} />
-                            <Route path=':id' element={<ProductPanel />} />
+                            <Route path='new' element={<CustomerPanel />} />
+                            <Route path=':id' element={<CustomerPanel editMode />} />
                         </Route>
                         <Route path='orders' element={<ProductAdminPage />}>
                             <Route path='' element={<ProductTable />} />
