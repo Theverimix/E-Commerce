@@ -13,18 +13,14 @@ export async function searchProducts(params) {
 }
 
 export async function getProducts(page) {
-    try {
-        const response = await AxiosInstanceNoToken.get(`/products?page=${page}`)
-        const list = response.data.data
-        if (!list.products || list.products.length === 0) {
-            console.error('Error fetching data: Product list is empty')
-            return []
-        }
-        return list
-    } catch (error) {
-        console.error('Error fetching data:', error)
-        return []
-    }
+    return await AxiosInstanceNoToken.get(`/products?page=${page}`)
+        .then((response) => {
+            const { data } = response.data
+            return data // { products, totalPages, totalElements }
+        })
+        .catch(({ response }) => {
+            return response.data
+        })
 }
 
 export async function getProductById(id) {
