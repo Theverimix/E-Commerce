@@ -13,7 +13,7 @@ import { userLogout } from '../../apis/auth-api'
 
 import './header.css'
 
-import { extractNamefromToken, isLogedIn } from '../../utils/jwt-utils'
+import { extractNamefromToken, extractRolefromToken, isLogedIn } from '../../utils/jwt-utils'
 import { useProducts } from '../../providers/ProductsProvider'
 
 export default function Header() {
@@ -26,6 +26,8 @@ export default function Header() {
     const searchParams = new URLSearchParams(location.search)
     const nameParam = searchParams.get('name')
     const { totalProducts } = useProducts()
+
+    const userRole = isLogedIn() ? extractRolefromToken() : null
 
     useEffect(() => {
         if (nameParam) setSearchText(nameParam)
@@ -129,7 +131,11 @@ export default function Header() {
         {
             label: 'PROFILE',
             items: [
-                { label: 'My profile', icon: 'pi pi-user', url: '/account/profile' },
+                {
+                    label: userRole === 'ADMINISTRATOR' ? 'Admin panel' : 'My profile',
+                    icon: 'pi pi-user',
+                    url: userRole === 'ADMINISTRATOR' ? '/admin' : '/account/profile',
+                },
                 { label: 'Settings', icon: 'pi pi-cog' },
             ],
         },

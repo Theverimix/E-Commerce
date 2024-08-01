@@ -3,18 +3,28 @@ import { Card } from 'primereact/card'
 import { Avatar } from 'primereact/avatar'
 import { Outlet, useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
+import { extractNamefromToken, extractEmailfromToken } from '../../utils/jwt-utils'
+
+const getInitials = (name) => {
+    const nameArray = name.split(' ')
+    const initials = nameArray.map((word) => word.charAt(0).toUpperCase()).join('')
+    return initials
+}
 
 export default function Profile() {
     const navigate = useNavigate()
+    const name = extractNamefromToken()
+    const email = extractEmailfromToken()
+    const initials = getInitials(name)
 
     return (
         <div>
             <Card className='px-5 mb-3'>
                 <div className='flex gap-5'>
-                    <Avatar label='UN' size='xlarge' shape='circle' />
+                    <Avatar label={initials} size='xlarge' shape='circle' />
                     <div className='flex flex-column align'>
-                        <span className=' font-medium text-2xl font-semibold'>User Name</span>
-                        <span className='text-l font-normal'>@email</span>
+                        <span className=' font-medium text-2xl font-semibold'>{name}</span>
+                        <span className='text-l font-normal'>{email}</span>
                     </div>
                 </div>
             </Card>
@@ -53,7 +63,7 @@ export default function Profile() {
 
                 <div
                     className='flex px-5 justify-content-between cursor-pointer no-underline text-color'
-                    // onClick={() => navigate('/account/profilecard/personaldata')}
+                    onClick={() => navigate('/account/addresses')}
                 >
                     <div className='flex gap-2'>
                         <Avatar icon='pi pi-map-marker' size='large' shape='circle' />

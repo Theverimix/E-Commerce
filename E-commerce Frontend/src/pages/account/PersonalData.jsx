@@ -1,18 +1,15 @@
 import { useState, useEffect } from 'react'
-
 import { InputText } from 'primereact/inputtext'
 import { Button } from 'primereact/button'
 import { Card } from 'primereact/card'
 import { InputMask } from 'primereact/inputmask'
 import { BreadCrumb } from 'primereact/breadcrumb'
-
 import { extractIdfromToken } from '../../utils/jwt-utils'
 import { getCustomerById, updateProfile } from '../../apis/profile-api'
 import { useNavigate } from 'react-router-dom'
 
 export default function PersonalData() {
     const userId = extractIdfromToken()
-
     const navigate = useNavigate()
 
     const [userData, setUserData] = useState({
@@ -25,20 +22,28 @@ export default function PersonalData() {
 
     useEffect(() => {
         const fetchUserData = async () => {
-            const user = await getCustomerById(userId)
-            await setUserData(user)
+            try {
+                const user = await getCustomerById(userId)
+                if (user) {
+                    setUserData(user)
+                } else {
+                    console.error('User data is undefined')
+                    console.log(getCustomerById(userId))
+                }
+            } catch (error) {
+                console.error('Failed to fetch user data:', error)
+            }
         }
 
         fetchUserData()
-        console.log(userData)
     }, [userId])
 
     const handleChange = (event) => {
         const { name, value } = event.target
-        setUserData({
-            ...userData,
+        setUserData((prevData) => ({
+            ...prevData,
             [name]: value,
-        })
+        }))
     }
 
     const handleSubmit = async (event) => {
@@ -46,9 +51,8 @@ export default function PersonalData() {
         try {
             await updateProfile(userId, userData)
             console.log('Perfil actualizado correctamente')
-            console.log('user data:', userData)
         } catch (error) {
-            console.error('Error al actualizar el perfil:' + error)
+            console.error('Error al actualizar el perfil:', error)
         }
     }
 
@@ -63,7 +67,7 @@ export default function PersonalData() {
             <Card title='Personal data'>
                 <div className='flex justify-content-center align-items-center'>
                     <div className='md:w-10 lg:w-8 xl:w-6'>
-                        <form onSubmit='#'>
+                        <form onSubmit={handleSubmit}>
                             <div className='flex flex-column gap-2 mb-3 mt-3'>
                                 <label htmlFor='firstname'>Firstname</label>
                                 <InputText
@@ -104,9 +108,9 @@ export default function PersonalData() {
                                     value={userData.phone}
                                     onChange={handleChange}
                                     placeholder='XXX XXX XXX'
-                                ></InputMask>
+                                />
                             </div>
-                            <Button label='Save changes' type='submit' onClick={handleSubmit} className='w-12 mt-3' />
+                            <Button label='Save changes' type='submit' className='w-12 mt-3' />
                         </form>
                     </div>
                 </div>
