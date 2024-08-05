@@ -8,9 +8,12 @@ import { InputText } from 'primereact/inputtext'
 import { InputTextarea } from 'primereact/inputtextarea'
 import { MultiSelect } from 'primereact/multiselect'
 import { Toast } from 'primereact/toast'
+import { useNavigate } from 'react-router-dom'
 
 export const ProductForm = ({ editMode = true, product, onSubmit, categorieList, stateList }) => {
     const toastBottomCenter = useRef(null)
+
+    const navigate = useNavigate()
 
     const [name, setName] = useState('')
     const [description, setDescription] = useState('')
@@ -21,7 +24,7 @@ export const ProductForm = ({ editMode = true, product, onSubmit, categorieList,
     const [categories, setCategories] = useState([])
 
     useEffect(() => {
-        if (product) {
+        if (editMode) {
             setName(product.name)
             setDescription(product.description)
             setPrice(product.price)
@@ -30,7 +33,7 @@ export const ProductForm = ({ editMode = true, product, onSubmit, categorieList,
             setState(product.state ? product.state.id : null)
             setCategories(product.categories)
         }
-    }, [product])
+    }, [editMode, product])
 
     const handleSubmit = () => {
         const product = { name, description, price, stock, visible, idState: state, categories }
@@ -127,12 +130,21 @@ export const ProductForm = ({ editMode = true, product, onSubmit, categorieList,
                                 <InputText id='images' className='w-full' />
                                 <label htmlFor='images'>Product images</label>
                             </span> */}
-                            <Button
-                                onClick={handleSubmit}
-                                className='w-full'
-                                label={editMode ? 'Update product' : 'Create product'}
-                                icon={editMode ? 'pi pi-pencil' : 'pi pi-plus'}
-                            />
+                            <div className='flex justify-content-end gap-3'>
+                                <Button
+                                    onClick={() => navigate('/admin/products')}
+                                    className='w-full'
+                                    label='Cancel'
+                                    icon='pi pi-times'
+                                    outlined
+                                />
+                                <Button
+                                    onClick={handleSubmit}
+                                    className='w-full'
+                                    label={editMode ? 'Save Changes' : 'Create Product'}
+                                    icon={editMode ? 'pi pi-pencil' : 'pi pi-plus'}
+                                />
+                            </div>
                         </div>
                     </div>
                 </Card>

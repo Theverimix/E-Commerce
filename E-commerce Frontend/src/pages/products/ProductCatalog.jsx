@@ -28,7 +28,9 @@ function ProductCatalog() {
                 if (cache[cacheKey]) {
                     response = cache[cacheKey]
                 } else {
-                    response = await searchProducts(searchParams)
+                    const { data } = await searchProducts(searchParams)
+                    response = data
+
                     cache[cacheKey] = response
                 }
 

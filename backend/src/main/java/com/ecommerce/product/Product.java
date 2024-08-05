@@ -41,7 +41,7 @@ public class Product {
 
         private Set<String> images;
 
-        @ManyToMany
+        @ManyToMany(cascade = CascadeType.REMOVE)
         @JoinTable(name = "product_categories", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
         private List<Category> categories;
 

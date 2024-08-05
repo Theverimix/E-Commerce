@@ -28,10 +28,10 @@ const ProductTable = () => {
                 const { products: cachedProducts, totalPages, totalElements } = cache[pageNumber]
                 setProducts(cachedProducts)
                 setPages({ totalPages, totalElements })
-                console.log('Caché:', cachedProducts, 'currentPage', currentPage)
             } else {
                 // Require data fethching
-                const { products: fetchedProducts, totalPages, totalElements } = await getProducts(pageNumber)
+                const { data } = await getProducts(pageNumber)
+                const { products: fetchedProducts, totalPages, totalElements } = data
                 setProducts(fetchedProducts)
                 setPages({ totalPages, totalElements })
 
@@ -60,8 +60,8 @@ const ProductTable = () => {
 
     const handleDelete = async (id) => {
         const response = await deleteProduct(id)
-        const { success } = response
-        showToast(success ? 'success' : 'error', 'Product operation result', 'Product deleted successfully')
+        const { success, message } = response
+        showToast(success ? 'success' : 'error', 'Product operation result', message)
     }
 
     const actionBodyTemplate = (row) => {

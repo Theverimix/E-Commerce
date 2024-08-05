@@ -55,8 +55,8 @@ public class ProductService {
     }
 
     public void saveProduct(ProductRegisterRequest dto) {
-        ProductState state = productStateRepository.findById(dto.idState()).orElseThrow(
-                () -> new EntityNotFoundException("State with id [%s] not found.".formatted(dto.idState())));
+        ProductState state = productStateRepository.findById(dto.state()).orElseThrow(
+                () -> new EntityNotFoundException("State with id [%s] not found.".formatted(dto.state())));
 
         Product product = new Product();
         product.setName(dto.name());
@@ -66,7 +66,7 @@ public class ProductService {
         product.setVisible(dto.visible());
         product.setCreatedAt(new Date());
         product.setImages(dto.images());
-        product.setCategories(dto.productCategories());
+        product.setCategories(categoryRepository.findAllById(dto.categories()));
         product.setState(state);
         productRepository.save(product);
     }
@@ -89,8 +89,10 @@ public class ProductService {
         productRepository.delete(product);
     }
 
-    public ProductPageResponse searchProduct(int page, String name, Double minPrice, Double maxPrice,
-            String categoryName, boolean booleanSale) {
+    public ProductPageResponse searchProduct(
+            int page, String name, Double minPrice, Double maxPrice, String categoryName, boolean booleanSale
+    ) {
+
         // SPECIFICATION CREATION
 
         List<Specification<Product>> specs = new ArrayList<>();

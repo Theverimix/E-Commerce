@@ -49,7 +49,8 @@ public class ProductController {
 
     @PostMapping
     ApiResponse saveProduct(
-            @Valid @RequestBody ProductRegisterRequest request) {
+            @Valid @RequestBody ProductRegisterRequest request
+    ) {
         service.saveProduct(request);
         return ApiResponse.created();
     }
