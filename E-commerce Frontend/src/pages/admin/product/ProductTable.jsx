@@ -1,14 +1,50 @@
 import { Column } from 'primereact/column'
 import { DataTable } from 'primereact/datatable'
-import { Link, useOutletContext } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useToast } from '../../../providers/ToastProvider'
-import { deleteProduct } from '../../../apis/product-api'
+import { deleteProduct, getProducts } from '../../../apis/product-api'
 import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog'
 import { Button } from 'primereact/button'
+import { Paginator } from 'primereact/paginator'
+import { useEffect, useState } from 'react'
 
 const ProductTable = () => {
-    const products = useOutletContext()
     const showToast = useToast()
+    const [products, setProducts] = useState([])
+
+    const elementsPerPage = 9
+    const [currentPage, setCurrentPage] = useState(0)
+    const [pages, setPages] = useState({
+        totalPages: 0,
+        totalElements: 0,
+    })
+    const [cache, setCache] = useState({}) // { pageNumber : { products, totalPages, totalElements } }
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const pageNumber = currentPage / elementsPerPage
+            if (cache[pageNumber]) {
+                // Products available in cache
+                const { products: cachedProducts, totalPages, totalElements } = cache[pageNumber]
+                setProducts(cachedProducts)
+                setPages({ totalPages, totalElements })
+                console.log('Caché:', cachedProducts, 'currentPage', currentPage)
+            } else {
+                // Require data fethching
+                const { products: fetchedProducts, totalPages, totalElements } = await getProducts(pageNumber)
+                setProducts(fetchedProducts)
+                setPages({ totalPages, totalElements })
+
+                // Update cache with fetched data
+                setCache((prevCache) => ({
+                    ...prevCache,
+                    [pageNumber]: { products: fetchedProducts, totalPages, totalElements },
+                }))
+            }
+        }
+
+        fetchData()
+    }, [currentPage, cache])
 
     const showConfirmDialog = (id) => {
         confirmDialog({
@@ -58,6 +94,14 @@ const ProductTable = () => {
                 <Column field='createdAt' header='Created At' />
                 <Column header='Actions' body={actionBodyTemplate} />
             </DataTable>
+            <Paginator
+                first={currentPage}
+                rows={elementsPerPage}
+                totalRecords={pages.totalElements}
+                onPageChange={(e) => {
+                    setCurrentPage(e.first)
+                }}
+            />
         </>
     )
 }
