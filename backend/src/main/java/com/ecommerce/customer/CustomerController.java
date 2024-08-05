@@ -32,12 +32,6 @@ public class CustomerController {
         return ApiResponse.ok(customers);
     }
 
-    @PostMapping
-    public ApiResponse saveCustomer(@RequestBody @Valid CustomerRequest request) {
-        CustomerResponse customer = service.saveCustomer(request);
-        return ApiResponse.created(customer);
-    }
-
     @GetMapping("/{customerId}")
     public ApiResponse getCustomerById(@PathVariable Long customerId) {
         CustomerResponse customer = service.getCustomerById(customerId);

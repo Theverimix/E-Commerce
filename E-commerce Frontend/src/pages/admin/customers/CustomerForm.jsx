@@ -4,7 +4,7 @@ import { Dropdown } from 'primereact/dropdown'
 import { InputText } from 'primereact/inputtext'
 import { useEffect, useState } from 'react'
 
-export const CustomerForm = ({ editMode = true, customer = {}, onSubmit }) => {
+export const CustomerForm = ({ customer = {}, onSubmit }) => {
     const [customerData, setCustomerData] = useState({
         firstname: customer.firstname,
         lastname: customer.lastname,
@@ -33,11 +33,9 @@ export const CustomerForm = ({ editMode = true, customer = {}, onSubmit }) => {
         onSubmit(customerData)
     }
 
-    const cardTitle = <h2 className='text-center'>{editMode ? 'Edit Customer' : 'Customer Creator'}</h2>
+    const cardTitle = <h2 className='text-center'>Edit Customer</h2>
 
-    const cardSubtitle = (
-        <div className='text-center'>{editMode ? 'Edit the customer details' : 'Add a new customer'}</div>
-    )
+    const cardSubtitle = <div className='text-center'>Edit the customer details</div>
 
     const roleList = [
         { name: 'Admin', value: 'ADMINISTRATOR' },
@@ -117,22 +115,11 @@ export const CustomerForm = ({ editMode = true, customer = {}, onSubmit }) => {
                                 />
                                 <label htmlFor='state'>State</label>
                             </span>
-                            <span className='p-float-label'>
-                                <Dropdown
-                                    id='role'
-                                    value={customerData.role}
-                                    options={roleList}
-                                    onChange={(e) => setCustomerData({ ...customerData, role: e.value })}
-                                    optionLabel='name'
-                                    className='w-full'
-                                />
-                                <label htmlFor='role'>Role</label>
-                            </span>
                             <Button
                                 onClick={handleSubmit}
                                 className='w-full'
-                                label={editMode ? 'Update customer' : 'Create customer'}
-                                icon={editMode ? 'pi pi-pencil' : 'pi pi-plus'}
+                                label='Update customer'
+                                icon='pi pi-pencil'
                             />
                         </div>
                     </div>

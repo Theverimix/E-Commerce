@@ -47,11 +47,6 @@ const CustomerTable = () => {
         <>
             <div className='flex align-items-center'>
                 <h1>Customers</h1>
-                <Link to='/admin/customers/new' className='ml-auto'>
-                    <Button outlined icon='pi pi-plus' className='gap-2'>
-                        Add New Customer
-                    </Button>
-                </Link>
             </div>
             <ConfirmDialog />
             <DataTable value={customers} className='w-auto'>

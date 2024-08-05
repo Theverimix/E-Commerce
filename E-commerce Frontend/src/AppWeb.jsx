@@ -63,8 +63,8 @@ const AppWeb = () => (
                         </Route>
                         <Route path='customers' element={<CustomerAdminPage />}>
                             <Route path='' element={<CustomerTable />} />
-                            <Route path='new' element={<CustomerPanel />} />
-                            <Route path=':id' element={<CustomerPanel editMode />} />
+                            {/* <Route path='new' element={<CustomerPanel />} /> */}
+                            <Route path=':id' element={<CustomerPanel />} />
                         </Route>
                         <Route path='orders' element={<ProductAdminPage />}>
                             <Route path='' element={<ProductTable />} />

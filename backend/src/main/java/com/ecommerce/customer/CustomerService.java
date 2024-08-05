@@ -21,6 +21,8 @@ import com.ecommerce.address.AddressRepository;
 import com.ecommerce.address.AddressRequest;
 import com.ecommerce.address.AddressResponse;
 import com.ecommerce.exception.PageNotFoundException;
+import com.ecommerce.user.UserRole;
+import com.ecommerce.user.UserState;
 import com.ecommerce.utils.PageResponse;
 
 @Service
@@ -45,9 +47,18 @@ public class CustomerService {
                 .collect(Collectors.toList());
     }
 
-    public void saveCustomer(@NonNull CustomerRequest request) {
-        
-    }
+    // public void saveCustomer(@NonNull CustomerRequest request) {
+    //     Customer customer = new Customer();
+    //     customer.setFirstname(request.firstname());
+    //     customer.setLastname(request.lastname());
+    //     customer.setEmail(request.email());
+    //     customer.setCountry(request.country());
+    //     customer.setPhone(request.phone());
+    //     customer.setState(request.state());
+    //     customer.setRole(UserRole.CUSTOMER);
+    //     customer.set
+    //     repository.save(customer);
+    // }
 
     public void updateCustomer(Long customerId, CustomerUpdateRequest request) {
         Customer customer = repository.findById(customerId)
@@ -57,9 +68,12 @@ public class CustomerService {
         customer.setFirstname(request.firstname());
         customer.setLastname(request.lastname());
         customer.setEmail(request.email());
-        // customer.setAddresses(request.address());
         customer.setCountry(request.country());
         customer.setPhone(request.phone());
+
+        if (request.state() != null) {
+            customer.setState(request.state());
+        }
 
         repository.save(customer);
     }
