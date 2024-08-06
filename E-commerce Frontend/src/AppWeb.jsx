@@ -55,27 +55,32 @@ const AppWeb = () => (
 
                 {/* Admin Routes */}
                 <Route element={<PrivateRoutes isAdmin />}>
-                    <Route path='admin' element={<AdminPage />}>
-                        <Route path='products' element={<ProductAdminPage />}>
+                    <Route element={<AdminPage />}>
+                        <Route element={<ProfileCard isAdmin />}>
+                            <Route path='admin/profile' element={<Profile isAdmin />} />
+                            <Route path='admin/data' element={<PersonalData isAdmin />} />
+                        </Route>
+
+                        <Route path='admin/products' element={<ProductAdminPage />}>
                             <Route path='' element={<ProductTable />} />
                             <Route path='new' element={<ProductPanel />} />
                             <Route path=':id' element={<ProductPanel editMode />} />
                         </Route>
-                        <Route path='customers' element={<CustomerAdminPage />}>
+                        <Route path='admin/customers' element={<CustomerAdminPage />}>
                             <Route path='' element={<CustomerTable />} />
                             {/* <Route path='new' element={<CustomerPanel />} /> */}
                             <Route path=':id' element={<CustomerPanel />} />
                         </Route>
-                        <Route path='orders' element={<ProductAdminPage />}>
+                        <Route path='admin/orders' element={<ProductAdminPage />}>
                             <Route path='' element={<ProductTable />} />
                             <Route path=':id' element={<ProductPanel />} />
                         </Route>
-                        <Route path='sales' element={<ProductAdminPage />}>
+                        <Route path='admin/sales' element={<ProductAdminPage />}>
                             <Route path='' element={<ProductTable />} />
                             <Route path='new' element={<ProductPanel />} />
                             <Route path=':id' element={<ProductPanel />} />
                         </Route>
-                        <Route path='categories' element={<ProductAdminPage />}>
+                        <Route path='admin/categories' element={<ProductAdminPage />}>
                             <Route path='' element={<ProductTable />} />
                             <Route path='new' element={<ProductPanel />} />
                             <Route path=':id' element={<ProductPanel />} />

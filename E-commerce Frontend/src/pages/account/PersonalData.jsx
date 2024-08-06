@@ -7,8 +7,9 @@ import { BreadCrumb } from 'primereact/breadcrumb'
 import { extractIdfromToken } from '../../utils/jwt-utils'
 import { getCustomerById, updateProfile } from '../../apis/profile-api'
 import { useNavigate } from 'react-router-dom'
+import { getUserById } from '../../apis/user-api'
 
-export default function PersonalData() {
+export default function PersonalData({ isAdmin = false }) {
     const userId = extractIdfromToken()
     const navigate = useNavigate()
 
@@ -23,13 +24,13 @@ export default function PersonalData() {
     useEffect(() => {
         const fetchUserData = async () => {
             try {
-                const user = await getCustomerById(userId)
+                const user = !isAdmin ? await getCustomerById(userId) : await getUserById(userId)
                 if (user) {
-                    setUserData(user)
+                    setUserData(user.data.data)
                 } else {
                     console.error('User data is undefined')
-                    console.log(getCustomerById(userId))
                 }
+                console.log('User data:', user.data.data)
             } catch (error) {
                 console.error('Failed to fetch user data:', error)
             }
@@ -57,7 +58,7 @@ export default function PersonalData() {
     }
 
     const items = [{ label: 'Personal data' }]
-    const home = { label: 'Profile', command: () => navigate('/account/profile') }
+    const home = { label: 'Profile', command: () => navigate(!isAdmin ? '/account/profile' : '/admin') }
 
     return (
         <div className='w-full'>
@@ -90,26 +91,30 @@ export default function PersonalData() {
                                 <label htmlFor='email'>Email</label>
                                 <InputText id='email' name='email' value={userData.email} onChange={handleChange} />
                             </div>
-                            <div className='flex flex-column gap-2 mb-3'>
-                                <label htmlFor='country'>Country</label>
-                                <InputText
-                                    id='country'
-                                    name='country'
-                                    value={userData.country}
-                                    onChange={handleChange}
-                                />
-                            </div>
-                            <div className='flex flex-column gap-2 mb-3'>
-                                <label htmlFor='phone'>Phone</label>
-                                <InputMask
-                                    id='phone'
-                                    mask='999 999 999'
-                                    name='phone'
-                                    value={userData.phone}
-                                    onChange={handleChange}
-                                    placeholder='XXX XXX XXX'
-                                />
-                            </div>
+                            {!isAdmin && (
+                                <>
+                                    <div className='flex flex-column gap-2 mb-3'>
+                                        <label htmlFor='country'>Country</label>
+                                        <InputText
+                                            id='country'
+                                            name='country'
+                                            value={userData.country}
+                                            onChange={handleChange}
+                                        />
+                                    </div>
+                                    <div className='flex flex-column gap-2 mb-3'>
+                                        <label htmlFor='phone'>Phone</label>
+                                        <InputMask
+                                            id='phone'
+                                            mask='999 999 999'
+                                            name='phone'
+                                            value={userData.phone}
+                                            onChange={handleChange}
+                                            placeholder='XXX XXX XXX'
+                                        />
+                                    </div>
+                                </>
+                            )}
                             <Button label='Save changes' type='submit' className='w-12 mt-3' />
                         </form>
                     </div>

@@ -42,7 +42,7 @@ export default function Home() {
                 </div>
 
                 <div className='flex justify-content-center align-items-center flex-column mt-5'>
-                    <p className='pt-6 text-6xl'>CATEGORIES</p>
+                    <p className='pt-6 text-6xl font-bold'>CATEGORIES</p>
                 </div>
 
                 <div className='grid justify-content-center m-auto my-3 gap-3'>
@@ -68,7 +68,7 @@ export default function Home() {
                 {/* products */}
 
                 <div className='flex justify-content-center align-items-center flex-column'>
-                    <p className='text-6xl mb-0 pt-6'>SALE PRODUCTS</p>
+                    <p className='text-6xl mb-0 pt-6 font-bold'>SALE PRODUCTS</p>
                 </div>
 
                 <div className='carousel'>
