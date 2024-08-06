@@ -6,11 +6,13 @@ import { deleteProduct, getProducts } from '../../../apis/product-api'
 import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog'
 import { Button } from 'primereact/button'
 import { Paginator } from 'primereact/paginator'
+import { Skeleton } from 'primereact/skeleton'
 import { useEffect, useState } from 'react'
 
 const ProductTable = () => {
     const showToast = useToast()
     const [products, setProducts] = useState([])
+    const [loading, setLoading] = useState(true)
 
     const elementsPerPage = 9
     const [currentPage, setCurrentPage] = useState(0)
@@ -22,18 +24,21 @@ const ProductTable = () => {
 
     useEffect(() => {
         const fetchData = async () => {
+            setLoading(true)
             const pageNumber = currentPage / elementsPerPage
             if (cache[pageNumber]) {
                 // Products available in cache
                 const { products: cachedProducts, totalPages, totalElements } = cache[pageNumber]
                 setProducts(cachedProducts)
                 setPages({ totalPages, totalElements })
+                setLoading(false)
             } else {
-                // Require data fethching
+                // Require data fetching
                 const { data } = await getProducts(pageNumber)
                 const { products: fetchedProducts, totalPages, totalElements } = data
                 setProducts(fetchedProducts)
                 setPages({ totalPages, totalElements })
+                setLoading(false)
 
                 // Update cache with fetched data
                 setCache((prevCache) => ({
@@ -86,22 +91,30 @@ const ProductTable = () => {
                 </Link>
             </div>
             <ConfirmDialog />
-            <DataTable value={products} tableStyle={{ minWidth: '50rem' }}>
-                <Column field='name' header='Name' />
-                <Column field='price' header='Price' />
-                <Column field='stock' header='Stock' />
-                <Column field='visible' header='Visible' />
-                <Column field='createdAt' header='Created At' />
-                <Column header='Actions' body={actionBodyTemplate} />
-            </DataTable>
-            <Paginator
-                first={currentPage}
-                rows={elementsPerPage}
-                totalRecords={pages.totalElements}
-                onPageChange={(e) => {
-                    setCurrentPage(e.first)
-                }}
-            />
+
+            {loading ? (
+                <Skeleton width='100%' height='20rem' />
+            ) : (
+                <>
+                    <DataTable value={products} tableStyle={{ minWidth: '50rem' }}>
+                        <Column field='name' header='Name' />
+                        <Column field='price' header='Price' />
+                        <Column field='stock' header='Stock' />
+                        <Column field='visible' header='Visible' />
+                        <Column field='createdAt' header='Created At' />
+                        <Column header='Actions' body={loading ? skeletonBodyTemplate : actionBodyTemplate} />
+                    </DataTable>
+
+                    <Paginator
+                        first={currentPage}
+                        rows={elementsPerPage}
+                        totalRecords={pages.totalElements}
+                        onPageChange={(e) => {
+                            setCurrentPage(e.first)
+                        }}
+                    />
+                </>
+            )}
         </>
     )
 }

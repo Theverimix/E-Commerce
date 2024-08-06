@@ -8,7 +8,7 @@ import com.ecommerce.exception.ApiResponse;
 import com.ecommerce.exception.PageNotFoundException;
 import com.ecommerce.order.OrderResponse;
 import com.ecommerce.order.OrderService;
-
+import com.ecommerce.product.ProductPageResponse;
 import com.ecommerce.utils.PageResponse;
 import jakarta.validation.Valid;
 
@@ -27,9 +27,11 @@ public class CustomerController {
     // Customer API
 
     @GetMapping
-    public ApiResponse getAllCustomers() {
-        List<CustomerResponse> customers = service.getAllCustomers();
-        return ApiResponse.ok(customers);
+    ApiResponse getAllCustomers(
+            @RequestParam(name = "page", defaultValue = "0") int page
+    ) {
+        CustomerPageResponse products = service.getAllCustomers(page);
+        return ApiResponse.ok(products);
     }
 
     @GetMapping("/{customerId}")

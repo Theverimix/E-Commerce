@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router-dom'
 
-const CustomerAdminPage = () => {
+const OrderAdminPage = () => {
     return <Outlet />
 }
 
-export default CustomerAdminPage
+export default OrderAdminPage

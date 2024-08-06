@@ -1,14 +1,7 @@
 import AxiosInstance from './AxiosInstance'
 
-export async function getCustomers() {
-    try {
-        const response = await AxiosInstance.get(`/customers`)
-        const list = response.data.data
-        return list
-    } catch (error) {
-        console.error('Error fetching users data:', error)
-        return {}
-    }
+export async function getCustomers(page) {
+    return await handleApiPromise(AxiosInstance.get(`/customers?page=${page}`))
 }
 
 export async function getCustomerById(id) {
@@ -49,4 +42,14 @@ export async function updateCustomer(id, customer) {
         console.error('Error updating user data:', error)
         return {}
     }
+}
+
+const handleApiPromise = async (promise) => {
+    return await promise
+        .then(({ data }) => {
+            return data
+        })
+        .catch(({ response }) => {
+            return response.data
+        })
 }

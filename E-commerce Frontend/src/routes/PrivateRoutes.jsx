@@ -4,9 +4,12 @@ import { useToast } from '../providers/ToastProvider'
 
 const PrivateRoutes = ({ isAdmin = false }) => {
     const showToast = useToast()
+    let url = '/'
+
     const auth = () => {
         if (!isLogedIn()) {
             showToast('error', 'Error', 'You must be logged in')
+            url = '/auth/login'
             return false
         }
 
@@ -18,7 +21,7 @@ const PrivateRoutes = ({ isAdmin = false }) => {
         return true
     }
 
-    return auth() ? <Outlet /> : <Navigate to='/auth/login' />
+    return auth() ? <Outlet /> : <Navigate to={url} />
 }
 
 export default PrivateRoutes

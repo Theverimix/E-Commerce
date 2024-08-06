@@ -21,6 +21,9 @@ import com.ecommerce.address.AddressRepository;
 import com.ecommerce.address.AddressRequest;
 import com.ecommerce.address.AddressResponse;
 import com.ecommerce.exception.PageNotFoundException;
+import com.ecommerce.product.Product;
+import com.ecommerce.product.ProductPageResponse;
+import com.ecommerce.product.ProductResponse;
 import com.ecommerce.user.UserRole;
 import com.ecommerce.user.UserState;
 import com.ecommerce.utils.PageResponse;
@@ -40,11 +43,17 @@ public class CustomerService {
                 .orElseThrow(() -> new EntityNotFoundException("Customer with id [%s] not found.".formatted(id)));
     }
 
-    public List<CustomerResponse> getAllCustomers() {
-        return repository.findAll()
-                .stream()
-                .map(mapper)
-                .collect(Collectors.toList());
+    public CustomerPageResponse getAllCustomers(int page) {
+        PageRequest pageRequest = PageRequest.of(page, 9, Sort.by("id"));
+
+        Page<Customer> pageCustomers = repository.findAll((root, query, builder) -> builder.conjunction() , pageRequest);
+
+        int totalPages = pageCustomers.getTotalPages();
+        long totalElements = pageCustomers.getTotalElements();
+
+        List<CustomerResponse> customerListMap = pageCustomers.map(mapper).getContent();
+
+        return new CustomerPageResponse(customerListMap, totalPages, totalElements);
     }
 
     // public void saveCustomer(@NonNull CustomerRequest request) {
