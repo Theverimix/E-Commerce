@@ -6,7 +6,8 @@ import { useToast } from '../../providers/ToastProvider'
 import { useNavigate } from 'react-router-dom'
 import { extractIdfromToken } from '../../utils/jwt-utils'
 import { BreadCrumb } from 'primereact/breadcrumb'
-import { getAddresses } from '../../apis/Address-api'
+import { getAddresses, deleteAddress } from '../../apis/address-api'
+import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog'
 import { Paginator } from 'primereact/paginator'
 import { classNames } from 'primereact/utils'
 import { Button } from 'primereact/button'
@@ -15,7 +16,7 @@ import { Menu } from 'primereact/menu'
 export default function CustomerAddresses() {
     const toast = useToast()
     const navigate = useNavigate()
-    const userId = extractIdfromToken()
+    const customerId = extractIdfromToken()
     const menuRight = useRef(null)
 
     const [addresses, setAddresses] = useState([])
@@ -29,13 +30,13 @@ export default function CustomerAddresses() {
     const fetchAddresses = useCallback(
         async (page) => {
             setIsLoading(true)
-            const data = await getAddresses(userId, page)
+            const data = await getAddresses(customerId, page)
             console.log(data)
             setAddresses(data.content)
             setTotalElements(data.totalElements || 0)
             setIsLoading(false)
         },
-        [userId],
+        [customerId],
     )
 
     useEffect(() => {
@@ -47,15 +48,38 @@ export default function CustomerAddresses() {
         fetchAddresses(event.first / 9)
     }
 
-    const itemsAddresses = [
+    const handleDelete = async (addressId) => {
+        // alert(addressId)
+        // alert(customerId)
+        const response = await deleteAddress(customerId, addressId)
+        const { success } = response
+        showToast(success ? 'success' : 'error', 'Address operation result', 'Address deleted successfully')
+    }
+
+    const showConfirmDialog = (id) => {
+        confirmDialog({
+            message: 'Do you want to delete this record?',
+            header: 'Delete Confirmation',
+            icon: 'pi pi-info-circle',
+            defaultFocus: 'reject',
+            acceptClassName: 'p-button-danger',
+            accept: () => handleDelete(id),
+            reject: () => {},
+        })
+    }
+
+    const itemsAddresses = (id) => [
         {
-            label: 'Edit address',
+            label: 'Edit',
+            icon: 'pi pi-pencil',
         },
 
         { separator: true },
 
         {
-            label: 'Delete address',
+            label: 'Delete',
+            icon: 'pi pi-trash',
+            command: () => showConfirmDialog(id),
         },
     ]
 
@@ -94,9 +118,15 @@ export default function CustomerAddresses() {
                         <i className='pi pi-map-marker text-2xl mr-3'></i>
                         <span className='text-xl font-semibold'>{address.addressLine}</span>
                     </div>
-                    <Menu model={itemsAddresses} popup ref={menuRight} id='popup_menu_right' popupAlignment='right' />
+                    <Menu
+                        model={itemsAddresses(address.id)}
+                        popup
+                        ref={menuRight}
+                        id='popup_menu_right'
+                        popupAlignment='right'
+                    />
                     <i
-                        className='pi pi-ellipsis-v text-xl cursor-pointer'
+                        className='pi pi-ellipsis-v text-xl cursor-pointer hover:text-primary'
                         onClick={(event) => menuRight.current.toggle(event)}
                         aria-controls='popup_menu_right'
                         aria-haspopup
@@ -132,6 +162,7 @@ export default function CustomerAddresses() {
 
     return (
         <div className='w-full'>
+            <ConfirmDialog />
             <div>
                 <BreadCrumb model={items} home={home} className='border-none mb-3' />
             </div>
@@ -143,9 +174,10 @@ export default function CustomerAddresses() {
                 {/* <Paginator first={first} rows={9} totalRecords={totalElements} onPageChange={handlePageChange} /> */}
                 <div className='text-center mt-5'>
                     <Button
-                        onClick={() => navigate('#')}
+                        onClick={() => navigate('/account/createAddress')}
                         label='Agregar domicilio'
-                        className='border-none py-2 text-left px-6 border-round-md transition-color transition-duration-100 bg-primary-reverse hover:bg-primary border-200 w-full'
+                        style={{ backgroundColor: '#1e1e1e00', color: 'var(--primary-color)' }}
+                        className='border-none py-2 text-left px-6 border-round-md transition-color transition-duration-100 hover:bg-primary border-200 w-full'
                         icon='pi pi-chevron-right'
                         iconPos='right'
                     />

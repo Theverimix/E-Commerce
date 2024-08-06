@@ -25,3 +25,33 @@ export async function getAddresses(customerId, page) {
         return []
     }
 }
+
+export const saveAddress = async (address) => {
+    try {
+        const response = await AxiosInstance.post(`/customers/${id}/address`, address)
+        return response.data
+    } catch (error) {
+        console.error('Error fetching data:', error)
+        return {}
+    }
+}
+
+export const updateAddress = async (id, address) => {
+    try {
+        const response = await AxiosInstance.put(`/customers/${id}/address`, address)
+        return response.data
+    } catch (error) {
+        console.error('Error fetching data:', error)
+        return {}
+    }
+}
+
+export const deleteAddress = async (customerId, addressId) => {
+    try {
+        const response = await AxiosInstance.delete(`/customers/${customerId}/address/${addressId}`)
+        return response.data
+    } catch (error) {
+        console.error('Error fetching data:', error)
+        return {}
+    }
+}

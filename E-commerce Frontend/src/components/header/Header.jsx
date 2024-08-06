@@ -126,7 +126,7 @@ export default function Header() {
                 {
                     label: userRole === 'ADMINISTRATOR' ? 'Admin panel' : 'My profile',
                     icon: 'pi pi-user',
-                    url: userRole === 'ADMINISTRATOR' ? '/admin' : '/account/profile',
+                    url: userRole === 'ADMINISTRATOR' ? '/admin/profile' : '/account/profile',
                 },
                 { label: 'Settings', icon: 'pi pi-cog' },
             ],

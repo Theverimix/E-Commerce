@@ -20,6 +20,8 @@ import AdminPage from './pages/admin/AdminPage.jsx'
 import ProductAdminPage from './pages/admin/product/ProductAdminPage.jsx'
 import ProductPanel from './pages/admin/product/ProductPanel.jsx'
 import ProductTable from './pages/admin/product/ProductTable.jsx'
+import AddressRegistrationForm from './pages/account/AddressRegistrationForm.jsx'
+import AddressUpdateForm from './pages/account/AddressUpdateForm.jsx'
 
 import PrivateRoutes from './routes/PrivateRoutes.jsx'
 
@@ -51,6 +53,8 @@ const AppWeb = () => (
                             <Route path='account/profile' element={<Profile />} />
                             <Route path='account/data' element={<PersonalData />} />
                             <Route path='account/addresses' element={<CustomerAddresses />} />
+                            <Route path='account/createAddress' element={<AddressRegistrationForm />} />
+                            <Route path='account/updateAddress' element={<AddressUpdateForm />} />
                         </Route>
                         <Route path='account/orders' element={<OrderPage />} />
                     </Route>
