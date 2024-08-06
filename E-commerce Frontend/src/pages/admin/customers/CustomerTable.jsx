@@ -1,14 +1,55 @@
 import { Column } from 'primereact/column'
 import { DataTable } from 'primereact/datatable'
-import { Link, useOutletContext } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useToast } from '../../../providers/ToastProvider'
 import { deleteUser } from '../../../apis/user-api'
-import { Button } from 'primereact/button'
 import { ConfirmDialog } from 'primereact/confirmdialog'
+import { Skeleton } from 'primereact/skeleton'
+import { getCustomers } from '../../../apis/customer-api'
+import { useEffect, useState } from 'react'
+import { Paginator } from 'primereact/paginator'
 
 const CustomerTable = () => {
-    const customers = useOutletContext()
     const showToast = useToast()
+    const [customers, setCustomers] = useState([])
+    const [isLoading, setIsLoading] = useState(false)
+
+    const elementsPerPage = 9
+    const [currentPage, setCurrentPage] = useState(0)
+    const [pages, setPages] = useState({
+        totalPages: 0,
+        totalElements: 0,
+    })
+    const [cache, setCache] = useState({})
+
+    useEffect(() => {
+        const fetchData = async () => {
+            setIsLoading(true)
+            const pageNumber = currentPage / elementsPerPage
+            if (cache[pageNumber]) {
+                // Products available in cache
+                const { customers: cachedCustomers, totalPages, totalElements } = cache[pageNumber]
+                setCustomers(cachedCustomers)
+                setPages({ totalPages, totalElements })
+                setIsLoading(false)
+            } else {
+                // Require data fetching
+                const { data } = await getCustomers(pageNumber)
+                const { customers: fetchedCustomers, totalPages, totalElements } = data
+                setCustomers(fetchedCustomers)
+                setPages({ totalPages, totalElements })
+                setIsLoading(false)
+
+                // Update cache with fetched data
+                setCache((prevCache) => ({
+                    ...prevCache,
+                    [pageNumber]: { customers: fetchedCustomers, totalPages, totalElements },
+                }))
+            }
+        }
+
+        fetchData()
+    }, [currentPage, cache])
 
     const handleDelete = async (id) => {
         const response = await deleteUser(id)
@@ -49,17 +90,31 @@ const CustomerTable = () => {
                 <h1>Customers</h1>
             </div>
             <ConfirmDialog />
-            <DataTable value={customers} className='w-auto'>
-                <Column field='id' header='ID' />
-                <Column field='firstname' header='Firstname' />
-                <Column field='lastname' header='Lastname' />
-                <Column field='email' header='Email' />
-                <Column field='phone' header='Phone' />
-                <Column field='country' header='Country' />
-                <Column field='role' header='Role' />
-                <Column field='state' header='State' />
-                <Column header='Actions' body={actionBodyTemplate} />
-            </DataTable>
+            {isLoading ? (
+                <Skeleton width='100%' height='20rem' />
+            ) : (
+                <>
+                    <DataTable value={customers} className='w-auto'>
+                        <Column field='id' header='ID' />
+                        <Column field='firstname' header='Firstname' />
+                        <Column field='lastname' header='Lastname' />
+                        <Column field='email' header='Email' />
+                        <Column field='phone' header='Phone' />
+                        <Column field='country' header='Country' />
+                        <Column field='role' header='Role' />
+                        <Column field='state' header='State' />
+                        <Column header='Actions' body={actionBodyTemplate} />
+                    </DataTable>
+                    <Paginator
+                        first={currentPage}
+                        rows={elementsPerPage}
+                        totalRecords={pages.totalElements}
+                        onPageChange={(e) => {
+                            setCurrentPage(e.first)
+                        }}
+                    />
+                </>
+            )}
         </>
     )
 }
