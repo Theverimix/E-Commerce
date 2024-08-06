@@ -1,11 +1,19 @@
 import { Menu } from 'primereact/menu'
 import { classNames } from 'primereact/utils'
 import React, { useState } from 'react'
+import { useLocation } from 'react-router-dom'
 
 export default function SideMenu({ itemsList = [] }) {
     const [focusedItem, setFocusedItem] = useState(null)
+    const urlActual = useLocation().pathname
+
+    const isAdminUrl = urlActual === '/admin' // Verifica si la URL es /admin
     const itemRenderer = (item) => {
-        const isFocused = focusedItem === item.label
+        const isFocused =
+            focusedItem === item.label ||
+            (focusedItem === null &&
+                !isAdminUrl &&
+                item.label === urlActual.split('/')[2].charAt(0).toUpperCase() + urlActual.split('/')[2].slice(1))
 
         return (
             <div

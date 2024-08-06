@@ -13,6 +13,19 @@ const AdminPage = () => {
     const items = [
         {
             template: () => {
+                return <span className='mx-2 font-medium text-3xl font-semibold'>My Account</span>
+            },
+        },
+        {
+            separator: true,
+        },
+        {
+            label: 'Profile',
+            icon: 'pi pi-user',
+            command: () => navigate('/admin/profile'),
+        },
+        {
+            template: () => {
                 return <span className='mx-2 font-medium text-3xl font-semibold'>Admin</span>
             },
         },
@@ -21,7 +34,7 @@ const AdminPage = () => {
         },
         {
             label: 'Customers',
-            icon: 'pi pi-user',
+            icon: 'pi pi-users',
             command: () => navigate('/admin/customers'),
         },
         {
