@@ -1,9 +1,6 @@
-import { useRef, useState } from 'react'
+import { useRef } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
 import { Toast } from 'primereact/toast'
-import { Menu } from 'primereact/menu'
-import { classNames } from 'primereact/utils'
-import { template } from 'lodash'
 import SideMenu from '../../components/side-menu/SideMenu'
 
 const AdminPage = () => {

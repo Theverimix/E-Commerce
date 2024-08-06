@@ -1,5 +1,9 @@
 import { isWithinInterval, sub } from 'date-fns'
 
+export const convertToDate = (isoString) => {
+    return new Date(isoString)
+}
+
 export const isWithinLastYear = (date) => {
     const lastYear = sub(new Date(), { years: 1 })
     return isWithinInterval(new Date(date), { start: lastYear, end: new Date() })

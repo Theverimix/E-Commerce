@@ -1,3 +1,4 @@
+import { handleApiPromise } from '../utils/api-utils'
 import AxiosInstance from './AxiosInstance'
 
 import AxiosInstanceNoToken from './AxiosInstanceNoToken'
@@ -45,14 +46,4 @@ export const updateProduct = async (id, product) => {
 
 export const deleteProduct = async (id) => {
     return await handleApiPromise(AxiosInstance.delete(`/products/${id}`))
-}
-
-const handleApiPromise = async (promise) => {
-    return await promise
-        .then(({ data }) => {
-            return data
-        })
-        .catch(({ response }) => {
-            return response.data
-        })
 }
