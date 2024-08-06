@@ -26,6 +26,8 @@ import PrivateRoutes from './routes/PrivateRoutes.jsx'
 import CustomerAdminPage from './pages/admin/customers/CustomerAdminPage.jsx'
 import CustomerTable from './pages/admin/customers/CustomerTable.jsx'
 import CustomerPanel from './pages/admin/customers/CustomerPanel.jsx'
+import OrderTable from './pages/admin/orders/OrderTable.jsx'
+import OrderDetails from './pages/order/OrderDetails.jsx'
 
 const AppWeb = () => (
     <BrowserRouter>
@@ -71,8 +73,8 @@ const AppWeb = () => (
                             <Route path=':id' element={<CustomerPanel />} />
                         </Route>
                         <Route path='admin/orders' element={<ProductAdminPage />}>
-                            <Route path='' element={<ProductTable />} />
-                            <Route path=':id' element={<ProductPanel />} />
+                            <Route path='' element={<OrderTable />} />
+                            <Route path=':id' element={<OrderDetails />} />
                         </Route>
                         <Route path='admin/sales' element={<ProductAdminPage />}>
                             <Route path='' element={<ProductTable />} />

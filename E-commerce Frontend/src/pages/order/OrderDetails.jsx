@@ -1,9 +1,13 @@
+import { useLocation } from 'react-router-dom'
 import ProductList from '../../components/product/ProductList'
 
 export default function OrderDetails({ order }) {
-    const { details } = order
+    const location = useLocation()
+    const orderFetch = order || location.state.order
+
+    console.log('orderFetch:', orderFetch)
     const getProducts = () =>
-        order.details.map((detail) => {
+        orderFetch.details.map((detail) => {
             return {
                 ...detail.product,
                 price: detail.price,
@@ -15,13 +19,13 @@ export default function OrderDetails({ order }) {
         <>
             <div>
                 <h2>Order Details</h2>
-                <h3>Order No: {order.id}</h3>
+                <h3>Order No: {orderFetch.id}</h3>
                 <h3>
-                    Client: {order.customer.firstname} {order.customer.lastname}
+                    Client: {orderFetch.customer.firstname} {orderFetch.customer.lastname}
                 </h3>
-                <h3>Address: {order.address}</h3>
-                <h3>Order date: {order.date}</h3>
-                <h3>Order status: {order.status}</h3>
+                <h3>Address: {orderFetch.address}</h3>
+                <h3>Order date: {orderFetch.createdAt}</h3>
+                <h3>Order status: {orderFetch.status}</h3>
 
                 <h4>Tracking number: 4564648789551</h4>
 

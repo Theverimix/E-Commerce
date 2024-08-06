@@ -15,6 +15,31 @@ export async function getOrdersByCustomer(id) {
     }
 }
 
+export async function getOrders(page) {
+    try {
+        const response = await AxiosInstance.get(`/orders?page=${page}`)
+        const list = response.data.data.content
+        if (!list || list.length === 0) {
+            console.error('Error fetching data: Orders list is empty')
+            return []
+        }
+        return response.data.data
+    } catch (error) {
+        console.error('Error fetching data:', error)
+        return []
+    }
+}
+
+export async function getOrderById(id) {
+    try {
+        const response = await AxiosInstance.get(`/orders/${id}`)
+        return response.data.data
+    } catch (error) {
+        console.error('Error fetching data:', error)
+        return {}
+    }
+}
+
 export async function createOrder(order) {
     try {
         const response = await AxiosInstance.post('/orders', order)
