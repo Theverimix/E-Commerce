@@ -1,6 +1,5 @@
 import { Button } from 'primereact/button'
 import { InputText } from 'primereact/inputtext'
-import './footer.css'
 
 export default function Footer() {
     return (

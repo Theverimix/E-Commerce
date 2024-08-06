@@ -74,14 +74,6 @@ export default function Header() {
         menuRight.current.toggle(event)
     }
 
-    // const itemRenderer = (item) => (
-    //     <Link to={item.href} className='flex align-items-center p-menuitem-link'>
-    //         <span className={item.icon} style={{ marginRight: '0.5rem' }} />
-    //         <span className='mx-2'>{item.label}</span>
-    //         {item.badge && <Badge className='ml-auto' value={item.badge} />}
-    //     </Link>
-    // )
-
     const menuItems = [
         {
             label: 'Products',

@@ -21,9 +21,8 @@ import ProductAdminPage from './pages/admin/product/ProductAdminPage.jsx'
 import ProductPanel from './pages/admin/product/ProductPanel.jsx'
 import ProductTable from './pages/admin/product/ProductTable.jsx'
 
-import PrivateRoutes from './apis/PrivateRoutes.jsx'
+import PrivateRoutes from './routes/PrivateRoutes.jsx'
 
-import '../src/styles/appWeb.css'
 import CustomerAdminPage from './pages/admin/customers/CustomerAdminPage.jsx'
 import CustomerTable from './pages/admin/customers/CustomerTable.jsx'
 import CustomerPanel from './pages/admin/customers/CustomerPanel.jsx'
