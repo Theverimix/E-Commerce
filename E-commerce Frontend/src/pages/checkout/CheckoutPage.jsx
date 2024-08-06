@@ -77,13 +77,6 @@ export default function CheckoutPage() {
             showToast('error', 'Error', 'Please fill in all required fields')
         }
     }
-    const handleContinueToPayment2 = () => {
-        if (validateForm()) {
-            stepperRef.current.nextCallback()
-        } else {
-            showToast('error', 'Error', 'NASHE')
-        }
-    }
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -96,9 +89,8 @@ export default function CheckoutPage() {
                         return
                     }
 
-                    const response = await getProductsByIds(productsIds)
-
-                    setProducts(response)
+                    const { data } = await getProductsByIds(productsIds)
+                    setProducts(data)
                 } else {
                     setProducts(location.state.products)
                 }

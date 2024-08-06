@@ -16,8 +16,8 @@ export default function HomeCarousel() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const productList = await getProducts(0)
-                setProducts(productList.products)
+                const { data } = await getProducts(0)
+                setProducts(data.products)
                 setIsLoading(false)
             } catch (error) {
                 console.error('Error al obtener productos:', error)

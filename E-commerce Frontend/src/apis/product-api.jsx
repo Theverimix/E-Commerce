@@ -16,20 +16,10 @@ export async function getProductById(id) {
 
 export async function getProductsByIds(productIds) {
     if (productIds.length > 0) {
-        try {
-            const idsQueryParam = productIds.join(',')
-            const response = await AxiosInstanceNoToken.get(`/products/ids`, {
-                params: {
-                    ids: idsQueryParam,
-                },
-            })
-            return response.data.data
-        } catch (error) {
-            console.error('Error fetching data:', error)
-            return []
-        }
+        return await handleApiPromise(
+            AxiosInstanceNoToken.get(`/products/ids`, { params: { ids: productIds.join(',') } }),
+        )
     } else {
-        // Manejo del caso donde productIds está vacío
         console.warn('No product IDs provided')
         return []
     }

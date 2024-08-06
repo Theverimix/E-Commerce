@@ -31,12 +31,11 @@ export default function Cart() {
                     setProducts([])
                     return
                 }
-                const response = await getProductsByIds(productsIds)
-
-                const productsHaveChanged = JSON.stringify(response) !== JSON.stringify(products)
+                const { data } = await getProductsByIds(productsIds)
+                const productsHaveChanged = JSON.stringify(data) !== JSON.stringify(products)
 
                 if (productsHaveChanged) {
-                    setProducts(response)
+                    setProducts(data)
                 }
             } finally {
                 setIsLoading(false)
@@ -44,7 +43,7 @@ export default function Cart() {
         }
 
         fetchData()
-    }, [allProducts])
+    }, [products, allProducts])
 
     const handleRemoveProduct = useCallback(
         (product) => {
