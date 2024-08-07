@@ -1,9 +1,6 @@
 package com.ecommerce.customer;
 
-import static com.ecommerce.order.OrderSpecification.hasCustomer;
-
 import java.util.List;
-import java.util.stream.Collectors;
 
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -21,11 +18,6 @@ import com.ecommerce.address.AddressRepository;
 import com.ecommerce.address.AddressRequest;
 import com.ecommerce.address.AddressResponse;
 import com.ecommerce.exception.PageNotFoundException;
-import com.ecommerce.product.Product;
-import com.ecommerce.product.ProductPageResponse;
-import com.ecommerce.product.ProductResponse;
-import com.ecommerce.user.UserRole;
-import com.ecommerce.user.UserState;
 import com.ecommerce.utils.PageResponse;
 
 @Service
@@ -46,7 +38,7 @@ public class CustomerService {
     public CustomerPageResponse getAllCustomers(int page) {
         PageRequest pageRequest = PageRequest.of(page, 9, Sort.by("id"));
 
-        Page<Customer> pageCustomers = repository.findAll((root, query, builder) -> builder.conjunction() , pageRequest);
+        Page<Customer> pageCustomers = repository.findAll((root, query, builder) -> builder.conjunction(), pageRequest);
 
         int totalPages = pageCustomers.getTotalPages();
         long totalElements = pageCustomers.getTotalElements();
@@ -57,16 +49,16 @@ public class CustomerService {
     }
 
     // public void saveCustomer(@NonNull CustomerRequest request) {
-    //     Customer customer = new Customer();
-    //     customer.setFirstname(request.firstname());
-    //     customer.setLastname(request.lastname());
-    //     customer.setEmail(request.email());
-    //     customer.setCountry(request.country());
-    //     customer.setPhone(request.phone());
-    //     customer.setState(request.state());
-    //     customer.setRole(UserRole.CUSTOMER);
-    //     customer.set
-    //     repository.save(customer);
+    // Customer customer = new Customer();
+    // customer.setFirstname(request.firstname());
+    // customer.setLastname(request.lastname());
+    // customer.setEmail(request.email());
+    // customer.setCountry(request.country());
+    // customer.setPhone(request.phone());
+    // customer.setState(request.state());
+    // customer.setRole(UserRole.CUSTOMER);
+    // customer.set
+    // repository.save(customer);
     // }
 
     public void updateCustomer(Long customerId, CustomerUpdateRequest request) {
@@ -87,8 +79,10 @@ public class CustomerService {
         repository.save(customer);
     }
 
-    public PageResponse<AddressResponse> getAddressesByCustomer(Long customerId, int pageNumber, int size) throws PageNotFoundException {
-        Customer customer = repository.findById(customerId).orElseThrow(() -> new EntityNotFoundException("Customer with id [%s] not found.".formatted(customerId)));
+    public PageResponse<AddressResponse> getAddressesByCustomer(Long customerId, int pageNumber, int size)
+            throws PageNotFoundException {
+        Customer customer = repository.findById(customerId).orElseThrow(
+                () -> new EntityNotFoundException("Customer with id [%s] not found.".formatted(customerId)));
         PageRequest pageRequest = PageRequest.of(pageNumber, size, Sort.by("id").ascending());
 
         Specification<Address> specs = (root, query, builder) -> builder.equal(root.get("customer"), customer);
@@ -106,8 +100,7 @@ public class CustomerService {
         return new PageResponse<>(
                 pageContent,
                 page.getTotalPages(),
-                page.getTotalElements()
-        );
+                page.getTotalElements());
     }
 
     // Customer Address Service

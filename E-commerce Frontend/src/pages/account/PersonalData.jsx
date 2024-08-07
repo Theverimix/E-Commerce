@@ -1,15 +1,20 @@
 import { useState, useEffect } from 'react'
+import { useToast } from '../../providers/ToastProvider'
+
 import { InputText } from 'primereact/inputtext'
 import { Button } from 'primereact/button'
 import { Card } from 'primereact/card'
 import { InputMask } from 'primereact/inputmask'
 import { BreadCrumb } from 'primereact/breadcrumb'
+import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog'
 import { extractIdfromToken } from '../../utils/jwt-utils'
-import { getCustomerById, updateProfile } from '../../apis/profile-api'
 import { useNavigate } from 'react-router-dom'
-import { getUserById } from '../../apis/user-api'
+
+import { getUserById, updateUser } from '../../apis/user-api'
+import { getCustomerById, updateCustomer } from '../../apis/customer-api'
 
 export default function PersonalData({ isAdmin = false }) {
+    const showToast = useToast()
     const userId = extractIdfromToken()
     const navigate = useNavigate()
 
@@ -47,13 +52,25 @@ export default function PersonalData({ isAdmin = false }) {
     }
 
     const handleSubmit = async (event) => {
-        event.preventDefault()
         try {
-            await updateProfile(userId, userData)
-            console.log('Perfil actualizado correctamente')
+            !isAdmin ? await updateCustomer(userId, userData) : await updateUser(userId, userData)
+            showToast('success', 'Personal data operation result', 'Personal data update successfully')
         } catch (error) {
-            console.error('Error al actualizar el perfil:', error)
+            showToast('error', 'Personal data operation result', 'Personal data update error')
         }
+    }
+
+    const showConfirmDialog = (event) => {
+        event.preventDefault()
+        confirmDialog({
+            message: 'Do you want to update this record?',
+            header: 'Update Confirmation',
+            icon: 'pi pi-info-circle',
+            defaultFocus: 'reject',
+            acceptClassName: 'p-button-danger',
+            accept: () => handleSubmit(event),
+            reject: () => {},
+        })
     }
 
     const items = [{ label: 'Personal data' }]
@@ -61,13 +78,14 @@ export default function PersonalData({ isAdmin = false }) {
 
     return (
         <div className='w-full'>
+            <ConfirmDialog />
             <div>
                 <BreadCrumb model={items} home={home} className='border-none mb-3' />
             </div>
             <Card title='Personal data'>
                 <div className='flex justify-content-center align-items-center'>
                     <div className='md:w-10 lg:w-8 xl:w-6'>
-                        <form onSubmit={handleSubmit}>
+                        <form onSubmit={showConfirmDialog}>
                             <div className='flex flex-column gap-2 mb-3 mt-3'>
                                 <label htmlFor='firstname'>Firstname</label>
                                 <InputText

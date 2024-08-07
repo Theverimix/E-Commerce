@@ -19,3 +19,13 @@ export async function deleteUser(id) {
         return {}
     }
 }
+
+export async function updateUser(id, data) {
+    try {
+        const response = await AxiosInstance.put(`/users/${id}`, data)
+        return response
+    } catch (error) {
+        console.error('Error updating user data:', error)
+        return {}
+    }
+}

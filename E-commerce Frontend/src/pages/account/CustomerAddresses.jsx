@@ -14,7 +14,7 @@ import { Button } from 'primereact/button'
 import { Menu } from 'primereact/menu'
 
 export default function CustomerAddresses() {
-    const toast = useToast()
+    const showToast = useToast()
     const navigate = useNavigate()
     const customerId = extractIdfromToken()
     const menuRight = useRef(null)
@@ -125,12 +125,21 @@ export default function CustomerAddresses() {
                         id='popup_menu_right'
                         popupAlignment='right'
                     />
-                    <i
+                    <Button
+                        icon='pi pi-ellipsis-v text-lg'
+                        aria-label='Filter'
+                        rounded
+                        text
+                        onClick={(event) => menuRight.current.toggle(event)}
+                        aria-controls='popup_menu_right'
+                        aria-haspopup
+                    />
+                    {/* <i
                         className='pi pi-ellipsis-v text-xl cursor-pointer hover:text-primary'
                         onClick={(event) => menuRight.current.toggle(event)}
                         aria-controls='popup_menu_right'
                         aria-haspopup
-                    ></i>
+                    ></i> */}
                 </div>
                 <div className='mx-6'>
                     <div className='mb-2'>
@@ -176,8 +185,8 @@ export default function CustomerAddresses() {
                     <Button
                         onClick={() => navigate('/account/createAddress')}
                         label='Agregar domicilio'
-                        style={{ backgroundColor: '#1e1e1e00', color: 'var(--primary-color)' }}
-                        className='border-none py-2 text-left px-6 border-round-md transition-color transition-duration-100 hover:bg-primary border-200 w-full'
+                        className='border-transparent py-2 text-left px-6 border-round-md transition-color transition-duration-300 hover:border-primary w-full'
+                        outlined
                         icon='pi pi-chevron-right'
                         iconPos='right'
                     />

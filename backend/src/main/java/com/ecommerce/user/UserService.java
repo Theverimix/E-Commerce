@@ -34,9 +34,7 @@ public class UserService {
                 .orElseThrow(() -> new EntityNotFoundException("User not found."));
         user.setFirstname(request.firstname());
         user.setLastname(request.lastname());
-        user.setPassword(request.password());
         user.setEmail(request.email());
-        user.setState(request.state());
 
         repository.save(user);
     }
