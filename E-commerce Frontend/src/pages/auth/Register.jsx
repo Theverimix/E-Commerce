@@ -18,6 +18,8 @@ export default function Register() {
     const [confirmPassword, setConfirmPassword] = useState('')
     const [passwordsMatch, setPasswordsMatch] = useState(true)
 
+    const [isLoading, setIsLoading] = useState(false)
+
     const showToast = useToast()
 
     const nameRef = useRef(null)
@@ -38,16 +40,20 @@ export default function Register() {
     // }
 
     const handleRegister = async () => {
+        setIsLoading(true)
         setPasswordsMatch(confirmPassword === password)
         if (confirmPassword === password) {
             if (await userRegister(name, lastname, username, password)) {
                 showToast('success', 'Success', '¡Registration successful!')
                 navigate(`/`)
+                setIsLoading(false)
             } else {
                 showToast('error', 'Error', '¡Registration error!')
+                setIsLoading(false)
             }
         } else {
-            alert('Passwords not match')
+            showToast('error', 'Error', '¡Passwords not match!')
+            setIsLoading(false)
         }
     }
 
@@ -165,7 +171,7 @@ export default function Register() {
                 </span>
             </div>
             {!passwordsMatch && <small className='p-error'>Passwords doesn&apos;t match</small>}
-            <Button className='w-full' label='Create your Account' onClick={handleRegister} />
+            <Button className='w-full' label='Create your Account' loading={isLoading} onClick={handleRegister} />
             <div className='block text-center'>
                 <span className='text-color mr-1'>Already have an account?</span>
                 <Link
