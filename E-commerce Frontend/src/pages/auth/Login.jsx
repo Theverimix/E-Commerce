@@ -17,13 +17,17 @@ export default function Login() {
     const showToast = useToast()
     const inputRef = useRef(null)
     const [visible, setVisible] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
 
     const handleLogin = async () => {
+        setIsLoading(true)
         if (await userLogin(username, password)) {
             showToast('success', 'Success', '¡Login successfully!')
             navigate(`/`)
+            setIsLoading(false)
         } else {
             showToast('error', 'Error', '¡Login error!')
+            setIsLoading(false)
         }
     }
 
@@ -116,7 +120,7 @@ export default function Login() {
                 </div>
             </Dialog>
 
-            <Button label='Log in' onClick={handleLogin} />
+            <Button label='Log in' loading={isLoading} disabled={!username || !password} onClick={handleLogin} />
             <div className='block text-center'>
                 <span className='text-color mr-1'>Don&apos;t have an account?</span>
                 <Link

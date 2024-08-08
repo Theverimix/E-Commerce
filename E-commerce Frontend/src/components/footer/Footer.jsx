@@ -1,67 +1,106 @@
 import { Button } from 'primereact/button'
 import { InputText } from 'primereact/inputtext'
+import { Link } from 'react-router-dom'
 
 export default function Footer() {
     return (
         <>
             <hr className='border-bottom-2 border-solid border-primary m-0' />
-            <div className='flex justify-content-center w-full '>
-                <div className='sm:w-full md:w-10 lg:w-9'>
-                    <div className='grid neted-grid '>
-                        <div className='col-4'>
-                            <h2>CONTACT</h2>
-                            <p>
-                                <b>BRANCHES</b>
-                                <br />
-                                21 de Setiembre 2866, Punta Carretas
-                                <br />
-                                <br />
-                                <b>PHONE</b>
-                                <br />
-                                123389223
-                                <br />
-                                <br />
-                                <b>EMAIL</b>
-                                <br />
-                                contact@brutal.uy
-                            </p>
-                        </div>
-                        <div className='col-8'>
-                            <div className='grid'>
-                                <div className='col-6'>
-                                    <h2>BENEFITS</h2>
-                                    <div className='p-d-flex'>
-                                        <p className='mr-1 p-be-margin'>
-                                            Leave us your email to receive news and preferential offers of our products.
-                                        </p>
-                                    </div>
-                                </div>
-                                <div className='flex lg:col-6 md:col-8 sm:col-12'>
-                                    <div className='p-inputgroup align-items-end'>
-                                        <InputText placeholder='Enter your email' />
-                                        <Button label='SUBSCRIBE' />
-                                    </div>
-                                </div>
-                                <div className='col-6'>
-                                    <h2>SUPPORT</h2>
-                                    <p className='m-0'>Lorem ipsum dolor sit a</p>
-                                </div>
-                                <div className='col-6'>
-                                    <h2>COMPANY</h2>
-                                    <p className='m-0'>
-                                        is, culpa ratione quam perferendis esse, cupiditate neque quas!
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
+            <footer className='py-6 md:py-12 surface-hover flex justify-content-center'>
+                <div className='mx-auto grid sm:gap-4 md:gap-4 lg:gap-4 xl:gap-8 px-4 md:px-6'>
+                    <div className='flex flex-column sm:col-12 md:col-12 lg:col-12 xl:col justify-content-start gap-4'>
+                        <Link href='#' className='flex justify-content-center gap-2' prefetch={false}>
+                            <img
+                                alt='logo'
+                                className='sm:w-12rem md:w-12rem lg:w-8rem'
+                                src='/icons/Brutal_black_bottomless.png'
+                            />
+                        </Link>
+                        <p className='text-center text-800'>Discover the best products for your home and lifestyle.</p>
                     </div>
-                    <div className='flex flex-column'>
-                        <p className='flex align-items-center justify-content-center'>
-                            <b>©2024 BRUTAL | All rights reserved.</b>
-                        </p>
+                    <div className='sm:col-6 md:col-4 lg:col '>
+                        <h4 className='font-semibold sm:text-3xl md:text-3xl lg:text-2xl mb-3 mt-0'>Navigation</h4>
+                        <nav className='flex flex-column gap-1'>
+                            <Link
+                                href='#'
+                                className='col sm:text-lg md:text-lg lg:text-base text-800 no-underline hover:text-primary py-1 px-0'
+                                prefetch={false}
+                                to={'/'}
+                            >
+                                Home
+                            </Link>
+                            <Link
+                                href='#'
+                                className='col sm:text-lg md:text-lg lg:text-base text-800 no-underline hover:text-primary py-1 px-0'
+                                prefetch={false}
+                            >
+                                About
+                            </Link>
+                            <Link
+                                href='#'
+                                className='col sm:text-lg md:text-lg lg:text-base text-800 no-underline hover:text-primary py-1 px-0'
+                                to={'/products'}
+                                prefetch={false}
+                            >
+                                Products
+                            </Link>
+                            <Link
+                                href='#'
+                                className='col sm:text-lg md:text-lg lg:text-base text-800 no-underline hover:text-primary py-1 px-0'
+                                prefetch={false}
+                            >
+                                Contact
+                            </Link>
+                        </nav>
+                    </div>
+                    <div className='sm:col-5 md:col-3 lg:col'>
+                        <h4 className='font-semibold sm:text-3xl md:text-3xl lg:text-2xl mb-3 mt-0'>Categories</h4>
+                        <nav className='flex flex-column gap-1'>
+                            <Link
+                                href='#'
+                                className='col sm:text-lg md:text-lg lg:text-base text-800 no-underline hover:text-primary py-1 px-0'
+                                prefetch={false}
+                                to={'/products?category=supplements'}
+                            >
+                                Supplements
+                            </Link>
+                            <Link
+                                href='#'
+                                className='col sm:text-lg md:text-lg lg:text-base text-800 no-underline hover:text-primary py-1 px-0'
+                                prefetch={false}
+                                to={'/products?category=accessories'}
+                            >
+                                Accesories
+                            </Link>
+                            <Link
+                                href='#'
+                                className='col sm:text-lg md:text-lg lg:text-base text-800 no-underline hover:text-primary py-1 px-0'
+                                prefetch={false}
+                                to={'/products?category=clothes'}
+                            >
+                                Clothes
+                            </Link>
+                            <Link
+                                href='#'
+                                className='col sm:text-lg md:text-lg lg:text-base text-800 no-underline hover:text-primary py-1 px-0'
+                                prefetch={false}
+                                to={'/products?category=equipment'}
+                            >
+                                Equipment
+                            </Link>
+                        </nav>
+                    </div>
+                    <div className=' sm:col-12 md:col-4 lg:col'>
+                        <h4 className='font-semibold sm:text-3xl md:text-3xl lg:text-2xl mb-3 mt-0'>Contact</h4>
+                        <div className='flex flex-column gap-1 text-800 sm:text-lg md:text-lg lg:text-base'>
+                            <p className='col m-0 py-1 py-1 px-0'>123 Main Street</p>
+                            <p className='col m-0 py-1 py-1 px-0'>Anytown, USA 12345</p>
+                            <p className='col m-0 py-1 py-1 px-0'>Phone: (555) 555-5555</p>
+                            <p className='col m-0 py-1 py-1 px-0'>Email: info@acmestore.com</p>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </footer>
         </>
     )
 }
