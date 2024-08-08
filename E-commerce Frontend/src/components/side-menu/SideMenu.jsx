@@ -1,7 +1,7 @@
+import { useState } from 'react'
 import { Menu } from 'primereact/menu'
-import { classNames } from 'primereact/utils'
-import React, { useState } from 'react'
 import { useLocation } from 'react-router-dom'
+import { Badge } from 'primereact/badge'
 
 export default function SideMenu({ itemsList = [] }) {
     const [focusedItem, setFocusedItem] = useState(null)
@@ -16,15 +16,9 @@ export default function SideMenu({ itemsList = [] }) {
                 item.label === urlActual.split('/')[2].charAt(0).toUpperCase() + urlActual.split('/')[2].slice(1))
 
         return (
-            <div
-                className={classNames('p-menuitem-content', {
-                    'text-primary': isFocused,
-                })}
-            >
+            <div className={`p-menuitem-content ${isFocused ? 'text-primary' : ''}`}>
                 <a
-                    className={classNames('flex align-items-center p-menuitem-link', {
-                        'text-primary': isFocused,
-                    })}
+                    className={`flex align-items-center p-menuitem-link ${isFocused ? 'text-primary' : ''}`}
                     onClick={(event) => {
                         event.preventDefault()
                         event.stopPropagation()
@@ -47,13 +41,5 @@ export default function SideMenu({ itemsList = [] }) {
 
     const itemsWithTemplate = itemsList.map((item) => (item.label ? { ...item, template: itemRenderer } : item))
 
-    return (
-        <>
-            <Menu
-                model={itemsWithTemplate}
-                className='py-8 w-full border-none border-noround p-3'
-                style={{ minHeight: '900px', maxHeight: '300px' }} //utilizar primeflex
-            />
-        </>
-    )
+    return <Menu model={itemsWithTemplate} className='w-full border-none border-noround p-5 h-full min-h-screen' />
 }

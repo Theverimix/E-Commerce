@@ -6,15 +6,21 @@ import { Link } from 'react-router-dom'
 import { useToast } from '../../../providers/ToastProvider'
 import { useEffect, useState } from 'react'
 import { deleteSale, getSales } from '../../../apis/sale-api'
+import { convertToPrettyDate } from '../../../utils/date-utils'
+import { Chip } from 'primereact/chip'
+import { Card } from 'primereact/card'
+import { Skeleton } from 'primereact/skeleton'
 
 function SaleTable() {
     const showToast = useToast()
     const [sales, setSales] = useState([])
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
         const fetchData = async () => {
             const { data: fetchedSales } = await getSales()
             setSales(fetchedSales)
+            setLoading(false)
         }
         fetchData()
     }, [])
@@ -37,21 +43,59 @@ function SaleTable() {
         showToast(success ? 'success' : 'error', 'Product operation result', message)
     }
 
-    const actionBodyTemplate = (row) => {
+    // PrimeReact Templates
+
+    const nameTemplate = (sale) => {
+        return sale.name
+    }
+
+    const dateBodyTemplate = (date) => {
+        return convertToPrettyDate(date)
+    }
+
+    const discountTypeTemplate = (sale) => (
+        <Chip
+            label={sale.discountType === 'PERCENTAGE' ? 'Percentage' : 'Cash'}
+            className={`w-full flex justify-content-center ${
+                sale.discountType === 'PERCENTAGE' ? 'bg-indigo-600' : 'bg-blue-700'
+            }`}
+        />
+    )
+
+    const discountValueTemplate = (sale) => {
+        return `${sale.discountValue} ${sale.discountType === 'PERCENTAGE' ? '(%)' : '($)'}`
+    }
+
+    const actionsTemplate = (sale) => (
+        <div className='actions'>
+            <Link to={`/admin/sales/${sale.id}`} state={{ sale }}>
+                <i className='pi pi-pencil mr-2' />
+            </Link>
+            <i className='pi pi-trash' onClick={() => showConfirmDialog(sale.id)} />
+        </div>
+    )
+
+    const Loading = () => <Skeleton width='100%' height='20rem' />
+
+    const Table = () => {
         return (
-            <div className='actions'>
-                <Link to={`/admin/sales/${row.id}`} state={{ product: row }}>
-                    <i className='pi pi-pencil mr-2' />
-                </Link>
-                <i className='pi pi-trash' onClick={() => showConfirmDialog(row.id)} />
-            </div>
+            <Card className='rounded'>
+                <DataTable value={sales} tableStyle={{ minWidth: '50rem' }}>
+                    <Column header='Name' body={nameTemplate} />
+                    <Column header='Start At' body={(sale) => dateBodyTemplate(sale.startAt)} />
+                    <Column header='End At' body={(sale) => dateBodyTemplate(sale.endAt)} />
+                    <Column header='Discount Type' body={discountTypeTemplate} />
+                    <Column header='Discount Value' body={discountValueTemplate} />
+                    <Column header='Actions' body={actionsTemplate} />
+                </DataTable>
+            </Card>
         )
     }
 
     return (
         <>
             <div className='flex align-items-center'>
-                <h1>Sales</h1>
+                <h1 className='ml-4'>Sales</h1>
                 <Link to='/admin/sales/new' className='ml-auto'>
                     <Button outlined icon='pi pi-plus' className='gap-2'>
                         Launch a New Sale
@@ -59,14 +103,7 @@ function SaleTable() {
                 </Link>
             </div>
             <ConfirmDialog />
-            <DataTable value={sales} tableStyle={{ minWidth: '50rem' }}>
-                <Column field='name' header='Name' />
-                <Column field='startAt' header='Start At' />
-                <Column field='endAt' header='End At' />
-                <Column field='discountType' header='Discount Type' />
-                <Column field='discountValue' header='Discount Value' />
-                <Column header='Actions' body={actionBodyTemplate} />
-            </DataTable>
+            {loading ? <Loading /> : <Table />}
         </>
     )
 }

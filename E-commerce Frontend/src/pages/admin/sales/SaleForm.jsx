@@ -1,8 +1,7 @@
-import { useNavigate, useParams } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useToast } from '../../../providers/ToastProvider'
 import { useEffect, useState } from 'react'
 import { getSaleById, saveSale, updateSale } from '../../../apis/sale-api'
-import { Toast } from 'primereact/toast'
 import { Card } from 'primereact/card'
 import { InputText } from 'primereact/inputtext'
 import { Button } from 'primereact/button'
@@ -16,24 +15,25 @@ function SaleForm({ edit }) {
     const navigate = useNavigate()
     const showToast = useToast()
 
+    const saleCached = useLocation().state?.sale || null
+
+    const [sale, setSale] = useState({
+        name: saleCached?.name || '',
+        startAt: convertToDate(saleCached?.startAt) || null,
+        endAt: convertToDate(saleCached?.endAt) || null,
+        discountType: saleCached?.discountType || null,
+        discountValue: saleCached?.discountValue || 0,
+    })
+
     const discountTypes = [
         { name: 'Percentage', code: 'PERCENTAGE' },
         { name: 'Cash', code: 'CASH' },
     ]
 
-    const [sale, setSale] = useState({
-        name: '',
-        startAt: null,
-        endAt: null,
-        discountType: null,
-        discountValue: 0,
-    })
-
     useEffect(() => {
-        if (edit) {
+        if (edit && !saleCached) {
             const fetchSaleData = async () => {
                 const { data } = await getSaleById(id)
-                console.log(data)
                 setSale({
                     name: data.name,
                     startAt: convertToDate(data.startAt),
@@ -44,7 +44,7 @@ function SaleForm({ edit }) {
             }
             fetchSaleData()
         }
-    }, [edit, id])
+    }, [edit, id, saleCached])
 
     const handleSubmit = async () => {
         if (edit) {
@@ -82,6 +82,8 @@ function SaleForm({ edit }) {
                                     className='w-full'
                                     onChange={(e) => setSale({ ...sale, startAt: e.value })}
                                     dateFormat='dd/mm/yy'
+                                    showTime
+                                    hourFormat='24'
                                 />
                                 <label htmlFor='name'>Sale start date</label>
                             </span>
@@ -91,6 +93,8 @@ function SaleForm({ edit }) {
                                     className='w-full'
                                     onChange={(e) => setSale({ ...sale, endAt: e.value })}
                                     dateFormat='dd/mm/yy'
+                                    showTime
+                                    hourFormat='24'
                                 />
                                 <label htmlFor='name'>Sale end date</label>
                             </span>

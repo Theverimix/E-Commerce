@@ -1,7 +1,12 @@
-import { isWithinInterval, sub } from 'date-fns'
+import { format, isWithinInterval, sub } from 'date-fns'
 
 export const convertToDate = (isoString) => {
     return new Date(isoString)
+}
+
+export const convertToPrettyDate = (dateString) => {
+    const date = new Date(dateString)
+    return format(date, 'dd/MM/yyyy HH:mm')
 }
 
 export const isWithinLastYear = (date) => {
