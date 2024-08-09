@@ -19,15 +19,15 @@ function SaleForm({ edit }) {
 
     const [sale, setSale] = useState({
         name: saleCached?.name || '',
-        startAt: convertToDate(saleCached?.startAt) || null,
-        endAt: convertToDate(saleCached?.endAt) || null,
+        startAt: saleCached?.startAt ? convertToDate(saleCached?.startAt) : null,
+        endAt: saleCached?.endAt ? convertToDate(saleCached?.endAt) : null,
         discountType: saleCached?.discountType || null,
         discountValue: saleCached?.discountValue || 0,
     })
 
     const discountTypes = [
-        { name: 'Percentage', code: 'PERCENTAGE' },
-        { name: 'Cash', code: 'CASH' },
+        { label: 'Percentage', value: 'PERCENTAGE' },
+        { label: 'Cash', value: 'CASH' },
     ]
 
     useEffect(() => {
@@ -49,21 +49,27 @@ function SaleForm({ edit }) {
     const handleSubmit = async () => {
         if (edit) {
             const response = await updateSale(id, sale)
-            console.log(response)
             const { message, success } = response
             showToast(success ? 'success' : 'error', 'Sale operation result', message)
+            if (success) navigate('/admin/sales')
         } else {
             const response = await saveSale(sale)
-            console.log(response)
             const { message, success } = response
             showToast(success ? 'success' : 'error', 'Sale operation result', message)
+            if (success) navigate('/admin/sales')
         }
     }
+
+    // PrimeReact
+
+    const cardTitle = () => <h2 className='text-center'>{edit ? 'Edit Sale' : 'Create Sale'}</h2>
+
+    const cardSubTitle = () => <h3 className='text-center'>{edit ? 'Edit this sale' : 'Create a new sale'}</h3>
 
     return (
         <div>
             <div className='card flex justify-content-center align-items-center'>
-                <Card>
+                <Card title={cardTitle} subTitle={cardSubTitle}>
                     <div className='flex justify-content-center align-items-center w-full p-5'>
                         <div className='flex flex-column gap-5 w-30rem'>
                             <span className='p-float-label'>
@@ -104,18 +110,17 @@ function SaleForm({ edit }) {
                                     value={sale.discountType}
                                     onChange={(e) => setSale({ ...sale, discountType: e.value })}
                                     options={discountTypes}
-                                    optionLabel='name'
-                                    optionValue='code'
-                                    className='w-full md:w-14rem'
+                                    optionLabel='label'
+                                    optionValue='value'
+                                    className='w-full'
                                 />
                                 <label htmlFor='name'>Discount type</label>
                             </span>
                             <span className='p-float-label'>
                                 <InputNumber
                                     id='discount-value'
-                                    minLength={3}
                                     value={sale.discountValue}
-                                    onChange={(e) => setSale({ ...sale, discountValue: e.target.value })}
+                                    onChange={(e) => setSale({ ...sale, discountValue: e.value })}
                                     className='w-full'
                                 />
                                 <label htmlFor='name'>Discount value</label>
