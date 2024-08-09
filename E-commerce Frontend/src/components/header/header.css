@@ -27,9 +27,9 @@
     margin-left: 0;
 }
 
-.p-megamenu.p-megamenu-horizontal .p-megamenu-root-list > .custom-product-item > .p-menuitem-content .p-menuitem-link {
+/* .p-megamenu.p-megamenu-horizontal .p-megamenu-root-list > .custom-product-item > .p-menuitem-content .p-menuitem-link {
     padding: 0.75rem 0.1rem;
-}
+} */
 
 .p-badge {
     min-width: 1rem;

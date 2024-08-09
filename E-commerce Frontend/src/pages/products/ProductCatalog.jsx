@@ -35,7 +35,6 @@ function ProductCatalog() {
                 setProducts(response.products)
                 setTotalElements(response.totalElements)
                 setIsLoading(false)
-                console.log(products)
             } catch (error) {
                 console.error('Error al filtrar productos:', error)
                 setIsLoading(false)
