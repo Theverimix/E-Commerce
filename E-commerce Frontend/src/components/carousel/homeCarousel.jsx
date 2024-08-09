@@ -45,7 +45,7 @@ export default function HomeCarousel() {
             numScroll: 1,
         },
         {
-            breakpoint: '560px',
+            breakpoint: '575px',
             numVisible: 1,
             numScroll: 1,
         },
@@ -141,7 +141,7 @@ export default function HomeCarousel() {
     }
 
     return (
-        <div className='m-0'>
+        <>
             {isLoading ? (
                 <div className='flex justify-content-center align-items-center'>
                     {renderSkeletonItems(calculateSkeletonCount())}
@@ -159,6 +159,6 @@ export default function HomeCarousel() {
                     // itemStyle={{ width: '100%' }}
                 />
             )}
-        </div>
+        </>
     )
 }

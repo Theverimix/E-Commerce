@@ -20,7 +20,7 @@ const Root = () => {
                     <Header />
                     <ToastProvider maxToasts={1}>
                         <div id='content' className='flex justify-content-center w-full'>
-                            <div className='sm:w-full lg:w-9'>
+                            <div className='w-full sm:w-full lg:w-9'>
                                 <Outlet />
                             </div>
                         </div>

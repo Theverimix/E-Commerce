@@ -10,22 +10,22 @@ export default function Home() {
         {
             name: 'SUPPLEMENTS',
             url: '/products?category=supplements',
-            image: '/img/categories/supplements_portrait.png',
+            image: '/img/categories/supplements_portrait.webp',
         },
         {
             name: 'EQUIPMENT',
             url: '/products?category=equipment',
-            image: '/img/categories/equipment_portrait.png',
+            image: '/img/categories/equipment_portrait.webp',
         },
         {
             name: 'ACCESSORIES',
             url: '/products?category=accessories',
-            image: '/img/categories/accessories_portrait.png',
+            image: '/img/categories/accessories_portrait.webp',
         },
         {
             name: 'CLOTHES',
             url: '/products?category=clothes',
-            image: '/img/categories/clothes_portrait.png',
+            image: '/img/categories/clothes_portrait.webp',
         },
     ]
 
@@ -36,14 +36,14 @@ export default function Home() {
             </div>
 
             <div className='flex justify-content-center align-items-center flex-column mt-5'>
-                <p className='pt-6 text-6xl font-bold'>CATEGORIES</p>
+                <p className='pt-6 text-5xl sm:text-5xl md:text-6xl lg:text-6xl font-bold'>CATEGORIES</p>
             </div>
 
             <div className='grid justify-content-center m-auto my-3 gap-3'>
                 {categories.map((category, index) => (
                     <div
                         key={index}
-                        className='box xl:col-2 lg:col-2 md:col-4 sm:col-4 col-4 p-4 fadein animation-duration-500 cursor-pointer surface-hover border-round-md'
+                        className='box xl:col-2 lg:col-2 md:col-4 sm:col-4 col-5 p-4 fadein animation-duration-500 cursor-pointer surface-hover border-round-md'
                         onClick={() => navigate(category.url)}
                     >
                         <div className=' mb-4 w-full text-center p-0 xl:p-2'>
@@ -62,7 +62,7 @@ export default function Home() {
             {/* products */}
 
             <div className='flex justify-content-center align-items-center flex-column'>
-                <p className='text-6xl mb-0 pt-6 font-bold'>SALE PRODUCTS</p>
+                <p className='text-5xl sm:text-5xl md:text-6xl lg:text-6xl mb-0 pt-6 font-bold'>SALE PRODUCTS</p>
             </div>
 
             <div className='carousel m-5'>
