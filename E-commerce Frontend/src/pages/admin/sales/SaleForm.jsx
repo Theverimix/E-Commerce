@@ -9,6 +9,10 @@ import { InputNumber } from 'primereact/inputnumber'
 import { Calendar } from 'primereact/calendar'
 import { convertToDate } from '../../../utils/date-utils'
 import { Dropdown } from 'primereact/dropdown'
+import { Controller, useForm } from 'react-hook-form'
+import { superstructResolver } from '@hookform/resolvers/superstruct'
+
+import { Sale } from '../../../types/Types'
 
 function SaleForm({ edit }) {
     const { id } = useParams()
@@ -17,48 +21,69 @@ function SaleForm({ edit }) {
 
     const saleCached = useLocation().state?.sale || null
 
-    const [sale, setSale] = useState({
-        name: saleCached?.name || '',
-        startAt: saleCached?.startAt ? convertToDate(saleCached?.startAt) : null,
-        endAt: saleCached?.endAt ? convertToDate(saleCached?.endAt) : null,
-        discountType: saleCached?.discountType || null,
-        discountValue: saleCached?.discountValue || 0,
-    })
+    const {
+        formState: { errors },
+        control,
+        handleSubmit,
+        reset,
+        watch,
+    } = useForm({ resolver: superstructResolver(Sale) })
 
-    const discountTypes = [
-        { label: 'Percentage', value: 'PERCENTAGE' },
-        { label: 'Cash', value: 'CASH' },
-    ]
+    const onSubmit = async (data) => {
+        if (edit) {
+            const response = await updateSale(id, data)
+            const { message, success } = response
+            showToast(success ? 'success' : 'error', 'Sale operation result', message)
+            if (success) navigate('/admin/sales')
+        } else {
+            const response = await saveSale(data)
+            const { message, success } = response
+            showToast(success ? 'success' : 'error', 'Sale operation result', message)
+            if (success) navigate('/admin/sales')
+        }
+    }
 
+    // TODO: Refactor this
     useEffect(() => {
         if (edit && !saleCached) {
             const fetchSaleData = async () => {
                 const { data } = await getSaleById(id)
-                setSale({
+                reset({
                     name: data.name,
                     startAt: convertToDate(data.startAt),
                     endAt: convertToDate(data.endAt),
                     discountType: data.discountType,
                     discountValue: data.discountValue,
                 })
+                setMinDate(new Date(data.startAt))
+                setMaxDate(new Date(data.endAt))
             }
             fetchSaleData()
+        } else if (saleCached) {
+            reset({
+                name: saleCached.name,
+                startAt: convertToDate(saleCached.startAt),
+                endAt: convertToDate(saleCached.endAt),
+                discountType: saleCached.discountType,
+                discountValue: saleCached.discountValue,
+            })
+            setMinDate(new Date(saleCached.startAt))
+            setMaxDate(new Date(saleCached.endAt))
         }
-    }, [edit, id, saleCached])
+    }, [edit, saleCached, id]) // eslint-disable-line react-hooks/exhaustive-deps
 
-    const handleSubmit = async () => {
-        if (edit) {
-            const response = await updateSale(id, sale)
-            const { message, success } = response
-            showToast(success ? 'success' : 'error', 'Sale operation result', message)
-            if (success) navigate('/admin/sales')
-        } else {
-            const response = await saveSale(sale)
-            const { message, success } = response
-            showToast(success ? 'success' : 'error', 'Sale operation result', message)
-            if (success) navigate('/admin/sales')
-        }
-    }
+    // Control min and max date for startAt and endAt fields
+
+    const [minDate, setMinDate] = useState(null)
+    const [maxDate, setMaxDate] = useState(null)
+
+    const startAt = watch('startAt')
+    const endAt = watch('endAt')
+
+    useEffect(() => {
+        if (startAt) setMinDate(new Date(startAt))
+        if (endAt) setMaxDate(new Date(endAt))
+    }, [startAt, endAt])
 
     // PrimeReact
 
@@ -66,65 +91,117 @@ function SaleForm({ edit }) {
 
     const cardSubTitle = () => <h3 className='text-center'>{edit ? 'Edit this sale' : 'Create a new sale'}</h3>
 
-    return (
-        <div>
-            <div className='card flex justify-content-center align-items-center'>
-                <Card title={cardTitle} subTitle={cardSubTitle}>
-                    <div className='flex justify-content-center align-items-center w-full p-5'>
-                        <div className='flex flex-column gap-5 w-30rem'>
-                            <span className='p-float-label'>
-                                <InputText
-                                    id='name'
-                                    minLength={3}
-                                    value={sale.name}
-                                    onChange={(e) => setSale({ ...sale, name: e.target.value })}
-                                    className='w-full'
-                                />
-                                <label htmlFor='name'>Sale name</label>
-                            </span>
-                            <span className='p-float-label'>
-                                <Calendar
-                                    value={sale.startAt}
-                                    className='w-full'
-                                    onChange={(e) => setSale({ ...sale, startAt: e.value })}
-                                    dateFormat='dd/mm/yy'
-                                    showTime
-                                    hourFormat='24'
-                                />
-                                <label htmlFor='name'>Sale start date</label>
-                            </span>
-                            <span className='p-float-label'>
-                                <Calendar
-                                    value={sale.endAt}
-                                    className='w-full'
-                                    onChange={(e) => setSale({ ...sale, endAt: e.value })}
-                                    dateFormat='dd/mm/yy'
-                                    showTime
-                                    hourFormat='24'
-                                />
-                                <label htmlFor='name'>Sale end date</label>
-                            </span>
+    const getFormErrorMessage = (name) => {
+        return errors[name] && <small className='p-error'>{errors[name].message}</small>
+    }
 
-                            <span className='p-float-label'>
-                                <Dropdown
-                                    value={sale.discountType}
-                                    onChange={(e) => setSale({ ...sale, discountType: e.value })}
-                                    options={discountTypes}
-                                    optionLabel='label'
-                                    optionValue='value'
-                                    className='w-full'
+    return (
+        <div className='card flex justify-content-center align-items-center'>
+            <Card title={cardTitle} subTitle={cardSubTitle}>
+                <div className='flex justify-content-center align-items-center w-full p-5'>
+                    <form onSubmit={handleSubmit(onSubmit)}>
+                        <div className='flex flex-column w-30rem gap-3'>
+                            <div className='field'>
+                                <Controller
+                                    name='name'
+                                    control={control}
+                                    render={({ field, fieldState }) => (
+                                        <span className='p-float-label'>
+                                            <InputText
+                                                autoFocus
+                                                {...field}
+                                                id={field.name}
+                                                className={`w-full ${fieldState.error ? 'p-invalid' : ''}`}
+                                            />
+                                            <label htmlFor='name'>Sale name</label>
+                                        </span>
+                                    )}
                                 />
-                                <label htmlFor='name'>Discount type</label>
-                            </span>
-                            <span className='p-float-label'>
-                                <InputNumber
-                                    id='discount-value'
-                                    value={sale.discountValue}
-                                    onChange={(e) => setSale({ ...sale, discountValue: e.value })}
-                                    className='w-full'
+                                {getFormErrorMessage('name')}
+                            </div>
+                            <div className='field'>
+                                <Controller
+                                    name='startAt'
+                                    control={control}
+                                    render={({ field, fieldState }) => (
+                                        <span className='p-float-label'>
+                                            <Calendar
+                                                {...field}
+                                                id={field.name}
+                                                className={`w-full ${fieldState.error ? 'p-invalid' : ''}`}
+                                                dateFormat='dd/mm/yy'
+                                                showTime
+                                                hourFormat='24'
+                                                maxDate={maxDate}
+                                            />
+                                            <label htmlFor='name'>Start date</label>
+                                        </span>
+                                    )}
                                 />
-                                <label htmlFor='name'>Discount value</label>
-                            </span>
+                                {getFormErrorMessage('startAt')}
+                            </div>
+                            <div className='field'>
+                                <Controller
+                                    name='endAt'
+                                    control={control}
+                                    render={({ field, fieldState }) => (
+                                        <span className='p-float-label'>
+                                            <Calendar
+                                                {...field}
+                                                id={field.name}
+                                                className={`w-full ${fieldState.error ? 'p-invalid' : ''}`}
+                                                dateFormat='dd/mm/yy'
+                                                showTime
+                                                hourFormat='24'
+                                                minDate={minDate}
+                                            />
+                                            <label htmlFor='name'>End date</label>
+                                        </span>
+                                    )}
+                                />
+                                {getFormErrorMessage('startAt')}
+                            </div>
+                            <div className='field'>
+                                <Controller
+                                    name='discountType'
+                                    control={control}
+                                    render={({ field, fieldState }) => (
+                                        <span className='p-float-label'>
+                                            <Dropdown
+                                                {...field}
+                                                id={field.name}
+                                                className={`w-full ${fieldState.error ? 'p-invalid' : ''}`}
+                                                options={[
+                                                    { label: 'Percentage', value: 'PERCENTAGE' },
+                                                    { label: 'Fixed', value: 'CASH' },
+                                                ]}
+                                                optionLabel='label'
+                                                optionValue='value'
+                                            />
+                                            <label htmlFor='name'>Discount type</label>
+                                        </span>
+                                    )}
+                                />
+                                {getFormErrorMessage('discountType')}
+                            </div>
+                            <div className='field'>
+                                <Controller
+                                    name='discountValue'
+                                    control={control}
+                                    render={({ field, fieldState }) => (
+                                        <span className='p-float-label'>
+                                            <InputNumber
+                                                {...field}
+                                                id={field.name}
+                                                className={`w-full ${fieldState.error ? 'p-invalid' : ''}`}
+                                                onChange={(e) => field.onChange(e.value)}
+                                            />
+                                            <label htmlFor='name'>Discount value</label>
+                                        </span>
+                                    )}
+                                />
+                                {getFormErrorMessage('discountValue')}
+                            </div>
                             <div className='flex justify-content-end gap-3'>
                                 <Button
                                     onClick={() => navigate('/admin/sales')}
@@ -134,16 +211,16 @@ function SaleForm({ edit }) {
                                     outlined
                                 />
                                 <Button
-                                    onClick={handleSubmit}
+                                    type='submit'
                                     className='w-full'
                                     label={edit ? 'Save Changes' : 'Create Sale'}
                                     icon={edit ? 'pi pi-pencil' : 'pi pi-plus'}
                                 />
                             </div>
                         </div>
-                    </div>
-                </Card>
-            </div>
+                    </form>
+                </div>
+            </Card>
         </div>
     )
 }
