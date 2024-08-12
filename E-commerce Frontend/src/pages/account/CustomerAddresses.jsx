@@ -23,6 +23,7 @@ export default function CustomerAddresses() {
     const [totalElements, setTotalElements] = useState(0)
     const [isLoading, setIsLoading] = useState(true)
     const [first, setFirst] = useState(0)
+    const [activeAddressId, setActiveAddressId] = useState(null)
 
     const items = [{ label: 'Addresses' }]
     const home = { label: 'Profile', command: () => navigate('/account/profile') }
@@ -49,8 +50,6 @@ export default function CustomerAddresses() {
     }
 
     const handleDelete = async (addressId) => {
-        // alert(addressId)
-        // alert(customerId)
         const response = await deleteAddress(customerId, addressId)
         const { success } = response
         showToast(success ? 'success' : 'error', 'Address operation result', 'Address deleted successfully')
@@ -68,10 +67,11 @@ export default function CustomerAddresses() {
         })
     }
 
-    const itemsAddresses = (id) => [
+    const itemsAddresses = [
         {
             label: 'Edit',
             icon: 'pi pi-pencil',
+            command: () => navigate(`/account/updateAddress/${activeAddressId}`),
         },
 
         { separator: true },
@@ -79,7 +79,7 @@ export default function CustomerAddresses() {
         {
             label: 'Delete',
             icon: 'pi pi-trash',
-            command: () => showConfirmDialog(id),
+            command: () => showConfirmDialog(activeAddressId),
         },
     ]
 
@@ -118,19 +118,16 @@ export default function CustomerAddresses() {
                         <i className='pi pi-map-marker text-2xl mr-3'></i>
                         <span className='text-xl font-semibold'>{address.addressLine}</span>
                     </div>
-                    <Menu
-                        model={itemsAddresses(address.id)}
-                        popup
-                        ref={menuRight}
-                        id='popup_menu_right'
-                        popupAlignment='right'
-                    />
+                    <Menu model={itemsAddresses} popup ref={menuRight} id='popup_menu_right' popupAlignment='right' />
                     <Button
                         icon='pi pi-ellipsis-v text-lg'
                         aria-label='Filter'
                         rounded
                         text
-                        onClick={(event) => menuRight.current.toggle(event)}
+                        onClick={(event) => {
+                            setActiveAddressId(address.id)
+                            menuRight.current.toggle(event)
+                        }}
                         aria-controls='popup_menu_right'
                         aria-haspopup
                     />
@@ -171,11 +168,10 @@ export default function CustomerAddresses() {
 
     return (
         <div className='w-full'>
-            <ConfirmDialog />
             <div>
                 <BreadCrumb model={items} home={home} className='border-none mb-3' />
             </div>
-
+            <ConfirmDialog />
             <Card title='Addresses'>
                 <div>
                     <DataView value={addresses} listTemplate={listTemplate} rows={9} />

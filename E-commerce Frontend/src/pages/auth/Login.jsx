@@ -1,51 +1,39 @@
 import { useState, useRef } from 'react'
-
 import { InputText } from 'primereact/inputtext'
 import { Button } from 'primereact/button'
 import { Password } from 'primereact/password'
 import { Dialog } from 'primereact/dialog'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { useToast } from '../../providers/ToastProvider'
-import { Link } from 'react-router-dom'
-
 import { userLogin } from '../../apis/auth-api'
 
 export default function Login() {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
+    const [visible, setVisible] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
     const navigate = useNavigate()
     const showToast = useToast()
     const inputRef = useRef(null)
-    const [visible, setVisible] = useState(false)
-    const [isLoading, setIsLoading] = useState(false)
 
     const handleLogin = async () => {
         setIsLoading(true)
-        if (await userLogin(username, password)) {
-            showToast('success', 'Success', '¡Login successfully!')
-            navigate(`/`)
-            setIsLoading(false)
-        } else {
-            showToast('error', 'Error', '¡Login error!')
-            setIsLoading(false)
-        }
+        const success = await userLogin(username, password)
+        showToast(
+            success ? 'success' : 'error',
+            success ? 'Success' : 'Error',
+            success ? '¡Login successfully!' : '¡Login error!',
+        )
+        if (success) navigate(`/`)
+        setIsLoading(false)
     }
 
-    const handleKeyPress = (event) => {
-        if (event.key === 'Enter') {
-            inputRef.current?.focus() // Enfocar el campo de contraseña
-        }
-    }
-
-    const handleKeyPressPassword = (event) => {
-        if (event.key === 'Enter') {
-            handleLogin()
-        }
+    const handleKeyPress = (event, action) => {
+        if (event.key === 'Enter') action()
     }
 
     return (
         <>
-            {/* Remove when primereact fixes the problem */}
             <style>{`
                 .p-input-icon-right > svg {
                     right: 10px;
@@ -60,33 +48,32 @@ export default function Login() {
                     <InputText
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
-                        onKeyPress={handleKeyPress}
+                        onKeyPress={(e) => handleKeyPress(e, () => inputRef.current?.focus())}
                     />
                     <label htmlFor='username'>Email</label>
                 </span>
             </div>
 
             <div>
-                <div className='p-inputgroup flex-1 '>
+                <div className='p-inputgroup flex-1'>
                     <span className='p-inputgroup-addon'>
                         <i className='pi pi-key'></i>
                     </span>
-                    {/* <InputText placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} /> */}
                     <span className='p-float-label'>
                         <Password
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             feedback={false}
-                            tabIndex={1}
                             toggleMask
-                            onKeyPress={handleKeyPressPassword}
+                            onKeyPress={(e) => handleKeyPress(e, handleLogin)}
                             className='p-pass-field'
                             ref={inputRef}
                         />
                         <label htmlFor='password'>Password</label>
                     </span>
                 </div>
-                <div className='block text-right text-primary '>
+
+                <div className='block text-right text-primary'>
                     <Link
                         className='text-sm text-color-secondary no-underline hover:text-primary hover:underline'
                         onClick={() => setVisible(true)}
@@ -100,10 +87,7 @@ export default function Login() {
                 header='Forgot Password'
                 visible={visible}
                 style={{ width: '30vw' }}
-                onHide={() => {
-                    if (!visible) return
-                    setVisible(false)
-                }}
+                onHide={() => setVisible(false)}
             >
                 <div className='m-5'>
                     <div className='p-inputgroup flex-1'>
@@ -115,7 +99,6 @@ export default function Login() {
                             <label htmlFor='username'>Email</label>
                         </span>
                     </div>
-
                     <Button label='Forgot Password' className='p-inputgroup mt-4' />
                 </div>
             </Dialog>
@@ -124,7 +107,7 @@ export default function Login() {
             <div className='block text-center'>
                 <span className='text-color mr-1'>Don&apos;t have an account?</span>
                 <Link
-                    to={'/auth/signup'}
+                    to='/auth/signup'
                     className='text-color-secondary no-underline hover:text-primary hover:underline'
                 >
                     Signup

@@ -54,7 +54,7 @@ const AppWeb = () => (
                             <Route path='account/data' element={<PersonalData />} />
                             <Route path='account/addresses' element={<CustomerAddresses />} />
                             <Route path='account/createAddress' element={<AddressRegistrationForm />} />
-                            <Route path='account/updateAddress' element={<AddressUpdateForm />} />
+                            <Route path='account/updateAddress/:id' element={<AddressUpdateForm />} />
                         </Route>
                         <Route path='account/orders' element={<OrderPage />} />
                     </Route>

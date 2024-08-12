@@ -40,7 +40,7 @@ export default function Account() {
                 <div id='sidemenu' className='col-3'>
                     <SideMenu itemsList={items}></SideMenu>
                 </div>
-                <div className='col'>
+                <div className='col my-3'>
                     <Outlet />
                 </div>
             </div>

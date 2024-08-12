@@ -7,7 +7,7 @@ export async function getCustomers(page) {
 export async function getCustomerById(id) {
     try {
         const response = await AxiosInstance.get(`/customers/${id}`)
-        return response.data.data
+        return response
     } catch (error) {
         console.error('Error fetching user data:', error)
         return {}

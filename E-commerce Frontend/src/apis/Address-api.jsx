@@ -11,6 +11,16 @@ export async function getAddressByCustomer(id) {
     }
 }
 
+export async function getAddressById(id) {
+    try {
+        const response = await AxiosInstance.get(`/customers/addresses/${id}`)
+        return response
+    } catch (error) {
+        console.error('Error fetching address data:', error)
+        return {}
+    }
+}
+
 export async function getAddresses(customerId, page) {
     try {
         const response = await AxiosInstance.get(`/customers/${customerId}/addresses?page=${page}`)
@@ -26,7 +36,7 @@ export async function getAddresses(customerId, page) {
     }
 }
 
-export const saveAddress = async (address) => {
+export const saveAddress = async (id, address) => {
     try {
         const response = await AxiosInstance.post(`/customers/${id}/address`, address)
         return response.data
@@ -38,7 +48,7 @@ export const saveAddress = async (address) => {
 
 export const updateAddress = async (id, address) => {
     try {
-        const response = await AxiosInstance.put(`/customers/${id}/address`, address)
+        const response = await AxiosInstance.put(`/customers/address/${id}`, address)
         return response.data
     } catch (error) {
         console.error('Error fetching data:', error)
