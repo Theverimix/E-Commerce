@@ -41,6 +41,14 @@ function SaleTable() {
         const response = await deleteSale(id)
         const { success, message } = response
         showToast(success ? 'success' : 'error', 'Product operation result', message)
+        if (success) setSales(sales.filter((sale) => sale.id !== id))
+    }
+
+    const onRefresh = async () => {
+        setLoading(true)
+        const { data: fetchedSales } = await getSales()
+        setSales(fetchedSales)
+        setLoading(false)
     }
 
     // PrimeReact Templates
@@ -96,11 +104,14 @@ function SaleTable() {
         <>
             <div className='flex align-items-center'>
                 <h1 className='ml-4'>Sales</h1>
-                <Link to='/admin/sales/new' className='ml-auto'>
-                    <Button outlined icon='pi pi-plus' className='gap-2'>
-                        Launch a New Sale
-                    </Button>
-                </Link>
+                <div className='ml-auto'>
+                    <Button outlined rounded icon='pi pi-refresh' onClick={onRefresh} />
+                    <Link to='/admin/sales/new'>
+                        <Button outlined icon='pi pi-plus' className='gap-2 ml-3'>
+                            Launch a New Sale
+                        </Button>
+                    </Link>
+                </div>
             </div>
             <ConfirmDialog />
             {loading ? <Loading /> : <Table />}
