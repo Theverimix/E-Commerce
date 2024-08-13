@@ -10,64 +10,58 @@ import { Link, useNavigate } from 'react-router-dom'
 import { userRegister } from '../../apis/auth-api'
 
 export default function Register() {
-    const [name, setName] = useState('')
-    const [lastname, setLastname] = useState('')
-    const [username, setUsername] = useState('')
-
-    const [password, setPassword] = useState('')
-    const [confirmPassword, setConfirmPassword] = useState('')
+    const [formData, setFormData] = useState({
+        name: '',
+        lastname: '',
+        username: '',
+        password: '',
+        confirmPassword: '',
+    })
     const [passwordsMatch, setPasswordsMatch] = useState(true)
-
     const [isLoading, setIsLoading] = useState(false)
 
     const showToast = useToast()
-
-    const nameRef = useRef(null)
-    const lastnameRef = useRef(null)
-    const usernameRef = useRef(null)
-    const passwordRef = useRef(null)
-    const confirmPasswordRef = useRef(null)
-
     const navigate = useNavigate()
 
-    // function confirmPass() {
-    //     setPasswordsMatch(confirmPassword === password)
-    //     if (confirmPassword === password) {
-    //         userRegister(name, lastname, username, password)
-    //     } else {
-    //         alert('Passwords not match')
-    //     }
-    // }
+    const refs = {
+        name: useRef(null),
+        lastname: useRef(null),
+        username: useRef(null),
+        password: useRef(null),
+        confirmPassword: useRef(null),
+    }
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target
+        setFormData((prevData) => ({ ...prevData, [name]: value }))
+    }
 
     const handleRegister = async () => {
         setIsLoading(true)
-        setPasswordsMatch(confirmPassword === password)
-        if (confirmPassword === password) {
-            if (await userRegister(name, lastname, username, password)) {
+        setPasswordsMatch(formData.password === formData.confirmPassword)
+
+        if (formData.password === formData.confirmPassword) {
+            if (await userRegister(formData.name, formData.lastname, formData.username, formData.password)) {
                 showToast('success', 'Success', '¡Registration successful!')
                 navigate(`/`)
-                setIsLoading(false)
             } else {
                 showToast('error', 'Error', '¡Registration error!')
-                setIsLoading(false)
             }
         } else {
-            showToast('error', 'Error', '¡Passwords not match!')
-            setIsLoading(false)
+            showToast('error', 'Error', '¡Passwords do not match!')
         }
+        setIsLoading(false)
     }
 
-    const handleKeyPress = (event, nextFieldRef) => {
-        if (event.key === 'Enter') {
-            nextFieldRef.current.focus() // Enfocar el siguiente campo
-        }
+    const handleKeyPress = (e, nextFieldRef) => {
+        if (e.key === 'Enter') nextFieldRef.current.focus()
     }
 
-    const handleKeyPressPassword = (event) => {
-        if (event.key === 'Enter') {
-            handleRegister()
-        }
-    }
+    const inputFields = [
+        { name: 'name', label: 'Name', icon: 'pi-user', ref: refs.name, nextRef: refs.lastname },
+        { name: 'lastname', label: 'Lastname', icon: 'pi-user', ref: refs.lastname, nextRef: refs.username },
+        { name: 'username', label: 'Email', icon: 'pi-at', ref: refs.username, nextRef: refs.password },
+    ]
 
     const headerPass = <div className='font-bold mb-3'>Pick a password</div>
     const footerPass = (
@@ -85,99 +79,70 @@ export default function Register() {
 
     return (
         <>
-            {/* Remove when primereact fixes the problem */}
-            <style>{`
-                .p-input-icon-right > svg {
-                    right: 10px;
-                }
-            `}</style>
+            <style>{`.p-input-icon-right > svg { right: 10px; }`}</style>
 
-            <div className='p-inputgroup flex-1'>
-                <span className='p-inputgroup-addon'>
-                    <i className='pi pi-user'></i>
-                </span>
-                <span className='p-float-label'>
-                    <InputText
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                        onKeyPress={(e) => handleKeyPress(e, lastnameRef)}
-                        ref={nameRef}
-                    />
-                    <label htmlFor='nombre'>Nombre</label>
-                </span>
-            </div>
-            <div className='p-inputgroup flex-1'>
-                <span className='p-inputgroup-addon'>
-                    <i className='pi pi-user'></i>
-                </span>
-                <span className='p-float-label'>
-                    <InputText
-                        value={lastname}
-                        onChange={(e) => setLastname(e.target.value)}
-                        onKeyPress={(e) => handleKeyPress(e, usernameRef)}
-                        ref={lastnameRef}
-                    />
-                    <label htmlFor='apellido'>Apellido</label>
-                </span>
-            </div>
-            <div className='p-inputgroup flex-1'>
-                <span className='p-inputgroup-addon'>
-                    <i className='pi pi-at'></i>
-                </span>
-                <span className='p-float-label'>
-                    <InputText
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                        onKeyPress={(e) => handleKeyPress(e, passwordRef)}
-                        ref={usernameRef}
-                    />
-                    <label htmlFor='email'>Email</label>
-                </span>
-            </div>
+            {inputFields.map(({ name, label, icon, ref, nextRef }) => (
+                <div key={name} className='p-inputgroup flex-1'>
+                    <span className='p-inputgroup-addon'>
+                        <i className={`pi ${icon}`}></i>
+                    </span>
+                    <span className='p-float-label'>
+                        <InputText
+                            name={name}
+                            value={formData[name]}
+                            onChange={handleInputChange}
+                            onKeyPress={(e) => handleKeyPress(e, nextRef)}
+                            ref={ref}
+                        />
+                        <label htmlFor={name}>{label}</label>
+                    </span>
+                </div>
+            ))}
+
             <div className='p-inputgroup flex-1'>
                 <span className='p-inputgroup-addon'>
                     <i className='pi pi-key'></i>
                 </span>
                 <span className='p-float-label'>
                     <Password
+                        name='password'
+                        value={formData.password}
+                        onChange={handleInputChange}
+                        onKeyPress={(e) => handleKeyPress(e, refs.confirmPassword)}
                         className={passwordsMatch ? '' : 'p-invalid'}
                         header={headerPass}
                         footer={footerPass}
                         toggleMask
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        onKeyPress={(e) => handleKeyPress(e, confirmPasswordRef)}
-                        ref={passwordRef}
+                        ref={refs.password}
                     />
                     <label htmlFor='password'>Password</label>
                 </span>
             </div>
+
             <div className='p-inputgroup flex-1'>
                 <span className='p-inputgroup-addon'>
                     <i className='pi pi-key'></i>
                 </span>
                 <span className='p-float-label'>
                     <Password
+                        name='confirmPassword'
+                        value={formData.confirmPassword}
+                        onChange={handleInputChange}
+                        onKeyPress={handleRegister}
                         className={passwordsMatch ? '' : 'p-invalid'}
                         feedback={false}
-                        tabIndex={1}
                         toggleMask
-                        value={confirmPassword}
-                        onChange={(e) => setConfirmPassword(e.target.value)}
-                        onKeyPress={handleKeyPressPassword}
-                        ref={confirmPasswordRef}
+                        ref={refs.confirmPassword}
                     />
-                    <label htmlFor='passwordConfirm'>Confirm password</label>
+                    <label htmlFor='confirmPassword'>Confirm Password</label>
                 </span>
             </div>
-            {!passwordsMatch && <small className='p-error'>Passwords doesn&apos;t match</small>}
+
+            {!passwordsMatch && <small className='p-error'>Passwords don&apos;t match</small>}
             <Button className='w-full' label='Create your Account' loading={isLoading} onClick={handleRegister} />
             <div className='block text-center'>
                 <span className='text-color mr-1'>Already have an account?</span>
-                <Link
-                    to={'/auth/login'}
-                    className='text-color-secondary no-underline hover:text-primary hover:underline'
-                >
+                <Link to='/auth/login' className='text-color-secondary no-underline hover:text-primary hover:underline'>
                     Login
                 </Link>
             </div>

@@ -79,6 +79,12 @@ public class CustomerService {
         repository.save(customer);
     }
 
+    public AddressResponse getAddressById(@NonNull Long id) {
+        return addressRepository.findById(id)
+                .map(addressMapper)
+                .orElseThrow(() -> new EntityNotFoundException("Address with id [%s] not found.".formatted(id)));
+    }
+
     public PageResponse<AddressResponse> getAddressesByCustomer(Long customerId, int pageNumber, int size)
             throws PageNotFoundException {
         Customer customer = repository.findById(customerId).orElseThrow(
@@ -105,10 +111,10 @@ public class CustomerService {
 
     // Customer Address Service
 
-    public void saveCustomerAddress(AddressRequest request) {
-        Customer customer = repository.findById(request.customerId())
+    public void saveCustomerAddress(AddressRequest request, Long customerId) {
+        Customer customer = repository.findById(customerId)
                 .orElseThrow(() -> new EntityNotFoundException(
-                        "Customer with id [%s] not found.".formatted(request.customerId())));
+                        "Customer with id [%s] not found.".formatted(customerId)));
         addressRepository.save(Address.builder()
                 .customer(customer)
                 .fullName(request.fullName())
@@ -123,14 +129,10 @@ public class CustomerService {
     }
 
     public void updateCustomerAddress(Long id, AddressRequest request) {
-        Customer customer = repository.findById(request.customerId())
-                .orElseThrow(() -> new EntityNotFoundException(
-                        "Customer with id [%s] not found.".formatted(request.customerId())));
 
         Address address = addressRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(
                 "Address with id [%s] not found.".formatted(id)));
 
-        address.setCustomer(customer);
         address.setFullName(request.fullName());
         address.setAddressLine(request.addressLine());
         address.setCity(request.city());

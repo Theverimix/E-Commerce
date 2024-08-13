@@ -31,7 +31,7 @@ export default function PersonalData({ isAdmin = false }) {
             try {
                 const user = !isAdmin ? await getCustomerById(userId) : await getUserById(userId)
                 if (user) {
-                    setUserData(user.data.data)
+                    await setUserData(user.data.data)
                 } else {
                     console.error('User data is undefined')
                 }
@@ -83,59 +83,69 @@ export default function PersonalData({ isAdmin = false }) {
                 <BreadCrumb model={items} home={home} className='border-none mb-3' />
             </div>
             <Card title='Personal data'>
-                <div className='flex justify-content-center align-items-center'>
-                    <div className='md:w-10 lg:w-8 xl:w-6'>
-                        <form onSubmit={showConfirmDialog}>
-                            <div className='flex flex-column gap-2 mb-3 mt-3'>
-                                <label htmlFor='firstname'>Firstname</label>
-                                <InputText
-                                    id='firstname'
-                                    name='firstname'
-                                    value={userData.firstname}
-                                    onChange={handleChange}
-                                />
-                            </div>
-                            <div className='flex flex-column gap-2 mb-3'>
-                                <label htmlFor='lastname'>Lastname</label>
-                                <InputText
-                                    id='lastname'
-                                    name='lastname'
-                                    value={userData.lastname}
-                                    onChange={handleChange}
-                                />
-                            </div>
-                            <div className='flex flex-column gap-2 mb-3'>
-                                <label htmlFor='email'>Email</label>
-                                <InputText id='email' name='email' value={userData.email} onChange={handleChange} />
-                            </div>
-                            {!isAdmin && (
-                                <>
-                                    <div className='flex flex-column gap-2 mb-3'>
-                                        <label htmlFor='country'>Country</label>
-                                        <InputText
-                                            id='country'
-                                            name='country'
-                                            value={userData.country}
-                                            onChange={handleChange}
-                                        />
-                                    </div>
-                                    <div className='flex flex-column gap-2 mb-3'>
-                                        <label htmlFor='phone'>Phone</label>
-                                        <InputMask
-                                            id='phone'
-                                            mask='999 999 999'
-                                            name='phone'
-                                            value={userData.phone}
-                                            onChange={handleChange}
-                                            placeholder='XXX XXX XXX'
-                                        />
-                                    </div>
-                                </>
-                            )}
-                            <Button label='Save changes' type='submit' className='w-12 mt-3' />
-                        </form>
+                <form onSubmit={showConfirmDialog} className='flex justify-content-center align-items-center'>
+                    <div className='formgrid grid md:w-9 lg:w-7 xl:w-6'>
+                        <div className='field col-12 md:col-6'>
+                            <label htmlFor='firstname'>Firstname</label>
+                            <InputText
+                                id='firstname'
+                                name='firstname'
+                                value={userData.firstname}
+                                onChange={handleChange}
+                                className='w-full'
+                            />
+                        </div>
+                        <div className='field col-12 md:col-6'>
+                            <label htmlFor='lastname'>Lastname</label>
+                            <InputText
+                                id='lastname'
+                                name='lastname'
+                                value={userData.lastname}
+                                onChange={handleChange}
+                                className='w-full'
+                            />
+                        </div>
+                        <div className='field col-12'>
+                            <label htmlFor='email'>Email</label>
+                            <InputText
+                                id='email'
+                                name='email'
+                                value={userData.email}
+                                onChange={handleChange}
+                                className='w-full'
+                            />
+                        </div>
+                        {!isAdmin && (
+                            <>
+                                <div className='field col-12'>
+                                    <label htmlFor='country'>Country</label>
+                                    <InputText
+                                        id='country'
+                                        name='country'
+                                        value={userData.country}
+                                        onChange={handleChange}
+                                        className='w-full'
+                                    />
+                                </div>
+                                <div className='field col-12'>
+                                    <label htmlFor='phone'>Phone</label>
+                                    <InputMask
+                                        id='phone'
+                                        mask='999 999 999'
+                                        name='phone'
+                                        value={userData.phone}
+                                        onChange={handleChange}
+                                        placeholder='XXX XXX XXX'
+                                        className='w-full'
+                                    />
+                                </div>
+                            </>
+                        )}
+                        <Button label='Save changes' type='submit' className='w-full mt-3' outlined />
                     </div>
-                </div>
+                </form>
+                {/* </div>
+                </div> */}
             </Card>
         </div>
     )
