@@ -12,7 +12,7 @@ import { Dropdown } from 'primereact/dropdown'
 import { Controller, useForm } from 'react-hook-form'
 import { superstructResolver } from '@hookform/resolvers/superstruct'
 
-import { Sale } from '../../../types/Types'
+import { SaleSchema } from '../../../types/schemas'
 
 function SaleForm({ edit }) {
     const { id } = useParams()
@@ -27,7 +27,7 @@ function SaleForm({ edit }) {
         handleSubmit,
         reset,
         watch,
-    } = useForm({ resolver: superstructResolver(Sale) })
+    } = useForm({ resolver: superstructResolver(SaleSchema) })
 
     const onSubmit = async (data) => {
         if (edit) {
