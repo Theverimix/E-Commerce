@@ -32,6 +32,8 @@ import SaleTable from './pages/admin/sales/SaleTable.jsx'
 import SaleForm from './pages/admin/sales/SaleForm.jsx'
 import OrderTable from './pages/admin/orders/OrderTable.jsx'
 import OrderDetails from './pages/order/OrderDetails.jsx'
+import CategoryTable from './pages/admin/categories/CategoryTable.jsx'
+import CategoryForm from './pages/admin/categories/CategoryForm.jsx'
 
 const AppWeb = () => (
     <BrowserRouter>
@@ -87,10 +89,10 @@ const AppWeb = () => (
                             <Route path='new' element={<SaleForm />} />
                             <Route path=':id' element={<SaleForm edit />} />
                         </Route>
-                        <Route path='admin/categories' element={<ProductAdminPage />}>
-                            <Route path='' element={<ProductTable />} />
-                            <Route path='new' element={<ProductPanel />} />
-                            <Route path=':id' element={<ProductPanel />} />
+                        <Route path='admin/categories'>
+                            <Route path='' element={<CategoryTable />} />
+                            <Route path='new' element={<CategoryForm />} />
+                            <Route path=':id' element={<CategoryForm edit />} />
                         </Route>
                     </Route>
                 </Route>
