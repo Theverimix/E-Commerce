@@ -41,12 +41,11 @@ export default function Cart() {
         }
 
         fetchData()
-    }, [products, allProducts])
+    }, [allProducts])
 
     const handleRemoveProduct = useCallback(
         (product) => {
             removeProduct(product.id)
-            console.log('removed')
         },
         [removeProduct],
     )
@@ -59,30 +58,22 @@ export default function Cart() {
     )
 
     return (
-        <div className='mt-4'>
-            <div className='grid m-auto mb-6'>
-                <div className='col'>
-                    <ProductList
-                        handleRemoveProduct={handleRemoveProduct}
-                        handleUpdateProductAmount={handleUpdateProductAmount}
-                        products={productsWithQuantity}
-                        isLoading={isLoading}
-                        removeButton
-                        linkeable
-                        quantity
-                        height='30rem'
-                        isCart
-                    />
-                </div>
-                <div className='col-4 justify-content-center text'>
-                    <h2 className='text-center'>Order Summary</h2>
-                    <CartSummary
-                        products={productsWithQuantity}
-                        isLoading={isLoading}
-                        continueBtn={true}
-                        cupon={true}
-                    />
-                </div>
+        <div className='mt-4 grid m-auto mb-6'>
+            <div className='col-12 md:col-7'>
+                <ProductList
+                    handleRemoveProduct={handleRemoveProduct}
+                    handleUpdateProductAmount={handleUpdateProductAmount}
+                    products={productsWithQuantity}
+                    isLoading={isLoading}
+                    removeButton
+                    linkeable
+                    quantity
+                    isCart
+                />
+            </div>
+            <div className='col-12 md:col-5 justify-content-center text'>
+                <h2 className='text-center'>Order Summary</h2>
+                <CartSummary products={productsWithQuantity} isLoading={isLoading} continueBtn={true} cupon={true} />
             </div>
         </div>
     )

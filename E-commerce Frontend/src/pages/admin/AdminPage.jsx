@@ -58,9 +58,8 @@ const AdminPage = () => {
 
     return (
         <>
-            <Toast ref={toast} />
             <div className='grid align-items-top'>
-                <div id='sidemenu' className='col-3 p-0'>
+                <div id='sidemenu' className='col-3 p-0 hidden md:flex'>
                     <SideMenu itemsList={items} />
                 </div>
                 <div className='col sm:w-4'>

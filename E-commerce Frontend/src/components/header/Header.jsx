@@ -205,7 +205,7 @@ export default function Header() {
                 className={`${isMenuVisible ? '' : 'hidden'}`}
                 onClick={handleClickMenuUser}
             />
-            {isLogedIn() ? (
+            {isLogedIn() && !isBreakpoint ? (
                 <div className='flex align-items-center'>
                     <Button
                         label={extractNamefromToken()}
@@ -273,6 +273,15 @@ export default function Header() {
             separator: true,
         },
         {
+            label: 'Home',
+            className: 'font-semibold',
+            icon: 'pi pi-home',
+            command: () => {
+                navigate('/')
+                setSidebarVisible(false)
+            },
+        },
+        {
             label: 'Products',
             className: 'font-semibold',
             icon: 'pi pi-box',
@@ -288,22 +297,81 @@ export default function Header() {
                 {
                     label: 'Supplements',
                     className: 'font-light ml-3',
-                    command: () => navigate('/products?category=supplements'),
+                    command: () => {
+                        navigate('/products?category=supplements')
+                        setSidebarVisible(false)
+                    },
                 },
                 {
                     label: 'Accessories',
                     className: 'font-light ml-3',
-                    command: () => navigate('/products?category=accessories'),
+                    command: () => {
+                        navigate('/products?category=accessories')
+                        setSidebarVisible(false)
+                    },
                 },
                 {
                     label: 'Clothes',
                     className: 'font-light ml-3',
-                    command: () => navigate('/products?category=clothes'),
+                    command: () => {
+                        navigate('/products?category=clothes')
+                        setSidebarVisible(false)
+                    },
                 },
                 {
                     label: 'Equipment',
                     className: 'font-light ml-3',
-                    command: () => navigate('/products?category=equipment'),
+                    command: () => {
+                        navigate('/products?category=equipment')
+                        setSidebarVisible(false)
+                    },
+                },
+            ],
+        },
+
+        userRole == 'ADMINISTRATOR' && {
+            label: 'Admin',
+            className: 'font-semibold',
+            items: [
+                {
+                    label: 'Customers',
+                    className: 'font-light ml-3',
+                    command: () => {
+                        navigate('/admin/customers')
+                        setSidebarVisible(false)
+                    },
+                },
+                {
+                    label: 'Products',
+                    className: 'font-light ml-3',
+                    command: () => {
+                        navigate('/admin/products')
+                        setSidebarVisible(false)
+                    },
+                },
+                {
+                    label: 'Orders',
+                    className: 'font-light ml-3',
+                    command: () => {
+                        navigate('/admin/orders')
+                        setSidebarVisible(false)
+                    },
+                },
+                {
+                    label: 'Sales',
+                    className: 'font-light ml-3',
+                    command: () => {
+                        navigate('/admin/sales')
+                        setSidebarVisible(false)
+                    },
+                },
+                {
+                    label: 'Categories',
+                    className: 'font-light ml-3',
+                    command: () => {
+                        navigate('/admin/categories')
+                        setSidebarVisible(false)
+                    },
                 },
             ],
         },

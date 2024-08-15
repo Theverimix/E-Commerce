@@ -22,7 +22,7 @@ export default function cartSummary({ products, isLoading, cupon = false, contin
     }, [products])
 
     return (
-        <div className='w-full px-7'>
+        <div className='w-full flex flex-column px-7 lg:px-5'>
             {isLoading ? (
                 <>
                     <Skeleton className='w-full mb-4' height='2.5rem' />
@@ -75,7 +75,7 @@ export default function cartSummary({ products, isLoading, cupon = false, contin
                 </>
             ) : (
                 <>
-                    <p className='text-center text-600'>You have not added any product in yout Shopping Cart.</p>
+                    <p className='text-center text-600'>You have not added any product in your Shopping Cart.</p>
                     <Button
                         className='w-full mt-3 font-medium'
                         label='Continue Shopping'

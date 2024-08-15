@@ -149,13 +149,13 @@ export default function CheckoutPage() {
         >
             <div>
                 <h1 className='ml-3'>Checkout</h1>
-                <div className='w-full h-screen grid gap-3'>
-                    <div className='col'>
+                <div className='w-full h-auto grid m-auto'>
+                    <div className='col-12 md:col-6'>
                         <Stepper ref={stepperRef} style={{ flexBasis: '50rem' }} linear>
                             <StepperPanel header='Address'>
                                 <div className='p-4'>
                                     <h2>Shipping information</h2>
-                                    <div className='flex mb-3 gap-3'>
+                                    <div className='flex flex-wrap lg:flex-nowrap mb-3 gap-3'>
                                         <InputText
                                             className='w-full'
                                             placeholder='Firstname*'
@@ -248,9 +248,11 @@ export default function CheckoutPage() {
                             </StepperPanel>
                         </Stepper>
                     </div>
-                    <div className='col-4 justify-content-center text'>
-                        <h2 className='text-center'>Order Summary</h2>
-                        <CartSummary products={productsWithQuantity} isLoading={isLoading} />
+                    <div className='col-12 md:col-6 xl:col-5 mx-auto justify-content-center text pb-8 md:pb-0 lg:max-w-28rem'>
+                        <div className='w-full'>
+                            <h2 className='text-center'>Order Summary</h2>
+                            <CartSummary products={productsWithQuantity} isLoading={isLoading} />
+                        </div>
                     </div>
                 </div>
             </div>
