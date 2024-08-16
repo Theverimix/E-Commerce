@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState } from 'react'
 import { InputText } from 'primereact/inputtext'
 import { Button } from 'primereact/button'
 import { Password } from 'primereact/password'
@@ -6,19 +6,25 @@ import { Dialog } from 'primereact/dialog'
 import { useNavigate, Link } from 'react-router-dom'
 import { useToast } from '../../providers/ToastProvider'
 import { userLogin } from '../../apis/auth-api'
+import { Controller, useForm } from 'react-hook-form'
+import { LoginSchema } from '../../types/schemas'
+import { superstructResolver } from '@hookform/resolvers/superstruct'
 
 export default function Login() {
-    const [username, setUsername] = useState('')
-    const [password, setPassword] = useState('')
     const [visible, setVisible] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const navigate = useNavigate()
     const showToast = useToast()
-    const inputRef = useRef(null)
 
-    const handleLogin = async () => {
+    const {
+        formState: { errors },
+        control,
+        handleSubmit,
+    } = useForm({ resolver: superstructResolver(LoginSchema) })
+
+    const onLogin = async ({ email, password }) => {
         setIsLoading(true)
-        const success = await userLogin(username, password)
+        const { success } = await userLogin(email, password)
         showToast(
             success ? 'success' : 'error',
             success ? 'Success' : 'Error',
@@ -28,91 +34,130 @@ export default function Login() {
         setIsLoading(false)
     }
 
-    const handleKeyPress = (event, action) => {
-        if (event.key === 'Enter') action()
+    const onRecoveryPassword = () => {
+        console.log('recovery password')
     }
 
-    return (
-        <>
+    const getFormErrorMessage = (name) => {
+        return errors[name] && <small className='p-error'>{errors[name].message}</small>
+    }
+
+    const EmailInput = () => (
+        <div className='field'>
+            <div className='p-inputgroup'>
+                <span className='p-inputgroup-addon'>
+                    <i className='pi pi-user' />
+                </span>
+                <Controller
+                    name='email'
+                    control={control}
+                    render={({ field, fieldState }) => (
+                        <span className='p-float-label'>
+                            <InputText
+                                autoFocus
+                                {...field}
+                                id={field.name}
+                                className={`w-full ${fieldState.error ? 'p-invalid' : ''}`}
+                                // onKeyPress={(e) => handleKeyPress(e, () => inputRef.current?.focus())}
+                            />
+                            <label htmlFor={field.name}>Email</label>
+                        </span>
+                    )}
+                />
+            </div>
+            {getFormErrorMessage('email')}
+        </div>
+    )
+
+    const PasswordInput = () => (
+        <div className='field'>
             <style>{`
                 .p-input-icon-right > svg {
                     right: 10px;
                 }
             `}</style>
-
-            <div className='p-inputgroup flex-1'>
+            <div className='p-inputgroup'>
                 <span className='p-inputgroup-addon'>
-                    <i className='pi pi-user'></i>
+                    <i className='pi pi-key' />
                 </span>
-                <span className='p-float-label'>
-                    <InputText
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                        onKeyPress={(e) => handleKeyPress(e, () => inputRef.current?.focus())}
-                    />
-                    <label htmlFor='username'>Email</label>
+                <Controller
+                    name='password'
+                    control={control}
+                    render={({ field, fieldState }) => (
+                        <span className='p-float-label'>
+                            <Password
+                                {...field}
+                                id={field.name}
+                                feedback={false}
+                                toggleMask
+                                className={`w-full ${fieldState.error ? 'p-invalid' : ''}`}
+                                // onKeyPress={(e) => handleKeyPress(e, () => inputRef.current?.focus())}
+                            />
+                            <label htmlFor={field.name}>Password</label>
+                        </span>
+                    )}
+                />
+            </div>
+            {getFormErrorMessage('password')}
+            <div className='block text-right text-primary'>
+                <span
+                    className='text-sm text-color-secondary no-underline hover:text-primary cursor-pointer'
+                    onClick={() => setVisible(true)}
+                >
+                    Forgot your password?
                 </span>
             </div>
+        </div>
+    )
 
-            <div>
-                <div className='p-inputgroup flex-1'>
-                    <span className='p-inputgroup-addon'>
-                        <i className='pi pi-key'></i>
-                    </span>
-                    <span className='p-float-label'>
-                        <Password
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            feedback={false}
-                            toggleMask
-                            onKeyPress={(e) => handleKeyPress(e, handleLogin)}
-                            className='p-pass-field'
-                            ref={inputRef}
-                        />
-                        <label htmlFor='password'>Password</label>
-                    </span>
-                </div>
-
-                <div className='block text-right text-primary'>
-                    <Link
-                        className='text-sm text-color-secondary no-underline hover:text-primary hover:underline'
-                        onClick={() => setVisible(true)}
-                    >
-                        Forgot your password?
-                    </Link>
-                </div>
-            </div>
-
-            <Dialog
-                header='Forgot Password'
-                visible={visible}
-                style={{ width: '30vw' }}
-                onHide={() => setVisible(false)}
-            >
-                <div className='m-5'>
-                    <div className='p-inputgroup flex-1'>
+    const ForgotPasswordDialog = () => (
+        <Dialog header='Forgot Password' visible={visible} style={{ width: '30vw' }} onHide={() => setVisible(false)}>
+            <form onSubmit={handleSubmit(onRecoveryPassword)}>
+                <div className='field'>
+                    <div className='p-inputgroup'>
                         <span className='p-inputgroup-addon'>
                             <i className='pi pi-user'></i>
                         </span>
-                        <span className='p-float-label'>
-                            <InputText value={username} />
-                            <label htmlFor='username'>Email</label>
-                        </span>
+                        <Controller
+                            name='recoveryEmail'
+                            control={control}
+                            render={({ field, fieldState }) => (
+                                <span className='p-float-label'>
+                                    <InputText
+                                        {...field}
+                                        id={field.name}
+                                        className={`w-full ${fieldState.error ? 'p-invalid' : ''}`}
+                                    />
+                                    <label htmlFor={field.name}>Email</label>
+                                </span>
+                            )}
+                        />
                     </div>
-                    <Button label='Forgot Password' className='p-inputgroup mt-4' />
+                    {getFormErrorMessage('recoveryEmail')}
                 </div>
-            </Dialog>
+                <Button type='submit' label='Forgot Password' className='p-inputgroup mt-4' />
+            </form>
+        </Dialog>
+    )
 
-            <Button label='Log in' loading={isLoading} disabled={!username || !password} onClick={handleLogin} />
-            <div className='block text-center'>
-                <span className='text-color mr-1'>Don&apos;t have an account?</span>
-                <Link
-                    to='/auth/signup'
-                    className='text-color-secondary no-underline hover:text-primary hover:underline'
-                >
-                    Signup
-                </Link>
+    return (
+        <>
+            <form onSubmit={handleSubmit(onLogin)}>
+                <EmailInput />
+                <PasswordInput />
+                <div className='flex'>
+                    <Button type='submit' label='Log in' loading={isLoading} className='w-full' />
+                </div>
+            </form>
+            <div>
+                <div className='block text-center'>
+                    <span className='text-color mr-1'>Don&apos;t have an account?</span>
+                    <Link to='/auth/signup' className='text-color-secondary no-underline hover:text-primary'>
+                        Signup
+                    </Link>
+                </div>
             </div>
+            <ForgotPasswordDialog />
         </>
     )
 }

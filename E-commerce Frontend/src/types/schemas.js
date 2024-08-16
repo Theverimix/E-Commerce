@@ -16,6 +16,10 @@ export const LoginSchema = object({
     password: string(),
 })
 
+export const RecoveryEmail = object({
+    email: string(),
+})
+
 // Product
 
 export const CategorySchema = object({
