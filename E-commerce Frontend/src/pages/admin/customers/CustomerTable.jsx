@@ -3,11 +3,13 @@ import { DataTable } from 'primereact/datatable'
 import { Link } from 'react-router-dom'
 import { useToast } from '../../../providers/ToastProvider'
 import { deleteUser } from '../../../apis/user-api'
-import { ConfirmDialog } from 'primereact/confirmdialog'
+import { confirmDialog, ConfirmDialog } from 'primereact/confirmdialog'
 import { Skeleton } from 'primereact/skeleton'
 import { getCustomers } from '../../../apis/customer-api'
 import { useEffect, useState } from 'react'
 import { Paginator } from 'primereact/paginator'
+import { Chip } from 'primereact/chip'
+import { Card } from 'primereact/card'
 
 const CustomerTable = () => {
     const showToast = useToast()
@@ -79,9 +81,24 @@ const CustomerTable = () => {
                 <Link to={`/admin/customers/${rowData.id}`} state={{ customer: rowData }}>
                     <i className='pi pi-pencil mr-2' />
                 </Link>
-                <i className='pi pi-trash' onClick={() => showConfirmDialog(row.id)} />
+                <i className='pi pi-trash' onClick={() => showConfirmDialog(rowData.id)} />
             </div>
         )
+    }
+
+    // Primereact
+
+    const fullnameTemplate = (customer) => {
+        return `${customer.firstname} ${customer.lastname}`
+    }
+
+    const countryTemplate = ({ country }) => {
+        return country ? country : '-'
+    }
+
+    const stateTemplate = ({ state }) => {
+        const label = state === 'ACTIVE' ? 'Active' : 'Inactive'
+        return <Chip label={label} />
     }
 
     return (
@@ -93,27 +110,26 @@ const CustomerTable = () => {
             {isLoading ? (
                 <Skeleton width='100%' height='20rem' />
             ) : (
-                <div className='w-full'>
-                    <DataTable value={customers} className='w-auto'>
-                        <Column field='id' header='ID' />
-                        <Column field='firstname' header='Firstname' />
-                        <Column field='lastname' header='Lastname' />
-                        <Column field='email' header='Email' />
-                        <Column field='phone' header='Phone' />
-                        <Column field='country' header='Country' />
-                        <Column field='role' header='Role' />
-                        <Column field='state' header='State' />
-                        <Column header='Actions' body={actionBodyTemplate} />
-                    </DataTable>
-                    <Paginator
-                        first={currentPage}
-                        rows={elementsPerPage}
-                        totalRecords={pages.totalElements}
-                        onPageChange={(e) => {
-                            setCurrentPage(e.first)
-                        }}
-                    />
-                </div>
+                <Card className='border-round-xl'>
+                    <div className='w-full'>
+                        <DataTable value={customers} className='w-auto'>
+                            <Column header='ID' field='id' />
+                            <Column header='Name' body={fullnameTemplate} />
+                            <Column header='Email' field='email' />
+                            <Column header='Country' body={countryTemplate} />
+                            <Column header='State' body={stateTemplate} />
+                            <Column header='Actions' body={actionBodyTemplate} />
+                        </DataTable>
+                        <Paginator
+                            first={currentPage}
+                            rows={elementsPerPage}
+                            totalRecords={pages.totalElements}
+                            onPageChange={(e) => {
+                                setCurrentPage(e.first)
+                            }}
+                        />
+                    </div>
+                </Card>
             )}
         </>
     )

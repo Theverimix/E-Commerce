@@ -1,7 +1,7 @@
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useToast } from '../../../providers/ToastProvider'
 import { CustomerForm } from './CustomerForm'
-import { getCustomerById, saveCustomer, updateCustomer } from '../../../apis/customer-api'
+import { getCustomerById, updateCustomer } from '../../../apis/customer-api'
 import { useEffect, useState } from 'react'
 
 const CustomerPanel = () => {
