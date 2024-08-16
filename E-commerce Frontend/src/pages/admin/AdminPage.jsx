@@ -1,6 +1,5 @@
 import { useRef } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
-import { Toast } from 'primereact/toast'
 import SideMenu from '../../components/side-menu/SideMenu'
 
 const AdminPage = () => {
@@ -62,7 +61,7 @@ const AdminPage = () => {
                 <div id='sidemenu' className='col-3 p-0 hidden md:flex'>
                     <SideMenu itemsList={items} />
                 </div>
-                <div className='col sm:w-4'>
+                <div className='col-12 sm:col sm:w-4'>
                     <div className='w-full p-5'>
                         <Outlet />
                     </div>

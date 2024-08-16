@@ -88,8 +88,8 @@ export default function ProductCatalogFilter({ onSubmitPrice, onSubmitCategory }
     }
 
     return (
-        <div key='filter' className='card justify-content-center'>
-            <Panel header='Price filter'>
+        <div key='filter' className='card justify-content-center w-full'>
+            <Panel header='Price filter' className='w-full'>
                 <Slider
                     value={price}
                     onChange={handleChangePrice}
@@ -117,7 +117,7 @@ export default function ProductCatalogFilter({ onSubmitPrice, onSubmitCategory }
                 togglerTemplate={togglerTemplate}
                 // className="w-full md:w-30rem"
                 expandedKeys={expandedKeys}
-                className='hover:cursor-pointer'
+                className='hover:cursor-pointer w-full'
                 onNodeClick={(node) => {
                     if (node.node.label !== 'Categories') {
                         onSubmitCategory(node.node.label)

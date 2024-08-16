@@ -1,4 +1,5 @@
 import { Button } from 'primereact/button'
+import { classNames } from 'primereact/utils'
 
 const CooldownBtn = ({
     label,

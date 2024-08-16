@@ -13,10 +13,10 @@ export default function AddToCartBtn({ product, visible, ammount = 1, isCooldown
     }
 
     return (
-        <div className='flex justify-content-between align-items-center'>
+        <div>
             <CooldownBtn
                 visible={visible}
-                className='z-5 mt-3 w-full align-self-center'
+                className='align-self-center text-xs sm:text-base white-space-nowrap '
                 isCooldown={isCooldown}
                 icon='pi pi-shopping-cart'
                 onClick={() => handleAddProduct(product)}

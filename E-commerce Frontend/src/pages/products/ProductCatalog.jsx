@@ -81,10 +81,10 @@ function ProductCatalog() {
     return (
         <div>
             <div className='grid m-auto my-4'>
-                <div className='col-3'>
+                <div className='col-12 md:col-4 xl:col-3'>
                     <ProductCatalogFilter onSubmitPrice={filterPrice} onSubmitCategory={filterCategory} />
                 </div>
-                <div className='col'>
+                <div className='col-12 md:col'>
                     <ProductList
                         products={mapProducts()}
                         isLoading={isLoading}

@@ -59,7 +59,7 @@ export default function Cart() {
 
     return (
         <div className='mt-4 grid m-auto mb-6'>
-            <div className='col-12 md:col-7'>
+            <div className='col-12 md:col-6'>
                 <ProductList
                     handleRemoveProduct={handleRemoveProduct}
                     handleUpdateProductAmount={handleUpdateProductAmount}
@@ -71,7 +71,7 @@ export default function Cart() {
                     isCart
                 />
             </div>
-            <div className='col-12 md:col-5 justify-content-center text'>
+            <div className='col-12 md:col-6 xl:col-5 mx-auto justify-content-center text pb-8 md:pb-0 lg:max-w-28rem'>
                 <h2 className='text-center'>Order Summary</h2>
                 <CartSummary products={productsWithQuantity} isLoading={isLoading} continueBtn={true} cupon={true} />
             </div>

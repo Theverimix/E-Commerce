@@ -25,7 +25,6 @@ export default function ProductList({
     quantity = false,
     onSubmitCategory,
     addToCartButton = false,
-    height = 'auto',
     onPageChange,
     isCart = false,
 }) {
@@ -113,7 +112,7 @@ export default function ProductList({
                     <div className='flex align-items-start justify-content-between flex-1 pl-3 sm:gap-4'>
                         <div className='flex flex-column h-full gap-3'>
                             <div
-                                className={`text-xl sm:text-2xl font-semibold sm:font-bold text-900 hover:text-primary ${
+                                className={`text-lg sm:text-2xl font-semibold sm:font-bold text-900 hover:text-primary ${
                                     linkeable ? 'cursor-pointer' : ''
                                 }`}
                                 onClick={() => {
@@ -163,7 +162,7 @@ export default function ProductList({
                                 </span>
                             )}
                         </div>
-                        <div className='flex flex-column align-items-end sm:gap-3'>
+                        <div className='flex flex-column align-items-end sm:gap-3 h-full'>
                             {product.sales ? (
                                 <div className='flex flex-wrap-reverse align-items-center justify-content-end'>
                                     <div className='w-auto sm:text-xl font-light text-500 line-through mr-1'>
@@ -176,24 +175,26 @@ export default function ProductList({
                             ) : (
                                 <div className='text-xl sm:text-2xl font-semibold text-primary'>${product.price}</div>
                             )}
-                            <CooldownBtn
-                                visible={removeButton}
-                                className='product-list-button hover:text-yellow-300 cursor-pointer p-2'
-                                onClick={() => {
-                                    handleCooldown()
-                                    handleRemoveProduct(product)
-                                }}
-                                isText={true}
-                                isRemove={true}
-                                isCooldown={isCooldown}
-                                label='Remove'
-                            />
-                            <AddToCartBtn
-                                product={product}
-                                visible={addToCartButton}
-                                isCooldown={isCooldown}
-                                handleCooldown={handleCooldown}
-                            />
+                            <div className='mt-auto flex flex-nowrap'>
+                                <CooldownBtn
+                                    visible={removeButton}
+                                    className='product-list-button hover:text-yellow-300 cursor-pointer p-2'
+                                    onClick={() => {
+                                        handleCooldown()
+                                        handleRemoveProduct(product)
+                                    }}
+                                    isText={true}
+                                    isRemove={true}
+                                    isCooldown={isCooldown}
+                                    label='Remove'
+                                />
+                                <AddToCartBtn
+                                    product={product}
+                                    visible={addToCartButton}
+                                    isCooldown={isCooldown}
+                                    handleCooldown={handleCooldown}
+                                />
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -231,10 +232,7 @@ export default function ProductList({
 
     return (
         <Panel header='Cart'>
-            <ScrollPanel
-                className='h-18rem sm:h-30rem'
-                //  style={{ height: height }}
-            >
+            <ScrollPanel className='lg:h-30rem'>
                 <DataView value={products} listTemplate={listTemplate} rows={9} />
             </ScrollPanel>
             {paginator && (

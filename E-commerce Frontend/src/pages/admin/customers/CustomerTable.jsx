@@ -93,7 +93,7 @@ const CustomerTable = () => {
             {isLoading ? (
                 <Skeleton width='100%' height='20rem' />
             ) : (
-                <>
+                <div className='w-full'>
                     <DataTable value={customers} className='w-auto'>
                         <Column field='id' header='ID' />
                         <Column field='firstname' header='Firstname' />
@@ -113,7 +113,7 @@ const CustomerTable = () => {
                             setCurrentPage(e.first)
                         }}
                     />
-                </>
+                </div>
             )}
         </>
     )
