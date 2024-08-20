@@ -231,10 +231,8 @@ export default function ProductList({
     }
 
     return (
-        <Panel header='Cart'>
-            <ScrollPanel className='lg:h-30rem'>
-                <DataView value={products} listTemplate={listTemplate} rows={9} />
-            </ScrollPanel>
+        <Panel header={!isCart ? 'Products' : 'Cart'}>
+            <DataView value={products} listTemplate={listTemplate} rows={9} />
             {paginator && (
                 <Paginator
                     first={first}

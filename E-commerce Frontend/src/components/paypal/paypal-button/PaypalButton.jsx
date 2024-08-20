@@ -108,7 +108,7 @@ const PaypalButton = ({ items, invoice, shippingCost, createOrder }) => {
             }}
             onCancel={() => {
                 setInvoiceId((currentInvoiceId) => {
-                    deleteOrder(currentInvoiceId)
+                    // deleteOrder(currentInvoiceId)
                     return currentInvoiceId
                 })
                 showToast('error', 'Purchase Operation Result', 'Purchase canceled')
