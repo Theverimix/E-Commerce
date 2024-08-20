@@ -57,6 +57,10 @@ export default function Register() {
         if (e.key === 'Enter') nextFieldRef.current.focus()
     }
 
+    const handlePasswordBlur = () => {
+        setPasswordsMatch(formData.password === formData.confirmPassword)
+    }
+
     const inputFields = [
         { name: 'name', label: 'Name', icon: 'pi-user', ref: refs.name, nextRef: refs.lastname },
         { name: 'lastname', label: 'Lastname', icon: 'pi-user', ref: refs.lastname, nextRef: refs.username },
@@ -109,6 +113,7 @@ export default function Register() {
                         value={formData.password}
                         onChange={handleInputChange}
                         onKeyPress={(e) => handleKeyPress(e, refs.confirmPassword)}
+                        onBlur={handlePasswordBlur}
                         className={passwordsMatch ? '' : 'p-invalid'}
                         header={headerPass}
                         footer={footerPass}
@@ -128,7 +133,8 @@ export default function Register() {
                         name='confirmPassword'
                         value={formData.confirmPassword}
                         onChange={handleInputChange}
-                        onKeyPress={handleRegister}
+                        onKeyPress={(e) => handleKeyPress(e, refs.confirmPassword)}
+                        onBlur={handlePasswordBlur}
                         className={passwordsMatch ? '' : 'p-invalid'}
                         feedback={false}
                         toggleMask

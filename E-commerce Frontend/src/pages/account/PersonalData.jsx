@@ -74,7 +74,7 @@ export default function PersonalData({ isAdmin = false }) {
     }
 
     const items = [{ label: 'Personal data' }]
-    const home = { label: 'Profile', command: () => navigate(!isAdmin ? '/account/profile' : '/admin') }
+    const home = { label: 'Profile', command: () => navigate(!isAdmin ? '/account/profile' : '/admin/profile') }
 
     return (
         <div className='w-full'>
@@ -144,8 +144,6 @@ export default function PersonalData({ isAdmin = false }) {
                         <Button label='Save changes' type='submit' className='w-full mt-3' outlined />
                     </div>
                 </form>
-                {/* </div>
-                </div> */}
             </Card>
         </div>
     )
