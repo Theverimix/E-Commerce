@@ -83,14 +83,13 @@ export const UserStateScheme = enums(['ACTIVE', 'INACTIVE', 'CLOSED'])
 
 export const AddressSchema = object({
     customerId: number(),
-    fullName: size(string(), 3, 50),
+    fullName: size(string(), 1, 50),
     addressLine: string(),
     city: string(),
     region: string(),
     country: string(),
     phone: string(),
     zip: string(),
-    deliveryInstructions: string(),
 })
 
 export const CustomerSchema = object({

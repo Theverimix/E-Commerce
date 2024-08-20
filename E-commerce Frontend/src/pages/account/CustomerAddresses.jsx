@@ -32,7 +32,6 @@ export default function CustomerAddresses() {
         async (page) => {
             setIsLoading(true)
             const data = await getAddresses(customerId, page)
-            console.log(data)
             setAddresses(data.content)
             setTotalElements(data.totalElements || 0)
             setIsLoading(false)
@@ -94,16 +93,18 @@ export default function CustomerAddresses() {
                     >
                         <Skeleton
                             shape='rectangle'
-                            className='m-auto w-9 sm:w-16rem xl:w-10rem xl:h-10rem sm:h-16rem'
+                            width='2rem'
+                            height='2rem'
+                            className='m-auto w-2rem h-2rem sm:w-3rem sm:h-3rem xl:w-2rem xl:h-2rem'
                         />
                         <div className='flex flex-column sm:flex-row justify-content-between align-items-center xl:align-items-start flex-1 gap-4'>
                             <div className='flex flex-column align-items-center sm:align-items-start gap-3'>
-                                <Skeleton width='11rem' height='2rem' />
+                                <Skeleton width='10rem' height='2rem' />
+                                <Skeleton width='15rem' height='1.5rem' />
                                 <Skeleton width='7rem' height='1rem' />
                             </div>
                             <div className='flex sm:flex-column align-items-center sm:align-items-end gap-3 sm:gap-2'>
-                                <Skeleton width='5rem' height='2rem' />
-                                <Skeleton width='4rem' height='1rem' />
+                                <Skeleton width='3rem' height='3rem' />
                             </div>
                         </div>
                     </div>
@@ -131,12 +132,6 @@ export default function CustomerAddresses() {
                         aria-controls='popup_menu_right'
                         aria-haspopup
                     />
-                    {/* <i
-                        className='pi pi-ellipsis-v text-xl cursor-pointer hover:text-primary'
-                        onClick={(event) => menuRight.current.toggle(event)}
-                        aria-controls='popup_menu_right'
-                        aria-haspopup
-                    ></i> */}
                 </div>
                 <div className='mx-6'>
                     <div className='mb-2'>
@@ -152,7 +147,7 @@ export default function CustomerAddresses() {
 
     const listTemplate = (items) => {
         if (isLoading) {
-            return <div className='w-full'>{Array.from({ length: 5 }, (_, index) => itemTemplate(null, index))}</div>
+            return <div className='w-full'>{Array.from({ length: 1 }, (_, index) => itemTemplate(null, index))}</div>
         }
 
         if (!items || items.length === 0) {
