@@ -25,7 +25,7 @@ const AuthPage = () => {
                 subTitle={<div className='text-center'>{subTitle}</div>}
             >
                 <div className='flex justify-content-center align-items-center w-full p-5'>
-                    <div className='flex flex-column gap-5 w-30rem'>
+                    <div className='flex flex-column gap-5 w-full md:w-30rem'>
                         <Outlet />
                     </div>
                 </div>

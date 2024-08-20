@@ -111,7 +111,12 @@ export default function Login() {
     )
 
     const ForgotPasswordDialog = () => (
-        <Dialog header='Forgot Password' visible={visible} style={{ width: '30vw' }} onHide={() => setVisible(false)}>
+        <Dialog
+            header='Forgot Password'
+            visible={visible}
+            className='w-23rem md:w-30rem'
+            onHide={() => setVisible(false)}
+        >
             <form onSubmit={handleSubmit(onRecoveryPassword)}>
                 <div className='field'>
                     <div className='p-inputgroup'>
