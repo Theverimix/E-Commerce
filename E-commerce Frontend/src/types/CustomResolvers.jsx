@@ -25,6 +25,13 @@ export const customResolvers = (schema) => {
 
 const getCustomErrorMessage = (fieldName, defaultMessage) => {
     const customMessages = {
+        //Auth
+        email: 'Please enter a valid email address.',
+        password: 'The password is not correct',
+
+        recoveryEmail: 'Please enter a valid email address.',
+
+        //Address
         fullName: 'Please enter your full name as it appears on your ID.',
         country: 'Please select a country.',
         region: 'Region is required.',

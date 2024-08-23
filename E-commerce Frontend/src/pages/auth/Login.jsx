@@ -7,8 +7,8 @@ import { useNavigate, Link } from 'react-router-dom'
 import { useToast } from '../../providers/ToastProvider'
 import { userLogin } from '../../apis/auth-api'
 import { Controller, useForm } from 'react-hook-form'
-import { LoginSchema } from '../../types/schemas'
-import { superstructResolver } from '@hookform/resolvers/superstruct'
+import { LoginSchema, RecoveryEmail } from '../../types/schemas'
+import { customResolvers } from '../../types/CustomResolvers'
 
 export default function Login() {
     const [visible, setVisible] = useState(false)
@@ -20,7 +20,15 @@ export default function Login() {
         formState: { errors },
         control,
         handleSubmit,
-    } = useForm({ resolver: superstructResolver(LoginSchema) })
+        reset: resetLogin,
+    } = useForm({ resolver: customResolvers(LoginSchema) })
+
+    const {
+        formState: { errors: recoveryErrors },
+        control: recoveryControl,
+        handleSubmit: handleRecoverySubmit,
+        reset: resetRecovery,
+    } = useForm({ resolver: customResolvers(RecoveryEmail) })
 
     const onLogin = async ({ email, password }) => {
         setIsLoading(true)
@@ -30,12 +38,17 @@ export default function Login() {
             success ? 'Success' : 'Error',
             success ? '¡Login successfully!' : '¡Login error!',
         )
-        if (success) navigate(`/`)
+        if (success) {
+            navigate(`/`)
+            resetLogin()
+        }
         setIsLoading(false)
     }
 
-    const onRecoveryPassword = () => {
-        console.log('recovery password')
+    const onRecoveryPassword = async (data) => {
+        console.log('Recovery password data:', data)
+        setVisible(false)
+        resetRecovery()
     }
 
     const getFormErrorMessage = (name) => {
@@ -43,7 +56,7 @@ export default function Login() {
     }
 
     const EmailInput = () => (
-        <div className='field'>
+        <div className='field py-2'>
             <div className='p-inputgroup'>
                 <span className='p-inputgroup-addon'>
                     <i className='pi pi-user' />
@@ -58,19 +71,18 @@ export default function Login() {
                                 {...field}
                                 id={field.name}
                                 className={`w-full ${fieldState.error ? 'p-invalid' : ''}`}
-                                // onKeyPress={(e) => handleKeyPress(e, () => inputRef.current?.focus())}
                             />
                             <label htmlFor={field.name}>Email</label>
                         </span>
                     )}
                 />
             </div>
-            {getFormErrorMessage('email')}
+            {getFormErrorMessage('email', errors)}
         </div>
     )
 
     const PasswordInput = () => (
-        <div className='field'>
+        <div className='field py-2'>
             <style>{`
                 .p-input-icon-right > svg {
                     right: 10px;
@@ -91,15 +103,15 @@ export default function Login() {
                                 feedback={false}
                                 toggleMask
                                 className={`w-full ${fieldState.error ? 'p-invalid' : ''}`}
-                                // onKeyPress={(e) => handleKeyPress(e, () => inputRef.current?.focus())}
                             />
                             <label htmlFor={field.name}>Password</label>
                         </span>
                     )}
                 />
             </div>
-            {getFormErrorMessage('password')}
-            <div className='block text-right text-primary'>
+
+            <div className='flex justify-content-between mt-1 text-primary'>
+                <span>{getFormErrorMessage('password', errors)}</span>
                 <span
                     className='text-sm text-color-secondary no-underline hover:text-primary cursor-pointer'
                     onClick={() => setVisible(true)}
@@ -117,7 +129,7 @@ export default function Login() {
             className='w-23rem md:w-30rem'
             onHide={() => setVisible(false)}
         >
-            <form onSubmit={handleSubmit(onRecoveryPassword)}>
+            <form onSubmit={handleRecoverySubmit(onRecoveryPassword)}>
                 <div className='field'>
                     <div className='p-inputgroup'>
                         <span className='p-inputgroup-addon'>
@@ -125,7 +137,7 @@ export default function Login() {
                         </span>
                         <Controller
                             name='recoveryEmail'
-                            control={control}
+                            control={recoveryControl}
                             render={({ field, fieldState }) => (
                                 <span className='p-float-label'>
                                     <InputText
@@ -138,7 +150,7 @@ export default function Login() {
                             )}
                         />
                     </div>
-                    {getFormErrorMessage('recoveryEmail')}
+                    {getFormErrorMessage('recoveryEmail', recoveryErrors)}
                 </div>
                 <Button type='submit' label='Forgot Password' className='p-inputgroup mt-4' />
             </form>
