@@ -1,24 +1,32 @@
 // Superstruct schemas
 
-import { array, boolean, date, enums, min, number, object, size, string } from 'superstruct'
+import { array, boolean, date, enums, min, number, object, pattern, size, string } from 'superstruct'
+
+const Password = pattern(string(), /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&+=!]).{8,}$/)
 
 // Auth
 
-export const RegisterSchema = object({
-    firstname: size(string(), 3, 25),
-    lastname: size(string(), 3, 25),
-    password: string(), // TODO: Add custom validator
-    email: string(),
-})
-
 export const LoginSchema = object({
-    email: string(),
-    password: string(),
+    email: size(string(), 3, 125),
+    password: size(string(), 8, 255),
 })
 
 export const RecoveryEmail = object({
     email: string(),
 })
+
+export const RegisterSchema = object({
+    firstname: size(string(), 3, 25),
+    lastname: size(string(), 3, 25),
+    email: size(string(), 3, 125),
+    password: Password,
+    confirmPassword: Password,
+})
+
+// export const RegisterSchema = refine(RegisterBaseSchema, 'confirmPasswordMatch', (value) => {
+//     if (value.password === value.confirmPassword) return true
+//     return 'Passwords not match'
+// })
 
 // Product
 

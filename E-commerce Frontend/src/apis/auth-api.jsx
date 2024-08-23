@@ -17,20 +17,15 @@ export async function userLogin(username, password) {
     return response
 }
 
-export async function userRegister(name, lastname, username, password) {
-    try {
-        const response = await AxiosInstance.post('/auth/register', {
-            firstname: name,
-            lastname: lastname,
-            email: username,
-            password: password,
-        })
-        return response.data
-    } catch (error) {
-        console.error('Register failed:', error)
-        return false
-        // Aquí podrías mostrar un mensaje de error al usuario
-    }
+export async function register({ firstname, lastname, email, password }) {
+    return handleApiPromise(
+        AxiosInstance.post('/auth/register', {
+            firstname,
+            lastname,
+            email,
+            password,
+        }),
+    )
 }
 
 export async function userLogout() {
