@@ -1,6 +1,6 @@
 // Superstruct schemas
 
-import { array, boolean, date, enums, min, number, object, pattern, size, string } from 'superstruct'
+import { array, boolean, date, enums, min, number, object, optional, pattern, size, string } from 'superstruct'
 
 const Password = pattern(string(), /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&+=!]).{8,}$/)
 
@@ -46,10 +46,10 @@ export const ProductSchema = object({
     description: size(string(), 3, 2147483647),
     price: min(number(), 0),
     stock: min(number(), 0),
-    state: StateSchema,
+    state: min(number(), 0),
     visible: boolean(),
-    images: array(size(string(), 1, 5)), // uniqueItems is not enforceable in Superstruct, but you can handle this logic separately
-    categories: array(CategorySchema),
+    images: optional(string()), // uniqueItems is not enforceable in Superstruct, but you can handle this logic separately
+    categories: optional(array(number())),
 })
 
 // Sale

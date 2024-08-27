@@ -21,13 +21,15 @@ export default function ProductPage() {
 
     useEffect(() => {
         const fetchData = async () => {
-            try {
-                const response = await getProductById(id)
-                setProduct(response.data.data)
-            } catch (error) {
-                console.error('Error al obtener producto:', error)
-                navigate('/error')
-            }
+            getProductById(id)
+                .then((response) => {
+                    const { data } = response
+                    setProduct(data)
+                })
+                .catch((error) => {
+                    console.error('Error al obtener producto:', error)
+                    navigate('/error')
+                })
         }
 
         if (history.state.usr?.product) {

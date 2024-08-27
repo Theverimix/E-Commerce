@@ -222,7 +222,7 @@ function SaleForm({ edit }) {
                                             className={`w-full ${fieldState.error ? 'p-invalid' : ''}`}
                                             onChange={(e) => field.onChange(e.value)}
                                         />
-                                        <label htmlFor='name'>Discount value</label>
+                                        <label htmlFor='discountValue'>Discount value</label>
                                     </span>
                                 )}
                             />
