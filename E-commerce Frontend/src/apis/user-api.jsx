@@ -29,3 +29,13 @@ export async function updateUser(id, data) {
         return {}
     }
 }
+
+export async function updatePassword(id, data) {
+    try {
+        const response = await AxiosInstance.put(`/users/password/${id}`, data)
+        return response
+    } catch (error) {
+        console.error('Error updating user data:', error)
+        return error
+    }
+}

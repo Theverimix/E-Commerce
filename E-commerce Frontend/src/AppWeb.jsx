@@ -34,6 +34,7 @@ import OrderTable from './pages/admin/orders/OrderTable.jsx'
 import OrderDetails from './pages/order/OrderDetails.jsx'
 import CategoryTable from './pages/admin/categories/CategoryTable.jsx'
 import CategoryForm from './pages/admin/categories/CategoryForm.jsx'
+import Security from './pages/account/Security.jsx'
 
 const AppWeb = () => (
     <BrowserRouter>
@@ -57,6 +58,7 @@ const AppWeb = () => (
                             <Route path='account/addresses' element={<CustomerAddresses />} />
                             <Route path='account/createAddress' element={<AddressRegistrationForm />} />
                             <Route path='account/updateAddress/:id' element={<AddressUpdateForm />} />
+                            <Route path='account/security' element={<Security />} />
                         </Route>
                         <Route path='account/orders' element={<OrderPage />} />
                     </Route>

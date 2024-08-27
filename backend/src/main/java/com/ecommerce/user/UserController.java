@@ -51,4 +51,10 @@ public class UserController {
         userService.deleteUser(userId);
         return ApiResponse.deleted();
     }
+
+    @PutMapping("/password/{userId}")
+    public ApiResponse updatePassword(@PathVariable Long userId, @RequestBody @Valid UpdatePasswordRequest request) {
+        userService.updatePassword(userId, request);
+        return ApiResponse.updated();
+    }
 }

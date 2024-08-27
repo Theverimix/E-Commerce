@@ -4,6 +4,10 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.lang.NonNull;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,6 +19,7 @@ public class UserService {
 
     private final UserRepository repository;
     private final UserMapper mapper;
+    private final AuthenticationManager manager;
 
     public List<UserResponse> getAllUsers() {
         return repository.findAll().stream()
@@ -43,6 +48,22 @@ public class UserService {
         User user = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("User not found."));
         repository.delete(user);
+    }
+
+    public void updatePassword(Long id, @NonNull UpdatePasswordRequest request) {
+        User user = repository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("User not found."));
+        try {
+            manager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            user.getEmail(),
+                            request.currentPassword()));
+        } catch (BadCredentialsException ex) {
+            throw new IllegalArgumentException("Current password is incorrect.");
+        }
+
+        user.setPassword(request.newPassword());
+        repository.save(user);
     }
 
 }
