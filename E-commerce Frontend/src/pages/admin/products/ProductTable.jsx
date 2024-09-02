@@ -9,6 +9,8 @@ import { Paginator } from 'primereact/paginator'
 import { Skeleton } from 'primereact/skeleton'
 import { useEffect, useState } from 'react'
 
+export const Component = () => <ProductTable />
+
 const ProductTable = () => {
     const showToast = useToast()
     const [products, setProducts] = useState([])

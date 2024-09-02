@@ -1,7 +1,7 @@
 import { Carousel } from 'primereact/carousel'
 import { useState, useEffect } from 'react'
 
-export default function Gallery() {
+function CategoriesGallery() {
     const [isMobile, setIsMobile] = useState(false)
 
     const images = [
@@ -55,3 +55,5 @@ export default function Gallery() {
         />
     )
 }
+
+export default CategoriesGallery

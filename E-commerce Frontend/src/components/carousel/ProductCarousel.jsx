@@ -1,32 +1,13 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { Skeleton } from 'primereact/skeleton'
 import { Carousel } from 'primereact/carousel'
 import { useNavigate } from 'react-router-dom'
 import { calculateDiscountedPrice } from '../../utils/product-utils'
 import AddToCartBtn from '../cart/AddToCartBtn'
 
-import { getProducts } from '../../apis/product-api'
-
-export default function HomeCarousel() {
-    const [products, setProducts] = useState([])
-    const [isLoading, setIsLoading] = useState(true)
+export default function ProductCarousel({ products, loading: isLoading }) {
     const [isCooldown, setIsCooldown] = useState(false)
     const navigate = useNavigate()
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const { data } = await getProducts(0)
-                setProducts(data.products)
-                setIsLoading(false)
-            } catch (error) {
-                console.error('Error al obtener productos:', error)
-                setIsLoading(false)
-            }
-        }
-
-        fetchData()
-    }, [])
 
     const responsiveOptions = [
         {

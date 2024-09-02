@@ -1,11 +1,12 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
+import { useProducts } from '../../providers/ProductsProvider'
+import { searchProducts } from '../../apis/product-api'
 
 import ProductList from '../../components/product/ProductList'
 import ProductCatalogFilter from '../../components/product/ProductCatalogFilter'
-import { useProducts } from '../../providers/ProductsProvider'
 
-import { searchProducts } from '../../apis/product-api'
+export const Component = () => <ProductCatalog />
 
 function ProductCatalog() {
     const { addProduct } = useProducts()

@@ -17,7 +17,9 @@ import { getCategories } from '../../../apis/category-api'
 import { getProductById, saveProduct, updateProduct } from '../../../apis/product-api'
 import { useToast } from '../../../providers/ToastProvider'
 
-export const ProductForm = ({ edit = false }) => {
+export const Component = () => <ProductForm />
+
+const ProductForm = ({ edit = false }) => {
     const { id } = useParams()
     const productCached = useLocation().state?.product
 
@@ -309,3 +311,5 @@ export const ProductForm = ({ edit = false }) => {
         </div>
     )
 }
+
+export default ProductForm

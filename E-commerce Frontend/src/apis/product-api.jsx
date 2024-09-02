@@ -11,6 +11,10 @@ export async function getProducts(page) {
     return await handleApiPromise(AxiosInstanceNoToken.get(`/products?page=${page}`))
 }
 
+export async function getProductss() {
+    return await AxiosInstanceNoToken.get('/products')
+}
+
 export async function getProductById(id) {
     return await handleApiPromise(AxiosInstanceNoToken.get(`/products/${id}`))
 }

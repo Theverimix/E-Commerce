@@ -10,6 +10,8 @@ import { Controller, useForm } from 'react-hook-form'
 import { LoginSchema, RecoveryEmail } from '../../types/schemas'
 import { customResolvers } from '../../types/CustomResolvers'
 
+export const Component = () => <Login />
+
 export default function Login() {
     const [visible, setVisible] = useState(false)
     const [isLoading, setIsLoading] = useState(false)

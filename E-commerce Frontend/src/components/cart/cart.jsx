@@ -5,6 +5,8 @@ import CartSummary from './cartSummary'
 
 import { getProductsByIds } from '../../apis/product-api'
 
+export const Component = () => <Cart />
+
 export default function Cart() {
     const { allProducts, removeProduct, updateProductAmount } = useProducts()
     const [products, setProducts] = useState([])

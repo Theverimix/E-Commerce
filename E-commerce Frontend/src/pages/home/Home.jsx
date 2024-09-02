@@ -1,10 +1,17 @@
-import Gallery from '../../components/gallery/Galleria'
-import Carousel from '../../components/carousel/homeCarousel'
+import { useLoaderData, useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
 
-import { useNavigate } from 'react-router-dom'
+import ProductCarousel from '@/components/carousel/ProductCarousel'
+import CategoriesGallery from '@/components/gallery/CategoriesGallery'
+
+export const Component = () => <Home />
 
 export default function Home() {
     const navigate = useNavigate()
+    const data = useLoaderData()?.data
+
+    const [products, setProducts] = useState(data)
+    const [loading, setLoading] = useState(true)
 
     const categories = [
         {
@@ -29,10 +36,19 @@ export default function Home() {
         },
     ]
 
+    useEffect(() => {
+        if (!data) return
+        data.then((data) => {
+            const products = data.data.products
+            setProducts(products)
+            setLoading(false)
+        })
+    }, [data])
+
     return (
         <>
             <div className='mt-3'>
-                <Gallery />
+                <CategoriesGallery />
             </div>
 
             <div className='flex justify-content-center align-items-center flex-column mt-5'>
@@ -66,7 +82,7 @@ export default function Home() {
             </div>
 
             <div className='carousel m-5'>
-                <Carousel />
+                <ProductCarousel products={products} loading={loading} />
             </div>
         </>
     )
