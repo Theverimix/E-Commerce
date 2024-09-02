@@ -50,7 +50,10 @@ export default function Profile({ isAdmin = false }) {
                     className='flex px-5 justify-content-between cursor-pointer no-underline text-color mb-4'
                     // onClick={() => navigate('/account/profilecard/personaldata')}
                 >
-                    <div className='flex gap-2' onClick={() => navigate('/account/security')}>
+                    <div
+                        className='flex gap-2'
+                        onClick={() => navigate(!context ? '/account/security' : '/admin/security')}
+                    >
                         <Avatar icon='pi pi-shield' size='large' shape='circle' />
                         <div className='flex flex-column justify-content-end'>
                             <span className=' font-medium text-base font-semibold'>Security</span>

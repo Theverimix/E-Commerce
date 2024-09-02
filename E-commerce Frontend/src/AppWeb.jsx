@@ -69,6 +69,7 @@ const AppWeb = () => (
                     <Route element={<AdminPage />}>
                         <Route element={<ProfileCard isAdmin />}>
                             <Route path='admin/profile' element={<Profile isAdmin />} />
+                            <Route path='admin/security' element={<Security />} />
                             <Route path='admin/data' element={<PersonalData isAdmin />} />
                         </Route>
 
