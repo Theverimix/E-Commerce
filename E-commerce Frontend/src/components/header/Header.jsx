@@ -183,6 +183,7 @@ export default function Header() {
                 <IconField iconPosition='left'>
                     <InputIcon className='pi pi-search' />
                     <InputText
+                        id='search'
                         value={searchText}
                         onChange={(e) => setSearchText(e.target.value)}
                         onKeyPress={handleKeyPress}

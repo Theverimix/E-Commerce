@@ -32,7 +32,7 @@ export const saveProduct = async (data) => {
         description: data.description,
         price: data.price,
         stock: data.stock,
-        state: data.idState,
+        state: data.state,
         visible: data.visible,
         images: [],
         categories: data.categories.map((category) => category.id).sort(),
