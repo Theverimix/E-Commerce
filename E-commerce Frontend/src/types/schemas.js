@@ -117,7 +117,26 @@ export const UserSchema = object({
 
 // Cart
 
-export const CartSchema = object({
+const CartItem = object({
     productId: number(),
     amount: number(),
+})
+
+export const CartSchema = object({
+    customerId: number(),
+    items: array(CartItem),
+})
+
+// Checkout
+
+export const CheckoutSchema = object({
+    firstname: string(),
+    lastname: string(),
+    address: string(),
+    addressDetail: string(),
+    country: string(),
+    state: string(),
+    city: string(),
+    zipCode: string(),
+    optionalComment: optional(string()),
 })
