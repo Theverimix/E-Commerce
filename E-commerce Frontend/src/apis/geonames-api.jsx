@@ -54,7 +54,6 @@ export const getCities = async (countryCode, stateCode) => {
             },
         })
         .then((response) => {
-            console.log(response)
             const citiesData = response.data.geonames.map((city) => ({
                 name: city.name,
                 geonameId: city.geonameId,

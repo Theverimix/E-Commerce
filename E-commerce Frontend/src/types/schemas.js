@@ -23,11 +23,6 @@ export const RegisterSchema = object({
     confirmPassword: Password,
 })
 
-// export const RegisterSchema = refine(RegisterBaseSchema, 'confirmPasswordMatch', (value) => {
-//     if (value.password === value.confirmPassword) return true
-//     return 'Passwords not match'
-// })
-
 // Product
 
 export const CategorySchema = object({
@@ -73,16 +68,15 @@ export const OrderDetailSchema = object({
 })
 
 export const OrderSchema = object({
-    customerId: number(),
-    address: size(string(), 3, 2147483647),
-    addressCountry: size(string(), 3, 2147483647),
-    addressDetail: string(),
-    fullname: size(string(), 3, 25),
-    addressState: string(),
-    addressCity: string(),
+    firstname: string(),
+    lastname: string(),
+    address: string(),
+    addressDetail: optional(string()),
+    country: object(),
+    state: object(),
+    city: object(),
     zipCode: number(),
-    optionalComment: string(),
-    details: array(OrderDetailSchema),
+    optionalComment: optional(string()),
 })
 
 // User
@@ -125,18 +119,4 @@ const CartItem = object({
 export const CartSchema = object({
     customerId: number(),
     items: array(CartItem),
-})
-
-// Checkout
-
-export const CheckoutSchema = object({
-    firstname: string(),
-    lastname: string(),
-    address: string(),
-    addressDetail: string(),
-    country: string(),
-    state: string(),
-    city: string(),
-    zipCode: string(),
-    optionalComment: optional(string()),
 })
