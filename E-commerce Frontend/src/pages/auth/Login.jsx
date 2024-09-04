@@ -9,6 +9,7 @@ import { userLogin } from '../../apis/auth-api'
 import { Controller, useForm } from 'react-hook-form'
 import { LoginSchema, RecoveryEmail } from '../../types/schemas'
 import { customResolvers } from '../../types/CustomResolvers'
+import { superstructResolver } from '@hookform/resolvers/superstruct'
 
 export const Component = () => <Login />
 
@@ -23,26 +24,44 @@ export default function Login() {
         control,
         handleSubmit,
         reset: resetLogin,
-    } = useForm({ resolver: customResolvers(LoginSchema) })
+        setError,
+    } = useForm({ resolver: customResolvers(LoginSchema), mode: 'onSubmit', reValidateMode: 'onSubmit' })
 
     const {
         formState: { errors: recoveryErrors },
         control: recoveryControl,
         handleSubmit: handleRecoverySubmit,
         reset: resetRecovery,
-    } = useForm({ resolver: customResolvers(RecoveryEmail) })
+    } = useForm({ resolver: customResolvers(RecoveryEmail), mode: 'onSubmit', reValidateMode: 'onSubmit' })
 
     const onLogin = async ({ email, password }) => {
         setIsLoading(true)
         const { success } = await userLogin(email, password)
-        showToast(
-            success ? 'success' : 'error',
-            success ? 'Success' : 'Error',
-            success ? '¡Login successfully!' : '¡Login error!',
-        )
+        // showToast(
+        //     success ? 'success' : 'error',
+        //     success ? 'Success' : 'Error',
+        //     success ? '¡Login successfully!' : '¡Login error!',
+        // )
+        // if (success) {
+        //     navigate(`/`)
+        //     resetLogin()
+        // }
+        // setIsLoading(false)
+        // // setIsLoading(true)
+        // // if (!email || !password) {
+        // //     console.log('error email:', email)
+        // //     console.log('errorpassword:', password)
+        // //     setIsLoading(false)
+        // // } else {
+        // //     const { success } = await userLogin(email, password)
+        // // }
+
         if (success) {
-            navigate(`/`)
+            showToast('success', 'Success', '¡Login successfully!')
+            navigate('/')
             resetLogin()
+        } else {
+            showToast('error', 'Error', '¡Login error!')
         }
         setIsLoading(false)
     }
@@ -69,7 +88,6 @@ export default function Login() {
                     render={({ field, fieldState }) => (
                         <span className='p-float-label'>
                             <InputText
-                                autoFocus
                                 {...field}
                                 id={field.name}
                                 className={`w-full ${fieldState.error ? 'p-invalid' : ''}`}
@@ -113,7 +131,7 @@ export default function Login() {
             </div>
 
             <div className='flex justify-content-between mt-1 text-primary'>
-                <span>{getFormErrorMessage('password', errors)}</span>
+                <span>{getFormErrorMessage('password', errors)} </span>
                 <span
                     className='text-sm text-color-secondary no-underline hover:text-primary cursor-pointer'
                     onClick={() => setVisible(true)}
