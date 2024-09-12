@@ -3,6 +3,11 @@ import { Card } from 'primereact/card'
 import { Dropdown } from 'primereact/dropdown'
 import { InputText } from 'primereact/inputtext'
 import { useEffect, useState } from 'react'
+import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog'
+
+import { Controller, useForm } from 'react-hook-form'
+import { superstructResolver } from '@hookform/resolvers/superstruct'
+import { CustomerSchema } from '@/types/schemas'
 
 export const CustomerForm = ({ customer = {}, onSubmit }) => {
     const [customerData, setCustomerData] = useState({
@@ -15,22 +20,85 @@ export const CustomerForm = ({ customer = {}, onSubmit }) => {
         phone: customer.phone,
     })
 
+    const prueba = () => {
+        console.log('Console log prueba')
+    }
+
+    const {
+        formState: { errors },
+        control,
+        handleSubmit,
+        reset,
+        setValue,
+        trigger,
+    } = useForm({
+        resolver: superstructResolver(CustomerSchema),
+        // defaultValues: { firstname: userData.firstname, lastname: '' },
+        mode: 'onSubmit',
+        reValidateMode: 'onSubmit',
+    })
+
     useEffect(() => {
         if (customer) {
-            setCustomerData({
-                firstname: customer.firstname,
-                lastname: customer.lastname,
-                email: customer.email,
-                state: customer.state,
-                role: customer.role,
-                country: customer.country,
-                phone: customer.phone,
-            })
+            const data = customer.data || {}
+            const customerInfo = {
+                firstname: customer.firstname || '',
+                lastname: customer.lastname || '',
+                email: customer.email || '',
+                state: customer.state || '',
+                role: customer.role || '',
+                country: customer.country || '',
+                phone: customer.phone || '',
+            }
+
+            setCustomerData(data)
+            reset(customerInfo)
+        } else {
+            console.error('Customer data is undefined')
         }
     }, [customer])
 
-    const handleSubmit = () => {
-        onSubmit(customerData)
+    const showConfirmDialog = async ({ firstname, lastname, email, country, phone }) => {
+        confirmDialog({
+            message: 'Do you want to update this record?',
+            header: 'Update Confirmation',
+            icon: 'pi pi-info-circle',
+            defaultFocus: 'reject',
+            acceptClassName: 'p-button-danger',
+            accept: async () => {
+                try {
+                    this.customerData = { firstname, lastname, email, country, phone }
+                    onSubmit(customerData)
+                    showToast('success', 'Customer data operation result', 'Customer data updated successfully')
+                } catch (error) {
+                    showToast('error', 'Customer data operation result', 'Error updating Customer data')
+                }
+            },
+            reject: () => {},
+        })
+    }
+
+    const saveCustomer = async ({ firstname, lastname, email, country, phone }) => {
+        console.log('1')
+        confirmDialog({
+            message: 'Do you want to update this record?',
+            header: 'Update Confirmation',
+            icon: 'pi pi-info-circle',
+            defaultFocus: 'reject',
+            acceptClassName: 'p-button-danger',
+            accept: async () => {
+                try {
+                    this.customerData = { firstname, lastname, email, country, phone }
+                    onSubmit(customerData)
+                    showToast('success', 'Customer data operation result', 'Customer data updated successfully')
+                } catch (error) {
+                    showToast('error', 'Customer data operation result', 'Error updating Customer data')
+                }
+            },
+            reject: () => {
+                console.log('2')
+            },
+        })
     }
 
     const cardTitle = <h2 className='text-center'>Edit Customer</h2>
@@ -46,83 +114,132 @@ export const CustomerForm = ({ customer = {}, onSubmit }) => {
         { name: 'Active', value: 'ACTIVE' },
         { name: 'Inactive', value: 'INACTIVE' },
         { name: 'Closed', value: 'CLOSED' },
+        { name: 'Blocked', value: 'BLOCKED' },
     ]
+
+    const getFormErrorMessage = (name) => {
+        return errors[name] && <small className='p-error'>{errors[name].message}</small>
+    }
 
     return (
         <div>
             <div className='card flex justify-content-center align-items-center'>
+                <ConfirmDialog />
                 <Card title={cardTitle} subTitle={cardSubtitle}>
-                    <div className='flex justify-content-center align-items-center w-full p-5'>
+                    <form onSubmit={prueba} className='flex justify-content-center align-items-center w-full p-5'>
                         <div className='flex flex-column gap-5 w-30rem'>
-                            <span className='p-float-label'>
-                                <InputText
-                                    id='firstname'
-                                    minLength={3}
-                                    value={customerData.firstname}
-                                    onChange={(e) => setCustomerData({ ...customerData, firstname: e.target.value })}
-                                    className='w-full'
-                                />
-                                <label htmlFor='firstname'>FirstName</label>
-                            </span>
-                            <span className='p-float-label'>
-                                <InputText
-                                    id='lastname'
-                                    minLength={3}
-                                    value={customerData.lastname}
-                                    onChange={(e) => setCustomerData({ ...customerData, lastname: e.target.value })}
-                                    className='w-full'
-                                />
-                                <label htmlFor='lastname'>LastName</label>
-                            </span>
-                            <span className='p-float-label'>
-                                <InputText
-                                    id='email'
-                                    minLength={3}
-                                    value={customerData.email}
-                                    onChange={(e) => setCustomerData({ ...customerData, email: e.target.value })}
-                                    className='w-full'
-                                />
-                                <label htmlFor='email'>Email</label>
-                            </span>
-                            <span className='p-float-label'>
-                                <InputText
-                                    id='phone'
-                                    minLength={3}
-                                    value={customerData.phone}
-                                    onChange={(e) => setCustomerData({ ...customerData, phone: e.target.value })}
-                                    className='w-full'
-                                />
-                                <label htmlFor='phone'>Phone</label>
-                            </span>
-                            <span className='p-float-label'>
-                                <InputText
-                                    id='country'
-                                    minLength={3}
-                                    value={customerData.country}
-                                    onChange={(e) => setCustomerData({ ...customerData, country: e.target.value })}
-                                    className='w-full'
-                                />
-                                <label htmlFor='country'>Country</label>
-                            </span>
-                            <span className='p-float-label'>
-                                <Dropdown
-                                    id='state'
-                                    value={customerData.state}
-                                    options={stateList}
-                                    onChange={(e) => setCustomerData({ ...customerData, state: e.value })}
-                                    optionLabel='name'
-                                    className='w-full'
-                                />
-                                <label htmlFor='state'>State</label>
-                            </span>
+                            <Controller
+                                name='firstname'
+                                control={control}
+                                render={({ field, fieldState }) => (
+                                    <span className='p-float-label'>
+                                        <InputText
+                                            {...field}
+                                            id={field.name}
+                                            name={field.name}
+                                            minLength={3}
+                                            className={`w-full ${fieldState.error ? 'p-invalid' : ''}`}
+                                        />
+                                        <label htmlFor='firstname'>FirstName</label>
+                                        {getFormErrorMessage('firstname', errors)}
+                                    </span>
+                                )}
+                            />
+                            <Controller
+                                name='lastname'
+                                control={control}
+                                render={({ field, fieldState }) => (
+                                    <span className='p-float-label'>
+                                        <InputText
+                                            {...field}
+                                            id={field.name}
+                                            name={field.name}
+                                            minLength={3}
+                                            className={`w-full ${fieldState.error ? 'p-invalid' : ''}`}
+                                        />
+                                        <label htmlFor='lastname'>LastName</label>
+                                        {getFormErrorMessage('lastname', errors)}
+                                    </span>
+                                )}
+                            />
+                            <Controller
+                                name='email'
+                                control={control}
+                                render={({ field, fieldState }) => (
+                                    <span className='p-float-label'>
+                                        <InputText
+                                            {...field}
+                                            id={field.name}
+                                            name={field.name}
+                                            minLength={3}
+                                            className={`w-full ${fieldState.error ? 'p-invalid' : ''}`}
+                                        />
+                                        <label htmlFor='email'>Email</label>
+                                        {getFormErrorMessage('email', errors)}
+                                    </span>
+                                )}
+                            />
+                            <Controller
+                                name='phone'
+                                control={control}
+                                render={({ field, fieldState }) => (
+                                    <span className='p-float-label'>
+                                        <InputText
+                                            {...field}
+                                            id={field.name}
+                                            name={field.name}
+                                            minLength={3}
+                                            className={`w-full ${fieldState.error ? 'p-invalid' : ''}`}
+                                        />
+                                        <label htmlFor='phone'>Phone</label>
+                                        {getFormErrorMessage('phone', errors)}
+                                    </span>
+                                )}
+                            />
+                            <Controller
+                                name='country'
+                                control={control}
+                                render={({ field, fieldState }) => (
+                                    <span className='p-float-label'>
+                                        <InputText
+                                            {...field}
+                                            id={field.name}
+                                            name={field.name}
+                                            minLength={3}
+                                            className={`w-full ${fieldState.error ? 'p-invalid' : ''}`}
+                                        />
+                                        <label htmlFor='country'>Country</label>
+                                        {getFormErrorMessage('country', errors)}
+                                    </span>
+                                )}
+                            />
+                            <Controller
+                                name='state'
+                                control={control}
+                                render={({ field, fieldState }) => (
+                                    <span className='p-float-label'>
+                                        <Dropdown
+                                            {...field}
+                                            id={field.name}
+                                            name={field.name}
+                                            options={stateList}
+                                            optionLabel='name'
+                                            className={`w-full ${fieldState.error ? 'p-invalid' : ''}`}
+                                        />
+                                        <label htmlFor='state'>State</label>
+                                        {getFormErrorMessage('state', errors)}
+                                    </span>
+                                )}
+                            />
                             <Button
-                                onClick={handleSubmit}
+                                type='submit'
                                 className='w-full'
                                 label='Update customer'
-                                icon='pi pi-pencil'
+                                // icon='pi pi-pencil'
+                                outlined
                             />
                         </div>
-                    </div>
+                    </form>
                 </Card>
             </div>
         </div>
