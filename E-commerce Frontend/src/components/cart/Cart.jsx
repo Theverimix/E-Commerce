@@ -1,9 +1,10 @@
 import { useEffect, useState, useCallback, useMemo } from 'react'
-import ProductList from '../product/ProductList'
-import { useProducts } from '../../providers/ProductsProvider'
-import CartSummary from './cartSummary'
 
-import { getProductsByIds } from '../../apis/product-api'
+import ProductList from '@/components/product/ProductList'
+import { useProducts } from '@/providers/ProductsProvider'
+import CartSummary from './CartSummary'
+
+import { getProductsByIds } from '@/apis/product-api'
 
 export const Component = () => <Cart />
 

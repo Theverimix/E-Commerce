@@ -64,7 +64,7 @@ const router = createBrowserRouter(
                     </Route>
                     <Route path='admin/customers'>
                         <Route index lazy={() => import('@/pages/admin/customers/CustomerTable.jsx')} />
-                        <Route path=':id' lazy={() => import('@/pages/admin/customers/CustomerPanel.jsx')} />
+                        <Route path=':id' lazy={() => import('@/pages/admin/customers/CustomerForm.jsx')} />
                     </Route>
                     <Route path='admin/orders'>
                         <Route index lazy={() => import('@/pages/admin/orders/OrderTable.jsx')} />

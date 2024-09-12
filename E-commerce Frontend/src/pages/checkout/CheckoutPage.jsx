@@ -13,7 +13,7 @@ import { getProductsByIds } from '@/apis/product-api'
 import { getCities, getCountries, getStates } from '@/apis/geonames-api'
 import { PayPalScriptProvider } from '@paypal/react-paypal-js'
 
-import CartSummary from '@/components/cart/cartSummary'
+import CartSummary from '@/components/cart/CartSummary'
 import PaypalButton from '@/components/paypal/paypal-button/PaypalButton'
 import CreditCardForm from '@/components/credit-card-form/CreditCardForm'
 import DropdownWrapper from '@/components/wrappers/DropdownWrapper'
@@ -142,29 +142,29 @@ export default function CheckoutPage() {
         <form onSubmit={handleAddressSubmit(continueToPayment)}>
             <h2>Shipping information</h2>
             <div className='formgrid grid'>
-                <div className='field col-12 md:col-6'>
+                <div className='col-12 md:col-6'>
                     <InputTextWrapper control={addressControl} name='firstname' placeholder='Firstname*' />
                 </div>
-                <div className='field col-12 md:col-6'>
+                <div className='col-12 md:col-6'>
                     <InputTextWrapper control={addressControl} name='lastname' placeholder='Lastname*' />
                 </div>
-                <div className='field col-12 '>
+                <div className='col-12'>
                     <InputTextWrapper control={addressControl} name='address' placeholder='Address*' />
                 </div>
-                <div className='field col-12 '>
+                <div className='col-12'>
                     <InputTextWrapper
                         control={addressControl}
                         name='addressDetail'
                         placeholder='Apartment, suite, etc. (optional)'
                     />
                 </div>
-                <div className='field col-12 '>
+                <div className='col-12 '>
                     <InputTextWrapper control={addressControl} name='optionalComment' placeholder='Optional comment' />
                 </div>
-                <div className='field col-12 '>
+                <div className='col-12 '>
                     <InputNumberWrapper control={addressControl} name='zipCode' placeholder='Zip Code*' />
                 </div>
-                <div className='field col-12 md:col'>
+                <div className='col-12 md:col'>
                     <DropdownWrapper
                         control={addressControl}
                         name='country'
@@ -177,7 +177,7 @@ export default function CheckoutPage() {
                         }}
                     />
                 </div>
-                <div className='field col-12 md:col'>
+                <div className='col-12 md:col'>
                     <DropdownWrapper
                         control={addressControl}
                         name='state'
@@ -190,23 +190,15 @@ export default function CheckoutPage() {
                         }}
                     />
                 </div>
-                <div className='field col-12 md:col'>
-                    <Controller
-                        name='city'
+                <div className='col-12 md:col'>
+                    <DropdownWrapper
                         control={addressControl}
-                        render={({ field, fieldState }) => (
-                            <Dropdown
-                                {...field}
-                                id={field.name}
-                                filter
-                                options={cities}
-                                optionLabel='name'
-                                placeholder='Select a city'
-                                className={`w-full ${fieldState.error ? 'p-invalid' : ''}`}
-                            />
-                        )}
+                        name='city'
+                        placeholder='Select a city'
+                        filter
+                        options={cities}
+                        optionLabel={'name'}
                     />
-                    {getFormErrorMessage('city')}
                 </div>
                 <Button
                     type='submit'

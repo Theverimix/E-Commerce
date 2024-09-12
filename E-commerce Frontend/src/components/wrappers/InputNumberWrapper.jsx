@@ -1,21 +1,13 @@
 import { InputNumber } from 'primereact/inputnumber'
 import { Controller } from 'react-hook-form'
 
-export default function InputNumberWrapper({
-    name,
-    control,
-    errors,
-    label,
-    placeholder,
-    min = 0,
-    useGrouping = false,
-}) {
+export default function InputNumberWrapper({ name, control, label, placeholder, min = 0, useGrouping = false }) {
     return (
-        <>
-            <Controller
-                name={name}
-                control={control}
-                render={({ field, fieldState }) => (
+        <Controller
+            name={name}
+            control={control}
+            render={({ field, fieldState }) => (
+                <div className='field'>
                     <span className={`${label ? 'p-float-label' : ''}`}>
                         <InputNumber
                             {...field}
@@ -28,9 +20,9 @@ export default function InputNumberWrapper({
                         />
                         {label && <label htmlFor={name}>{label}</label>}
                     </span>
-                )}
-            />
-            {errors && errors[name] && <small className='p-error'>{errors[name].message}</small>}
-        </>
+                    {fieldState?.error?.message && <small className='p-error'>{fieldState.error.message}</small>}
+                </div>
+            )}
+        />
     )
 }

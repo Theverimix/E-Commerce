@@ -1,12 +1,14 @@
-import React, { useMemo } from 'react'
-import { Divider } from 'primereact/divider'
-import { Button } from 'primereact/button'
-import { InputText } from 'primereact/inputtext'
+import { useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Skeleton } from 'primereact/skeleton'
-import { calculateDiscountedPrice } from '../../utils/product-utils'
 
-export default function cartSummary({ products, isLoading, cupon = false, continueBtn = false }) {
+import { Button } from 'primereact/button'
+import { Divider } from 'primereact/divider'
+import { Skeleton } from 'primereact/skeleton'
+import { InputText } from 'primereact/inputtext'
+
+import { calculateDiscountedPrice } from '@/utils/product-utils'
+
+export default function CartSummary({ products, isLoading, cupon = false, continueBtn = false }) {
     const navigate = useNavigate()
 
     const shippingCost = 10
