@@ -13,6 +13,7 @@ import { classNames } from 'primereact/utils'
 import { Button } from 'primereact/button'
 import { Menu } from 'primereact/menu'
 
+export const Component = () => <CustomerAddresses />
 export default function CustomerAddresses() {
     const showToast = useToast()
     const navigate = useNavigate()

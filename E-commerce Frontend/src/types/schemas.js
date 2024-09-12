@@ -3,7 +3,7 @@
 import { array, boolean, date, enums, min, number, object, optional, pattern, size, string } from 'superstruct'
 
 const Password = pattern(string(), /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&+=!]).{8,}$/)
-
+const Email = pattern(string(), /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$/)
 // Auth
 
 export const LoginSchema = object({
@@ -94,12 +94,20 @@ export const AddressSchema = object({
     zip: string(),
 })
 
+export const PersonalDataSchema = object({
+    firstname: size(string(), 3, 25),
+    lastname: size(string(), 3, 25),
+    email: Email,
+    country: size(string(), 3, 25),
+    phone: size(string(), 3, 25),
+})
+
 export const CustomerSchema = object({
     firstname: size(string(), 3, 25),
     lastname: size(string(), 3, 25),
-    email: string(),
-    country: string(),
-    phone: string(),
+    email: Email,
+    country: size(string(), 3, 25),
+    phone: size(string(), 3, 25),
     state: UserStateScheme,
 })
 

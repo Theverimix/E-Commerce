@@ -4,6 +4,7 @@ import { CustomerForm } from './CustomerForm'
 import { getCustomerById, updateCustomer } from '../../../apis/customer-api'
 import { useEffect, useState } from 'react'
 
+export const Component = () => <CustomerPanel />
 const CustomerPanel = () => {
     const { id } = useParams()
     const customerCached = useLocation().state?.customer

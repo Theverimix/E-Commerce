@@ -11,6 +11,7 @@ const getInitials = (name) => {
     return initials
 }
 
+export const Component = () => <Profile />
 export default function Profile({ isAdmin = false }) {
     const context = React.useContext(Outlet) || isAdmin
     const navigate = useNavigate()
