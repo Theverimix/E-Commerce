@@ -9,6 +9,8 @@ import { Card } from 'primereact/card'
 import { Skeleton } from 'primereact/skeleton'
 import { deleteCategory, getCategories } from '../../../apis/category-api'
 
+export const Component = () => <CategoryTable />
+
 export default function CategoryTable() {
     const showToast = useToast()
     const [categories, setCategories] = useState([])

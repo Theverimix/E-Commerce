@@ -1,37 +1,34 @@
-import { InputNumber } from 'primereact/inputnumber'
+import { MultiSelect } from 'primereact/multiselect'
 import { Controller } from 'react-hook-form'
 
-export default function InputNumberWrapper({
+export default function MultiSelectWrapper({
     name,
     control,
     label,
-    placeholder,
-    min = 0,
-    useGrouping = false,
-    mode,
-    currency,
-    locale,
-    defaultValue,
+    options,
+    optionLabel,
+    optionValue,
+    display,
+    maxSelectedLabels,
 }) {
     return (
         <Controller
             name={name}
             control={control}
-            defaultValue={defaultValue}
             render={({ field, fieldState }) => (
                 <div className='field'>
                     <span className={`${label ? 'p-float-label' : ''}`}>
-                        <InputNumber
+                        <MultiSelect
                             {...field}
                             id={field.name}
-                            className={`w-full ${fieldState.error ? 'p-invalid' : ''}`}
+                            value={field.value}
+                            options={options}
+                            optionLabel={optionLabel}
+                            optionValue={optionValue}
+                            display={display}
+                            maxSelectedLabels={maxSelectedLabels}
                             onChange={(e) => field.onChange(e.value)}
-                            min={min}
-                            placeholder={placeholder}
-                            useGrouping={useGrouping}
-                            mode={mode}
-                            currency={currency}
-                            locale={locale}
+                            className={`w-full ${fieldState.error ? 'p-invalid' : ''}`}
                         />
                         {label && <label htmlFor={name}>{label}</label>}
                     </span>

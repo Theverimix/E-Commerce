@@ -1,37 +1,19 @@
-import { InputNumber } from 'primereact/inputnumber'
+import { InputTextarea } from 'primereact/inputtextarea'
 import { Controller } from 'react-hook-form'
 
-export default function InputNumberWrapper({
-    name,
-    control,
-    label,
-    placeholder,
-    min = 0,
-    useGrouping = false,
-    mode,
-    currency,
-    locale,
-    defaultValue,
-}) {
+export default function InputAreaWrapper({ name, control, label, autoResize = false }) {
     return (
         <Controller
             name={name}
             control={control}
-            defaultValue={defaultValue}
             render={({ field, fieldState }) => (
                 <div className='field'>
                     <span className={`${label ? 'p-float-label' : ''}`}>
-                        <InputNumber
+                        <InputTextarea
                             {...field}
                             id={field.name}
                             className={`w-full ${fieldState.error ? 'p-invalid' : ''}`}
-                            onChange={(e) => field.onChange(e.value)}
-                            min={min}
-                            placeholder={placeholder}
-                            useGrouping={useGrouping}
-                            mode={mode}
-                            currency={currency}
-                            locale={locale}
+                            autoResize={autoResize}
                         />
                         {label && <label htmlFor={name}>{label}</label>}
                     </span>

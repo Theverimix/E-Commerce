@@ -1,21 +1,29 @@
 import { useEffect, useState } from 'react'
-import { Button } from 'primereact/button'
+import { Controller, useForm } from 'react-hook-form'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { superstructResolver } from '@hookform/resolvers/superstruct'
+import { ProductSchema } from '@/types/schemas'
+import { useToast } from '@/providers/ToastProvider'
+
 import { Card } from 'primereact/card'
+import { Button } from 'primereact/button'
 import { Dropdown } from 'primereact/dropdown'
+import { MultiSelect } from 'primereact/multiselect'
 import { InputNumber } from 'primereact/inputnumber'
 import { InputSwitch } from 'primereact/inputswitch'
-import { InputText } from 'primereact/inputtext'
 import { InputTextarea } from 'primereact/inputtextarea'
-import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { Skeleton } from 'primereact/skeleton'
-import { ProductSchema } from '../../../types/schemas'
-import { superstructResolver } from '@hookform/resolvers/superstruct'
-import { Controller, useForm } from 'react-hook-form'
-import { MultiSelect } from 'primereact/multiselect'
-import { getStates } from '../../../apis/state-api'
-import { getCategories } from '../../../apis/category-api'
-import { getProductById, saveProduct, updateProduct } from '../../../apis/product-api'
-import { useToast } from '../../../providers/ToastProvider'
+
+import { getProductById, saveProduct, updateProduct } from '@/apis/product-api'
+import { getCategories } from '@/apis/category-api'
+import { getStates } from '@/apis/state-api'
+
+import InputTextWrapper from '@/components/wrappers/InputTextWrapper'
+import InputAreaWrapper from '@/components/wrappers/InputAreaWrapper'
+import InputNumberWrapper from '@/components/wrappers/InputNumberWrapper'
+import DropdownWrapper from '@/components/wrappers/DropdownWrapper'
+import MultiSelectWrapper from '@/components/wrappers/MultiSelectWrapper'
+import InputSwitchWrapper from '@/components/wrappers/InputSwitchWrapper'
 
 export const Component = () => <ProductForm />
 
@@ -100,10 +108,6 @@ const ProductForm = ({ edit = false }) => {
 
     const cardTitle = () => <h2 className='text-center'>{edit ? 'Edit Product' : 'Create Product'}</h2>
 
-    const getFormErrorMessage = (name) => {
-        return errors[name] && <small className='p-error'>{errors[name].message}</small>
-    }
-
     const FormSkeletons = () => (
         <div className='flex flex-column gap-5 w-30rem'>
             <div>
@@ -143,151 +147,39 @@ const ProductForm = ({ edit = false }) => {
 
     const FormBody = () => (
         <div className='flex flex-column gap-3 w-30rem'>
-            <div className='field'>
-                <Controller
-                    name='name'
-                    control={control}
-                    render={({ field, fieldState }) => (
-                        <span className='p-float-label'>
-                            <InputText
-                                {...field}
-                                id={field.name}
-                                autoComplete='off'
-                                className={`w-full ${fieldState.error ? 'p-invalid' : ''}`}
-                            />
-                            <label htmlFor='name'>Product name</label>
-                        </span>
-                    )}
-                />
-                {getFormErrorMessage('name')}
-            </div>
-            <div className='field'>
-                <Controller
-                    name='description'
-                    control={control}
-                    render={({ field, fieldState }) => (
-                        <span className='p-float-label'>
-                            <InputTextarea
-                                {...field}
-                                id={field.name}
-                                className={`w-full ${fieldState.error ? 'p-invalid' : ''}`}
-                                autoResize
-                            />
-                            <label htmlFor={field.name}>Product description</label>
-                        </span>
-                    )}
-                />
-                {getFormErrorMessage('description')}
-            </div>
-            <div className='field'>
-                <Controller
-                    name='price'
-                    control={control}
-                    defaultValue={0.0}
-                    render={({ field, fieldState }) => (
-                        <span className='p-float-label'>
-                            <InputNumber
-                                {...field}
-                                id={field.name}
-                                className={`w-full ${fieldState.error ? 'p-invalid' : ''}`}
-                                onChange={(e) => field.onChange(e.value)}
-                                min={0}
-                                mode='currency'
-                                currency='USD'
-                                locale='en-US'
-                            />
-                            <label htmlFor={field.name}>Product price</label>
-                        </span>
-                    )}
-                />
-                {getFormErrorMessage('price')}
-            </div>
-            <div className='field'>
-                <Controller
-                    name='stock'
-                    control={control}
-                    defaultValue={0}
-                    render={({ field, fieldState }) => (
-                        <span className='p-float-label'>
-                            <InputNumber
-                                {...field}
-                                id={field.name}
-                                className={`w-full ${fieldState.error ? 'p-invalid' : ''}`}
-                                onChange={(e) => field.onChange(e.value)}
-                                min={0}
-                            />
-                            <label htmlFor={field.name}>Product stock</label>
-                        </span>
-                    )}
-                />
-                {getFormErrorMessage('stock')}
-            </div>
-            <div className='field'>
-                <Controller
-                    name='state'
-                    control={control}
-                    defaultValue={{}}
-                    render={({ field, fieldState }) => (
-                        <span className='p-float-label'>
-                            <Dropdown
-                                {...field}
-                                id={field.name}
-                                options={statesList}
-                                optionLabel='name'
-                                optionValue='id'
-                                className={`w-full ${fieldState.error ? 'p-invalid' : ''}`}
-                            />
-                            <label htmlFor={field.name}>Product state</label>
-                        </span>
-                    )}
-                />
-                {getFormErrorMessage('state')}
-            </div>
-            <div className='field'>
-                <Controller
-                    name='categories'
-                    control={control}
-                    defaultValue={[]}
-                    render={({ field, fieldState }) => (
-                        <span className='p-float-label'>
-                            <MultiSelect
-                                id={field.name}
-                                value={field.value}
-                                options={categoriesList}
-                                optionLabel='name'
-                                optionValue='id'
-                                display='chip'
-                                maxSelectedLabels={4}
-                                onChange={(e) => field.onChange(e.value)}
-                                className='w-full'
-                            />
-                            <label htmlFor={field.name}>Product categories</label>
-                        </span>
-                    )}
-                />
-                {getFormErrorMessage('categories')}
-            </div>
-            <div className='field'>
-                <Controller
-                    name='visible'
-                    defaultValue={true}
-                    control={control}
-                    render={({ field, fieldState }) => (
-                        <span className='p-float-label flex align-items-center'>
-                            <InputSwitch
-                                {...field}
-                                id={field.name}
-                                value={true}
-                                checked={field.value}
-                                className={`${fieldState.error ? 'p-invalid' : ''}`}
-                                onChange={(e) => field.onChange(e.value)}
-                            />
-                            <p className='ml-3'>Product visibility</p>
-                        </span>
-                    )}
-                />
-                {getFormErrorMessage('visible')}
-            </div>
+            <InputTextWrapper name='name' control={control} label='Product name' />
+            <InputAreaWrapper name='description' control={control} label='Product description' autoResize />
+            <InputNumberWrapper
+                name='price'
+                control={control}
+                defaultValue={0.0}
+                label='Product price'
+                min={0}
+                mode='currency'
+                currency='USD'
+                locale='en-US'
+            />
+            <InputNumberWrapper name='stock' control={control} defaultValue={0} label='Product stock' min={0} />
+            <DropdownWrapper
+                name='state'
+                control={control}
+                defaultValue={{}}
+                label='Product state'
+                options={statesList}
+                optionLabel='name'
+                optionValue='id'
+            />
+            <MultiSelectWrapper
+                name='categories'
+                control={control}
+                label='Product categories'
+                options={categoriesList}
+                optionLabel='name'
+                optionValue='id'
+                display='chip'
+                maxSelectedLabels={4}
+            />
+            <InputSwitchWrapper name='visible' control={control} defaultValue={true} label='Product visibility' />
             <div className='flex gap-3'>
                 <Button
                     onClick={() => navigate('/admin/products')}
