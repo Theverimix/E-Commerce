@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Controller, useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { superstructResolver } from '@hookform/resolvers/superstruct'
 import { ProductSchema } from '@/types/schemas'
@@ -7,11 +7,6 @@ import { useToast } from '@/providers/ToastProvider'
 
 import { Card } from 'primereact/card'
 import { Button } from 'primereact/button'
-import { Dropdown } from 'primereact/dropdown'
-import { MultiSelect } from 'primereact/multiselect'
-import { InputNumber } from 'primereact/inputnumber'
-import { InputSwitch } from 'primereact/inputswitch'
-import { InputTextarea } from 'primereact/inputtextarea'
 import { Skeleton } from 'primereact/skeleton'
 
 import { getProductById, saveProduct, updateProduct } from '@/apis/product-api'
@@ -39,12 +34,7 @@ const ProductForm = ({ edit = false }) => {
     const [statesList, setStates] = useState([])
     const [categoriesList, setCategories] = useState([])
 
-    const {
-        formState: { errors },
-        control,
-        handleSubmit,
-        reset,
-    } = useForm({ resolver: superstructResolver(ProductSchema) })
+    const { control, handleSubmit, reset } = useForm({ resolver: superstructResolver(ProductSchema) })
 
     useEffect(() => {
         const fetchRequiredData = async () => {
