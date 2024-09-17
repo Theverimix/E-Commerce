@@ -1,5 +1,6 @@
 // Superstruct schemas
 
+import { intersection } from 'lodash'
 import { array, boolean, date, enums, min, number, object, optional, pattern, size, string } from 'superstruct'
 
 const Password = pattern(string(), /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&+=!]).{8,}$/)
@@ -12,7 +13,7 @@ export const LoginSchema = object({
 })
 
 export const RecoveryEmail = object({
-    email: string(),
+    recoveryEmail: Email,
 })
 
 export const RegisterSchema = object({

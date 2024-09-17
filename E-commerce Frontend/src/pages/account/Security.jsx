@@ -11,6 +11,8 @@ import { Divider } from 'primereact/divider'
 import { extractIdfromToken } from '../../utils/jwt-utils'
 import { getUserById, updatePassword } from '../../apis/user-api'
 
+export const Component = () => <Security />
+
 export default function Security() {
     const showToast = useToast()
     const navigate = useNavigate()

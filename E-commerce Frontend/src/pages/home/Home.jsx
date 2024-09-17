@@ -62,7 +62,7 @@ export default function Home() {
                         className='box xl:col-2 lg:col-2 md:col-4 sm:col-4 col-5 p-4 fadein animation-duration-500 cursor-pointer surface-hover border-round-md'
                         onClick={() => navigate(category.url)}
                     >
-                        <div className=' mb-4 w-full text-center p-0 xl:p-2'>
+                        <div className='mb-4 text-center p-0 xl:p-2'>
                             <img src={category.image} className='w-full' alt={category.name} />
                         </div>
 

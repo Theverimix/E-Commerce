@@ -2,14 +2,13 @@ import { useState } from 'react'
 import { InputText } from 'primereact/inputtext'
 import { Button } from 'primereact/button'
 import { Password } from 'primereact/password'
-import { Dialog } from 'primereact/dialog'
 import { useNavigate, Link } from 'react-router-dom'
 import { useToast } from '../../providers/ToastProvider'
 import { userLogin } from '../../apis/auth-api'
 import { Controller, useForm } from 'react-hook-form'
 import { LoginSchema, RecoveryEmail } from '../../types/schemas'
 import { customResolvers } from '../../types/CustomResolvers'
-import { superstructResolver } from '@hookform/resolvers/superstruct'
+import ForgotPasswordDialog from '@/components/ForgotPasswordDialog/ForgotPasswordDialog'
 
 export const Component = () => <Login />
 
@@ -64,12 +63,6 @@ export default function Login() {
             showToast('error', 'Error', '¡Login error!')
         }
         setIsLoading(false)
-    }
-
-    const onRecoveryPassword = async (data) => {
-        console.log('Recovery password data:', data)
-        setVisible(false)
-        resetRecovery()
     }
 
     const getFormErrorMessage = (name) => {
@@ -142,43 +135,9 @@ export default function Login() {
         </div>
     )
 
-    const ForgotPasswordDialog = () => (
-        <Dialog
-            header='Forgot Password'
-            visible={visible}
-            className='w-23rem md:w-30rem'
-            onHide={() => setVisible(false)}
-        >
-            <form onSubmit={handleRecoverySubmit(onRecoveryPassword)}>
-                <div className='field'>
-                    <div className='p-inputgroup'>
-                        <span className='p-inputgroup-addon'>
-                            <i className='pi pi-user'></i>
-                        </span>
-                        <Controller
-                            name='recoveryEmail'
-                            control={recoveryControl}
-                            render={({ field, fieldState }) => (
-                                <span className='p-float-label'>
-                                    <InputText
-                                        {...field}
-                                        id={field.name}
-                                        className={`w-full ${fieldState.error ? 'p-invalid' : ''}`}
-                                    />
-                                    <label htmlFor={field.name}>Email</label>
-                                </span>
-                            )}
-                        />
-                    </div>
-                    {getFormErrorMessage('recoveryEmail', recoveryErrors)}
-                </div>
-                <Button type='submit' label='Forgot Password' className='p-inputgroup mt-4' />
-            </form>
-        </Dialog>
-    )
-
     return (
         <>
+            <ForgotPasswordDialog visible={visible} setVisible={setVisible} />
             <form onSubmit={handleSubmit(onLogin)}>
                 <EmailInput />
                 <PasswordInput />
@@ -194,7 +153,6 @@ export default function Login() {
                     </Link>
                 </div>
             </div>
-            <ForgotPasswordDialog />
         </>
     )
 }

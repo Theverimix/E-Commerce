@@ -32,6 +32,7 @@ public class SecurityConfig {
                                 .requestMatchers(RequestMatcherUtil::isApiAuthRequest).permitAll()
                                 .requestMatchers("/products/**").permitAll()
                                 .requestMatchers("/swagger-ui/**", "/swagger-resources/**", "/api-docs/**").permitAll()
+                                .requestMatchers("/users/forgot", "/users/validate", "/users/reset").permitAll()
                                 .anyRequest().authenticated())
                         .exceptionHandling(ex -> ex.accessDeniedHandler(customAccessDeniedHandler))
                         .authenticationProvider(authProvider)

@@ -41,6 +41,11 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
+    private String recoveryCode;
+    
+    @Column(nullable = false, columnDefinition = "bigint default 0")
+    private long codeGeneratedTime;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));
