@@ -23,6 +23,7 @@ export default function ProductList({
     linkeable = false,
     paginator = false,
     quantity = false,
+    productQuantity = false,
     onSubmitCategory,
     addToCartButton = false,
     onPageChange,
@@ -159,6 +160,11 @@ export default function ProductList({
                                         step={1}
                                         disabled={isLoading}
                                     />
+                                </span>
+                            )}
+                            {productQuantity && (
+                                <span className='font-semibold mt-auto'>
+                                    <h3>Quantity: {product.amount}</h3>
                                 </span>
                             )}
                         </div>

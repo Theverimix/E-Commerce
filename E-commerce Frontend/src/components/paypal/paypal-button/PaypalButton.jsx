@@ -99,8 +99,8 @@ const PaypalButton = ({ items, invoice, shippingCost, createOrder }) => {
                     })
 
                     showToast('success', 'Purchase Operation Result', 'Purchase approved successfully')
-                    clearAllProducts()
-                    navigate('/')
+                    // clearAllProducts()
+                    // navigate('/')
                 } catch (error) {
                     console.error('Error en onApprove:', error)
                     showToast('error', 'Purchase Operation Error', 'There was an error processing your purchase')

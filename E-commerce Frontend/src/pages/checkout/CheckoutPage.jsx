@@ -119,12 +119,12 @@ export default function CheckoutPage() {
 
         const order = {
             customerId: extractIdfromToken(),
-            fullname: firstname + ' ' + lastname,
             address: address,
+            addressCountry: country.name,
             addressDetail: addressDetail,
-            addressCountry: country,
-            addressState: state,
-            addressCity: city,
+            fullname: firstname + ' ' + lastname,
+            addressState: state.name,
+            addressCity: city.name,
             zipCode: zipCode,
             optionalComment: optionalComment,
             details: products.map((product) => ({
@@ -134,7 +134,10 @@ export default function CheckoutPage() {
             })),
         }
 
+        // console.log('order', order)
         const response = await createOrder(order)
+        console.log('response', response)
+
         return response
     }
 

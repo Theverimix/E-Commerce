@@ -1,23 +1,33 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Card } from 'primereact/card'
 import { Avatar } from 'primereact/avatar'
 import { Outlet, useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import { extractNamefromToken, extractEmailfromToken } from '../../utils/jwt-utils'
 
-const getInitials = (name) => {
-    const nameArray = name.split(' ')
-    const initials = nameArray.map((word) => word.charAt(0).toUpperCase()).join('')
-    return initials
-}
-
 export const Component = () => <Profile />
 export default function Profile({ isAdmin = false }) {
     const context = React.useContext(Outlet) || isAdmin
     const navigate = useNavigate()
-    const name = extractNamefromToken()
-    const email = extractEmailfromToken()
-    const initials = getInitials(name)
+    const [name, setName] = useState()
+    const [email, setEmail] = useState()
+    const [initials, setInitials] = useState()
+
+    useEffect(() => {
+        setName(extractNamefromToken())
+        setEmail(extractEmailfromToken())
+        setInitials(getInitials(extractNamefromToken()))
+    }, [])
+
+    const getInitials = (name) => {
+        let nameArray = ''
+        let initials
+        if (name) {
+            nameArray = name.split(' ')
+            initials = nameArray.map((word) => word.charAt(0).toUpperCase()).join('')
+        }
+        return initials
+    }
 
     return (
         <div>

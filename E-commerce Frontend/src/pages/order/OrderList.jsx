@@ -40,7 +40,7 @@ export default function OrderList({ orders }) {
 
     return (
         <>
-            <Dialog visible={dialog} onHide={() => setDialog(false)}>
+            <Dialog visible={dialog} header='Order Details' onHide={() => setDialog(false)}>
                 <OrderDetails order={orderSelected} />
             </Dialog>
             <Card>
