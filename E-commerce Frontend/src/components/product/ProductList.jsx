@@ -228,7 +228,7 @@ export default function ProductList({
         if (!items || (items.length === 0 && isCart)) {
             return (
                 <div className='w-full flex justify-content-center'>
-                    <img src='/icons/empty_cart.png' className='w-full sm:w-auto flex justify-content-center' />
+                    <img src='/icons/empty_cart.png' className='w-full flex justify-content-center' />
                 </div>
             )
         }

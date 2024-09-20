@@ -17,6 +17,8 @@ import { Controller, useForm } from 'react-hook-form'
 import { superstructResolver } from '@hookform/resolvers/superstruct'
 import { PersonalDataSchema } from '../../types/schemas'
 
+import InputTextWrapper from '@/components/wrappers/InputTextWrapper'
+
 export const Component = () => <PersonalData />
 export default function PersonalData({ isAdmin = false }) {
     const showToast = useToast()
@@ -40,7 +42,6 @@ export default function PersonalData({ isAdmin = false }) {
         trigger,
     } = useForm({
         resolver: superstructResolver(PersonalDataSchema),
-        // defaultValues: { firstname: userData.firstname, lastname: '' },
         mode: 'onSubmit',
         reValidateMode: 'onSubmit',
     })
@@ -50,7 +51,7 @@ export default function PersonalData({ isAdmin = false }) {
             try {
                 const user = !isAdmin ? await getCustomerById(userId) : await getUserById(userId)
                 if (user) {
-                    const data = user.data.data || {}
+                    const data = user.data || {}
                     const userInfo = {
                         firstname: data.firstname || '',
                         lastname: data.lastname || '',
@@ -60,7 +61,6 @@ export default function PersonalData({ isAdmin = false }) {
                     }
 
                     setUserData(data)
-                    console.log(userInfo)
                     reset(userInfo)
                 } else {
                     console.error('User data is undefined')
@@ -73,29 +73,7 @@ export default function PersonalData({ isAdmin = false }) {
         fetchUserData()
     }, [userId])
 
-    // const handleChange = (event) => {
-    //     const { name, value } = event.target
-    //     console.log(name + ': ' + value)
-    //     setUserData((prevData) => ({
-    //         ...prevData,
-    //         [name]: value,
-    //     }))
-    // }
-
     const onSubmit = async ({ firstname, lastname, email, country, phone }) => {
-        await showConfirmDialog({ firstname, lastname, email, country, phone })
-
-        // console.log(firstname)
-        // console.log(lastname)
-        // console.log(email)
-        // console.log(country)
-        // console.log(phone)
-        // setUserData({ firstname, lastname, email, country, phone })
-        // console.log(userData)
-    }
-
-    const showConfirmDialog = async ({ firstname, lastname, email, country, phone }) => {
-        // event.preventDefault()
         confirmDialog({
             message: 'Do you want to update this record?',
             header: 'Update Confirmation',
@@ -131,7 +109,10 @@ export default function PersonalData({ isAdmin = false }) {
             <Card title='Personal data'>
                 <form onSubmit={handleSubmit(onSubmit)} className='flex justify-content-center align-items-center'>
                     <div className='formgrid grid md:w-9 lg:w-7 xl:w-6'>
-                        <Controller
+                        <div className='col-12 md:col-6'>
+                            <InputTextWrapper name='firstname' control={control} placeholder='Enter your firstname' />
+                        </div>
+                        {/* <Controller
                             name='firstname'
                             control={control}
                             render={({ field, fieldState }) => (
@@ -148,8 +129,11 @@ export default function PersonalData({ isAdmin = false }) {
                                     {getFormErrorMessage('firstname', errors)}
                                 </div>
                             )}
-                        />
-                        <Controller
+                        /> */}
+                        <div className='col-12 md:col-6'>
+                            <InputTextWrapper name='lastname' control={control} placeholder='Enter your lastname' />
+                        </div>
+                        {/* <Controller
                             name='lastname'
                             control={control}
                             render={({ field, fieldState }) => (
@@ -163,13 +147,14 @@ export default function PersonalData({ isAdmin = false }) {
                                         // onChange={handleChange}
                                         className={`w-full ${fieldState.error ? 'p-invalid' : ''}`}
                                     />
-
                                     {getFormErrorMessage('lastname', errors)}
                                 </div>
                             )}
-                        />
-
-                        <Controller
+                        /> */}
+                        <div className='col-12 '>
+                            <InputTextWrapper name='email' control={control} placeholder='Enter your email' />
+                        </div>
+                        {/* <Controller
                             name='email'
                             control={control}
                             render={({ field, fieldState }) => (
@@ -186,10 +171,17 @@ export default function PersonalData({ isAdmin = false }) {
                                     {getFormErrorMessage('email', errors)}
                                 </div>
                             )}
-                        />
+                        /> */}
                         {!isAdmin && (
                             <>
-                                <Controller
+                                <div className='col-12'>
+                                    <InputTextWrapper
+                                        name='country'
+                                        control={control}
+                                        placeholder='Enter your country'
+                                    />
+                                </div>
+                                {/* <Controller
                                     name='country'
                                     control={control}
                                     render={({ field, fieldState }) => (
@@ -206,8 +198,11 @@ export default function PersonalData({ isAdmin = false }) {
                                             {getFormErrorMessage('country', errors)}
                                         </div>
                                     )}
-                                />
-                                <Controller
+                                /> */}
+                                <div className='col-12'>
+                                    <InputTextWrapper name='phone' control={control} placeholder='XXX XXX XXX' />
+                                </div>
+                                {/* <Controller
                                     name='phone'
                                     control={control}
                                     render={({ field, fieldState }) => (
@@ -226,7 +221,7 @@ export default function PersonalData({ isAdmin = false }) {
                                             {getFormErrorMessage('phone', errors)}
                                         </div>
                                     )}
-                                />
+                                /> */}
                             </>
                         )}
                         <Button label='Save changes' type='submit' className='w-full mt-3' outlined />
