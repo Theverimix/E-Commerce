@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 
@@ -14,6 +14,7 @@ import InputTextWrapper from '@/components/wrappers/InputTextWrapper'
 
 import { CustomerSchema } from '@/types/schemas'
 import { superstructResolver } from '@hookform/resolvers/superstruct'
+import { Skeleton } from 'primereact/skeleton'
 
 export const Component = () => <CustomerForm />
 
@@ -22,6 +23,7 @@ export const CustomerForm = () => {
     const customerCached = useLocation().state?.customer
     const navigate = useNavigate()
     const showToast = useToast()
+    const [isLoading, setIsLoading] = useState(true)
 
     const { control, handleSubmit, reset, getValues } = useForm({
         resolver: superstructResolver(CustomerSchema),
@@ -31,6 +33,7 @@ export const CustomerForm = () => {
 
     useEffect(() => {
         const fetchCustomerData = async () => {
+            setIsLoading(true)
             let customerData = customerCached
             if (!customerData) {
                 const { success, data } = await getCustomerById(id)
@@ -50,6 +53,7 @@ export const CustomerForm = () => {
             })
         }
         fetchCustomerData()
+        setIsLoading(false)
     }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
     const onSubmit = async () => {
@@ -81,36 +85,58 @@ export const CustomerForm = () => {
         { name: 'Blocked', value: 'BLOCKED' },
     ]
 
+    const formSkeleton = (
+        <div className='flex flex-column w-30rem'>
+            <Skeleton className='w-5rem my-2' height='1rem' />
+            <Skeleton className='w-full mb-2' height='2.5rem' />
+            <Skeleton className='w-5rem mb-2' height='1rem' />
+            <Skeleton className='w-full mb-2' height='2.5rem' />
+            <Skeleton className='w-5rem mb-2' height='1rem' />
+            <Skeleton className='w-full mb-2' height='2.5rem' />
+            <Skeleton className='w-5rem mb-2' height='1rem' />
+            <Skeleton className='w-full mb-2' height='2.5rem' />
+            <Skeleton className='w-5rem mb-2' height='1rem' />
+            <Skeleton className='w-full mb-2' height='2.5rem' />
+            <Skeleton className='w-5rem mb-2' height='1rem' />
+            <Skeleton className='w-full mb-5' height='2.5rem' />
+            <Skeleton className='w-full mb-2' height='2.5rem' />
+        </div>
+    )
+
     return (
         <div className='card flex justify-content-center align-items-center'>
             <ConfirmDialog />
             <Card title={cardTitle} subTitle={cardSubtitle}>
-                <form
-                    onSubmit={handleSubmit(onSubmit)}
-                    className='flex justify-content-center align-items-center w-full p-5'
-                >
-                    <div className='flex flex-column gap-3 w-30rem'>
-                        <InputTextWrapper name='firstname' control={control} label='FirstName' />
-                        <InputTextWrapper name='lastname' control={control} label='LastName' />
-                        <InputTextWrapper name='email' control={control} label='Email' />
-                        <InputTextWrapper name='phone' control={control} label='Phone' />
-                        <InputTextWrapper name='country' control={control} label='Country' />
-                        <DropdownWrapper
-                            name='state'
-                            control={control}
-                            label='State'
-                            options={stateList}
-                            optionLabel='name'
-                        />
-                        <Button
-                            type='submit'
-                            className='w-full'
-                            label='Update customer'
-                            // icon='pi pi-pencil'
-                            outlined
-                        />
-                    </div>
-                </form>
+                {isLoading ? (
+                    formSkeleton
+                ) : (
+                    <form
+                        onSubmit={handleSubmit(onSubmit)}
+                        className='flex justify-content-center align-items-center w-full p-5'
+                    >
+                        <div className='flex flex-column gap-3 w-30rem'>
+                            <InputTextWrapper name='firstname' control={control} label='FirstName' />
+                            <InputTextWrapper name='lastname' control={control} label='LastName' />
+                            <InputTextWrapper name='email' control={control} label='Email' />
+                            <InputTextWrapper name='phone' control={control} label='Phone' />
+                            <InputTextWrapper name='country' control={control} label='Country' />
+                            <DropdownWrapper
+                                name='state'
+                                control={control}
+                                label='State'
+                                options={stateList}
+                                optionLabel='name'
+                            />
+                            <Button
+                                type='submit'
+                                className='w-full'
+                                label='Update customer'
+                                // icon='pi pi-pencil'
+                                outlined
+                            />
+                        </div>
+                    </form>
+                )}
             </Card>
         </div>
     )
