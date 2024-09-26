@@ -90,7 +90,6 @@ export default function Login() {
                     )}
                 />
             </div>
-            {getFormErrorMessage('email', errors)}
         </div>
     )
 

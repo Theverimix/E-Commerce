@@ -18,12 +18,14 @@ import { superstructResolver } from '@hookform/resolvers/superstruct'
 import { PersonalDataSchema } from '../../types/schemas'
 
 import InputTextWrapper from '@/components/wrappers/InputTextWrapper'
+import { Skeleton } from 'primereact/skeleton'
 
 export const Component = () => <PersonalData />
 export default function PersonalData({ isAdmin = false }) {
     const showToast = useToast()
     const userId = extractIdfromToken()
     const navigate = useNavigate()
+    const [isLoading, setIsLoading] = useState(true)
 
     const [userData, setUserData] = useState({
         firstname: '',
@@ -47,6 +49,7 @@ export default function PersonalData({ isAdmin = false }) {
     })
 
     useEffect(() => {
+        setIsLoading(true)
         const fetchUserData = async () => {
             try {
                 const user = !isAdmin ? await getCustomerById(userId) : await getUserById(userId)
@@ -71,6 +74,7 @@ export default function PersonalData({ isAdmin = false }) {
         }
 
         fetchUserData()
+        setIsLoading(false)
     }, [userId])
 
     const onSubmit = async ({ firstname, lastname, email, country, phone }) => {
@@ -100,6 +104,33 @@ export default function PersonalData({ isAdmin = false }) {
         return errors[name] && <small className='p-error'>{errors[name].message}</small>
     }
 
+    const formSkeleton = (
+        <div className='flex justify-content-center align-items-center'>
+            <div className='formgrid grid md:w-9 lg:w-7 xl:w-6'>
+                <div className='col-12 md:col-6 mb-3'>
+                    <Skeleton className='w-full' height='2.5rem' />
+                </div>
+                <div className='col-12 md:col-6 mb-3'>
+                    <Skeleton className='w-full' height='2.5rem' />
+                </div>
+                <div className='col-12 mb-3'>
+                    <Skeleton className='w-full' height='2.5rem' />
+                </div>
+                {!isAdmin && (
+                    <>
+                        <div className='col-12 mb-3'>
+                            <Skeleton className='w-full' height='2.5rem' />
+                        </div>
+                        <div className='col-12 mb-3'>
+                            <Skeleton className='w-full' height='2.5rem' />
+                        </div>
+                    </>
+                )}
+                <Skeleton className='w-full mt-3' height='2.5rem' />
+            </div>
+        </div>
+    )
+
     return (
         <div>
             <ConfirmDialog />
@@ -107,12 +138,19 @@ export default function PersonalData({ isAdmin = false }) {
                 <BreadCrumb model={items} home={home} className='border-none mb-3' />
             </div>
             <Card title='Personal data'>
-                <form onSubmit={handleSubmit(onSubmit)} className='flex justify-content-center align-items-center'>
-                    <div className='formgrid grid md:w-9 lg:w-7 xl:w-6'>
-                        <div className='col-12 md:col-6'>
-                            <InputTextWrapper name='firstname' control={control} placeholder='Enter your firstname' />
-                        </div>
-                        {/* <Controller
+                {isLoading ? (
+                    formSkeleton
+                ) : (
+                    <form onSubmit={handleSubmit(onSubmit)} className='flex justify-content-center align-items-center'>
+                        <div className='formgrid grid md:w-9 lg:w-7 xl:w-6'>
+                            <div className='col-12 md:col-6'>
+                                <InputTextWrapper
+                                    name='firstname'
+                                    control={control}
+                                    placeholder='Enter your firstname'
+                                />
+                            </div>
+                            {/* <Controller
                             name='firstname'
                             control={control}
                             render={({ field, fieldState }) => (
@@ -130,10 +168,10 @@ export default function PersonalData({ isAdmin = false }) {
                                 </div>
                             )}
                         /> */}
-                        <div className='col-12 md:col-6'>
-                            <InputTextWrapper name='lastname' control={control} placeholder='Enter your lastname' />
-                        </div>
-                        {/* <Controller
+                            <div className='col-12 md:col-6'>
+                                <InputTextWrapper name='lastname' control={control} placeholder='Enter your lastname' />
+                            </div>
+                            {/* <Controller
                             name='lastname'
                             control={control}
                             render={({ field, fieldState }) => (
@@ -151,10 +189,10 @@ export default function PersonalData({ isAdmin = false }) {
                                 </div>
                             )}
                         /> */}
-                        <div className='col-12 '>
-                            <InputTextWrapper name='email' control={control} placeholder='Enter your email' />
-                        </div>
-                        {/* <Controller
+                            <div className='col-12 '>
+                                <InputTextWrapper name='email' control={control} placeholder='Enter your email' />
+                            </div>
+                            {/* <Controller
                             name='email'
                             control={control}
                             render={({ field, fieldState }) => (
@@ -172,16 +210,16 @@ export default function PersonalData({ isAdmin = false }) {
                                 </div>
                             )}
                         /> */}
-                        {!isAdmin && (
-                            <>
-                                <div className='col-12'>
-                                    <InputTextWrapper
-                                        name='country'
-                                        control={control}
-                                        placeholder='Enter your country'
-                                    />
-                                </div>
-                                {/* <Controller
+                            {!isAdmin && (
+                                <>
+                                    <div className='col-12'>
+                                        <InputTextWrapper
+                                            name='country'
+                                            control={control}
+                                            placeholder='Enter your country'
+                                        />
+                                    </div>
+                                    {/* <Controller
                                     name='country'
                                     control={control}
                                     render={({ field, fieldState }) => (
@@ -199,10 +237,10 @@ export default function PersonalData({ isAdmin = false }) {
                                         </div>
                                     )}
                                 /> */}
-                                <div className='col-12'>
-                                    <InputTextWrapper name='phone' control={control} placeholder='XXX XXX XXX' />
-                                </div>
-                                {/* <Controller
+                                    <div className='col-12'>
+                                        <InputTextWrapper name='phone' control={control} placeholder='XXX XXX XXX' />
+                                    </div>
+                                    {/* <Controller
                                     name='phone'
                                     control={control}
                                     render={({ field, fieldState }) => (
@@ -222,11 +260,12 @@ export default function PersonalData({ isAdmin = false }) {
                                         </div>
                                     )}
                                 /> */}
-                            </>
-                        )}
-                        <Button label='Save changes' type='submit' className='w-full mt-3' outlined />
-                    </div>
-                </form>
+                                </>
+                            )}
+                            <Button label='Save changes' type='submit' className='w-full mt-3' outlined />
+                        </div>
+                    </form>
+                )}
             </Card>
         </div>
     )

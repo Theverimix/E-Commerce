@@ -68,10 +68,32 @@ public class JwtService {
                 .setClaims(extraClaims)
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 30))
                 .signWith(getSignKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
+
+    public String refreshToken(String token) {
+    System.out.println("Token recibido para refrescar: " + token);  // Log para verificar el token
+    
+    // Extraer los claims del token existente
+    Claims claims = Jwts
+            .parserBuilder()
+            .setSigningKey(getSignKey())
+            .build()
+            .parseClaimsJws(token)
+            .getBody();
+
+    // Generar un nuevo token usando los mismos claims
+    return Jwts
+            .builder()
+            .setClaims(claims)
+            .setSubject(claims.getSubject())
+            .setIssuedAt(new Date(System.currentTimeMillis()))
+            .setExpiration(new Date(System.currentTimeMillis() + 1000L * 60 * 60 * 24))  // 1 día de expiración
+            .signWith(getSignKey(), SignatureAlgorithm.HS256)
+            .compact();
+}
 
     public boolean isTokenValid(String token, UserDetails userDetails) throws SignatureException {
         String username = extractUsername(token);
