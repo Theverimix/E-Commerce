@@ -1,5 +1,8 @@
 package com.ecommerce.product;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
+import com.ecommerce.exception.ImageUploadException;
 import com.ecommerce.product.category.CategoryRepository;
 import com.ecommerce.product.state.ProductState;
 import com.ecommerce.product.state.ProductStateRepository;
@@ -13,9 +16,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.io.IOException;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.ecommerce.product.ProductRepository.*;
@@ -28,6 +30,7 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final ProductStateRepository productStateRepository;
     private final CategoryRepository categoryRepository;
+    private final Cloudinary cloudinary;
 
     public ProductResponse getProductById(Long productId) {
         return productRepository.findByIdAndVisibleTrue(productId)
@@ -54,9 +57,24 @@ public class ProductService {
         return new ProductPageResponse(productListMap, totalPages, totalElements);
     }
 
-    public void saveProduct(ProductRegisterRequest dto) {
+    public void saveProduct(ProductRegisterRequest dto) throws ImageUploadException {
         ProductState state = productStateRepository.findById(dto.state()).orElseThrow(
                 () -> new EntityNotFoundException("State with id [%s] not found.".formatted(dto.state())));
+
+        Set<String> imagesUrls = new HashSet<>();
+        for (String image : dto.images()) {
+            try {
+                Map response = cloudinary.uploader().upload(image, ObjectUtils.asMap(
+                        "use_filename", true,
+                        "unique_filename", false,
+                        "overwrite", true
+                ));
+                String url = response.get("url").toString();
+                imagesUrls.add(url);
+            } catch (IOException e) {
+                throw new ImageUploadException();
+            }
+        }
 
         Product product = new Product();
         product.setName(dto.name());
@@ -65,9 +83,9 @@ public class ProductService {
         product.setStock(dto.stock());
         product.setVisible(dto.visible());
         product.setCreatedAt(new Date());
-        product.setImages(dto.images());
         product.setCategories(categoryRepository.findAllById(dto.categories()));
         product.setState(state);
+        product.setImages(imagesUrls);
         productRepository.save(product);
     }
 

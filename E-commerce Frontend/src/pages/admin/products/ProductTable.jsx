@@ -104,7 +104,7 @@ const ProductTable = () => {
                         <Column field='stock' header='Stock' />
                         <Column field='visible' header='Visible' />
                         <Column field='createdAt' header='Created At' />
-                        <Column header='Actions' body={loading ? skeletonBodyTemplate : actionBodyTemplate} />
+                        <Column header='Actions' body={actionBodyTemplate} />
                     </DataTable>
 
                     <Paginator

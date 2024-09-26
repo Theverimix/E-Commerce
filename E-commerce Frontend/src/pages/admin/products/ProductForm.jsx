@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
-import { superstructResolver } from '@hookform/resolvers/superstruct'
 import { ProductSchema } from '@/types/schemas'
 import { useToast } from '@/providers/ToastProvider'
 
@@ -19,12 +18,15 @@ import InputNumberWrapper from '@/components/wrappers/InputNumberWrapper'
 import DropdownWrapper from '@/components/wrappers/DropdownWrapper'
 import MultiSelectWrapper from '@/components/wrappers/MultiSelectWrapper'
 import InputSwitchWrapper from '@/components/wrappers/InputSwitchWrapper'
+import { FileUpload } from 'primereact/fileupload'
+import { customResolvers } from '@/types/CustomResolvers'
 
 export const Component = () => <ProductForm />
 
 const ProductForm = ({ edit = false }) => {
     const { id } = useParams()
     const productCached = useLocation().state?.product
+    const [images, setImages] = useState([])
 
     const navigate = useNavigate()
 
@@ -34,7 +36,7 @@ const ProductForm = ({ edit = false }) => {
     const [statesList, setStates] = useState([])
     const [categoriesList, setCategories] = useState([])
 
-    const { control, handleSubmit, reset } = useForm({ resolver: superstructResolver(ProductSchema) })
+    const { control, handleSubmit, reset } = useForm({ resolver: customResolvers(ProductSchema) })
 
     useEffect(() => {
         const fetchRequiredData = async () => {
@@ -89,7 +91,11 @@ const ProductForm = ({ edit = false }) => {
     }, [productCached]) // eslint-disable-line
 
     const onSubmit = (data) => {
-        const response = edit ? updateProduct(id, data) : saveProduct(data)
+        const product = {
+            ...data,
+            images: images,
+        }
+        const response = edit ? updateProduct(id, product) : saveProduct(product)
         response.then(({ message, success }) => {
             showToast(success ? 'success' : 'error', 'Product operation result', message)
             if (success && !edit) navigate('/admin/products')
@@ -135,6 +141,15 @@ const ProductForm = ({ edit = false }) => {
         </div>
     )
 
+    const handleUpload = async ({ files }) => {
+        const [file] = files
+        const fileReader = new FileReader()
+        fileReader.readAsDataURL(file)
+        fileReader.onloadend = function () {
+            setImages((prev) => [...prev, fileReader.result])
+        }
+    }
+
     const FormBody = () => (
         <div className='flex flex-column gap-3 w-30rem'>
             <InputTextWrapper name='name' control={control} label='Product name' />
@@ -170,6 +185,42 @@ const ProductForm = ({ edit = false }) => {
                 maxSelectedLabels={4}
             />
             <InputSwitchWrapper name='visible' control={control} defaultValue={true} label='Product visibility' />
+            <div className='field'>
+                <FileUpload
+                    mode='basic'
+                    name='images'
+                    accept='image/*'
+                    maxFileSize={500000}
+                    customUpload
+                    uploadHandler={handleUpload}
+                    auto={true}
+                />
+                {images.length > 0 && (
+                    <Card className='w-full'>
+                        <div className='flex flex-column gap-3'>
+                            {images.map((image, index) => (
+                                <div
+                                    key={index}
+                                    className='flex gap-3 h-5rem align-items-center bg-black-alpha-30 border-round-md'
+                                >
+                                    <img
+                                        src={image}
+                                        className='max-w-8rem h-full w-full cover-fill border-round-md'
+                                        alt='Product image'
+                                    />
+                                    <h2 className='text-lg'>Image #{index + 1}</h2>
+                                    <Button
+                                        icon='pi pi-times'
+                                        className='p-button-rounded ml-auto mr-2'
+                                        text
+                                        onClick={() => setImages((prev) => prev.filter((_, i) => i !== index))}
+                                    />
+                                </div>
+                            ))}
+                        </div>
+                    </Card>
+                )}
+            </div>
             <div className='flex gap-3'>
                 <Button
                     onClick={() => navigate('/admin/products')}

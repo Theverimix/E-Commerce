@@ -30,19 +30,25 @@ public class ErrorHandler {
     @ExceptionHandler({ MalformedJwtException.class, SignatureException.class })
     @ResponseStatus(BAD_REQUEST)
     ApiResponse malformedJwtException(MalformedJwtException e) {
-        return ApiResponse.badRequest("El token JWT está malformado.").data(e.getMessage());
+        return ApiResponse.badRequest("Token is malformed").data(e.getMessage());
     }
 
     @ExceptionHandler(ExpiredJwtException.class)
     @ResponseStatus(UNAUTHORIZED)
     ApiResponse expiredJwtException(ExpiredJwtException e) {
-        return ApiResponse.unauthorized("El token JWT ha expirado.").data(e.getMessage());
+        return ApiResponse.unauthorized("Token has expired").data(e.getMessage());
     }
 
     @ExceptionHandler(PageNotFoundException.class)
     @ResponseStatus(NOT_FOUND)
     ApiResponse pageNotFoundException(PageNotFoundException e) {
         return ApiResponse.notFound("Page not found with id: " + e.getId());
+    }
+
+    @ExceptionHandler(ImageUploadException.class)
+    @ResponseStatus(BAD_REQUEST)
+    ApiResponse imageUploadException(ImageUploadException e) {
+        return ApiResponse.badRequest("Error uploading image").data(e.getMessage());
     }
 
     @ExceptionHandler(ObjectNotFoundException.class)
@@ -84,7 +90,7 @@ public class ErrorHandler {
     @ExceptionHandler(NoHandlerFoundException.class)
     @ResponseStatus(NOT_FOUND)
     ApiResponse noHandlerFoundException(NoHandlerFoundException e) {
-        return ApiResponse.notFound("This API endpoint is not found.").data(e.getMessage());
+        return ApiResponse.notFound("This API endpoint is not found").data(e.getMessage());
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

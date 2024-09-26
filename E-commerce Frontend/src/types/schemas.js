@@ -1,6 +1,5 @@
 // Superstruct schemas
 
-import { intersection } from 'lodash'
 import { array, boolean, date, enums, min, number, object, optional, pattern, size, string } from 'superstruct'
 
 const Password = pattern(string(), /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&+=!]).{8,}$/)
@@ -44,7 +43,6 @@ export const ProductSchema = object({
     stock: min(number(), 0),
     state: min(number(), 0),
     visible: boolean(),
-    images: optional(string()), // uniqueItems is not enforceable in Superstruct, but you can handle this logic separately
     categories: optional(array(number())),
 })
 

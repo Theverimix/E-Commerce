@@ -38,7 +38,7 @@ export const saveProduct = async (data) => {
         stock: data.stock,
         state: data.state,
         visible: data.visible,
-        images: [],
+        images: data.images,
         categories: data.categories.map((category) => category.id).sort(),
     }
     return await handleApiPromise(AxiosInstance.post(`/products`, product))

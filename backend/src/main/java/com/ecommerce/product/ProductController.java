@@ -1,6 +1,7 @@
 package com.ecommerce.product;
 
 import com.ecommerce.exception.ApiResponse;
+import com.ecommerce.exception.ImageUploadException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
@@ -50,7 +51,7 @@ public class ProductController {
     @PostMapping
     ApiResponse saveProduct(
             @Valid @RequestBody ProductRegisterRequest request
-    ) {
+    ) throws ImageUploadException {
         service.saveProduct(request);
         return ApiResponse.created();
     }
