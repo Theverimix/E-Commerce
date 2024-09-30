@@ -107,7 +107,7 @@ export default function ProductList({
                         className={`w-6rem h-6rem sm:h-full  sm:w-10rem shadow-2 block xl:block mx-auto border-round ${
                             linkeable ? 'cursor-pointer' : ''
                         }`}
-                        src={product.images}
+                        src={product.images[0]}
                         alt={product.name}
                     />
                     <div className='flex align-items-start justify-content-between flex-1 pl-3 sm:gap-4'>

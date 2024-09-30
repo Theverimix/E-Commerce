@@ -69,7 +69,7 @@ public class ProductService {
                         "unique_filename", false,
                         "overwrite", true
                 ));
-                String url = response.get("url").toString();
+                String url = response.get("secure_url").toString();
                 imagesUrls.add(url);
             } catch (IOException e) {
                 throw new ImageUploadException();
