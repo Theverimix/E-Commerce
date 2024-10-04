@@ -1,5 +1,6 @@
 import { useLocation } from 'react-router-dom'
 import ProductList from '../../components/product/ProductList'
+import CartSummary from '@/components/cart/CartSummary'
 
 export default function OrderDetails({ order }) {
     const location = useLocation()
@@ -11,25 +12,45 @@ export default function OrderDetails({ order }) {
             return {
                 ...detail.product,
                 price: detail.price,
-                amount: detail.amount,
+                quantity: detail.amount,
             }
         })
 
     return (
         <>
-            <div>
-                <h2>Order Details</h2>
-                <h3>Order No: {orderFetch.id}</h3>
-                <h3>
-                    Client: {orderFetch.customer.firstname} {orderFetch.customer.lastname}
-                </h3>
-                <h3>Address: {orderFetch.address}</h3>
-                <h3>Order date: {orderFetch.createdAt}</h3>
-                <h3>Order status: {orderFetch.status}</h3>
+            <div className='w-25rem'>
+                <div className='flex justify-content-between flex-wrap pb-2 text-600'>
+                    <span>Order No:</span>
+                    <span>{orderFetch.id}</span>
+                </div>
+                <div className='flex justify-content-between flex-wrap pb-2 text-600'>
+                    <span>Client:</span>
+                    <span>
+                        {orderFetch.customer.firstname} {orderFetch.customer.lastname}
+                    </span>
+                </div>
+                <div className='flex justify-content-between flex-wrap pb-2 text-600'>
+                    <span>Address:</span>
+                    <span>{orderFetch.address}</span>
+                </div>
+                <div className='flex justify-content-between flex-wrap pb-2 text-600'>
+                    <span>Order date:</span>
+                    <span>{orderFetch.createdAt}</span>
+                </div>
+                <div className='flex justify-content-between flex-wrap pb-2 text-600'>
+                    <span>Order status:</span>
+                    <span>{orderFetch.status}</span>
+                </div>
+                <div className='flex justify-content-between flex-wrap pb-4 text-600'>
+                    <span>Tracking number:</span>
+                    <span>4564648789551</span>
+                </div>
 
-                <h4>Tracking number: 4564648789551</h4>
-
-                <ProductList products={getProducts()} linkeable height='300px' />
+                {/* <ProductList products={getProducts()} productQuantity linkeable height='300px' /> */}
+                <span className='text-xl font-semibold'> Order Summary</span>
+                <div className='w-full pt-3'>
+                    <CartSummary products={getProducts()}></CartSummary>
+                </div>
             </div>
         </>
     )

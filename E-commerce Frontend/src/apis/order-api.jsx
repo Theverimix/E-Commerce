@@ -1,3 +1,4 @@
+import { handleApiPromise } from '@/utils/api-utils'
 import AxiosInstance from './AxiosInstance'
 
 export async function getOrdersByCustomer(id) {
@@ -41,13 +42,7 @@ export async function getOrderById(id) {
 }
 
 export async function createOrder(order) {
-    try {
-        const response = await AxiosInstance.post('/orders', order)
-        return response.data.data
-    } catch (error) {
-        console.error('Error fetching data:', error)
-        return {}
-    }
+    return await handleApiPromise(AxiosInstance.post('/orders', order))
 }
 
 export async function updateOrderStatus(orderId, status) {

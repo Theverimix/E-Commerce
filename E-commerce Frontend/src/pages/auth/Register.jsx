@@ -12,6 +12,8 @@ import { RegisterSchema } from '../../types/schemas'
 import { register } from '../../apis/auth-api'
 import { customResolvers } from '../../types/CustomResolvers'
 
+export const Component = () => <Register />
+
 export default function Register() {
     const showToast = useToast()
     const [isLoading, setIsLoading] = useState(false)

@@ -1,9 +1,7 @@
-import { useRef } from 'react'
 import { Outlet, useNavigate } from 'react-router-dom'
 import SideMenu from '../../components/side-menu/SideMenu'
 
 const AdminPage = () => {
-    const toast = useRef(null)
     const navigate = useNavigate()
 
     const items = [

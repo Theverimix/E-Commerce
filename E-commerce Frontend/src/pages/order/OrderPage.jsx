@@ -8,6 +8,8 @@ import { extractIdfromToken } from '../../utils/jwt-utils'
 
 import { getOrdersByCustomer } from '../../apis/order-api'
 
+export const Component = () => <OrderPage />
+
 export default function OrderPage() {
     const [orders, setOrders] = useState([])
     const [isLoading, setIsLoading] = useState(true)

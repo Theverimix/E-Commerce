@@ -23,6 +23,7 @@ export default function ProductList({
     linkeable = false,
     paginator = false,
     quantity = false,
+    productQuantity = false,
     onSubmitCategory,
     addToCartButton = false,
     onPageChange,
@@ -106,7 +107,7 @@ export default function ProductList({
                         className={`w-6rem h-6rem sm:h-full  sm:w-10rem shadow-2 block xl:block mx-auto border-round ${
                             linkeable ? 'cursor-pointer' : ''
                         }`}
-                        src={product.images}
+                        src={product.images[0]}
                         alt={product.name}
                     />
                     <div className='flex align-items-start justify-content-between flex-1 pl-3 sm:gap-4'>
@@ -159,6 +160,11 @@ export default function ProductList({
                                         step={1}
                                         disabled={isLoading}
                                     />
+                                </span>
+                            )}
+                            {productQuantity && (
+                                <span className='font-semibold mt-auto'>
+                                    <h3>Quantity: {product.amount}</h3>
                                 </span>
                             )}
                         </div>
@@ -222,7 +228,7 @@ export default function ProductList({
         if (!items || (items.length === 0 && isCart)) {
             return (
                 <div className='w-full flex justify-content-center'>
-                    <img src='/icons/empty_cart.png' className='w-full sm:w-auto flex justify-content-center' />
+                    <img src='/icons/empty_cart.png' className='w-full flex justify-content-center' />
                 </div>
             )
         }

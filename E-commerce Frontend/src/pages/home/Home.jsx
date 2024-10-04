@@ -1,10 +1,17 @@
-import Gallery from '../../components/gallery/Galleria'
-import Carousel from '../../components/carousel/homeCarousel'
+import { useLoaderData, useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
 
-import { useNavigate } from 'react-router-dom'
+import ProductCarousel from '@/components/carousel/ProductCarousel'
+import CategoriesGallery from '@/components/gallery/CategoriesGallery'
+
+export const Component = () => <Home />
 
 export default function Home() {
     const navigate = useNavigate()
+    const data = useLoaderData()?.data
+
+    const [products, setProducts] = useState(data)
+    const [loading, setLoading] = useState(true)
 
     const categories = [
         {
@@ -29,10 +36,19 @@ export default function Home() {
         },
     ]
 
+    useEffect(() => {
+        if (!data) return
+        data.then((data) => {
+            const products = data.data.products
+            setProducts(products)
+            setLoading(false)
+        })
+    }, [data])
+
     return (
         <>
             <div className='mt-3'>
-                <Gallery />
+                <CategoriesGallery />
             </div>
 
             <div className='flex justify-content-center align-items-center flex-column mt-5'>
@@ -46,7 +62,7 @@ export default function Home() {
                         className='box xl:col-2 lg:col-2 md:col-4 sm:col-4 col-5 p-4 fadein animation-duration-500 cursor-pointer surface-hover border-round-md'
                         onClick={() => navigate(category.url)}
                     >
-                        <div className=' mb-4 w-full text-center p-0 xl:p-2'>
+                        <div className='mb-4 text-center p-0 xl:p-2'>
                             <img src={category.image} className='w-full' alt={category.name} />
                         </div>
 
@@ -66,7 +82,7 @@ export default function Home() {
             </div>
 
             <div className='carousel m-5'>
-                <Carousel />
+                <ProductCarousel products={products} loading={loading} />
             </div>
         </>
     )

@@ -11,6 +11,8 @@ import { Chip } from 'primereact/chip'
 import { Card } from 'primereact/card'
 import { Skeleton } from 'primereact/skeleton'
 
+export const Component = () => <SaleTable />
+
 function SaleTable() {
     const showToast = useToast()
     const [sales, setSales] = useState([])

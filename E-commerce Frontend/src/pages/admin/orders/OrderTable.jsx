@@ -2,12 +2,13 @@ import { Column } from 'primereact/column'
 import { DataTable } from 'primereact/datatable'
 import { Link, useNavigate } from 'react-router-dom'
 import { useToast } from '../../../providers/ToastProvider'
-import { deleteOrder, getOrders } from '../../../apis/order-api'
-import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog'
-import { Button } from 'primereact/button'
+import { getOrders } from '../../../apis/order-api'
+import { ConfirmDialog } from 'primereact/confirmdialog'
 import { Paginator } from 'primereact/paginator'
 import { Skeleton } from 'primereact/skeleton'
 import { useEffect, useState } from 'react'
+
+export const Component = () => <OrderTable />
 
 const OrderTable = () => {
     const navigate = useNavigate()

@@ -11,6 +11,8 @@ import { Paginator } from 'primereact/paginator'
 import { Chip } from 'primereact/chip'
 import { Card } from 'primereact/card'
 
+export const Component = () => <CustomerTable />
+
 const CustomerTable = () => {
     const showToast = useToast()
     const [customers, setCustomers] = useState([])

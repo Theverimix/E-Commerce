@@ -3,7 +3,7 @@
 import { array, boolean, date, enums, min, number, object, optional, pattern, size, string } from 'superstruct'
 
 const Password = pattern(string(), /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&+=!]).{8,}$/)
-
+const Email = pattern(string(), /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$/)
 // Auth
 
 export const LoginSchema = object({
@@ -12,7 +12,7 @@ export const LoginSchema = object({
 })
 
 export const RecoveryEmail = object({
-    email: string(),
+    recoveryEmail: Email,
 })
 
 export const RegisterSchema = object({
@@ -22,11 +22,6 @@ export const RegisterSchema = object({
     password: Password,
     confirmPassword: Password,
 })
-
-// export const RegisterSchema = refine(RegisterBaseSchema, 'confirmPasswordMatch', (value) => {
-//     if (value.password === value.confirmPassword) return true
-//     return 'Passwords not match'
-// })
 
 // Product
 
@@ -48,7 +43,6 @@ export const ProductSchema = object({
     stock: min(number(), 0),
     state: min(number(), 0),
     visible: boolean(),
-    images: optional(string()), // uniqueItems is not enforceable in Superstruct, but you can handle this logic separately
     categories: optional(array(number())),
 })
 
@@ -73,16 +67,15 @@ export const OrderDetailSchema = object({
 })
 
 export const OrderSchema = object({
-    customerId: number(),
-    address: size(string(), 3, 2147483647),
-    addressCountry: size(string(), 3, 2147483647),
-    addressDetail: string(),
-    fullname: size(string(), 3, 25),
-    addressState: string(),
-    addressCity: string(),
+    firstname: string(),
+    lastname: string(),
+    address: string(),
+    addressDetail: optional(string()),
+    country: object(),
+    state: object(),
+    city: object(),
     zipCode: number(),
-    optionalComment: string(),
-    details: array(OrderDetailSchema),
+    optionalComment: optional(string()),
 })
 
 // User
@@ -100,12 +93,20 @@ export const AddressSchema = object({
     zip: string(),
 })
 
+export const PersonalDataSchema = object({
+    firstname: size(string(), 3, 25),
+    lastname: size(string(), 3, 25),
+    email: Email,
+    country: size(string(), 3, 25),
+    phone: size(string(), 3, 25),
+})
+
 export const CustomerSchema = object({
     firstname: size(string(), 3, 25),
     lastname: size(string(), 3, 25),
-    email: string(),
-    country: string(),
-    phone: string(),
+    email: Email,
+    country: size(string(), 3, 25),
+    phone: size(string(), 3, 25),
     state: UserStateScheme,
 })
 
@@ -117,7 +118,12 @@ export const UserSchema = object({
 
 // Cart
 
-export const CartSchema = object({
+const CartItem = object({
     productId: number(),
     amount: number(),
+})
+
+export const CartSchema = object({
+    customerId: number(),
+    items: array(CartItem),
 })

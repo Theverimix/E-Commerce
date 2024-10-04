@@ -9,6 +9,8 @@ import { Paginator } from 'primereact/paginator'
 import { Skeleton } from 'primereact/skeleton'
 import { useEffect, useState } from 'react'
 
+export const Component = () => <ProductTable />
+
 const ProductTable = () => {
     const showToast = useToast()
     const [products, setProducts] = useState([])
@@ -102,7 +104,7 @@ const ProductTable = () => {
                         <Column field='stock' header='Stock' />
                         <Column field='visible' header='Visible' />
                         <Column field='createdAt' header='Created At' />
-                        <Column header='Actions' body={loading ? skeletonBodyTemplate : actionBodyTemplate} />
+                        <Column header='Actions' body={actionBodyTemplate} />
                     </DataTable>
 
                     <Paginator

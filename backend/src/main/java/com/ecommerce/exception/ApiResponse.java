@@ -42,6 +42,10 @@ public class ApiResponse {
         return success(HttpStatus.OK, message);
     }
 
+    public static ApiResponse ok(String message, Object data) {
+        return success(HttpStatus.OK, message).data(data);
+    }
+
     public static ApiResponse created() {
         return success(HttpStatus.CREATED, "Entity created successfully");
     }

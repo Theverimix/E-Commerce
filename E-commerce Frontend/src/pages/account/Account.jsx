@@ -1,11 +1,7 @@
 import React, { useRef } from 'react'
-import { Menu } from 'primereact/menu'
 import { Toast } from 'primereact/toast'
-import { Card } from 'primereact/card'
-import { Avatar } from 'primereact/avatar'
 import { Outlet } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
-import { Link } from 'react-router-dom'
 import SideMenu from '../../components/side-menu/SideMenu'
 
 export default function Account() {

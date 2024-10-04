@@ -11,6 +11,8 @@ import { calculateDiscountedPrice } from '../../utils/product-utils'
 
 import { getProductById } from '../../apis/product-api'
 
+export const Component = () => <ProductPage />
+
 export default function ProductPage() {
     const navigate = useNavigate()
     const [quantity, setQuantity] = useState(1)

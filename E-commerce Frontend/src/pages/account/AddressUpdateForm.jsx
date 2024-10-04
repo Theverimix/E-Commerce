@@ -9,6 +9,7 @@ import { useToast } from '../../providers/ToastProvider'
 import { updateAddress, getAddressById } from '../../apis/address-api'
 import { useNavigate, useParams } from 'react-router-dom'
 
+export const Component = () => <AddressUpdateForm />
 export default function AddressUpdateForm() {
     const [value, setValue] = useState('')
     const showToast = useToast()
