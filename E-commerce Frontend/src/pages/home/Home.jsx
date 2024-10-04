@@ -1,8 +1,12 @@
 import { useLoaderData, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 
-import ProductCarousel from '@/components/carousel/ProductCarousel'
-import CategoriesGallery from '@/components/gallery/CategoriesGallery'
+import ProductCarousel from '@/components/home/ProductCarousel'
+import Banner from '@/components/home/CategoriesGallery'
+import { Card } from 'primereact/card'
+import { Button } from 'primereact/button'
+import CustomHeader from '@/components/home/CustomHeader'
+import { Badge } from 'primereact/badge'
 
 export const Component = () => <Home />
 
@@ -15,24 +19,28 @@ export default function Home() {
 
     const categories = [
         {
-            name: 'SUPPLEMENTS',
+            name: 'Suplements',
             url: '/products?category=supplements',
             image: '/img/categories/supplements_portrait.webp',
+            description: 'Premium supplements to fuel your fitness journey.',
         },
         {
-            name: 'EQUIPMENT',
+            name: 'Equipment',
             url: '/products?category=equipment',
             image: '/img/categories/equipment_portrait.webp',
+            description: 'High-quality gym equipment for all fitness levels.',
         },
         {
-            name: 'ACCESSORIES',
+            name: 'Accessories',
             url: '/products?category=accessories',
             image: '/img/categories/accessories_portrait.webp',
+            description: 'Essential gym accessories to enhance your workouts.',
         },
         {
-            name: 'CLOTHES',
+            name: 'Clothes',
             url: '/products?category=clothes',
             image: '/img/categories/clothes_portrait.webp',
+            description: 'Comfortable and stylish gym wear for every workout.',
         },
     ]
 
@@ -46,44 +54,42 @@ export default function Home() {
     }, [data])
 
     return (
-        <>
-            <div className='mt-3'>
-                <CategoriesGallery />
-            </div>
-
-            <div className='flex justify-content-center align-items-center flex-column mt-5'>
-                <p className='pt-6 text-5xl sm:text-5xl md:text-6xl lg:text-6xl font-bold'>CATEGORIES</p>
-            </div>
-
-            <div className='grid justify-content-center m-auto my-3 gap-3'>
-                {categories.map((category, index) => (
-                    <div
-                        key={index}
-                        className='box xl:col-2 lg:col-2 md:col-4 sm:col-4 col-5 p-4 fadein animation-duration-500 cursor-pointer surface-hover border-round-md'
-                        onClick={() => navigate(category.url)}
-                    >
-                        <div className='mb-4 text-center p-0 xl:p-2'>
-                            <img src={category.image} className='w-full' alt={category.name} />
+        <div className='flex flex-column gap-6 py-5'>
+            <Banner />
+            <div id='categories'>
+                <CustomHeader title='Categories' description='Explore our products by category' />
+                <div className='grid justify-content-center m-auto p-3 gap-3'>
+                    {categories.map((category, index) => (
+                        <div
+                            key={index}
+                            className='col-12 md:col-5 xl:col align-items-center flex justify-content-center'
+                        >
+                            <Card className='flex border-round-md w-fit'>
+                                <img src={category.image} className='w-full border-round-md' alt={category.name} />
+                                <div className='py-3'>
+                                    <h3 className='m-0'>{category.name}</h3>
+                                    <p className='m-0 py-2 text-gray-300'>{category.description}</p>
+                                </div>
+                                <Button
+                                    className='w-full border-gray-400 border-1 text-white hover:text-primary hover:border-primary'
+                                    label='View Products'
+                                    outlined
+                                    onClick={() => navigate(category.url)}
+                                />
+                            </Card>
                         </div>
-
-                        <div className='flex align-items-center mb-4 justify-content-center'>
-                            <div className='block font-semibold mb-1' onClick={() => navigate(category.url)}>
-                                {category.name}
-                            </div>
-                        </div>
-                    </div>
-                ))}
+                    ))}
+                </div>
             </div>
 
             {/* products */}
 
-            <div className='flex justify-content-center align-items-center flex-column'>
-                <p className='text-5xl sm:text-5xl md:text-6xl lg:text-6xl mb-0 pt-6 font-bold'>SALE PRODUCTS</p>
+            <div id='products'>
+                <CustomHeader title='Sale Products' description='Browse our wide range of products' />
+                <div className='px-3 pb-5'>
+                    <ProductCarousel products={products} loading={loading} />
+                </div>
             </div>
-
-            <div className='carousel m-5'>
-                <ProductCarousel products={products} loading={loading} />
-            </div>
-        </>
+        </div>
     )
 }

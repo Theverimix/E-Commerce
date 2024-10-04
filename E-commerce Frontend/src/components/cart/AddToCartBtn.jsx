@@ -2,7 +2,7 @@ import { useToast } from '../../providers/ToastProvider'
 import { useProducts } from '../../providers/ProductsProvider'
 import CooldownBtn from '../cooldown-button/CooldownBtn'
 
-export default function AddToCartBtn({ product, visible, ammount = 1, isCooldown, handleCooldown }) {
+export default function AddToCartBtn({ product, visible, ammount = 1, isCooldown, handleCooldown, className }) {
     const showToast = useToast()
     const { addProduct } = useProducts()
 
@@ -16,7 +16,7 @@ export default function AddToCartBtn({ product, visible, ammount = 1, isCooldown
         <div>
             <CooldownBtn
                 visible={visible}
-                className='align-self-center text-xs sm:text-base white-space-nowrap '
+                className={`align-self-center text-xs sm:text-base white-space-nowrap ${className}`}
                 isCooldown={isCooldown}
                 icon='pi pi-shopping-cart'
                 onClick={() => handleAddProduct(product)}
