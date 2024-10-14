@@ -27,4 +27,12 @@ public class AuthenticationController {
         AuthenticationResponse response = service.login(request);
         return ApiResponse.ok(response);
     }
+
+    @PostMapping("/token/refresh")
+    public ApiResponse refreshToken(
+            @Valid @RequestBody String request
+    ) {
+        AuthenticationResponse response = service.refreshToken(request);
+        return ApiResponse.ok(response);
+    }
 }

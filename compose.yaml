@@ -1,0 +1,20 @@
+services:
+  frontend:
+    build: ./E-commerce Frontend/
+    ports:
+      - "3000:3000"
+    develop:
+      watch:
+        - action: sync
+          path: ./E-commerce Frontend/
+          target: /app
+  backend:
+    build: 
+      context: ./backend/
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./backend:/app
+    command: ./mvnw spring-boot:run
+

@@ -1,8 +1,12 @@
 package com.ecommerce.order;
 
-import java.util.List;
-
 import com.ecommerce.exception.ApiResponse;
+import com.ecommerce.exception.PageNotFoundException;
+import com.ecommerce.utils.PageResponse;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
@@ -15,8 +19,10 @@ public class OrderController {
     private final OrderService orderService;
 
     @GetMapping
-    public ApiResponse getAllOrders() {
-        List<OrderResponse> orders = orderService.getAllOrders();
+    public ApiResponse getAllOrders(
+            @RequestParam(name = "page", defaultValue = "0") int page
+    ) throws PageNotFoundException {
+        PageResponse<OrderResponse> orders = orderService.getAllOrders(page, 10);
         return ApiResponse.ok(orders);
     }
 
@@ -28,13 +34,27 @@ public class OrderController {
 
     @PostMapping
     public ApiResponse saveOrder(@RequestBody @Valid OrderRegistrationRequest order) {
-        orderService.saveOrder(order);
-        return ApiResponse.created();
+        Long id = orderService.saveOrder(order);
+        return ApiResponse.created().data(id);
+    }
+
+    @PatchMapping("/{orderId}")
+    public ApiResponse updateOrderStatus(
+        @PathVariable Long orderId,
+        @RequestBody String statusJson
+    ) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode jsonNode = mapper.readTree(statusJson);
+        String status = jsonNode.get("status").asText();
+        Order updatedOrder = orderService.updateOrderStatus(orderId, status);
+        return ApiResponse.updated().data(updatedOrder);
     }
 
     @PutMapping("/{orderId}")
-    public ApiResponse updateOrder(@PathVariable Long orderId,
-                                   @RequestBody @Valid OrderRegistrationRequest newOrder) {
+    public ApiResponse updateOrder(
+            @PathVariable Long orderId,
+            @RequestBody @Valid OrderRegistrationRequest newOrder
+    ) {
         orderService.updateOrder(orderId, newOrder);
         return ApiResponse.updated();
     }

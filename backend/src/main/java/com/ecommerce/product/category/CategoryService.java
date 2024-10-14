@@ -3,6 +3,7 @@ package com.ecommerce.product.category;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,7 +17,7 @@ public class CategoryService {
     private final CategoryMapper dtoMapper;
 
     public List<CategoryResponse> getAllCategories() {
-        return categoryRepository.findAll().stream()
+        return categoryRepository.findAll(Sort.by(Sort.Direction.ASC, "id")).stream()
                 .map(dtoMapper)
                 .collect(Collectors.toList());
     }

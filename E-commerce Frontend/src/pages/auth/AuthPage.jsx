@@ -1,30 +1,31 @@
-import React, { useRef } from 'react'
-
-import headerImage from '../../assets/img/ec_texture_definitive.jpg'
+import { useRef } from 'react'
 
 import { Card } from 'primereact/card'
 import { Outlet, useLocation } from 'react-router-dom'
 import { Toast } from 'primereact/toast'
 
-export const AuthPage = () => {
-    const location = useLocation();
+const AuthPage = () => {
+    const location = useLocation()
 
     const toastBottomCenter = useRef(null)
 
     const isLogin = location.pathname.includes('login')
 
     const title = isLogin ? 'Login' : 'Signup'
-    const subTitle = isLogin ? 'Access your account to continue shopping!' : 'Create your account to start shopping the best deals!'
+    const subTitle = isLogin
+        ? 'Access your account to continue shopping!'
+        : 'Create your account to start shopping the best deals!'
 
     return (
-        <div className="card flex justify-content-center align-items-center">
-            <Toast ref={toastBottomCenter} position="bottom-center" />
+        <div className='card flex justify-content-center align-items-center'>
+            <Toast ref={toastBottomCenter} position='bottom-center' />
             <Card
-                header={<img alt="Card" src={headerImage} />}
+                header={<img alt='Card' src='/img/ec_texture_definitive.jpg' />}
                 title={<h2 className='text-center'>{title}</h2>}
-                subTitle={<div className='text-center'>{subTitle}</div>}>
+                subTitle={<div className='text-center'>{subTitle}</div>}
+            >
                 <div className='flex justify-content-center align-items-center w-full p-5'>
-                    <div className='flex flex-column gap-5 w-30rem'>
+                    <div className='flex flex-column gap-5 w-full md:w-30rem'>
                         <Outlet />
                     </div>
                 </div>
@@ -32,3 +33,5 @@ export const AuthPage = () => {
         </div>
     )
 }
+
+export default AuthPage

@@ -1,6 +1,5 @@
-import { useState } from 'react'
+import { useState, useCallback } from 'react'
 import { Skeleton } from 'primereact/skeleton'
-import { Button } from 'primereact/button'
 import { DataView } from 'primereact/dataview'
 import { classNames } from 'primereact/utils'
 import { ScrollPanel } from 'primereact/scrollpanel'
@@ -8,11 +7,14 @@ import { Panel } from 'primereact/panel'
 import { Paginator } from 'primereact/paginator'
 import { useNavigate } from 'react-router-dom'
 import { Chip } from 'primereact/chip'
-import { calculateDiscountedPrice } from '../../utils/ProductUtils'
+import { calculateDiscountedPrice } from '../../utils/product-utils'
+import { InputNumber } from 'primereact/inputnumber'
+import { debounce } from 'lodash'
+import AddToCartBtn from '../cart/AddToCartBtn'
+import CooldownBtn from '../cooldown-button/CooldownBtn'
 
 export default function ProductList({
     handleRemoveProduct,
-    handleAddProduct,
     handleUpdateProductAmount,
     products,
     totalElements,
@@ -21,19 +23,34 @@ export default function ProductList({
     linkeable = false,
     paginator = false,
     quantity = false,
+    productQuantity = false,
     onSubmitCategory,
     addToCartButton = false,
-    height = 'auto',
     onPageChange,
+    isCart = false,
 }) {
     const navigate = useNavigate()
     const [first, setFirst] = useState(0)
+    const [localQuantities, setLocalQuantities] = useState({})
+    const [isCooldown, setIsCooldown] = useState(false)
 
     const handlePageChange = (event) => {
-        setFirst(event.first) // Actualiza el estado local
+        setFirst(event.first)
         if (onPageChange) {
-            onPageChange(event.first / 9) // Llama a la prop para indicar la nueva página
+            onPageChange(event.first / 9)
         }
+    }
+
+    const debouncedUpdateAmount = useCallback(
+        debounce((id, value) => {
+            handleUpdateProductAmount(id, value)
+        }, 300),
+        [handleUpdateProductAmount],
+    )
+
+    const handleQuantityChange = (id, value) => {
+        setLocalQuantities((prev) => ({ ...prev, [id]: value }))
+        debouncedUpdateAmount(id, value)
     }
 
     const redirectToProductDetail = (product) => {
@@ -47,25 +64,29 @@ export default function ProductList({
             return (
                 <div className='col-12' key={index}>
                     <div
-                        className={classNames('flex flex-column xl:flex-row xl:align-items-start p-4 gap-4', {
-                            'border-top-1 surface-border': index !== 0,
-                        })}
+                        className={classNames(
+                            'hidden sm:flex md:hidden xl:flex flex-column sm:flex-row sm:align-items-start sm:p-4 sm:gap-4',
+                            {
+                                'border-top-1 surface-border': index !== 0,
+                            },
+                        )}
                     >
                         <Skeleton
                             shape='rectangle'
                             className='m-auto w-9 sm:w-16rem xl:w-10rem xl:h-10rem sm:h-16rem'
                         />
-                        <div className='flex flex-column sm:flex-row justify-content-between align-items-center xl:align-items-start flex-1 gap-4'>
+                        <div className='flex flex-column sm:flex-row align-items-center xl:align-items-start justify-content-between flex-1 gap-4'>
                             <div className='flex flex-column align-items-center sm:align-items-start gap-3'>
                                 <Skeleton width='11rem' height='2rem' />
                                 <Skeleton width='7rem' height='1rem' />
                             </div>
-                            <div className='flex sm:flex-column align-items-center sm:align-items-end gap-3 sm:gap-2'>
+                            <div className='flex sm:flex-column align-items-center sm:align-items-end gap-3 '>
                                 <Skeleton width='5rem' height='2rem' />
                                 <Skeleton width='4rem' height='1rem' />
                             </div>
                         </div>
                     </div>
+                    <Skeleton width='100%' height='4rem' className='flex sm:hidden md:flex xl:hidden' />
                 </div>
             )
         }
@@ -73,7 +94,7 @@ export default function ProductList({
         return (
             <div key={product.id} className='col-12'>
                 <div
-                    className={classNames('flex flex-column xl:flex-row p-4 gap-4', {
+                    className={classNames('flex sm:flex-column xl:flex-row flex-row py-3 sm:p-4 sm:gap-4', {
                         'border-top-1 surface-border': index !== 0,
                     })}
                 >
@@ -83,16 +104,16 @@ export default function ProductList({
                                 redirectToProductDetail(product)
                             }
                         }}
-                        className={`w-9 sm:w-16rem xl:w-10rem shadow-2 block xl:block mx-auto border-round ${
+                        className={`w-6rem h-6rem sm:h-full  sm:w-10rem shadow-2 block xl:block mx-auto border-round ${
                             linkeable ? 'cursor-pointer' : ''
                         }`}
-                        src={product.images}
+                        src={product.images[0]}
                         alt={product.name}
                     />
-                    <div className='flex flex-column sm:flex-row justify-content-between align-items-center xl:align-items-start flex-1 gap-4'>
-                        <div className='flex flex-column sm:align-items-start gap-3'>
+                    <div className='flex align-items-start justify-content-between flex-1 pl-3 sm:gap-4'>
+                        <div className='flex flex-column h-full gap-3'>
                             <div
-                                className={`text-2xl font-bold text-900 hover:text-primary ${
+                                className={`text-lg sm:text-2xl font-semibold sm:font-bold text-900 hover:text-primary ${
                                     linkeable ? 'cursor-pointer' : ''
                                 }`}
                                 onClick={() => {
@@ -103,9 +124,9 @@ export default function ProductList({
                             >
                                 {product.name}
                             </div>
-                            <div className='flex align-items-center'>
+                            <div className='hidden sm:flex align-items-center'>
                                 {product.categories && (
-                                    <div className='font-semibold mb-4 flex'>
+                                    <div className='font-semibold flex'>
                                         {/* <i className="pi pi-tag mr-2"></i> */}
                                         {product.categories.map((category, index) => (
                                             <div id='categorie-chip' className='m-1' key={index}>
@@ -120,41 +141,78 @@ export default function ProductList({
                                     </div>
                                 )}
                             </div>
-                            {quantity && <span className='font-semibold'>Quantity: {product.quantity}</span>}
+                            {quantity && (
+                                <span className='font-semibold mt-auto'>
+                                    <InputNumber
+                                        inputClassName='text-center w-9 h-2rem sm:h-auto sm:w-auto'
+                                        decrementButtonClassName='w-3 h-2rem sm:h-auto sm:w-2rem'
+                                        incrementButtonClassName='w-3 h-2rem sm:h-auto sm:w-2rem'
+                                        size={1}
+                                        value={localQuantities[product.id] || product.quantity}
+                                        onValueChange={(e) => handleQuantityChange(product.id, e.value)}
+                                        showButtons
+                                        mode='decimal'
+                                        min={1}
+                                        max={product.stock}
+                                        buttonLayout='horizontal'
+                                        incrementButtonIcon='pi pi-plus'
+                                        decrementButtonIcon='pi pi-minus'
+                                        step={1}
+                                        disabled={isLoading}
+                                    />
+                                </span>
+                            )}
+                            {productQuantity && (
+                                <span className='font-semibold mt-auto'>
+                                    <h3>Quantity: {product.amount}</h3>
+                                </span>
+                            )}
                         </div>
-                        <div className='flex sm:flex-column align-items-center sm:align-items-end gap-3 sm:gap-2'>
+                        <div className='flex flex-column align-items-end sm:gap-3 h-full'>
                             {product.sales ? (
-                                <div>
-                                    <span className='text-xl font-light text-500 line-through mr-1'>
+                                <div className='flex flex-wrap-reverse align-items-center justify-content-end'>
+                                    <div className='w-auto sm:text-xl font-light text-500 line-through mr-1'>
                                         ${product.price}
-                                    </span>
-                                    <span className='text-2xl font-semibold text-primary'>
+                                    </div>
+                                    <div className='w-auto text-xl sm:text-2xl font-semibold text-primary'>
                                         ${calculateDiscountedPrice(product.price, product.sales)}
-                                    </span>
+                                    </div>
                                 </div>
                             ) : (
-                                <span className='text-2xl font-semibold text-primary'>${product.price}</span>
+                                <div className='text-xl sm:text-2xl font-semibold text-primary'>${product.price}</div>
                             )}
-                            <Button
-                                visible={removeButton}
-                                className='product-list-button no-underline hover:underline hover:text-yellow-300 cursor-pointer'
-                                onClick={() => handleRemoveProduct(product)}
-                                unstyled
-                                label='Remove'
-                            />
-                            <Button
-                                visible={addToCartButton}
-                                className='z-5 mt-3 w-auto'
-                                style={{ alignSelf: 'center' }}
-                                icon='pi pi-shopping-cart'
-                                onClick={() => handleAddProduct(product)}
-                                label='Add to cart'
-                            />
+                            <div className='mt-auto flex flex-nowrap'>
+                                <CooldownBtn
+                                    visible={removeButton}
+                                    className='product-list-button hover:text-yellow-300 cursor-pointer p-2'
+                                    onClick={() => {
+                                        handleCooldown()
+                                        handleRemoveProduct(product)
+                                    }}
+                                    isText={true}
+                                    isRemove={true}
+                                    isCooldown={isCooldown}
+                                    label='Remove'
+                                />
+                                <AddToCartBtn
+                                    product={product}
+                                    visible={addToCartButton}
+                                    isCooldown={isCooldown}
+                                    handleCooldown={handleCooldown}
+                                />
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         )
+    }
+
+    const handleCooldown = () => {
+        setIsCooldown(true)
+        setTimeout(() => {
+            setIsCooldown(false)
+        }, 2000)
     }
 
     const listTemplate = (items) => {
@@ -167,19 +225,20 @@ export default function ProductList({
             )
         }
 
-        // Si no hay productos y no está cargando, muestra un mensaje apropiado
-        if (!items || items.length === 0) {
-            return <div>No hay productos disponibles</div>
+        if (!items || (items.length === 0 && isCart)) {
+            return (
+                <div className='w-full flex justify-content-center'>
+                    <img src='/icons/empty_cart.png' className='w-full flex justify-content-center' />
+                </div>
+            )
         }
 
         return <div className='grid grid-nogutter'>{items.map((product, index) => itemTemplate(product, index))}</div>
     }
 
     return (
-        <Panel header='Products'>
-            <ScrollPanel style={{ height: height }}>
-                <DataView value={products} listTemplate={listTemplate} rows={9} />
-            </ScrollPanel>
+        <Panel header={!isCart ? 'Products' : 'Cart'}>
+            <DataView value={products} listTemplate={listTemplate} rows={9} />
             {paginator && (
                 <Paginator
                     first={first}

@@ -18,10 +18,17 @@ public class OrderMapper implements Function<Order, OrderResponse> {
     public OrderResponse apply(Order order) {
         return new OrderResponse(
                 order.getId(),
+                order.getFullname(),
                 dtoMapper.apply(order.getCustomer()),
                 order.getAddress(),
+                order.getAddressCountry(),
+                order.getAddressDetail(),
+                order.getAddressState(),
+                order.getAddressCity(),
+                order.getZipCode(),
+                order.getOptionalComment(),
                 order.getStatus().getName(),
-                order.getDate(),
+                order.getCreatedAt(),
                 order.getDetails().stream()
                         .map(detailMapper)
                         .collect(Collectors.toSet())

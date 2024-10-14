@@ -3,14 +3,21 @@ package com.ecommerce.order;
 import com.ecommerce.customer.CustomerResponse;
 import com.ecommerce.order.detail.OrderDetailResponse;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 public record OrderResponse(
         Long id,
+        String fullname,
         CustomerResponse customer,
         String address,
+        String addressCountry,
+        String addressDetail,
+        String addressState,
+        String addressCity,
+        int zipCode,
+        String optionalComment,
         String status,
-        Date date,
+        LocalDateTime createdAt,
         Set<OrderDetailResponse> details
 ) {}

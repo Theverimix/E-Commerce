@@ -5,24 +5,20 @@ import { Badge } from 'primereact/badge'
 import { InputText } from 'primereact/inputtext'
 import { IconField } from 'primereact/iconfield'
 import { InputIcon } from 'primereact/inputicon'
-import brutalLogo from '../../assets/icons/Brutal_black_bottomless.png'
 import { Toolbar } from 'primereact/toolbar'
 import { Button } from 'primereact/button'
-import { Tooltip } from 'primereact/tooltip'
-import { Link, useLocation } from 'react-router-dom'
-import { Chip } from 'primereact/chip'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { Sidebar } from 'primereact/sidebar'
 
-import { userLogout } from '../../controller/LogoutController'
+import { userLogout } from '../../apis/auth-api'
 
 import './header.css'
-import { Divider } from 'primereact/divider'
 
-import { extractEmailfromToken, extractNamefromToken, isLogedIn } from '../../utils/JwtUtils'
-import { classNames } from 'primereact/utils'
-
+import { extractNamefromToken, extractRolefromToken, isLogedIn } from '../../utils/jwt-utils'
 import { useProducts } from '../../providers/ProductsProvider'
 
 export default function Header() {
+    const [sidebarVisible, setSidebarVisible] = useState(false)
     const menuRight = useRef(null)
     const chipRef = useRef(null)
     const [active, setActive] = useState(false)
@@ -32,6 +28,12 @@ export default function Header() {
     const searchParams = new URLSearchParams(location.search)
     const nameParam = searchParams.get('name')
     const { totalProducts } = useProducts()
+
+    const navigate = useNavigate()
+
+    const userRole = isLogedIn() ? extractRolefromToken() : null
+
+    const [isBreakpoint, setIsBreakpoint] = useState(false)
 
     useEffect(() => {
         if (nameParam) setSearchText(nameParam)
@@ -51,6 +53,20 @@ export default function Header() {
         window.addEventListener('scroll', handleScroll)
         return () => window.removeEventListener('scroll', handleScroll)
     }, [])
+
+    useEffect(() => {
+        window.addEventListener('resize', handleResize)
+        handleResize()
+
+        return () => {
+            window.removeEventListener('resize', handleResize)
+        }
+    }, [])
+
+    const handleResize = () => {
+        // Verificar si la ventana ha alcanzado el breakpoint
+        setIsBreakpoint(window.innerWidth <= 1350)
+    }
 
     const handleClickMenuUser = (event) => {
         setIsMenuVisible(true)
@@ -78,14 +94,6 @@ export default function Header() {
         menuRight.current.toggle(event)
     }
 
-    const itemRenderer = (item) => (
-        <Link to={item.href} className='flex align-items-center p-menuitem-link'>
-            <span className={item.icon} style={{ marginRight: '0.5rem' }} />
-            <span className='mx-2'>{item.label}</span>
-            {item.badge && <Badge className='ml-auto' value={item.badge} />}
-        </Link>
-    )
-
     const menuItems = [
         {
             label: 'Products',
@@ -99,7 +107,7 @@ export default function Header() {
                 [
                     {
                         label: 'Categories',
-                        className: 'font-bold',
+                        className: 'font-bold w-full',
                         items: [
                             {
                                 label: 'Supplements',
@@ -135,7 +143,11 @@ export default function Header() {
         {
             label: 'PROFILE',
             items: [
-                { label: 'My profile', icon: 'pi pi-user', url: '/profile' },
+                {
+                    label: userRole === 'ADMINISTRATOR' ? 'Admin panel' : 'My profile',
+                    icon: 'pi pi-user',
+                    url: userRole === 'ADMINISTRATOR' ? '/admin/profile' : '/account/profile',
+                },
                 { label: 'Settings', icon: 'pi pi-cog' },
             ],
         },
@@ -146,28 +158,37 @@ export default function Header() {
     const start = (
         <div className='flex'>
             <Link to='/'>
-                <img alt='logo' src={brutalLogo} height='50' />
+                <img
+                    alt='logo'
+                    className='hidden sm:hidden md:block '
+                    src='/icons/Brutal_black_bottomless.png'
+                    height='50'
+                />
             </Link>
             <MegaMenu
                 model={menuItems}
-                className='flex mx-3 justify-content-between align-items-center p-0 sticky-toolbar'
-                breakpoint='960px'
-                style={{ border: 'none' }}
+                className='static sticky-toolbar border-none'
+                breakpoint='1350px'
+                pt={{
+                    menuButton: { onClick: isBreakpoint ? () => setSidebarVisible(true) : null },
+                    menu: { className: isBreakpoint ? 'hidden' : '' },
+                }}
             />
         </div>
     )
 
     const center = (
-        <div style={{ position: 'absolute', left: '50%', transform: 'translate(-50%, 0)' }}>
+        <div className='flex align-items-center absolute' style={{ left: '50%', transform: 'translate(-50%, 0)' }}>
             <div className='h-input-search'>
                 <IconField iconPosition='left'>
                     <InputIcon className='pi pi-search' />
                     <InputText
+                        id='search'
                         value={searchText}
                         onChange={(e) => setSearchText(e.target.value)}
                         onKeyPress={handleKeyPress}
                         placeholder={searchText ? '' : 'Search...'}
-                        style={{ borderRadius: '10px' }}
+                        className='border-round-md w-10rem sm:w-15rem md:w-15rem lg:w-20rem xl:w-20rem'
                     />
                 </IconField>
             </div>
@@ -185,7 +206,7 @@ export default function Header() {
                 className={`${isMenuVisible ? '' : 'hidden'}`}
                 onClick={handleClickMenuUser}
             />
-            {isLogedIn() ? (
+            {isLogedIn() && !isBreakpoint ? (
                 <div className='flex align-items-center'>
                     <Button
                         label={extractNamefromToken()}
@@ -239,16 +260,131 @@ export default function Header() {
         </div>
     )
 
+    const sidebarItems = [
+        {
+            template: () => {
+                return (
+                    <div className='flex align-items-center justify-content-center pb-3'>
+                        <img alt='logo' src='/icons/Brutal_black_bottomless.png' height='50' />
+                    </div>
+                )
+            },
+        },
+        {
+            separator: true,
+        },
+        {
+            label: 'Home',
+            className: 'font-semibold',
+            icon: 'pi pi-home',
+            command: () => {
+                navigate('/')
+                setSidebarVisible(false)
+            },
+        },
+        {
+            label: 'Products',
+            className: 'font-semibold',
+            icon: 'pi pi-box',
+            command: () => {
+                navigate('/products')
+                setSidebarVisible(false)
+            },
+        },
+        {
+            label: 'Categories',
+            className: 'font-semibold',
+            items: [
+                {
+                    label: 'Supplements',
+                    className: 'font-light ml-3',
+                    command: () => {
+                        navigate('/products?category=supplements')
+                        setSidebarVisible(false)
+                    },
+                },
+                {
+                    label: 'Accessories',
+                    className: 'font-light ml-3',
+                    command: () => {
+                        navigate('/products?category=accessories')
+                        setSidebarVisible(false)
+                    },
+                },
+                {
+                    label: 'Clothes',
+                    className: 'font-light ml-3',
+                    command: () => {
+                        navigate('/products?category=clothes')
+                        setSidebarVisible(false)
+                    },
+                },
+                {
+                    label: 'Equipment',
+                    className: 'font-light ml-3',
+                    command: () => {
+                        navigate('/products?category=equipment')
+                        setSidebarVisible(false)
+                    },
+                },
+            ],
+        },
+
+        userRole == 'ADMINISTRATOR' && {
+            label: 'Admin',
+            className: 'font-semibold',
+            items: [
+                {
+                    label: 'Customers',
+                    className: 'font-light ml-3',
+                    command: () => {
+                        navigate('/admin/customers')
+                        setSidebarVisible(false)
+                    },
+                },
+                {
+                    label: 'Products',
+                    className: 'font-light ml-3',
+                    command: () => {
+                        navigate('/admin/products')
+                        setSidebarVisible(false)
+                    },
+                },
+                {
+                    label: 'Orders',
+                    className: 'font-light ml-3',
+                    command: () => {
+                        navigate('/admin/orders')
+                        setSidebarVisible(false)
+                    },
+                },
+                {
+                    label: 'Sales',
+                    className: 'font-light ml-3',
+                    command: () => {
+                        navigate('/admin/sales')
+                        setSidebarVisible(false)
+                    },
+                },
+                {
+                    label: 'Categories',
+                    className: 'font-light ml-3',
+                    command: () => {
+                        navigate('/admin/categories')
+                        setSidebarVisible(false)
+                    },
+                },
+            ],
+        },
+    ]
+
     return (
-        <div style={{ background: 'var(--surface-e)' }} className='sticky-toolbar flex justify-content-center w-full'>
-            <div className='sm:w-full md:w-10 lg:w-9'>
-                <Toolbar
-                    start={start}
-                    center={center}
-                    end={end}
-                    className='flex justify-content-between align-items-center px-0 py-1'
-                    style={{ border: 'none' }}
-                />
+        <div style={{ background: 'var(--surface-e)' }} className='sticky-toolbar flex justify-content-center'>
+            <Sidebar visible={sidebarVisible} onHide={() => setSidebarVisible(false)}>
+                <Menu model={sidebarItems} className='w-full border-none' />
+            </Sidebar>
+            <div className='w-full sm:w-full md:w-10 lg:w-9'>
+                <Toolbar start={start} center={center} end={end} className='border-none' />
             </div>
         </div>
     )

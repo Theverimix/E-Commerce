@@ -1,6 +1,6 @@
 package com.ecommerce.customer;
 
-import com.ecommerce.address.Address;
+import com.ecommerce.address.AddressResponse;
 import com.ecommerce.user.UserRole;
 import com.ecommerce.user.UserState;
 
@@ -14,7 +14,7 @@ public record CustomerResponse(
                 String email,
                 UserState state,
                 UserRole role,
-                List<Address> addresses,
+                List<AddressResponse> addresses,
                 Date registerDate,
                 String country,
                 String phone) {

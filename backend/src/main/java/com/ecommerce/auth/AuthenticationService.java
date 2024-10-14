@@ -58,4 +58,11 @@ public class AuthenticationService {
                                 .token(token)
                                 .build();
         }
+
+        public AuthenticationResponse refreshToken(String token) {
+                String newToken = jwtService.refreshToken(token);
+                return AuthenticationResponse.builder()
+                                .token(newToken)
+                                .build();
+        }
 }

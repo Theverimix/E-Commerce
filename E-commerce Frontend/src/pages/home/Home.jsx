@@ -1,128 +1,95 @@
-import Gallery from '../../components/Galleria/Galleria'
+import { useLoaderData, useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+
+import ProductCarousel from '@/components/home/ProductCarousel'
+import Banner from '@/components/home/CategoriesGallery'
+import { Card } from 'primereact/card'
 import { Button } from 'primereact/button'
+import CustomHeader from '@/components/home/CustomHeader'
+import { Badge } from 'primereact/badge'
 
-import Carousel from '../../components/homeCarousel/homeCarousel'
-
-import './HomeStyle.css'
-import '../../styles/appWeb.css'
-import '../welcome/welcome.css'
-
-import categoria1 from '../../assets/img/products/bcaa-12000.png'
-import categoria2 from '../../assets/img/products/mancuerna_35_kg.png'
-import categoria3 from '../../assets/img/products/muscle-builder-7lb-gn.png'
-import { useNavigate } from 'react-router-dom'
+export const Component = () => <Home />
 
 export default function Home() {
     const navigate = useNavigate()
+    const data = useLoaderData()?.data
+
+    const [products, setProducts] = useState(data)
+    const [loading, setLoading] = useState(true)
 
     const categories = [
         {
-            name: 'SUPPLEMENTS',
+            name: 'Suplements',
             url: '/products?category=supplements',
-            image: categoria1,
+            image: '/img/categories/supplements_portrait.webp',
+            description: 'Premium supplements to fuel your fitness journey.',
         },
         {
-            name: 'EQUIPMENT',
+            name: 'Equipment',
             url: '/products?category=equipment',
-            image: categoria2,
+            image: '/img/categories/equipment_portrait.webp',
+            description: 'High-quality gym equipment for all fitness levels.',
         },
         {
-            name: 'ACCESSORIES',
+            name: 'Accessories',
             url: '/products?category=accessories',
-            image: categoria3,
+            image: '/img/categories/accessories_portrait.webp',
+            description: 'Essential gym accessories to enhance your workouts.',
         },
         {
-            name: 'CLOTHES',
+            name: 'Clothes',
             url: '/products?category=clothes',
-            image: categoria3,
+            image: '/img/categories/clothes_portrait.webp',
+            description: 'Comfortable and stylish gym wear for every workout.',
         },
     ]
 
+    useEffect(() => {
+        if (!data) return
+        data.then((data) => {
+            const products = data.data.products
+            setProducts(products)
+            setLoading(false)
+        })
+    }, [data])
+
     return (
-        <>
-            <div>
-                <div className='galleryMain mt-3'>
-                    <Gallery />
-                </div>
-
-                <div className='flex justify-content-center align-items-center flex-column'>
-                    <h1 className='mb-1'>CATEGORIES</h1>
-                    <p className='text-center max-w-30rem'>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit, consectetur non fugiat dicta ab
-                        nulla commodi quas voluptatibus cum sint accusantium soluta, tenetur officia delectus accusamus
-                        dolore expedita eum aliquam.
-                    </p>
-                    <Button
-                        label='All Products'
-                        className='my-3 font-semibold'
-                        onClick={() => {
-                            navigate(`/products`)
-                        }}
-                    ></Button>
-                </div>
-
-                {/* <div className='grid m-auto max-w-15rem my-3 gap-3'>
+        <div className='flex flex-column gap-6 py-5'>
+            <Banner />
+            <div id='categories'>
+                <CustomHeader title='Categories' description='Explore our products by category' />
+                <div className='grid justify-content-center m-auto p-3 gap-3'>
                     {categories.map((category, index) => (
                         <div
                             key={index}
-                            className='box col p-4 fadein animation-duration-500 cursor-pointer surface-hover border-round-md'
-                            onClick={() => navigate(category.url)}
+                            className='col-12 md:col-5 xl:col align-items-center flex justify-content-center'
                         >
-                            <div className='surface-card mb-4 w-full text-center p-5'>
-                                <img src={category.image} className='w-10' alt={category.name} />
-                            </div>
-
-                            <div className='flex align-items-center mb-4 justify-content-center'>
-                                <div className='block font-semibold mb-1' onClick={() => navigate(category.url)}>
-                                    {category.name}
+                            <Card className='flex border-round-md w-fit'>
+                                <img src={category.image} className='w-full border-round-md' alt={category.name} />
+                                <div className='py-3'>
+                                    <h3 className='m-0'>{category.name}</h3>
+                                    <p className='m-0 py-2 text-gray-300'>{category.description}</p>
                                 </div>
-                            </div>
+                                <Button
+                                    className='w-full border-gray-400 border-1 text-white hover:text-primary hover:border-primary'
+                                    label='View Products'
+                                    outlined
+                                    onClick={() => navigate(category.url)}
+                                />
+                            </Card>
                         </div>
                     ))}
-                </div> */}
-
-                <div className='grid justify-content-center m-auto my-3 gap-3'>
-                    {categories.map((category, index) => (
-                        <div
-                            key={index}
-                            className='box xl:col-2 lg:col-2 md:col-4 sm:col-4 col-4 p-4 fadein animation-duration-500 cursor-pointer surface-hover border-round-md'
-                            onClick={() => navigate(category.url)}
-                        >
-                            <div className=' mb-4 w-full text-center p-0 xl:p-2'>
-                                <img src={category.image} className='w-full' alt={category.name} />
-                            </div>
-
-                            <div className='flex align-items-center mb-4 justify-content-center'>
-                                <div className='block font-semibold mb-1' onClick={() => navigate(category.url)}>
-                                    {category.name}
-                                </div>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-
-                {/* products */}
-
-                <div className='flex justify-content-center align-items-center flex-column'>
-                    <h1 className='mb-1'>BEST PRODUCTS</h1>
-                    <p className='text-center max-w-30rem'>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit, consectetur non fugiat dicta ab
-                        nulla commodi quas voluptatibus cum sint accusantium soluta, tenetur officia delectus accusamus
-                        dolore expedita eum aliquam.
-                    </p>
-                    <Button
-                        label='All Products'
-                        className='mt-2 font-semibold'
-                        onClick={() => {
-                            navigate(`/products`)
-                        }}
-                    ></Button>
-                </div>
-
-                <div className='carousel'>
-                    <Carousel />
                 </div>
             </div>
-        </>
+
+            {/* products */}
+
+            <div id='products'>
+                <CustomHeader title='Sale Products' description='Browse our wide range of products' />
+                <div className='px-3 pb-5'>
+                    <ProductCarousel products={products} loading={loading} />
+                </div>
+            </div>
+        </div>
     )
 }
