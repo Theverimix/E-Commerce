@@ -1,10 +1,9 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { Controller, useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { useLocation } from 'react-router-dom'
 
 import { Button } from 'primereact/button'
 import { Stepper } from 'primereact/stepper'
-import { Dropdown } from 'primereact/dropdown'
 import { StepperPanel } from 'primereact/stepperpanel'
 import { superstructResolver } from '@hookform/resolvers/superstruct'
 
@@ -37,6 +36,8 @@ export default function CheckoutPage() {
     const [countries, setCountries] = useState([])
     const [states, setStates] = useState([])
     const [cities, setCities] = useState([])
+
+    const clientId = import.meta.env.VITE_PAYPAL_CLIENT_ID
 
     const productsWithQuantity = useMemo(() => {
         return products.map((product) => {
@@ -248,7 +249,7 @@ export default function CheckoutPage() {
     return (
         <PayPalScriptProvider
             options={{
-                'client-id': 'AXB9apXFIcKwWuxuX54S4zJf9-gmQI-_NQP-ILj-cpvgqMbkCSuTprZPma7f-HLVcSnzbYa-buaBebHK',
+                'client-id': clientId,
             }}
         >
             <div className='py-5 min-h-screen'>

@@ -1,8 +1,11 @@
 import axios from 'axios'
-import Cookies from 'js-cookie'
 
-const AxiosInstanceNoToken = axios.create({
-    baseURL: 'http://localhost:8080/api', // URL base de tu API
+const host = import.meta.env.VITE_HOST
+
+console.log('host', host)
+
+const AxiosInstance = axios.create({
+    baseURL: host + '/api',
 })
 
 export default AxiosInstanceNoToken

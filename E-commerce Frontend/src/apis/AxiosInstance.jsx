@@ -1,8 +1,12 @@
 import axios from 'axios'
 import Cookies from 'js-cookie'
 
+const host = import.meta.env.VITE_HOST
+
+console.log('host', host)
+
 const AxiosInstance = axios.create({
-    baseURL: 'http://localhost:8080/api', // URL base de tu API
+    baseURL: host + '/api',
 })
 
 // Configurar un interceptor para agregar el token a todas las solicitudes
