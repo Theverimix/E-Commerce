@@ -3,8 +3,6 @@ import Cookies from 'js-cookie'
 
 const host = import.meta.env.VITE_HOST
 
-console.log('host', host)
-
 const AxiosInstance = axios.create({
     baseURL: host + '/api',
 })
