@@ -4,7 +4,11 @@
 
 This project is an e-commerce application designed for gym equipment and services, featuring a backend built with Java (Spring Boot) and a frontend created with React. The project provides a user-friendly interface for customers and administrators, along with robust backend functionalities for data management and API handling. 💪🛒✨
 
----
+![products screenshot](https://github.com/Theverimix/E-Commerce/blob/main/E-commerce%20Frontend/public/img/product_screenshot.png?raw=true)
+
+![cart page screenshot](https://github.com/Theverimix/E-Commerce/blob/main/E-commerce%20Frontend/public/img/cart_screenshot.png?raw=true)
+
+![checkout page screenshot](https://github.com/Theverimix/E-Commerce/blob/main/E-commerce%20Frontend/public/img/checkout_screenshot.png?raw=true)
 
 ## Table of Contents
 
